@@ -19,15 +19,17 @@ LogBox.ignoreLogs(["Setting a timer"]);
 const SignUp = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
 
   const onSubmit = () => {
     console.log("in on submit");
-    //   if (password !== confirmPassword) {
-    //     alert("Passwords don't match.")
-    //     return
-    // }
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.");
+      return;
+    }
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -39,13 +41,8 @@ const SignUp = (props) => {
           fullName: first + last,
         };
 
-        console.log("after user returned from firestore");
-        console.log("data", data);
-
         const usersRef = firebase.firestore().collection("users");
 
-        props.setLoggedIn(true);
-        console.log("before navigation");
         usersRef
           .doc(uid)
           .set(data)
@@ -111,7 +108,16 @@ const SignUp = (props) => {
         />
       </View>
 
-      <Text>upload an image</Text>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="confirm password"
+          autoCapitalize="none"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(password) => setConfirmPassword(password)}
+        />
+      </View>
 
       <TouchableOpacity onPress={onSubmit} style={styles.loginBtn}>
         <Text style={styles.loginText}>SIGN UP</Text>
