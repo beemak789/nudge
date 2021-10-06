@@ -12,9 +12,9 @@ import {
 // Redux
 import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
-import { LogBox } from 'react-native';
+import { LogBox } from "react-native";
 
-LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreLogs(["Setting a timer"]);
 
 const SignUp = (props) => {
   const [email, setEmail] = useState("");
@@ -24,34 +24,41 @@ const SignUp = (props) => {
 
   const onSubmit = () => {
     console.log("in on submit");
-  //   if (password !== confirmPassword) {
-  //     alert("Passwords don't match.")
-  //     return
-  // }
-  firebase
+    //   if (password !== confirmPassword) {
+    //     alert("Passwords don't match.")
+    //     return
+    // }
+    firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-          const uid = response.user.uid
-          const data = {
-              id: uid,
-              email,
-              fullName: first + last
-          };
-          const usersRef = firebase.firestore().collection('users')
-          usersRef
-              .doc(uid)
-              .set(data)
-              .then(() => {
-                  navigation.navigate('Screen1', {user: data})
-              })
-              .catch((error) => {
-                  alert(error)
-              });
+        const uid = response.user.uid;
+        const data = {
+          id: uid,
+          email,
+          fullName: first + last,
+        };
+
+        console.log("after user returned from firestore");
+        console.log("data", data);
+
+        const usersRef = firebase.firestore().collection("users");
+
+        props.setLoggedIn(true);
+        console.log("before navigation");
+        usersRef
+          .doc(uid)
+          .set(data)
+          .then(() => {
+            props.navigation.navigate("Screens 1", { user: data });
+          })
+          .catch((error) => {
+            alert(error);
+          });
       })
       .catch((error) => {
-          alert(error)
-  });
+        alert(error);
+      });
   };
 
   return (
