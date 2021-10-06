@@ -11,6 +11,10 @@ import {
 
 // Redux
 import { connect } from "react-redux";
+import { firebase } from "../config/firebase";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const SignUp = (props) => {
   const [email, setEmail] = useState("");
@@ -19,7 +23,35 @@ const SignUp = (props) => {
   const [last, setLast] = useState("");
 
   const onSubmit = () => {
-    console.log("email, password, first, last", email, password, first, last);
+    console.log("in on submit");
+  //   if (password !== confirmPassword) {
+  //     alert("Passwords don't match.")
+  //     return
+  // }
+  firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+          const uid = response.user.uid
+          const data = {
+              id: uid,
+              email,
+              fullName: first + last
+          };
+          const usersRef = firebase.firestore().collection('users')
+          usersRef
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                  navigation.navigate('Screen1', {user: data})
+              })
+              .catch((error) => {
+                  alert(error)
+              });
+      })
+      .catch((error) => {
+          alert(error)
+  });
   };
 
   return (

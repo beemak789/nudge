@@ -15,7 +15,7 @@ import {
 const Tab = createBottomTabNavigator();
 
 const Main = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <Tab.Navigator
