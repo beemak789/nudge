@@ -66,8 +66,8 @@ const Main = () => {
               }}
               component={
                 tab.name === "Log In"
-                  ? (props) => <LogIn {...props} />
-                  : (props) => <SignUp {...props} />
+                  ? (props) => <LogIn {...props} setLoggedIn={setLoggedIn}/>
+                  : (props) => <SignUp {...props} setLoggedIn={setLoggedIn}/>
               }
             />
           ))
