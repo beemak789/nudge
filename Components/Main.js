@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { loggedInDrawer, loggedOutDrawer } from "../services/TabItems";
 
@@ -11,11 +11,43 @@ import {
   Screens3Navigator,
   Screens4Navigator,
 } from "../services/Stacks";
+import { Text, View } from "react-native";
+import { firebase } from "../config/firebase";
 
 const Tab = createBottomTabNavigator();
 
 const Main = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(false);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  useEffect(() => {
+    const usersRef = firebase.firestore().collection("users");
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            setLoading(false);
+            setUser(userData);
+          })
+          .catch((error) => {
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
 
   return (
     <Tab.Navigator
@@ -29,7 +61,7 @@ const Main = () => {
         },
       }}
     >
-      {!loggedIn
+      {!user
         ? loggedOutDrawer.map((tab) => (
             <Tab.Screen
               key={tab.name}
@@ -66,8 +98,8 @@ const Main = () => {
               }}
               component={
                 tab.name === "Log In"
-                  ? (props) => <LogIn {...props} setLoggedIn={setLoggedIn}/>
-                  : (props) => <SignUp {...props} setLoggedIn={setLoggedIn}/>
+                  ? (props) => <LogIn {...props} />
+                  : (props) => <SignUp {...props} />
               }
             />
           ))

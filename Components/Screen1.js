@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, Text, SafeAreaView } from "react-native";
 
 const Screen1 = (props) => {
-  console.log(props)
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is screen 1</Text>
