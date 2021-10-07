@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Modal } from "../services/Modal";
 import { Button } from "../services/Button";
+import { useFocusEffect } from '@react-navigation/native';
 
 const LogOut = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
@@ -12,7 +13,7 @@ const LogOut = (props) => {
 
   const cancel = () => {
     setIsModalVisible(false);
-    props.navigation.navigate("Screens 3", {
+    props.navigation.goBack("Screens 3", {
       screen: "Screen 3",
     });
   };
@@ -20,6 +21,10 @@ const LogOut = (props) => {
   onDismiss = () => {
     setIsModalVisible(true);
   };
+
+  useFocusEffect(() => {
+      setIsModalVisible(true);
+  })
 
   return (
     <View style={styles.container}>

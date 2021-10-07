@@ -1,7 +1,30 @@
+
+import { StyleSheet, Text, SafeAreaView, Button } from "react-native";
+import { firebase } from "../config/firebase";
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { createTask } from '../queries/tasks';
 
+
+async function sendPushNotification(expoPushToken) {
+  console.log('in send push', expoPushToken)
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'Nudge for Toothpaste',
+    body: 'You are close to a Target, do you still need toothpaste?',
+    data: { someData: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
+}
 
 const Screen1 = (props) => {
 
@@ -12,6 +35,13 @@ const Screen1 = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is Screen 1</Text>
+      <Button
+        title="Press to Send Notification"
+        onPress={async () => {
+          await sendPushNotification("ExponentPushToken[HUGDheOPfKBBF_iDUs2ETG]");
+          console.log('sent')
+        }}
+      />
     </SafeAreaView>
   );
 };
