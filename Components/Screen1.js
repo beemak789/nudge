@@ -1,7 +1,14 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { createTask } from '../queries/tasks';
+
 
 const Screen1 = (props) => {
+
+  useEffect(() => {
+    // createTask()
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is screen 1</Text>
@@ -14,8 +21,8 @@ export default Screen1;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

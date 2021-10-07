@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { loggedInDrawer, loggedOutDrawer } from "../services/TabItems";
+import React, { useState, useEffect } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { loggedInDrawer, loggedOutDrawer } from '../services/TabItems';
 
 // components
-import LogIn from "./LogIn";
-import SignUp from "./SignUp";
+import LogIn from './LogIn';
+import SignUp from './SignUp';
 import {
   Screens1Navigator,
   Screens2Navigator,
   Screens3Navigator,
   Screens4Navigator,
-} from "../services/Stacks";
-import { Text, View } from "react-native";
-import { firebase } from "../config/firebase";
+} from '../services/Stacks';
+import { Text, View } from 'react-native';
+import { firebase } from '../config/firebase';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,23 +20,15 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(false);
 
-  if (loading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
   useEffect(() => {
-    const usersRef = firebase.firestore().collection("users");
+    const usersRef = firebase.firestore().collection('users');
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         usersRef
           .doc(user.uid)
           .get()
           .then((document) => {
-            const userData = document.data();
+            const userData = document.data() || {};
             setLoading(false);
             setUser(userData);
           })
@@ -49,15 +41,22 @@ const Main = () => {
     });
   }, []);
 
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <Tab.Navigator
-      initialRouteName="Screen 1"
+      initialRouteName='Screen 1'
       screenOptions={{
-        activeTintColor: "#6ede8a",
+        activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
-        inactiveTintColor: "#dde5b6",
+        inactiveTintColor: '#dde5b6',
         style: {
-          backgroundColor: "#00818A",
+          backgroundColor: '#00818A',
         },
       }}
     >
@@ -93,11 +92,11 @@ const Main = () => {
                 //   }
                 // },
 
-                tabBarActiveTintColor: "#6ede8a",
-                tabBarInactiveTintColor: "#97a97c",
+                tabBarActiveTintColor: '#6ede8a',
+                tabBarInactiveTintColor: '#97a97c',
               }}
               component={
-                tab.name === "Log In"
+                tab.name === 'Log In'
                   ? (props) => <LogIn {...props} />
                   : (props) => <SignUp {...props} />
               }
@@ -149,15 +148,15 @@ const Main = () => {
                 //     }
                 //   },
 
-                tabBarActiveTintColor: "#6ede8a",
-                tabBarInactiveTintColor: "#97a97c",
+                tabBarActiveTintColor: '#6ede8a',
+                tabBarInactiveTintColor: '#97a97c',
               }}
               component={
-                tab.name === "Screens 1"
+                tab.name === 'Screens 1'
                   ? (props) => <Screens1Navigator {...props} />
-                  : tab.name === "Screens 2"
+                  : tab.name === 'Screens 2'
                   ? (props) => <Screens2Navigator {...props} />
-                  : tab.name === "Screens 3"
+                  : tab.name === 'Screens 3'
                   ? (props) => <Screens3Navigator {...props} />
                   : (props) => <Screens4Navigator {...props} />
               }
