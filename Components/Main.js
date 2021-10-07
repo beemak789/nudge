@@ -16,8 +16,10 @@ import LogOut from "./LogOut";
 import { Text, View } from "react-native";
 import { firebase } from "../config/firebase";
 import * as Location from "expo-location";
+import * as TaskManager from "expo-task-manager";
 
 const Tab = createBottomTabNavigator();
+const LOCATION_TASK_NAME = "background-location-task";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -49,6 +51,7 @@ const Main = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
+      console.log("status in main", status);
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
@@ -58,11 +61,29 @@ const Main = () => {
       setLocation(location);
 
       let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log(backPerm);
+      console.log("backPerm", backPerm);
+
+      if (backPerm.status === "granted") {
+        await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+          accuracy: Location.Accuracy.Balanced,
+        });
+      }
     })();
   }, []);
 
-  console.log(location);
+  TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+    if (error) {
+      // Error occurred - check `error.message` for more details.
+      return;
+    }
+    if (data) {
+      const { locations } = data;
+      // do something with the locations captured in the background
+      console.log("locations in task manager", locations);
+    }
+  });
+
+  console.log("console log location", location);
   console.log(errorMsg);
 
   if (loading) {

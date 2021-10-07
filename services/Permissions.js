@@ -7,7 +7,7 @@ const LOCATION_TASK_NAME = "background-location-task";
 
 const requestPermissions = async () => {
   const { status } = await Location.requestBackgroundPermissionsAsync();
-  console.log(status);
+  console.log("status", status);
   if (status === "granted") {
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
       accuracy: Location.Accuracy.Balanced,
@@ -15,11 +15,12 @@ const requestPermissions = async () => {
   }
 };
 
-const PermissionsButton = () => (
-  <TouchableOpacity style={styles.button} onPress={requestPermissions}>
-    <Text style={styles.text}>Enable background location</Text>
-  </TouchableOpacity>
-);
+// I don't think we actually need the below because we're using useEffect??
+// const PermissionsButton = () => (
+//   <TouchableOpacity style={styles.button} onPress={requestPermissions}>
+//     <Text style={styles.text}>Enable background location</Text>
+//   </TouchableOpacity>
+// );
 
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   if (error) {
@@ -29,7 +30,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   if (data) {
     const { locations } = data;
     // do something with the locations captured in the background
-    console.log(locations);
+    console.log("locations in task manager", locations);
   }
 });
 

@@ -13,7 +13,6 @@ import {
 import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
 import { LogBox } from "react-native";
-import PermissionsButton from "../services/PermissionsButton";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -115,8 +114,6 @@ const SignUp = (props) => {
           onChangeText={(password) => setConfirmPassword(password)}
         />
       </View>
-
-      {PermissionsButton()}
 
       <TouchableOpacity onPress={onSubmit} style={styles.loginBtn}>
         <Text style={styles.loginText}>SIGN UP</Text>
