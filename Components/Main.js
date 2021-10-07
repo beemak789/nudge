@@ -72,10 +72,8 @@ const Main = () => {
   const notificationListener = useRef();
   const responseListener = useRef();
   useEffect(() => {
-    console.log('token register')
     registerForPushNotificationsAsync().then(token => {
       setExpoPushToken(token)
-      console.log(token)
       console.log('expo push token*****', expoPushToken)
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
