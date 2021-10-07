@@ -24,7 +24,6 @@ const SignUp = (props) => {
   const [last, setLast] = useState("");
 
   const onSubmit = () => {
-    console.log("in on submit");
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
@@ -46,9 +45,6 @@ const SignUp = (props) => {
         usersRef
           .doc(uid)
           .set(data)
-          .then(() => {
-            props.navigation.navigate("Screens 1", { user: data });
-          })
           .catch((error) => {
             alert(error);
           });
@@ -132,18 +128,6 @@ const SignUp = (props) => {
     </SafeAreaView>
   );
 };
-
-// const mapState = state => {
-//   return {
-
-//   };
-// };
-
-// const mapDispatch = (dispatch, {newJWT}) => {
-//   return {
-//
-//   };
-// };
 
 export default SignUp;
 

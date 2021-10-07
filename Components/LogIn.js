@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
+import { getDatabase } from "firebase/database";
 
 const LogIn = (props) => {
   const [email, setEmail] = useState("");
@@ -31,8 +32,7 @@ const LogIn = (props) => {
               return;
             }
 
-            const user = firestoreDocument.data();
-            props.navigation.navigate("Screens 1", { user });
+            const data = firestoreDocument.data();
           })
           .catch((error) => {
             alert(error);

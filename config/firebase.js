@@ -1,12 +1,11 @@
-import { initializeApp } from 'firebase/app';
 import { API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
 import * as firebase from 'firebase';
 import '@firebase/auth';
-// import '@firebase/firestore';
+
 
 // Optionally import the services that you want to use
 //import {...} from "firebase/auth";
-//import {...} from "firebase/database";
+// import {...} from "firebase/database";
 //import {...} from "firebase/firestore";
 //import {...} from "firebase/functions";
 //import {...} from "firebase/storage";
@@ -25,4 +24,5 @@ const firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+
 export { firebase };
