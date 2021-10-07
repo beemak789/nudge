@@ -24,7 +24,7 @@ export const Screens1Navigator = (props) => {
     >
       <Stack.Screen
         name="Screen 1"
-        component={(props) => <Screen1 logOut={props.logOut} {...props} />}
+        component={(props) => <Screen1 {...props} />}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
