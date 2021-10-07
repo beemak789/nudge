@@ -7,16 +7,18 @@ import * as Notifications from 'expo-notifications';
 
 LogBox.ignoreLogs(["Inline function"]);
 // components
-import LogIn from "./LogIn";
-import SignUp from "./SignUp";
+import LogIn from './LogIn';
+import SignUp from './SignUp';
 import {
   Screens1Navigator,
   Screens2Navigator,
   Screens3Navigator,
-} from "../services/Stacks";
+  Screens4Navigator,
+} from '../services/Stacks';
+import { Text, View } from 'react-native';
+import { firebase } from '../config/firebase';
 import LogOut from "./LogOut";
-import { Text, View, Button } from "react-native";
-import { firebase } from "../config/firebase";
+
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
@@ -93,14 +95,14 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const usersRef = firebase.firestore().collection("users");
+    const usersRef = firebase.firestore().collection('users');
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         usersRef
           .doc(user.uid)
           .get()
           .then((document) => {
-            const userData = document.data();
+            const userData = document.data() || {};
             setLoading(false);
             setUser(userData);
           })
@@ -174,11 +176,11 @@ const Main = () => {
     <Tab.Navigator
       initialRouteName="Screens 1"
       screenOptions={{
-        activeTintColor: "#6ede8a",
+        activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
-        inactiveTintColor: "#dde5b6",
+        inactiveTintColor: '#dde5b6',
         style: {
-          backgroundColor: "#00818A",
+          backgroundColor: '#00818A',
         },
       }}
     >

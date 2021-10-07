@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import * as firebase from "firebase";
-import "@firebase/auth";
-import "@firebase/firestore";
+import { API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
+import * as firebase from 'firebase';
+import '@firebase/auth';
+
 
 // Optionally import the services that you want to use
 //import {...} from "firebase/auth";
@@ -12,18 +12,17 @@ import "@firebase/firestore";
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyA3vHZIDlenmOC1QeZB7BolXbbYQlX2IOY",
-  authDomain: "nudge-37143.firebaseapp.com",
-  databaseURL: "https://nudge-37143.firebaseio.com",
-  projectId: "nudge-37143",
-  storageBucket: "nudge-37143.appspot.com",
-  messagingSenderId: "954025429424",
-  appId: "1:954025429424:ios:799a3a5d8e4befd0d26e75",
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
 };
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-let database = firebase.database();
-export { firebase, database };
+export { firebase };

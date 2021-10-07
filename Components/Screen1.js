@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+
 import { StyleSheet, Text, SafeAreaView, Button } from "react-native";
 import { firebase } from "../config/firebase";
+import React, { useState, useEffect } from 'react';
+import { createTask } from '../queries/tasks';
+
 
 async function sendPushNotification(expoPushToken) {
   console.log('in send push', expoPushToken)
@@ -24,6 +27,11 @@ async function sendPushNotification(expoPushToken) {
 }
 
 const Screen1 = (props) => {
+
+  useEffect(() => {
+    // createTask()
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is Screen 1</Text>
@@ -43,8 +51,8 @@ export default Screen1;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
