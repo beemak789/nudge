@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,22 +7,22 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-} from "react-native";
+} from 'react-native';
 
 // Redux
-import { connect } from "react-redux";
-import { firebase } from "../config/firebase";
-import { LogBox } from "react-native";
+import { connect } from 'react-redux';
+import { firebase } from '../config/firebase';
+import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs(['Setting a timer']);
 
 const SignUp = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [first, setFirst] = useState("");
-  const [last, setLast] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [first, setFirst] = useState('');
+  const [last, setLast] = useState('');
 
   const onSubmit = () => {
     if (password !== confirmPassword) {
@@ -35,14 +35,14 @@ const SignUp = (props) => {
       .createUserWithEmailAndPassword(email, password)
       .then(async (response) => {
         const uid = response.user.uid;
-        await AsyncStorage.setItem('USER_ID', uid)
+        await AsyncStorage.setItem('USER_ID', uid);
         const data = {
           id: uid,
           email,
           fullName: first + last,
         };
 
-        const usersRef = firebase.firestore().collection("users");
+        const usersRef = firebase.firestore().collection('users');
 
         usersRef
           .doc(uid)
@@ -63,7 +63,7 @@ const SignUp = (props) => {
           style={styles.avatar}
           source={{
             uri:
-              "https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg",
+              'https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg',
           }}
         />
       </View>
@@ -122,7 +122,7 @@ const SignUp = (props) => {
       </TouchableOpacity>
       <Text>Existing User?</Text>
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Log In")}
+        onPress={() => props.navigation.navigate('Log In')}
         style={styles.loginBtn}
       >
         <Text style={styles.loginText}>Log In!</Text>
@@ -136,9 +136,9 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   image: {
@@ -146,15 +146,15 @@ const styles = StyleSheet.create({
   },
 
   inputView: {
-    backgroundColor: "#dde5b6",
+    backgroundColor: '#dde5b6',
     borderRadius: 30,
-    width: "70%",
+    width: '70%',
     height: 45,
     marginBottom: 20,
   },
   imageContent: {
     padding: 10,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 30,
   },
 
@@ -163,12 +163,12 @@ const styles = StyleSheet.create({
     height: 140,
   },
   headerText: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 40,
-    alignSelf: "center",
-    fontFamily: "Helvetica-Bold",
+    alignSelf: 'center',
+    fontFamily: 'Helvetica-Bold',
     marginTop: 30,
-    color: "#264653",
+    color: '#264653',
   },
 
   TextInput: {
@@ -176,22 +176,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginLeft: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   loginBtn: {
-    width: "80%",
+    width: '80%',
     borderRadius: 25,
     height: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "#709775",
+    backgroundColor: '#709775',
   },
   loginText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 18,
   },
 
