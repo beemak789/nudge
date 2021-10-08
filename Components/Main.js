@@ -4,7 +4,6 @@ import { loggedInDrawer, loggedOutDrawer } from "../services/TabItems";
 import { LogBox } from "react-native";
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import io from "socket.io-client";
 import { useDispatch } from "react-redux"
 
 LogBox.ignoreLogs(["Inline function"]);
