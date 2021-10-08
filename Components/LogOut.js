@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Modal } from "../services/Modal";
-import { Button } from "../services/Button";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Modal } from '../services/Modal';
+import { Button } from '../services/Button';
 import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { logOutUser } from '../store/user';
 
 const LogOut = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
-
+  const dispatch = useDispatch();
   const onSubmit = () => {
-    props.logOut();
+    dispatch(logOutUser());
   };
 
   const cancel = () => {
     setIsModalVisible(false);
-    props.navigation.goBack("Screens 3", {
-      screen: "Screen 3",
+    props.navigation.goBack('Screens 3', {
+      screen: 'Screen 3',
     });
   };
 
@@ -23,8 +25,8 @@ const LogOut = (props) => {
   };
 
   useFocusEffect(() => {
-      setIsModalVisible(true);
-  })
+    setIsModalVisible(true);
+  });
 
   return (
     <View style={styles.container}>
@@ -51,9 +53,9 @@ export default LogOut;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 50,
   },
 

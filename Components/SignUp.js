@@ -14,7 +14,9 @@ import { connect } from 'react-redux';
 import { firebase } from '../config/firebase';
 import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { signUpUser } from '../store/user';
+
 LogBox.ignoreLogs(['Setting a timer']);
 
 const SignUp = (props) => {
@@ -23,40 +25,14 @@ const SignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
-  const location = useSelector((state) => state.user.location)
-
+  const location = useSelector((state) => state.user.location);
+  const dispatch = useDispatch();
   const onSubmit = () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
     }
-
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(async (response) => {
-        const uid = response.user.uid;
-        await AsyncStorage.setItem('USER_ID', uid);
-        const data = {
-          id: uid,
-          email,
-          fullName: first + last,
-          lat: location.coords.latitude,
-          long: location.coords.longitude,
-        };
-
-        const usersRef = firebase.firestore().collection('users');
-
-        usersRef
-          .doc(uid)
-          .set(data)
-          .catch((error) => {
-            alert(error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    dispatch(signUpUser(email, password, first, last, location));
   };
 
   return (
@@ -65,8 +41,7 @@ const SignUp = (props) => {
         <Image
           style={styles.avatar}
           source={{
-            uri:
-              'https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg',
+            uri: 'https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg',
           }}
         />
       </View>

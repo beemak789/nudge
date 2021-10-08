@@ -12,37 +12,16 @@ import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
 import { getDatabase } from "firebase/database";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from "react-redux"
+import { logInUser } from "../store/user"
 
 const LogIn = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch()
   const onSubmit = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(async (response) => {
-        const uid = response.user.uid;
-        await AsyncStorage.setItem('USER_ID', uid)
-        const usersRef = firebase.firestore().collection("users");
-        usersRef
-          .doc(uid)
-          .get()
-          .then((firestoreDocument) => {
-            if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
-              return;
-            }
-
-            const data = firestoreDocument.data();
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    dispatch(logInUser(email, password))
   };
 
   return (
