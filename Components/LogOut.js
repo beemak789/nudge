@@ -11,6 +11,7 @@ const LogOut = (props) => {
   const dispatch = useDispatch();
   const onSubmit = () => {
     dispatch(logOutUser());
+    props.logOut()
   };
 
   const cancel = () => {
