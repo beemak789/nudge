@@ -1,11 +1,18 @@
 import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
-
+const SET_LOCATION = 'SET_LOCATION'
 
 export const setUser = (user) => {
   return {
     type: SET_USER,
     user,
+  };
+};
+
+export const setBackgroundLocation = (location) => {
+  return {
+    type: SET_LOCATION,
+    location,
   };
 };
 
@@ -42,6 +49,28 @@ export const logInUser = (email, password) => {
   };
 };
 
+export const listenToUser = (uid) => {
+
+  return async (dispatch) => {
+    try {
+      const usersRef = firebase.firestore().collection('users');
+      await usersRef
+        .doc(uid)
+        .onSnapshot(
+
+        )
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      dispatch(setUser({}));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+
 export const logOutUser = () => {
   return async (dispatch) => {
     try {
@@ -59,7 +88,7 @@ export const logOutUser = () => {
   };
 };
 
-export const signUpUser = (email, password, first, last) => {
+export const signUpUser = (email, password, first, last, location) => {
   return async (dispatch) => {
     try {
       firebase
@@ -72,6 +101,8 @@ export const signUpUser = (email, password, first, last) => {
             id: uid,
             email,
             fullName: first + last,
+            lat: location.coords.latitude,
+            long: location.coords.longitude,
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -93,10 +124,12 @@ export const signUpUser = (email, password, first, last) => {
   };
 };
 
-export default (state = {}, action) => {
+export default (state = {user: {}, location: {}}, action) => {
   switch (action.type) {
     case SET_USER:
-      return action.user;
+      return {...state, user: action.user};
+    case SET_LOCATION:
+      return {...state, location: action.location};
     default:
       return state;
   }

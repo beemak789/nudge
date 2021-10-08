@@ -137,10 +137,10 @@ const _deleteTask = (taskId) => {
   };
 };
 
-const state = {
+const initialState = {
   tasks: []
 }
-export default (state, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case SET_ALL_TASKS:
       return {...state, tasks: action.tasks};
