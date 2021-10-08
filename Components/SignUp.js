@@ -13,6 +13,7 @@ import {
 import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
 import { LogBox } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -32,8 +33,9 @@ const SignUp = (props) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(async (response) => {
         const uid = response.user.uid;
+        await AsyncStorage.setItem('USER_ID', uid)
         const data = {
           id: uid,
           email,

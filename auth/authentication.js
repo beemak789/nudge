@@ -1,8 +1,9 @@
 import { firebase } from '../config/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegistrationScreen({navigation}) {
 
-    const onRegisterPress = () => {
+    const onRegisterPress = async () => {
         if (password !== confirmPassword) {
             alert("Passwords don't match.")
             return
@@ -12,6 +13,7 @@ export default function RegistrationScreen({navigation}) {
             .createUserWithEmailAndPassword(email, password)
             .then((response) => {
                 const uid = response.user.uid
+                await AsyncStorage.setItem('USER_ID', uid)
                 const data = {
                     id: uid,
                     email,

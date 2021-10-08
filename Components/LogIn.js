@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { firebase } from "../config/firebase";
 import { getDatabase } from "firebase/database";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LogIn = (props) => {
   const [email, setEmail] = useState("");
@@ -20,8 +21,9 @@ const LogIn = (props) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(async (response) => {
         const uid = response.user.uid;
+        await AsyncStorage.setItem('USER_ID', uid)
         const usersRef = firebase.firestore().collection("users");
         usersRef
           .doc(uid)
