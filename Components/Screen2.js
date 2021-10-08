@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, SafeAreaView } from "react-native";
+import { getTasks } from '../queries/tasks';
+
 
 const Screen2 = (props) => {
+
+  useEffect(() => {
+    // getTasks();
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is screen 2</Text>

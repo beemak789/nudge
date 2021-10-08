@@ -29,7 +29,7 @@ async function sendPushNotification(expoPushToken) {
 const Screen1 = (props) => {
 
   useEffect(() => {
-    // createTask()
+    //createTask()
   }, [])
 
   return (
