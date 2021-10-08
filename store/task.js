@@ -6,6 +6,9 @@ const tasksRef = firebase.firestore().collection('tasks');
 
 const SET_ALL_TASKS = 'SET_ALL_TASKS';
 const CLEAR_ALL_TASKS = 'CLEAR_ALL_TASKS';
+const ADD_TASK = 'ADD_TASK'
+const UPDATE_TASK = 'UPDATE_TASK'
+const DELETE_TASK = 'DELETE_TASK'
 
 export const setAllTasks = (tasks) => {
   return {
@@ -20,6 +23,27 @@ export const clearAllTasks = () => {
     tasks: [],
   };
 };
+
+export const addTask = (task) => {
+  return {
+    type: ADD_TASK,
+    task
+  }
+}
+
+export const updateTask = (task) => {
+  return {
+    type: UPDATE_TASK,
+    task
+  }
+}
+
+export const deleteTask = (taskId) => {
+  return {
+    type: DELETE_TASK,
+    taskId
+  }
+}
 
 // get all tasks (not for specific user)
 // export const _fetchAllTasks = () => {
@@ -36,10 +60,11 @@ export const clearAllTasks = () => {
 //   };
 // };
 
+
 export const _fetchAllTasks = () => {
   return async (dispatch) => {
     try {
-      firebase
+      await firebase
         .firestore()
         .collection('tasks')
         .doc(firebase.auth().currentUser.uid)
@@ -52,7 +77,7 @@ export const _fetchAllTasks = () => {
             const id = doc.id;
             return { id, ...data };
           });
-          dispatch(setTasks(tasks));
+          dispatch(setAllTasks(tasks));
         });
     } catch (err) {
       console.log(err);
@@ -60,33 +85,41 @@ export const _fetchAllTasks = () => {
   };
 };
 
-export const _createTask = () => {
+//not fully tested, but almost fully tested
+export const _createTask = ({name, priority, category}) => {
   return async (dispatch) => {
     try {
       const data = {
-        name: 'CHOCOLATE',
-        priority: 'HIGH',
-        category: 'GROCERIES',
+        name,
+        priority,
+        category
       };
-
-      firebase
+      let id = await firebase
         .firestore()
         .collection('tasks')
         .doc(firebase.auth().currentUser.uid)
-        .set(data);
+        .collection('userTasks')
+        .add(data).then( (result) => {
+          return result.id
+        })
+
+      dispatch(addTask({
+        name,
+        priority,
+        category,
+        id}))
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-const _updateTask = (taskId) => {
+const _updateTask = (task) => {
   return async (dispatch) => {
     try {
-      const res = await tasksRef.doc(taskId).update({
-        name: 'cookies',
-        priority: 'low',
-      });
+      const res = await tasksRef.doc(firebase.auth().currentUser.uid).collection('userTasks').doc(task.id).update(task);
+
+      dispatch(updateTask(task))
     } catch (err) {
       console.log(err);
     }
@@ -96,19 +129,37 @@ const _updateTask = (taskId) => {
 const _deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
-      const res = await tasksRef.doc(taskId).delete();
+      await tasksRef.doc(firebase.auth().currentUser.uid).collection('userTasks').doc(taskId).delete();
+      dispatch(deleteTask(taskId))
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-export default (state = [], action) => {
+const state = {
+  tasks: []
+}
+export default (state, action) => {
   switch (action.type) {
     case SET_ALL_TASKS:
-      return action.tasks;
+      return {...state, tasks: action.tasks};
     case CLEAR_ALL_TASKS:
-      return action.tasks;
+      return {...state, tasks: []};
+    case ADD_TASK:
+      return {...state, tasks: [...state.tasks, action.task]};
+    case UPDATE_TASK:
+      const updatedTasks = state.tasks.map( (task) => {
+        if(task.id === action.task.id){
+          return action.task
+        }
+      })
+      return {...state, tasks: updatedTasks}
+    case DELETE_TASK:
+      const deletedTasks = state.tasks.filter( (task) =>
+        task.id !== action.taskId
+      )
+      return {...state, tasks: deletedTasks}
     default:
       return state;
   }

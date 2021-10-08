@@ -31,28 +31,30 @@ async function sendPushNotification(expoPushToken) {
 }
 
 const Screen1 = (props) => {
-  const _createTask = () => {
-    try {
-      console.log('crerate task called');
-      const data = {
-        name: 'TACOS',
-        priority: 'HIGH',
-        category: 'GROCERIES',
-      };
-      console.log('this is data', data);
-
-      firebase
-        .firestore()
-        .collection('tasks')
-        .doc(firebase.auth().currentUser.uid)
-        .collection('userTasks')
-        .doc()
-        .set(data);
-      console.log('end of create Task');
-    } catch (err) {
-      console.log(err);
+  const _fetchAllTasks = async () => {
+    console.log('in fetch task')
+    try{
+      let tasks
+      await firebase
+      .firestore()
+      .collection('tasks')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userTasks')
+      .orderBy('priority')
+      .get()
+      .then((snapshot) => {
+        tasks = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          const id = doc.id;
+          return { id, ...data };
+        });
+      });
+      console.log('********response', tasks)
+    } catch(err){
+      console.log('error--------')
+      console.log(err)
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,8 +69,8 @@ const Screen1 = (props) => {
         }}
       />
 
-      <TouchableOpacity onPress={_createTask}>
-        <Text>Create Task</Text>
+      <TouchableOpacity onPress={_fetchAllTasks}>
+        <Text>Fetch All Task</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
