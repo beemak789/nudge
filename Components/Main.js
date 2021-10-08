@@ -155,9 +155,6 @@ const Main = () => {
     }
   });
 
-  console.log("console log location", location);
-  console.log(errorMsg);
-
   if (loading) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -167,13 +164,12 @@ const Main = () => {
   }
 
   const logOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .catch(function (error) {
-        console.log(error);
-      });
-
+    // firebase
+    //   .auth()
+    //   .signOut()
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
     setUser({});
   };
 
