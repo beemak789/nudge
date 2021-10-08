@@ -1,12 +1,16 @@
-
-import { StyleSheet, Text, SafeAreaView, Button } from "react-native";
-import { firebase } from "../config/firebase";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+import { firebase } from '../config/firebase';
 import React, { useState, useEffect } from 'react';
 import { createTask } from '../queries/tasks';
 
-
 async function sendPushNotification(expoPushToken) {
-  console.log('in send push', expoPushToken)
+  console.log('in send push', expoPushToken);
   const message = {
     to: expoPushToken,
     sound: 'default',
@@ -27,10 +31,28 @@ async function sendPushNotification(expoPushToken) {
 }
 
 const Screen1 = (props) => {
+  const _createTask = () => {
+    try {
+      console.log('crerate task called');
+      const data = {
+        name: 'TACOS',
+        priority: 'HIGH',
+        category: 'GROCERIES',
+      };
+      console.log('this is data', data);
 
-  useEffect(() => {
-    //createTask()
-  }, [])
+      firebase
+        .firestore()
+        .collection('tasks')
+        .doc(firebase.auth().currentUser.uid)
+        .collection('userTasks')
+        .doc()
+        .set(data);
+      console.log('end of create Task');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,10 +60,16 @@ const Screen1 = (props) => {
       <Button
         title="Press to Send Notification"
         onPress={async () => {
-          await sendPushNotification("ExponentPushToken[HUGDheOPfKBBF_iDUs2ETG]");
-          console.log('sent')
+          await sendPushNotification(
+            'ExponentPushToken[HUGDheOPfKBBF_iDUs2ETG]'
+          );
+          console.log('sent');
         }}
       />
+
+      <TouchableOpacity onPress={_createTask}>
+        <Text>Create Task</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
