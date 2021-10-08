@@ -7,10 +7,8 @@ import {
 } from 'react-native';
 import { firebase } from '../config/firebase';
 import React, { useState, useEffect } from 'react';
-import { createTask } from '../queries/tasks';
 
 async function sendPushNotification(expoPushToken) {
-  console.log('in send push', expoPushToken);
   const message = {
     to: expoPushToken,
     sound: 'default',
@@ -31,30 +29,6 @@ async function sendPushNotification(expoPushToken) {
 }
 
 const Screen1 = (props) => {
-  const _fetchAllTasks = async () => {
-    console.log('in fetch task')
-    try{
-      let tasks
-      await firebase
-      .firestore()
-      .collection('tasks')
-      .doc(firebase.auth().currentUser.uid)
-      .collection('userTasks')
-      .orderBy('priority')
-      .get()
-      .then((snapshot) => {
-        tasks = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          const id = doc.id;
-          return { id, ...data };
-        });
-      });
-      console.log('********response', tasks)
-    } catch(err){
-      console.log('error--------')
-      console.log(err)
-    }
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,7 +43,7 @@ const Screen1 = (props) => {
         }}
       />
 
-      <TouchableOpacity onPress={_fetchAllTasks}>
+      <TouchableOpacity onPress={()=>console.log('pressed')}>
         <Text>Fetch All Task</Text>
       </TouchableOpacity>
     </SafeAreaView>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, SafeAreaView } from "react-native";
-import { updateTask, deleteTask } from '../queries/tasks';
 
 const Screen3 = (props) => {
 
