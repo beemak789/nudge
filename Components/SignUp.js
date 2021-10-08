@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { firebase } from '../config/firebase';
 import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useSelector } from 'react-redux'
 LogBox.ignoreLogs(['Setting a timer']);
 
 const SignUp = (props) => {
@@ -23,6 +23,7 @@ const SignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
+  const location = useSelector((state) => state.user.location)
 
   const onSubmit = () => {
     if (password !== confirmPassword) {
@@ -40,6 +41,8 @@ const SignUp = (props) => {
           id: uid,
           email,
           fullName: first + last,
+          lat: location.coords.latitude,
+          long: location.coords.longitude,
         };
 
         const usersRef = firebase.firestore().collection('users');

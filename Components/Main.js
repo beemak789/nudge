@@ -4,6 +4,8 @@ import { loggedInDrawer, loggedOutDrawer } from "../services/TabItems";
 import { LogBox } from "react-native";
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import io from "socket.io-client";
+import { useDispatch } from "react-redux"
 
 LogBox.ignoreLogs(["Inline function"]);
 // components
@@ -21,6 +23,7 @@ import LogOut from "./LogOut";
 
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
+import { setBackgroundLocation } from "../store/user";
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = "background-location-task";
@@ -66,13 +69,15 @@ async function registerForPushNotificationsAsync() {
 const Main = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
-  const [location, setLocation] = useState(null);
+  // const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const dispatch = useDispatch()
+
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => {
       setExpoPushToken(token)
@@ -125,8 +130,8 @@ const Main = () => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-
+      // setLocation(location);
+      dispatch(setBackgroundLocation(location))
       let backPerm = await Location.requestBackgroundPermissionsAsync();
       console.log("backPerm", backPerm);
 
@@ -145,6 +150,7 @@ const Main = () => {
     }
     if (data) {
       const { locations } = data;
+      dispatch(setBackgroundLocation(locations))
       // do something with the locations captured in the background
       console.log("locations in task manager", locations);
     }
