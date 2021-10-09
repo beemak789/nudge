@@ -24,7 +24,7 @@ export const Screens1Navigator = (props) => {
     >
       <Stack.Screen
         name="Screen 1"
-        component={(props) => <Screen1 {...props} />}
+        component={Screen1}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
