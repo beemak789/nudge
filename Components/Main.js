@@ -76,7 +76,6 @@ const Main = () => {
   const notificationListener = useRef();
   const responseListener = useRef();
   const user = useSelector( (state) => state.user.user)
-  // console.log('*********', user)
   const dispatch = useDispatch()
 
   useEffect(() => {
