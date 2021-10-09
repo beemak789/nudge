@@ -1,4 +1,3 @@
-import { firebase } from '../config/firebase';
 const SET_LOCATION = 'SET_LOCATION'
 
 
@@ -9,10 +8,10 @@ export const setBackgroundLocation = (location) => {
   };
 };
 
-export default (state = {location: {}}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_LOCATION:
-      return {location: action.location};
+      return action.location;
     default:
       return state;
   }

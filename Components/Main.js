@@ -22,7 +22,7 @@ import LogOut from "./LogOut";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { setBackgroundLocation } from "../store/location";
-import { setUser } from "../store/user";
+import { setUser, setExpoPushToken } from "../store/user";
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = "background-location-task";
@@ -48,7 +48,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    return token;
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -69,19 +69,19 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
   // const [user, setUser] = useState({});
   // const [location, setLocation] = useState(null);
+  // const [expoPushToken, setExpoPushToken] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const [expoPushToken, setExpoPushToken] = useState('');
+
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const user = useSelector( (state) => state.user.user)
+  const user = useSelector( (state) => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => {
-      setExpoPushToken(token)
-      console.log('expo push token*****', expoPushToken)
+      dispatch(setExpoPushToken(token))
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {

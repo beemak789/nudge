@@ -1,5 +1,6 @@
 import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
+const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -119,10 +120,19 @@ export const signUpUser = (email, password, first, last, location) => {
   };
 };
 
-export default (state = {user: {}}, action) => {
+export const setExpoPushToken = (token) => {
+  return {
+    type: SET_EXPO_PUSH_TOKEN,
+    token,
+  };
+};
+
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return {...state, user: action.user};
+      return {...state, ...action.user}
+    case SET_EXPO_PUSH_TOKEN:
+      return {...state, token: action.token}
     default:
       return state;
   }

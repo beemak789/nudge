@@ -22,7 +22,7 @@ const SignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
-  const location = useSelector((state) => state.location.location);
+  const location = useSelector((state) => state.location);
   const dispatch = useDispatch();
   const onSubmit = () => {
     if (password !== confirmPassword) {
