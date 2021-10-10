@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // components
-import Screen1 from "../Components/Screen1";
+import TaskList from "../Components/TaskList";
 import Screen2 from "../Components/Screen2";
 import Screen3 from "../Components/Screen3";
 
@@ -23,9 +23,9 @@ export const Screens1Navigator = (props) => {
       }}
     >
       <Stack.Screen
-        name="Screen 1"
-        component={(props) => <Screen1 {...props} />}
-        options={{ headerShown: false }}
+        name="Task List"
+        component={(props) => <TaskList {...props} />}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   );
