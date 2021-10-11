@@ -166,7 +166,7 @@ const Main = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Screens 1"
+      initialRouteName="Tasks List"
       screenOptions={{
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
@@ -192,7 +192,7 @@ const Main = () => {
           <Tab.Screen name="Tasks List">
             {(props) => <Screens1Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Screens 2">
+          <Tab.Screen name="Add Task Page">
             {props => <Screens2Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="My Profile">
