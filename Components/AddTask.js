@@ -87,7 +87,6 @@ const AddTask = (props) => {
           backgroundTintColor: 'blue',
           textTintColor: 'white',
         }}
-        defaultSelectedIndexes={[0]}
         onSelectedValuesChange={(selectedValues) => setPriority(selectedValues)}
         multiple={false}
         group={[
