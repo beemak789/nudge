@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // components
 import TaskList from "../Components/TaskList";
-import Screen2 from "../Components/Screen2";
+import AddTask from "../Components/AddTask";
 import Screen3 from "../Components/Screen3";
 
 const Stack = createNativeStackNavigator();
@@ -44,8 +44,8 @@ export const Screens2Navigator = (props) => {
       }}
     >
       <Stack.Screen
-        name="Screen 2"
-        component={Screen2}
+        name="Add Task"
+        component={AddTask}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>

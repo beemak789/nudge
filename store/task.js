@@ -102,7 +102,6 @@ export const _createTask = ({name, priority, category}) => {
         .add(data).then( (result) => {
           return result.id
         })
-
       dispatch(addTask({
         name,
         priority,
