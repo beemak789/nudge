@@ -9,7 +9,7 @@ export const loggedOutDrawer = [
 
 export const loggedInDrawer = [
   {
-    name: "Screens 1",
+    name: "Task List",
   },
   {
     name: "Screens 2",
