@@ -1,7 +1,14 @@
-import { API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+} from '@env';
 import * as firebase from 'firebase';
 import '@firebase/auth';
-
 
 // Optionally import the services that you want to use
 //import {...} from "firebase/auth";
@@ -11,6 +18,7 @@ import '@firebase/auth';
 //import {...} from "firebase/storage";
 
 // Initialize Firebase
+
 const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,

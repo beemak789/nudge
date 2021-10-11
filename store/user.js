@@ -65,6 +65,24 @@ export const listenToUser = (uid) => {
   };
 };
 
+export const fetchUpdatedUser = (user) => {
+  return async (dispatch) => {
+    try {
+      const {fullName, email, id} = user
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef
+        .doc(id)
+        .update({
+          fullName,
+          email,
+        });
+      dispatch(setUser(user));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
 
 export const logOutUser = () => {
   console.log('log out user button clicked')
