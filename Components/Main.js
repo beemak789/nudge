@@ -5,14 +5,13 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useDispatch, useSelector } from "react-redux"
 
-LogBox.ignoreLogs(["Inline function"]);
+LogBox.ignoreAllLogs();
 // components
 import LogIn from './LogIn';
 import SignUp from './SignUp';
 import {
   Screens1Navigator,
   Screens2Navigator,
-  Screens3Navigator,
   Screens4Navigator,
 } from '../services/Stacks';
 import { Text, View } from 'react-native';
@@ -23,6 +22,7 @@ import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { setBackgroundLocation } from "../store/location";
 import { setUser, setExpoPushToken } from "../store/user";
+import ProfileStack from '../services/stacks/profileStack';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = "background-location-task";
@@ -195,8 +195,8 @@ const Main = () => {
           <Tab.Screen name="Add Task Page">
             {props => <Screens2Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Screens 3">
-            {props => <Screens3Navigator {...props} />}
+          <Tab.Screen name="My Profile">
+            {props => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
             {props => <LogOut {...props} />}
