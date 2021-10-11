@@ -1,18 +1,13 @@
 import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
-const SET_LOCATION = 'SET_LOCATION'
+const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const setUser = (user) => {
   return {
     type: SET_USER,
     user,
-  };
-};
-
-export const setBackgroundLocation = (location) => {
-  return {
-    type: SET_LOCATION,
-    location,
   };
 };
 
@@ -72,6 +67,7 @@ export const listenToUser = (uid) => {
 
 
 export const logOutUser = () => {
+  console.log('log out user button clicked')
   return async (dispatch) => {
     try {
       await firebase
@@ -124,12 +120,19 @@ export const signUpUser = (email, password, first, last, location) => {
   };
 };
 
-export default (state = {user: {}, location: {}}, action) => {
+export const setExpoPushToken = (token) => {
+  return {
+    type: SET_EXPO_PUSH_TOKEN,
+    token,
+  };
+};
+
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return {...state, user: action.user};
-    case SET_LOCATION:
-      return {...state, location: action.location};
+      return {...state, ...action.user}
+    case SET_EXPO_PUSH_TOKEN:
+      return {...state, token: action.token}
     default:
       return state;
   }
