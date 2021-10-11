@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { loggedInDrawer, loggedOutDrawer } from "../services/TabItems";
 import { LogBox } from "react-native";
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 LogBox.ignoreLogs(["Inline function"]);
 // components
@@ -22,7 +21,8 @@ import LogOut from "./LogOut";
 
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
-import { setBackgroundLocation } from "../store/user";
+import { setBackgroundLocation } from "../store/location";
+import { setUser, setExpoPushToken } from "../store/user";
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = "background-location-task";
@@ -48,7 +48,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    return token;
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -67,20 +67,21 @@ async function registerForPushNotificationsAsync() {
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   // const [location, setLocation] = useState(null);
+  // const [expoPushToken, setExpoPushToken] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const [expoPushToken, setExpoPushToken] = useState('');
+
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const user = useSelector( (state) => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => {
-      setExpoPushToken(token)
-      console.log('expo push token*****', expoPushToken)
+      dispatch(setExpoPushToken(token))
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -108,7 +109,7 @@ const Main = () => {
           .then((document) => {
             const userData = document.data() || {};
             setLoading(false);
-            setUser(userData);
+            dispatch(setUser(userData));
           })
           .catch((error) => {
             setLoading(false);
@@ -163,16 +164,6 @@ const Main = () => {
     );
   }
 
-  const logOut = () => {
-    // firebase
-    //   .auth()
-    //   .signOut()
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    setUser({});
-  };
-
   return (
     <Tab.Navigator
       initialRouteName="Screens 1"
@@ -208,7 +199,7 @@ const Main = () => {
             {props => <Screens3Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
-            {props => <LogOut {...props} logOut={logOut} />}
+            {props => <LogOut {...props} />}
           </Tab.Screen>
         </>
       )}

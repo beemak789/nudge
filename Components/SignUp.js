@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 
 // Redux
-import { connect } from 'react-redux';
-import { firebase } from '../config/firebase';
 import { LogBox } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
 import { signUpUser } from '../store/user';
 
@@ -25,7 +22,7 @@ const SignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
-  const location = useSelector((state) => state.user.location);
+  const location = useSelector((state) => state.location);
   const dispatch = useDispatch();
   const onSubmit = () => {
     if (password !== confirmPassword) {
