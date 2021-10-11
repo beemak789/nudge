@@ -1,13 +1,13 @@
-// const router = require('express').Router();
-// const { Food_Stores } = require('../db');
-// module.exports = router;
+const router = require('express').Router();
+const { Stores } = require('../db');
+module.exports = router;
 
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const store = await Food_Stores.findAll();
+router.get('/', async (req, res, next) => {
+  try {
+    const stores = await Stores.findAll();
 
-//     res.send(store);
-//   } catch (ex) {
-//     next(ex);
-//   }
-// });
+    res.send(stores);
+  } catch (ex) {
+    next(ex);
+  }
+});
