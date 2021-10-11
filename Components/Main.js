@@ -5,16 +5,10 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useDispatch, useSelector } from 'react-redux';
 
-LogBox.ignoreLogs(['Inline function']);
 // components
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-import {
-  Screens1Navigator,
-  Screens2Navigator,
-  Screens3Navigator,
-  Screens4Navigator,
-} from '../services/Stacks';
+import { Screens1Navigator, Screens2Navigator } from '../services/Stacks';
 import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
 import LogOut from './LogOut';
@@ -23,6 +17,7 @@ import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { setBackgroundLocation } from '../store/location';
 import { setUser, setExpoPushToken } from '../store/user';
+import ProfileStack from '../services/stacks/profileStack';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -173,7 +168,7 @@ const Main = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Screens 1"
+      initialRouteName="Tasks List"
       screenOptions={{
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
@@ -197,11 +192,11 @@ const Main = () => {
           <Tab.Screen name="Tasks List">
             {(props) => <Screens1Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Screens 2">
+          <Tab.Screen name="Add Task Page">
             {(props) => <Screens2Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Screens 3">
-            {(props) => <Screens3Navigator {...props} />}
+          <Tab.Screen name="My Profile">
+            {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
             {(props) => <LogOut {...props} />}

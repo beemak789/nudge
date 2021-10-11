@@ -12,7 +12,7 @@ export const loggedInDrawer = [
     name: "Task List",
   },
   {
-    name: "Screens 2",
+    name: "Add Task Page",
   },
   {
     name: "Screens 3",

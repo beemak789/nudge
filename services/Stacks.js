@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // components
 import TaskList from "../Components/TaskList";
-import Screen2 from "../Components/Screen2";
-import Screen3 from "../Components/Screen3";
+import AddTask from "../Components/AddTask";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -44,31 +44,11 @@ export const Screens2Navigator = (props) => {
       }}
     >
       <Stack.Screen
-        name="Screen 2"
-        component={Screen2}
+        name="Add Task"
+        component={AddTask}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>
   );
 };
 
-export const Screens3Navigator = (props) => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: "#709775",
-        },
-        headerTintColor: "white",
-        headerBackTitle: "Back",
-      }}
-    >
-      <Stack.Screen
-        name="Screen 3"
-        component={Screen3}
-        options={{ headerShown: true }}
-      />
-    </Stack.Navigator>
-  );
-};
