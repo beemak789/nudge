@@ -195,7 +195,7 @@ const Main = () => {
           <Tab.Screen name="Screens 2">
             {props => <Screens2Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Screens 3">
+          <Tab.Screen name="My Profile">
             {props => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
