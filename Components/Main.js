@@ -189,7 +189,7 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name="Screens 1">
+          <Tab.Screen name="Tasks List">
             {(props) => <Screens1Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Screens 2">

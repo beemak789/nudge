@@ -130,7 +130,7 @@ export const setExpoPushToken = (token) => {
 export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return {...state, ...action.user}
+      return {...action.user}
     case SET_EXPO_PUSH_TOKEN:
       return {...state, token: action.token}
     default:

@@ -24,7 +24,7 @@ export const Screens1Navigator = (props) => {
     >
       <Stack.Screen
         name="Task List"
-        component={(props) => <TaskList {...props} />}
+        component={TaskList}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>
