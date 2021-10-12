@@ -3,13 +3,12 @@ const { Store, Type } = require('../db');
 const sequelize = require('sequelize');
 module.exports = router;
 
-router.get('/:lng/:lat', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     // this is hardcoded, we can send long/lat with the req
-    console.log("hello we're here")
-    const lng = Number(req.params.lng)
-    const lat = Number(req.params.lat)
-    const fromRadius = 2000;
+    const lng = -73.96319586822943;
+    const lat = 40.68076554817467;
+    const fromRadius = 500;
     // convenience store
     const typeId = 1;
 
@@ -44,7 +43,7 @@ router.get('/:lng/:lat', async (req, res, next) => {
         fromRadius
       ),
     });
-    console.log("STORES", stores)
+
     res.send(stores);
   } catch (ex) {
     next(ex);

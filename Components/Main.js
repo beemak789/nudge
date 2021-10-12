@@ -132,7 +132,6 @@ const Main = () => {
 
       let location = await Location.getCurrentPositionAsync({});
 
-
       // dispatch(
       //   checkLocation(
       //     location,
@@ -211,7 +210,7 @@ const Main = () => {
             {(props) => <Screens2Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="My Profile Page">
-            {props => <ProfileStack {...props} />}
+            {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
             {(props) => <LogOut {...props} />}
