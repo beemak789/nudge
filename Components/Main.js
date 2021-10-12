@@ -5,15 +5,10 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useDispatch, useSelector } from 'react-redux';
 
-LogBox.ignoreAllLogs();
 // components
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-import {
-  Screens1Navigator,
-  Screens2Navigator,
-  Screens4Navigator,
-} from '../services/Stacks';
+import { Screens1Navigator, Screens2Navigator } from '../services/Stacks';
 import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
 import LogOut from './LogOut';
@@ -130,13 +125,13 @@ const Main = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
+
 
       dispatch(
         checkLocation(
@@ -163,6 +158,7 @@ const Main = () => {
     }
     if (data) {
       const { locations } = data;
+
       dispatch(
         checkLocation(
           locations[0],
@@ -170,6 +166,7 @@ const Main = () => {
           locations[0].coords.longitude
         )
       );
+
       // do something with the locations captured in the background
       console.log('locations in task manager', locations);
     }
