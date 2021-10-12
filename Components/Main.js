@@ -15,7 +15,7 @@ import LogOut from './LogOut';
 
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
-import { setBackgroundLocation } from '../store/location';
+import { checkLocation } from '../store/location';
 import { setUser, setExpoPushToken } from '../store/user';
 import ProfileStack from '../services/stacks/profileStack';
 
@@ -125,15 +125,21 @@ const Main = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log('status in main', status);
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
-      dispatch(setBackgroundLocation(location));
+
+
+      dispatch(
+        checkLocation(
+          location,
+          location.coords.latitude,
+          location.coords.longitude
+        )
+      );
       let backPerm = await Location.requestBackgroundPermissionsAsync();
       console.log('backPerm', backPerm);
 
@@ -152,7 +158,15 @@ const Main = () => {
     }
     if (data) {
       const { locations } = data;
-      dispatch(setBackgroundLocation(locations));
+
+      dispatch(
+        checkLocation(
+          locations[0],
+          locations[0].coords.latitude,
+          locations[0].coords.longitude
+        )
+      );
+
       // do something with the locations captured in the background
       console.log('locations in task manager', locations);
     }
