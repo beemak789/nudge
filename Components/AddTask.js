@@ -14,7 +14,14 @@ import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { SelectMultipleGroupButton } from 'react-native-selectmultiple-button';
 
-const types = ['grocery', 'pharmacy', 'bookstore', 'bakery', 'other store','other2'];
+const images = {
+  grocery: require('../public/grocery.png'),
+  bakery: require('../public/bakery.png'),
+  bookstore: require('../public/bookstore.png'),
+  pharmacy: require('../public/pharmacy.png'),
+  other: require('../public/other.png')
+}
+const types = ['grocery', 'pharmacy', 'bookstore', 'bakery', 'other'];
 const priorityTypes = ['high', 'medium', 'low'];
 
 const Store = ({storeType}) => {
@@ -65,7 +72,7 @@ const AddTask = (props) => {
           style={styles.itemName}
           onChangeText={onChangeText}
           value={text}
-          placeholder="item name"
+          placeholder="enter item name"
         />
       </View>
       <View>
@@ -95,6 +102,7 @@ const AddTask = (props) => {
                   }
                 }}
               >
+                <Image source={images[type]} style={styles.storeIcon} />
                 <Text
                   style={
                     category.includes(type)
@@ -109,7 +117,7 @@ const AddTask = (props) => {
           })}
         </ScrollView>
         </View>
-      <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginBottom: 10 }}>Select Priority</Text>
+      <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginTop: 10 }}>Select Priority</Text>
       <View style={{ flexDirection: 'row', margin: 3, justifyContent: "space-evenly" }}>
         <SelectMultipleGroupButton
           containerViewStyle={{
@@ -132,7 +140,7 @@ const AddTask = (props) => {
       </View>
       </View>
       <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-        <Text style={{color: "white"}}>
+        <Text style={{color: "black", fontWeight: "bold"}}>
           save
         </Text>
       </TouchableOpacity>
@@ -145,7 +153,7 @@ export default AddTask;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -174,9 +182,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    height: 30,
-    width: 100,
-    margin: 2,
+    height: 90,
+    width: 80,
+    margin: 5,
     shadowColor: '#000000',
     shadowOpacity: 0.5,
     shadowRadius: 2,
@@ -193,9 +201,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    height: 30,
-    width: 100,
-    margin: 2,
+    height: 90,
+    width: 80,
+    margin: 5,
     shadowColor: '#000000',
     shadowOpacity: 0.3,
     shadowRadius: 2,
@@ -224,7 +232,7 @@ const styles = StyleSheet.create({
   save: {
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 40,
     borderRadius: 20,
     borderColor: "transparent",
     borderWidth: 1,
@@ -237,5 +245,12 @@ const styles = StyleSheet.create({
       height: 2,
       width: 2,
     },
+    marginTop: 10,
+  },
+  storeIcon: {
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent",
+    marginBottom: 5,
   }
 });
