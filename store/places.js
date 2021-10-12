@@ -17,7 +17,7 @@ export const clearPlaces = () => {
   };
 };
 
-export const _highPriorityFetchPlaces = (radius, type) => {
+export const _highPriorityFetchPlaces = () => {
   return async (dispatch, getState) => {
     try {
       // clears the previously set places
@@ -25,7 +25,10 @@ export const _highPriorityFetchPlaces = (radius, type) => {
 
       const { location, task } = getState();
       const tasks = task.tasks;
+      // hardcoded radius, we can dynamically change this based on priority maybe?
+      const radius = 500;
 
+      // here we have to know which tasks we previously sent a push notification for, and send a push notification for the next task. Extract the task we want to send a push notification for from the tasks state
       // task.tasks.forEach((task) => {
       //   if (task.priority === 'HIGH') {
       //   }
@@ -38,9 +41,9 @@ export const _highPriorityFetchPlaces = (radius, type) => {
 
       const url = `${baseUrl}${locationUrl}${typeData}${api}`;
 
-      // fetch(url)
-      //   .then((res) => res.json())
-      //   .then(dispatch(setPlaces(res)));
+      fetch(url)
+        .then((res) => res.json())
+        .then(dispatch(setPlaces(res)));
     } catch (error) {
       console.log(error);
     }

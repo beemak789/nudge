@@ -7,12 +7,12 @@ export const setBackgroundLocation = (location) => {
   };
 };
 
-export const checkLocation = (currLat, currLng) => {
+export const checkLocation = (currLocation, currLat, currLng) => {
   return async (dispatch) => {
     try {
       const { location } = getState();
-      let prevLat = location.coords.latitude;
-      let prevLng = location.coords.longitude;
+      const prevLat = location.coords.latitude;
+      const prevLng = location.coords.longitude;
 
       function deg2rad(deg) {
         return deg * (Math.PI / 180);
@@ -20,7 +20,7 @@ export const checkLocation = (currLat, currLng) => {
 
       function getDistance(lat1, lon1, lat2, lon2) {
         var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(lat2 - lat1); // deg2rad below
+        var dLat = deg2rad(lat2 - lat1); // deg2rad above
         var dLon = deg2rad(lon2 - lon1);
         var a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -39,7 +39,7 @@ export const checkLocation = (currLat, currLng) => {
         dispatch(_highPriorityFetchPlaces(currLat, currLng));
       }
 
-      dispatch(setBackgroundLocation(location));
+      dispatch(setBackgroundLocation(currLocation));
     } catch (error) {
       console.log(error);
     }

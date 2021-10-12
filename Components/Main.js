@@ -139,7 +139,11 @@ const Main = () => {
       let location = await Location.getCurrentPositionAsync({});
 
       dispatch(
-        checkLocation(location.coords.latitude, location.coords.longitude)
+        checkLocation(
+          location,
+          location.coords.latitude,
+          location.coords.longitude
+        )
       );
       let backPerm = await Location.requestBackgroundPermissionsAsync();
       console.log('backPerm', backPerm);
@@ -161,6 +165,7 @@ const Main = () => {
       const { locations } = data;
       dispatch(
         checkLocation(
+          locations[0],
           locations[0].coords.latitude,
           locations[0].coords.longitude
         )
