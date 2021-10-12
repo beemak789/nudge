@@ -7,9 +7,21 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  ScrollView
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
+import { SelectMultipleGroupButton } from 'react-native-selectmultiple-button';
+
+const types = ['grocery', 'pharmacy', 'bookstore', 'bakery', 'other store','other2'];
+const priorityTypes = ['high', 'medium', 'low'];
+
+const Store = ({storeType}) => {
+  <View>
+    <Text>{storeType}</Text>
+  </View>
+}
 
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
@@ -17,14 +29,18 @@ const AddTask = (props) => {
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
 
-  const types = ['grocery', 'pharmacy', 'bookstore'];
-  const priorityTypes = ['high', 'medium', 'low']
+
+
+  const renderItem = (item) => (
+    <Store storeType={item} />
+  )
 
   const onSubmit = () => {
+    console.log(priority[0]);
     dispatch(
       _createTask({
         name: text,
-        priority,
+        priority: priority[0],
         category,
       })
     );
@@ -38,60 +54,92 @@ const AddTask = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginBottom: 30}}>
-      <TextInput
-        style = {styles.itemName}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="item name"
-      />
+      <View style= {{margin: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1}}>
+      <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+      <View style={{ marginBottom: 30 }}>
+        <Text style={styles.title}>New Task</Text>
+        <TextInput
+          style={styles.itemName}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder="item name"
+        />
       </View>
-      <Text>Where can we find this item?</Text>
-      <View style={{flexDirection: "row", margin: 3}}>
-      {types.map((type) => {
-        return <TouchableOpacity
-          key = {type}
-          style = {(category.includes(type) ? styles.selected : styles.notSelected)}
-          onPress={() => {
-            if (category.includes(type)) {
-              //do not highlight
-              const filteredCategories = category.filter(
-                (removeType) => removeType !== type
-              );
-              addCategory(filteredCategories);
-            } else {
-              //highlgiht
-              addCategory([...category, type]);
-            }
+      <View>
+        <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginBottom: 10 }}>
+          Where can we find this item?
+        </Text>
+        <Text style={{marginBottom: 10}}>Select all that apply</Text>
+        <View style ={{height: 100}}>
+        <ScrollView style={{height: 30}} horizontal={true}>
+          {types.map((type) => {
+            return (
+              <TouchableOpacity
+                key={type}
+                style={
+                  category.includes(type) ? styles.selected : styles.notSelected
+                }
+                onPress={() => {
+                  if (category.includes(type)) {
+                    //do not highlight
+                    const filteredCategories = category.filter(
+                      (removeType) => removeType !== type
+                    );
+                    addCategory(filteredCategories);
+                  } else {
+                    //highlgiht
+                    addCategory([...category, type]);
+                  }
+                }}
+              >
+                <Text
+                  style={
+                    category.includes(type)
+                      ? styles.selectedText
+                      : styles.notSelectedText
+                  }
+                >
+                  {type}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+        </View>
+      <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginBottom: 10 }}>Select Priority</Text>
+      <View style={{ flexDirection: 'row', margin: 3, justifyContent: "space-evenly" }}>
+        <SelectMultipleGroupButton
+          containerViewStyle={{
+            justifyContent: 'flex-start',
           }}
-          ><Text>{type}</Text></TouchableOpacity>
-      })}
-      </View>
-      <Text>Select Priority</Text>
-      <View style={{flexDirection: "row", margin: 3}}>
-      {priorityTypes.map((level) => {
-        return <TouchableOpacity
-          key = {level}
-          style = {(priority === level) ? styles.selected : styles.notSelected}
-          onPress={() => {
-            if (priority !== level) {
-              //do not highlight
-              setPriority(level)
-            }
+          highLightStyle={{
+            borderColor: 'gray',
+            backgroundColor: 'transparent',
+            textColor: 'gray',
+            borderTintColor: 'transparent',
+            backgroundTintColor: '#83CA9E',
+            textTintColor: 'black',
           }}
-          ><Text>{level}</Text></TouchableOpacity>
-      })}
+          onSelectedValuesChange={(selectedValues) =>
+            setPriority(selectedValues)
+          }
+          multiple={false}
+          group={[{ value: 'high' }, { value: 'medium' }, { value: 'low' }]}
+        />
       </View>
-      <Button onPress={onSubmit} title="save" />
-      <Button
-        onPress={() => {
-          getPlaces();
-        }}
-        title="places url"
-      />
+      </View>
+      <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+        <Text style={{color: "white"}}>
+          save
+        </Text>
+      </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-}
+};
 export default AddTask;
 
 const styles = StyleSheet.create({
@@ -103,27 +151,91 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 20,
+    borderWidth: 1,
+    textAlign: 'center',
+    borderColor: 'transparent',
+    borderRadius: 4,
+    margin: 5,
+    padding: 10,
+    width: 250,
+    backgroundColor: '#EBF6EF',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 3,
+      width: 3,
+    },
   },
-  selected:{
-    backgroundColor: "gray",
-    borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
+  selected: {
+    backgroundColor: '#83CA9E',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
     height: 30,
     width: 100,
     margin: 2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
   },
-  notSelected:{
-    backgroundColor: "transparent",
-    borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
+  notSelected: {
+    backgroundColor: '#EBF6EF',
+    color: 'gray',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
     height: 30,
     width: 100,
     margin: 2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+  },
+  nudgie: {
+    height: 150,
+    width: 150,
+    borderRadius: 24,
+  },
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  selectedText: {
+    color: 'black',
+  },
+  notSelectedText: {
+    color: 'gray',
+  },
+  save: {
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 20,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
   }
 });
