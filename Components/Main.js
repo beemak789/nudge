@@ -196,7 +196,7 @@ const Main = () => {
           <Tab.Screen name="Add Task Page">
             {props => <Screens2Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="My Profile">
+          <Tab.Screen name="My Profile Page">
             {props => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">

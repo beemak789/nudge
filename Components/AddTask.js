@@ -14,7 +14,7 @@ import { _createTask } from '../store/task';
 
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
-  const [priority, setPriority] = useState('');
+  const [priority, setPriority] = useState('high');
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
   const getPlacesUrl = (lat, long, radius, type, apiKey) => {
@@ -100,22 +100,6 @@ const AddTask = (props) => {
           ><Text>{level}</Text></TouchableOpacity>
       })}
       </View>
-      {/* <SelectMultipleGroupButton
-        containerViewStyle={{
-          justifyContent: 'flex-start',
-        }}
-        highLightStyle={{
-          borderColor: 'gray',
-          backgroundColor: 'transparent',
-          textColor: 'gray',
-          borderTintColor: 'black',
-          backgroundTintColor: 'blue',
-          textTintColor: 'white',
-        }}
-        onSelectedValuesChange={(selectedValues) => setPriority(selectedValues)}
-        multiple={false}
-        group={[{ value: 'high' }, { value: 'medium' }, { value: 'low' }]}
-      /> */}
       <Button onPress={onSubmit} title="save" />
       <Button
         onPress={() => {
