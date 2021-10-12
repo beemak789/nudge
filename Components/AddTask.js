@@ -5,10 +5,9 @@ import {
   SafeAreaView,
   Button,
   TextInput,
-  ProgressViewIOSComponent,
+  TouchableOpacity,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { SelectMultipleButton, SelectMultipleGroupButton } from 'react-native-selectmultiple-button';
+import { SelectMultipleGroupButton } from 'react-native-selectmultiple-button';
 import { useDispatch } from 'react-redux';
 import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
 import { _createTask } from '../store/task';
@@ -36,17 +35,23 @@ const AddTask = (props) => {
     //   .then(res => res.json())
     //   .then(console.log(res))
   };
+
+  const types = ['grocery', 'pharmacy', 'bookstore'];
+
   const onSubmit = () => {
-    dispatch(_createTask({
-      name: text,
-      priority: priority[0],
-      category
-    }))
+    dispatch(
+      _createTask({
+        name: text,
+        priority: priority[0],
+        category,
+      })
+    );
     props.navigation.navigate('Tasks List', {
       screen: 'Task List',
     });
-    onChangeText('')
-  };
+    onChangeText('');
+    addCategory([]);
+    };
   return (
     <SafeAreaView style={styles.container}>
       <TextInput
@@ -55,7 +60,39 @@ const AddTask = (props) => {
         placeholder="item name"
       />
       <Text>Where can we find this item?</Text>
-      <SelectMultipleGroupButton
+      {types.map((type) => {
+        return <TouchableOpacity
+          key = {type}
+          style = {(category.includes(type) ? styles.selected : styles.notSelected)}
+          onPress={() => {
+            if (category.includes(type)) {
+              //do not highlight
+              const filteredCategories = category.filter(
+                (removeType) => removeType !== type
+              );
+              addCategory(filteredCategories);
+            } else {
+              //highlgiht
+              addCategory([...category, type]);
+            }
+          }}
+          ><Text>{type}</Text></TouchableOpacity>
+      })}
+
+          {// style = {(category.includes(types[0]) ? styles.selected : styles.notSelected)}
+          // onPress={() => {
+          //   if (category.includes(types[0])) {
+          //     //do not highlight
+          //     const filteredCategories = category.filter(
+          //       (removeType) => removeType === types[0]
+          //     );
+          //     addCategory(filteredCategories);
+          //   } else {
+          //     //highlgiht
+          //     addCategory([...category, types[0]]);
+          //   }
+          // }}
+      /* <SelectMultipleGroupButton
         containerViewStyle={{
           justifyContent: 'flex-start',
         }}
@@ -73,7 +110,7 @@ const AddTask = (props) => {
           { value: 'pharmacy' },
           { value: 'bookstore' },
         ]}
-      />
+      /> */}
       <Text>Select Priority</Text>
       <SelectMultipleGroupButton
         containerViewStyle={{
@@ -89,11 +126,7 @@ const AddTask = (props) => {
         }}
         onSelectedValuesChange={(selectedValues) => setPriority(selectedValues)}
         multiple={false}
-        group={[
-          { value: 'high' },
-          { value: 'medium' },
-          { value: 'low' },
-        ]}
+        group={[{ value: 'high' }, { value: 'medium' }, { value: 'low' }]}
       />
       <Button onPress={onSubmit} title="save" />
       <Button
@@ -102,7 +135,6 @@ const AddTask = (props) => {
         }}
         title="places url"
       />
-
     </SafeAreaView>
   );
 };
@@ -116,4 +148,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  selected :{
+    backgroundColor: "blue",
+  },
+  notSelected:{
+    backgroundColor: "transparent",
+  }
 });
