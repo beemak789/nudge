@@ -25,6 +25,9 @@ const Store = db.define('store', {
   address: {
     type: Sequelize.STRING,
   },
+  geo: {
+    type: Sequelize.GEOMETRY('POINT'),
+  },
 });
 
 module.exports = Store;

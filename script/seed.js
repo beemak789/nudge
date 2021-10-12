@@ -37,6 +37,13 @@ async function seed() {
           latitude: store.geometry.location.lat,
           longitude: store.geometry.location.lng,
           address: store.vicinity,
+          geo: {
+            type: 'Point',
+            coordinates: [
+              store.geometry.location.lng,
+              store.geometry.location.lat,
+            ],
+          },
           ...store,
         });
 

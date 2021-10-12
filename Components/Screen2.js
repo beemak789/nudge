@@ -15,7 +15,7 @@ const Screen2 = (props) => {
   const getPlaces = () => {
     const lat = '40.677640975927275';
     const long = '-73.96878766644825';
-    const placeType = 'convenience_store';
+    const placeType = 'drugstore';
     const url = getPlacesUrl(lat, long, 6437, placeType, GOOGLE_PLACES_API);
     // fetch(url)
     //   .then(res => res.json())
