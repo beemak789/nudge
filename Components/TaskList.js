@@ -4,29 +4,39 @@ import {
   SafeAreaView,
   Text,
   ListViewBase,
+  Button,
 } from 'react-native';
-import { firebase } from '../config/firebase';
 import React, { useState, useEffect } from 'react';
 import { _createTask, _fetchAllTasks } from '../store/task';
+import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 
 const taskList = (props) => {
-  const dispatch = useDispatch()
-  const { tasks } = useSelector(state => state.task)
+  const dispatch = useDispatch();
+  const { tasks } = useSelector((state) => state.task);
+  const { location } = useSelector((state) => state.location);
 
   useEffect(() => {
-         dispatch(_fetchAllTasks())
-      }, [dispatch])
+    dispatch(_fetchAllTasks());
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
+      <Button
+        onPress={() => {
+          dispatch(_fetchPlaces());
+        }}
+        title="places url"
+      />
 
-      <FlatList data = {tasks} renderItem = {({item}) =>
-      <Text
-        style={styles.item}>{item.name}, {item.priority} PRIORITY
-      </Text>}>
-      </FlatList>
-
+      <FlatList
+        data={tasks}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>
+            {item.name}, {item.priority} PRIORITY
+          </Text>
+        )}
+      ></FlatList>
     </SafeAreaView>
   );
 };

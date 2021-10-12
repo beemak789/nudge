@@ -1,5 +1,4 @@
-const SET_LOCATION = 'SET_LOCATION'
-
+const SET_LOCATION = 'SET_LOCATION';
 
 export const setBackgroundLocation = (location) => {
   return {

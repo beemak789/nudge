@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { LogBox } from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { LogBox } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux';
 
 LogBox.ignoreAllLogs();
 // components
@@ -16,16 +16,16 @@ import {
 } from '../services/Stacks';
 import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
-import LogOut from "./LogOut";
+import LogOut from './LogOut';
 
-import * as Location from "expo-location";
-import * as TaskManager from "expo-task-manager";
-import { setBackgroundLocation } from "../store/location";
-import { setUser, setExpoPushToken } from "../store/user";
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
+import { setBackgroundLocation } from '../store/location';
+import { setUser, setExpoPushToken } from '../store/user';
 import ProfileStack from '../services/stacks/profileStack';
 
 const Tab = createBottomTabNavigator();
-const LOCATION_TASK_NAME = "background-location-task";
+const LOCATION_TASK_NAME = 'background-location-task';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -37,7 +37,9 @@ Notifications.setNotificationHandler({
 async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const {
+      status: existingStatus,
+    } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
       const { status } = await Notifications.requestPermissionsAsync();
@@ -72,29 +74,34 @@ const Main = () => {
   // const [expoPushToken, setExpoPushToken] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
-
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const user = useSelector( (state) => state.user)
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => {
-      dispatch(setExpoPushToken(token))
+    registerForPushNotificationsAsync().then((token) => {
+      dispatch(setExpoPushToken(token));
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+      }
+    );
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
@@ -123,19 +130,19 @@ const Main = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log("status in main", status);
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
-      dispatch(setBackgroundLocation(location))
-      let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log("backPerm", backPerm);
 
-      if (backPerm.status === "granted") {
+      dispatch(setBackgroundLocation(location));
+      let backPerm = await Location.requestBackgroundPermissionsAsync();
+      console.log('backPerm', backPerm);
+
+      if (backPerm.status === 'granted') {
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
           accuracy: Location.Accuracy.Balanced,
         });
@@ -150,15 +157,15 @@ const Main = () => {
     }
     if (data) {
       const { locations } = data;
-      dispatch(setBackgroundLocation(locations))
+      dispatch(setBackgroundLocation(locations[0]));
       // do something with the locations captured in the background
-      console.log("locations in task manager", locations);
+      console.log('locations in task manager', locations);
     }
   });
 
   if (loading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Loading...</Text>
       </View>
     );
@@ -178,14 +185,12 @@ const Main = () => {
     >
       {!user.id ? (
         <>
-          <Tab.Screen
-            name="Log In">
-              {props => <LogIn {...props} />}
-            </Tab.Screen>
-          <Tab.Screen
-            name="Sign Up">
-              {props => <SignUp {...props} />}
-            </Tab.Screen>
+          <Tab.Screen name="Log In">
+            {(props) => <LogIn {...props} />}
+          </Tab.Screen>
+          <Tab.Screen name="Sign Up">
+            {(props) => <SignUp {...props} />}
+          </Tab.Screen>
         </>
       ) : (
         <>
@@ -193,13 +198,13 @@ const Main = () => {
             {(props) => <Screens1Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Add Task Page">
-            {props => <Screens2Navigator {...props} />}
+            {(props) => <Screens2Navigator {...props} />}
           </Tab.Screen>
           <Tab.Screen name="My Profile">
-            {props => <ProfileStack {...props} />}
+            {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
-            {props => <LogOut {...props} />}
+            {(props) => <LogOut {...props} />}
           </Tab.Screen>
         </>
       )}
@@ -208,4 +213,3 @@ const Main = () => {
 };
 
 export default Main;
-
