@@ -1,5 +1,5 @@
 
-var data = [
+export const data = [
   {
     "latitude": "40.684922",
     "longitude": "-73.922862"
@@ -74,22 +74,22 @@ var data = [
   },
 ]
 
-loopThroughArray(data, function (arrayElement) {
-  console.log(arrayElement);
-}, 3000);
+// loopThroughArray(data, function (arrayElement) {
+//   console.log(arrayElement);
+// }, 3000);
 
-function loopThroughArray(array, callback, interval) {
+export function loopThroughArray(array, callback, interval) {
     var newLoopTimer = new LoopTimer(function (time) {
         if (array.length){
           var element = array.shift();
-          callback(element, time - start);
+          return callback(element, time - start);
         }
       }, interval);
     var start = newLoopTimer.start();
 }
 
 // Timer
-function LoopTimer(render, interval) {
+export function LoopTimer(render, interval) {
     var timeout;
     var lastTime;
 

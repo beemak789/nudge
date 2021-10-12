@@ -1,54 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Modal } from '../services/Modal';
-import { Button } from '../services/Button';
-import { useFocusEffect } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { logOutUser } from '../store/user';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, SafeAreaView, Button } from 'react-native';
+import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
+import {data, LoopTimer, loopThroughArray} from '../data'
+import axios from 'axios'
 
-const LogOut = (props) => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const dispatch = useDispatch();
-  const onSubmit = () => {
-    dispatch(logOutUser());
-  };
-
-  const cancel = () => {
-    setIsModalVisible(false);
-    props.navigation.goBack('Screens 3', {
-      screen: 'Screen 3',
-    });
-  };
-
-  onDismiss = () => {
-    setIsModalVisible(true);
-  };
-
-  useFocusEffect(() => {
-    setIsModalVisible(true);
-  });
+const Screen2 = (props) => {
 
   return (
-    <View style={styles.container}>
-      <Modal isVisible={isModalVisible} onDismiss={onDismiss}>
-        <Modal.Container>
-          <Modal.Header title="Are you sure you would like to log out?" />
-          <Modal.Body>
-            <Text style={styles.text}>
-              This app functions best when you remain logged in
-            </Text>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button title="Log Out" onPress={onSubmit} />
-            <Button title="Cancel" onPress={cancel} />
-          </Modal.Footer>
-        </Modal.Container>
-      </Modal>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Button
+        onPress={() => {
+          //loop through data and make call to db with location, return stores
+          loopThroughArray(data, async function (arrayElement) {
+            console.log("LONGITUDE& LAT", arrayElement.longitude ,arrayElement.latitude)
+            const response = await axios.get(`http://192.168.1.90:8080/api/stores/${arrayElement.longitude}/${arrayElement.latitude}/`)
+
+            console.log("DATA", response.data)
+          }, 60000);
+          }
+        }
+        title="button"
+      >
+        hi
+      </Button>
+    </SafeAreaView>
   );
 };
 
-export default LogOut;
+export default Screen2;
 
 const styles = StyleSheet.create({
   container: {
@@ -56,10 +35,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50,
-  },
-
-  text: {
-    fontSize: 18,
   },
 });
