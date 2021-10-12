@@ -145,6 +145,7 @@ const Main = () => {
 
       if (backPerm.status === 'granted') {
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+          distanceInterval: 5,
           accuracy: Location.Accuracy.Balanced,
         });
       }
@@ -209,8 +210,8 @@ const Main = () => {
           <Tab.Screen name="Add Task Page">
             {(props) => <Screens2Navigator {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="My Profile">
-            {(props) => <ProfileStack {...props} />}
+          <Tab.Screen name="My Profile Page">
+            {props => <ProfileStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Log Out">
             {(props) => <LogOut {...props} />}

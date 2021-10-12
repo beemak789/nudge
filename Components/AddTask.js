@@ -5,27 +5,26 @@ import {
   SafeAreaView,
   Button,
   TextInput,
-  ProgressViewIOSComponent,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import {
-  SelectMultipleButton,
-  SelectMultipleGroupButton,
-} from 'react-native-selectmultiple-button';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
-  const [priority, setPriority] = useState();
+  const [priority, setPriority] = useState('high');
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
+
+  const types = ['grocery', 'pharmacy', 'bookstore'];
+  const priorityTypes = ['high', 'medium', 'low']
 
   const onSubmit = () => {
     dispatch(
       _createTask({
         name: text,
-        priority: priority[0],
+        priority,
         category,
       })
     );
@@ -33,56 +32,66 @@ const AddTask = (props) => {
       screen: 'Task List',
     });
     onChangeText('');
+    addCategory([]);
+    setPriority('');
   };
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{marginBottom: 30}}>
       <TextInput
+        style = {styles.itemName}
         onChangeText={onChangeText}
         value={text}
         placeholder="item name"
       />
+      </View>
       <Text>Where can we find this item?</Text>
-      <SelectMultipleGroupButton
-        containerViewStyle={{
-          justifyContent: 'flex-start',
-        }}
-        highLightStyle={{
-          borderColor: 'gray',
-          backgroundColor: 'transparent',
-          textColor: 'gray',
-          borderTintColor: 'black',
-          backgroundTintColor: 'blue',
-          textTintColor: 'white',
-        }}
-        onSelectedValuesChange={(selectedValues) => addCategory(selectedValues)}
-        group={[
-          { value: 'grocery' },
-          { value: 'pharmacy' },
-          { value: 'bookstore' },
-        ]}
-      />
+      <View style={{flexDirection: "row", margin: 3}}>
+      {types.map((type) => {
+        return <TouchableOpacity
+          key = {type}
+          style = {(category.includes(type) ? styles.selected : styles.notSelected)}
+          onPress={() => {
+            if (category.includes(type)) {
+              //do not highlight
+              const filteredCategories = category.filter(
+                (removeType) => removeType !== type
+              );
+              addCategory(filteredCategories);
+            } else {
+              //highlgiht
+              addCategory([...category, type]);
+            }
+          }}
+          ><Text>{type}</Text></TouchableOpacity>
+      })}
+      </View>
       <Text>Select Priority</Text>
-      <SelectMultipleGroupButton
-        containerViewStyle={{
-          justifyContent: 'flex-start',
-        }}
-        highLightStyle={{
-          borderColor: 'gray',
-          backgroundColor: 'transparent',
-          textColor: 'gray',
-          borderTintColor: 'black',
-          backgroundTintColor: 'blue',
-          textTintColor: 'white',
-        }}
-        onSelectedValuesChange={(selectedValues) => setPriority(selectedValues)}
-        multiple={false}
-        group={[{ value: 'high' }, { value: 'medium' }, { value: 'low' }]}
-      />
+      <View style={{flexDirection: "row", margin: 3}}>
+      {priorityTypes.map((level) => {
+        return <TouchableOpacity
+          key = {level}
+          style = {(priority === level) ? styles.selected : styles.notSelected}
+          onPress={() => {
+            if (priority !== level) {
+              //do not highlight
+              setPriority(level)
+            }
+          }}
+          ><Text>{level}</Text></TouchableOpacity>
+      })}
+      </View>
       <Button onPress={onSubmit} title="save" />
+      <Button
+        onPress={() => {
+          getPlaces();
+        }}
+        title="places url"
+      />
     </SafeAreaView>
   );
-};
-
+}
 export default AddTask;
 
 const styles = StyleSheet.create({
@@ -92,4 +101,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  itemName: {
+    fontSize: 20,
+  },
+  selected:{
+    backgroundColor: "gray",
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 4,
+    height: 30,
+    width: 100,
+    margin: 2,
+  },
+  notSelected:{
+    backgroundColor: "transparent",
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 4,
+    height: 30,
+    width: 100,
+    margin: 2,
+  }
 });
