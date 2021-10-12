@@ -6600,4 +6600,2932 @@ module.exports = [
     user_ratings_total: 12,
     vicinity: '544 Flatbush Avenue, Brooklyn',
   },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6837757,
+        lng: -73.9148089,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68513618029149,
+          lng: -73.91338001970848,
+        },
+        southwest: {
+          lat: 40.68243821970849,
+          lng: -73.9160779802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Excel Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJyw1992pcwokRi5zNm4_oXzY',
+    plus_code: {
+      compound_code: 'M3MP+G3 Brooklyn, NY, USA',
+      global_code: '87G8M3MP+G3',
+    },
+    rating: 3.7,
+    reference: 'ChIJyw1992pcwokRi5zNm4_oXzY',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'drugstore',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 6,
+    vicinity: '42 Thomas S Boyland Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6844905,
+        lng: -73.92286609999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68582973029149,
+          lng: -73.92159911970849,
+        },
+        southwest: {
+          lat: 40.6831317697085,
+          lng: -73.9242970802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'QwikMeds',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3120,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/118013360108509395743">Sahid Perry</a>',
+        ],
+        photo_reference:
+          'Aap_uEC4O8z7x4rDv7Oxo1fOvQAE6a1zDw2kdw2klTHCe5P3ytrYVffNRUdT-3ekuHE7YERPPvnySWa-8LOOqubZzJhX2ax9Pou52VE2XBpZT-OfwMOtmySUJCYaguhukctl3wq02eBKys_N_rYId7y1maE61kAEKgt9BcasM_OlKWNqbtx4',
+        width: 4160,
+      },
+    ],
+    place_id: 'ChIJobA0mW1cwokRnnwYSxKWohU',
+    plus_code: {
+      compound_code: 'M3MG+QV Brooklyn, NY, USA',
+      global_code: '87G8M3MG+QV',
+    },
+    rating: 4.7,
+    reference: 'ChIJobA0mW1cwokRnnwYSxKWohU',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'drugstore',
+      'finance',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 26,
+    vicinity: '159 Ralph Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68004969999999,
+        lng: -73.9140926,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68133478029149,
+          lng: -73.9127129197085,
+        },
+        southwest: {
+          lat: 40.67863681970849,
+          lng: -73.9154108802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Hopewell Pharmacy & Surgicals, Inc.',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 961,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/112756545166515002011">Hopewell Pharmacy &amp; Surgicals, Inc.</a>',
+        ],
+        photo_reference:
+          'Aap_uECKKuchJikWqAs3axLbx0K-wULoJlNeTxu8XM94tF46I4zv6-yu-dSk6NlhlFwp_LjKyQrJqyqyIBqvz0VyYcInDjpFkCUOaJkEn489YUCO-O2Aa1sJ_sPen9TN73ayCZDQ_pDumRqS23MDsitIyoZtjCGBgTbaKxxsJ6-nQajivAsP',
+        width: 1630,
+      },
+    ],
+    place_id: 'ChIJt2mMlGlcwokRi2E6yOjjOdY',
+    plus_code: {
+      compound_code: 'M3JP+29 Brooklyn, NY, USA',
+      global_code: '87G8M3JP+29',
+    },
+    rating: 4.7,
+    reference: 'ChIJt2mMlGlcwokRi2E6yOjjOdY',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 29,
+    vicinity: '181 Macdougal Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.682647,
+        lng: -73.90957299999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6839169302915,
+          lng: -73.90830176970849,
+        },
+        southwest: {
+          lat: 40.6812189697085,
+          lng: -73.91099973029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Preferred Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/109849544050959632007">Luis Enrique Rivera Cuyar</a>',
+        ],
+        photo_reference:
+          'Aap_uEAh6gQbflgxAHFhcISHuhK5otEKAyH-wqkVW7BCjnjIvtHd70Acvh1_LJC8m8Y5qfFPwIFb1ggmjVKItvPc53dPScvBwH8RWLyLAWTFIXmpOkD0hXivb_i4AouxZO4Y0t6Kt0HrJLlxg3P1rQY8bw0SRvOb6_Ee941X2S14sUDGm2cj',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJ8YByqkFcwokRuiRbNVe50Ao',
+    plus_code: {
+      compound_code: 'M3MR+35 Brooklyn, NY, USA',
+      global_code: '87G8M3MR+35',
+    },
+    rating: 4.5,
+    reference: 'ChIJ8YByqkFcwokRuiRbNVe50Ao',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'convenience_store',
+      'grocery_or_supermarket',
+      'finance',
+      'food',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 30,
+    vicinity: '1771 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.69511800000001,
+        lng: -73.92043799999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6965634802915,
+          lng: -73.91900666970848,
+        },
+        southwest: {
+          lat: 40.6938655197085,
+          lng: -73.92170463029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Central Avenue Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1000,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/105887407854022480944">Central Avenue Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEB4q-RbApo5tbHhJYawmUoS380hh9ZkX1Ha9rk2g_E1xhxc7kork368xbGTp_KDpcmOOWcBsxT44bVYfHK4HBBXiiYW0WcMKBHYeTUpc2Clw2IKyfT41V6CFFqID7NUIRYi7Ltc83weQkdXbe7YB9TFn-ieoBABMVATwTsucrpQx1Fq',
+        width: 1000,
+      },
+    ],
+    place_id: 'ChIJp6lI7hBcwokR3dx8H8tdR7w',
+    plus_code: {
+      compound_code: 'M3WH+2R Brooklyn, NY, USA',
+      global_code: '87G8M3WH+2R',
+    },
+    rating: 4.7,
+    reference: 'ChIJp6lI7hBcwokR3dx8H8tdR7w',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 88,
+    vicinity: '334 Central Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67696600000001,
+        lng: -73.90840299999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6783171302915,
+          lng: -73.90689551970848,
+        },
+        southwest: {
+          lat: 40.6756191697085,
+          lng: -73.90959348029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rossi Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 4032,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/107759586958227743545">Ajay Keluskar</a>',
+        ],
+        photo_reference:
+          'Aap_uEBq8B3xw7cZF7r4WVLm8g4memnUarqQI0k8lLUeWxuupMDZYbJdTk72v8yFor4vsFSgc7LKv7jUPWziRIIHajMYDLWpPncy8vg69nx1R5bPXbyZDCloYVDTpM7Ml4Se54aKASvbLltXnbHgnJWjmQp7lLplFQI1AiYO3vxo1BQy-G3M',
+        width: 3024,
+      },
+    ],
+    place_id: 'ChIJ47_QE0NcwokR-FszU4EPeaA',
+    plus_code: {
+      compound_code: 'M3GR+QJ New York, NY, USA',
+      global_code: '87G8M3GR+QJ',
+    },
+    rating: 4.6,
+    reference: 'ChIJ47_QE0NcwokR-FszU4EPeaA',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 20,
+    vicinity: '1891 Eastern Parkway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6966977,
+        lng: -73.9142451,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6979743802915,
+          lng: -73.9129606197085,
+        },
+        southwest: {
+          lat: 40.6952764197085,
+          lng: -73.91565858029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Palm Gate Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ38BPPBhcwokRcZvVofwuBYc',
+    plus_code: {
+      compound_code: 'M3WP+M8 Brooklyn, NY, USA',
+      global_code: '87G8M3WP+M8',
+    },
+    rating: 5,
+    reference: 'ChIJ38BPPBhcwokRcZvVofwuBYc',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 8,
+    vicinity: '583 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6989941,
+        lng: -73.91836610000001,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.70030363029149,
+          lng: -73.9170867697085,
+        },
+        southwest: {
+          lat: 40.69760566970849,
+          lng: -73.91978473029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Kraupner Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1000,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/100300436897657066008">Kraupner Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEAQQhbWHtKg5iepkd-fm4vtR9s9zDqzk_Cr-SD5BcTjAnJ7IfXAqbOSL-aMWaHoIkIOHvLFk2upy_y53GayE1BgL6Oeculn38ygeBMcyJl5fSFLz2HfGmsukkkQDTQFAqKlejDndHCCERzBYNj2TgOl_sfVynK8xz71lJqe555EFuqx',
+        width: 1498,
+      },
+    ],
+    place_id: 'ChIJMQydhxlcwokRvRFltYnKpso',
+    plus_code: {
+      compound_code: 'M3XJ+HM Brooklyn, NY, USA',
+      global_code: '87G8M3XJ+HM',
+    },
+    rating: 3.6,
+    reference: 'ChIJMQydhxlcwokRvRFltYnKpso',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 55,
+    vicinity: '457 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6704,
+        lng: -73.930812,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6717661302915,
+          lng: -73.9295383197085,
+        },
+        southwest: {
+          lat: 40.6690681697085,
+          lng: -73.93223628029152,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'New Ronson Drug',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 360,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/117133471780285024409">New Ronson Drug</a>',
+        ],
+        photo_reference:
+          'Aap_uEDWUevDo1p_Nt9g9c8fZwNJYKDAAf-Cqi_O98WWbYklGDvkX2nQldTGAGN2u65oHXWyKRZL18eQdad2ezPZoW_2f1LW8ALl0yESzwNUjs2VK7Tw5wZhU9NHOFFVGOWg93Njxi6JL5MAPZtoe58QaF_6ejEwI-VKMfEVKD6Mc-xq3gpp',
+        width: 480,
+      },
+    ],
+    place_id: 'ChIJCWp_cH5cwokRphpyTq7OV2s',
+    plus_code: {
+      compound_code: 'M3C9+5M Brooklyn, NY, USA',
+      global_code: '87G8M3C9+5M',
+    },
+    rating: 4,
+    reference: 'ChIJCWp_cH5cwokRphpyTq7OV2s',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'drugstore',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 17,
+    vicinity: '237 Utica Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.700512,
+        lng: -73.921958,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.7018138302915,
+          lng: -73.92057511970849,
+        },
+        southwest: {
+          lat: 40.69911586970851,
+          lng: -73.92327308029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Knickerbocker Chemists Inc.',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 803,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/116165430009928847751">Knickerbocker Chemists Inc.</a>',
+        ],
+        photo_reference:
+          'Aap_uECjEX7hAQX8ePGFzC5dTO24NfT7V-wA27M16-qY3QhG5EXwv345cYP4oKPCmXV4x0HnJGfHu6MjJKy8mGJcwfiCVo8vWKNqftozqFo3K_JdHzNTZP2u83vPIsX0FyhrxiJ4VV29JefP8SlO3ak66iRv92b5uPq-ldvOJphsjrTO_hGs',
+        width: 602,
+      },
+    ],
+    place_id: 'ChIJfXOaDRtcwokRUFHgveVbEI0',
+    plus_code: {
+      compound_code: 'P32H+66 Brooklyn, NY, USA',
+      global_code: '87G8P32H+66',
+    },
+    rating: 4.6,
+    reference: 'ChIJfXOaDRtcwokRUFHgveVbEI0',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 30,
+    vicinity: '360 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6797983,
+        lng: -73.94266309999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6811472802915,
+          lng: -73.94131411970848,
+        },
+        southwest: {
+          lat: 40.67844931970851,
+          lng: -73.94401208029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Quick Rx Specialty Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJVwC58IVbwokRyi1S8VrKZps',
+    plus_code: {
+      compound_code: 'M3H4+WW New York, NY, USA',
+      global_code: '87G8M3H4+WW',
+    },
+    rating: 4.9,
+    reference: 'ChIJVwC58IVbwokRyi1S8VrKZps',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 47,
+    vicinity: '1456 Fulton Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.700867,
+        lng: -73.92162999999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.70221598029149,
+          lng: -73.92028101970848,
+        },
+        southwest: {
+          lat: 40.69951801970849,
+          lng: -73.92297898029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png',
+    icon_background_color: '#4B96F3',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet',
+    name: 'Walgreens',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 250,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/115102068029756351112">Rite Aid</a>',
+        ],
+        photo_reference:
+          'Aap_uEDMuRQYy5kTTLdOp6tGDRibiyC8VIrzrT8c-xWZ2ixE60XAeTWxNqdBbXMHKrLTSyNwKwBg8GAYzUssK7WAl73y3H-no_IgRkCuQl5VjNL2Ok1qsNcTNCUFS7h4E6CL0wPKb2TPXQNm34SpfxsQjrd1OKKef9dIscGdDpJcl9tfoz4D',
+        width: 251,
+      },
+    ],
+    place_id: 'ChIJ282XdhtcwokRJSGZn3wlI-U',
+    plus_code: {
+      compound_code: 'P32H+88 New York, NY, USA',
+      global_code: '87G8P32H+88',
+    },
+    price_level: 2,
+    rating: 2.3,
+    reference: 'ChIJ282XdhtcwokRJSGZn3wlI-U',
+    scope: 'GOOGLE',
+    types: [
+      'drugstore',
+      'convenience_store',
+      'pharmacy',
+      'food',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 128,
+    vicinity: '355 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6768076,
+        lng: -73.92505179999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6782710302915,
+          lng: -73.92377476970849,
+        },
+        southwest: {
+          lat: 40.6755730697085,
+          lng: -73.92647273029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Mr Medical',
+    place_id: 'ChIJVVUVunpcwokR3dj3NCO9Tpw',
+    plus_code: {
+      compound_code: 'M3GF+PX New York, NY, USA',
+      global_code: '87G8M3GF+PX',
+    },
+    rating: 1.7,
+    reference: 'ChIJVVUVunpcwokR3dj3NCO9Tpw',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 6,
+    vicinity: '1926 Atlantic Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.66937000000001,
+        lng: -73.914321,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6706077302915,
+          lng: -73.91295871970848,
+        },
+        southwest: {
+          lat: 40.6679097697085,
+          lng: -73.91565668029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Pitkin Pharmacy and Food Mart',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1224,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/100203600302592764667">Pitkin Pharmacy and Food Mart</a>',
+        ],
+        photo_reference:
+          'Aap_uEBC7qLoa2nufP2uQJ0rr6l44Ncu45wc4MkjJcVCt544ntWKnMQ7bB7uJgBVC-y5SwJ1W_Mc0q94lQ3Iff2timx1Y8m0yo8umxPrIOOot231nhLjssmoWCZmLKOrpZj9i51tadioMUuG8gP_mnImXBvy-KhwhxHsQVXjrYblyV1Ty5FP',
+        width: 1632,
+      },
+    ],
+    place_id: 'ChIJjZYI7mBcwokRMKr6xDAUiQI',
+    plus_code: {
+      compound_code: 'M39P+P7 Brooklyn, NY, USA',
+      global_code: '87G8M39P+P7',
+    },
+    rating: 4.5,
+    reference: 'ChIJjZYI7mBcwokRMKr6xDAUiQI',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 8,
+    vicinity: '1601 Pitkin Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.66866569999999,
+        lng: -73.916752,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6700710302915,
+          lng: -73.91541771970849,
+        },
+        southwest: {
+          lat: 40.6673730697085,
+          lng: -73.91811568029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Broadway Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/113946158571357636200">Broadway Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEBqPVVo5iwlCi3wnnl8e9kp-biFhlpVrCsTg4U3o8Em9iLl3jAGuHlBJTRoVv1qIpLJm6IhFcRrG9iLlXC6j753sA7_uM5gENkjqULRuwHWdATMkhQTfDE_EAHAU9AHnzrNDmTmKeL8zROJBqNnXTKhbMBvQW42nw46A-48a-ZQ5qEk',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJpayso2FcwokRiKAUjSR2bF8',
+    plus_code: {
+      compound_code: 'M39M+F7 Brooklyn, NY, USA',
+      global_code: '87G8M39M+F7',
+    },
+    rating: 4.7,
+    reference: 'ChIJpayso2FcwokRiKAUjSR2bF8',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'shoe_store',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 9,
+    vicinity: '1538 Pitkin Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6897765,
+        lng: -73.92199359999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.69103353029151,
+          lng: -73.92067936970848,
+        },
+        southwest: {
+          lat: 40.68833556970851,
+          lng: -73.9233773302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Sams Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 666,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/108180340326792054054">Sams Drugs</a>',
+        ],
+        photo_reference:
+          'Aap_uEAW6lWx5uqDZHvEOB1FjPyQZH3yGUoAmE0YPRH9VW8YlnJgtkyJXFMfeND688JbO1HaWpG-u5GZ_F0ykW0pP_hdrhyNWb3j03N2Rj_cyJ7upnbos75F154QS4mUGgCvs4VwLHboAqS24bJpjmKCHWXKD0hxpd_n_rMJ_I7QLUA8UJTg',
+        width: 1000,
+      },
+    ],
+    place_id: 'ChIJ98V8VxJcwokRVHs_BoiVNvE',
+    plus_code: {
+      compound_code: 'M3QH+W6 Brooklyn, NY, USA',
+      global_code: '87G8M3QH+W6',
+    },
+    rating: 4.4,
+    reference: 'ChIJ98V8VxJcwokRVHs_BoiVNvE',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'drugstore',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 36,
+    vicinity: '1367 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6990512,
+        lng: -73.91090579999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.7005658302915,
+          lng: -73.9094947697085,
+        },
+        southwest: {
+          lat: 40.6978678697085,
+          lng: -73.91219273029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Tariq Ahmad, RPh',
+    place_id: 'ChIJt2cZPyJcwokR1Ejjrtz8hcY',
+    plus_code: {
+      compound_code: 'M3XQ+JJ Brooklyn, NY, USA',
+      global_code: '87G8M3XQ+JJ',
+    },
+    reference: 'ChIJt2cZPyJcwokR1Ejjrtz8hcY',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '300 Wyckoff Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6999065,
+        lng: -73.9112291,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.7010849802915,
+          lng: -73.90985626970848,
+        },
+        southwest: {
+          lat: 40.6983870197085,
+          lng: -73.91255423029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'CVS Pharmacy y más',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1960,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/108827038052530082714">Jessica</a>',
+        ],
+        photo_reference:
+          'Aap_uED62aSKDYNU1qei2x0YHRH3OwKx6yRqu4ywjzHsDiSUTws9Pf46TuezM6lEdmadqn0xAHJnMFn_j59vyUfDN7pQUQHD4WeV_TJUQtCBfOiSPtifU5XP6TirbUqPQ0WQfAk0ZA9bB9dtWaB_uzqhvCIgpmkUJZti304yX4Iw_i6vq0b1',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJNYJZGCJcwokRZb5wouavQ6A',
+    plus_code: {
+      compound_code: 'M3XQ+XG New York, NY, USA',
+      global_code: '87G8M3XQ+XG',
+    },
+    rating: 2.3,
+    reference: 'ChIJNYJZGCJcwokRZb5wouavQ6A',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 23,
+    vicinity: '329 339 Wyckoff Avenue, Queens',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67850309999999,
+        lng: -73.9218515,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67986348029149,
+          lng: -73.92042036970849,
+        },
+        southwest: {
+          lat: 40.6771655197085,
+          lng: -73.9231183302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Sure Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJwyJ9om9cwokRI2kPGMmWw80',
+    plus_code: {
+      compound_code: 'M3HH+C7 Brooklyn, NY, USA',
+      global_code: '87G8M3HH+C7',
+    },
+    rating: 4.5,
+    reference: 'ChIJwyJ9om9cwokRI2kPGMmWw80',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 13,
+    vicinity: '312 Ralph Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6923032,
+        lng: -73.9396902,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6936405302915,
+          lng: -73.93844036970849,
+        },
+        southwest: {
+          lat: 40.6909425697085,
+          lng: -73.94113833029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Dekalb Drugs Inc',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJjYwyZ_RbwokROViC2f54HmM',
+    plus_code: {
+      compound_code: 'M3R6+W4 Brooklyn, NY, USA',
+      global_code: '87G8M3R6+W4',
+    },
+    rating: 4.2,
+    reference: 'ChIJjYwyZ_RbwokROViC2f54HmM',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 22,
+    vicinity: '173 Marcus Garvey Boulevard, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6796229,
+        lng: -73.93899010000001,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68107013029151,
+          lng: -73.93763186970851,
+        },
+        southwest: {
+          lat: 40.67837216970851,
+          lng: -73.94032983029152,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Vanessa Walker, RPH',
+    place_id: 'ChIJyfJrgIhbwokRCMm0dozFH1Q',
+    plus_code: {
+      compound_code: 'M3H6+RC Brooklyn, NY, USA',
+      global_code: '87G8M3H6+RC',
+    },
+    reference: 'ChIJyfJrgIhbwokRCMm0dozFH1Q',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '1548 Fulton Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67032409999999,
+        lng: -73.93626399999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6716798302915,
+          lng: -73.93505471970849,
+        },
+        southwest: {
+          lat: 40.6689818697085,
+          lng: -73.9377526802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Door To Door Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJr8HnC4BbwokRE5isoTBiE4g',
+    plus_code: {
+      compound_code: 'M3C7+4F Brooklyn, NY, USA',
+      global_code: '87G8M3C7+4F',
+    },
+    rating: 3.6,
+    reference: 'ChIJr8HnC4BbwokRE5isoTBiE4g',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 14,
+    vicinity: '259 Troy Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6792124,
+        lng: -73.921823,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6805451802915,
+          lng: -73.92056096970849,
+        },
+        southwest: {
+          lat: 40.6778472197085,
+          lng: -73.9232589302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Fayyaz Rasheed, PHD',
+    place_id: 'ChIJi_MSr29cwokR5UXEZZJeJ-c',
+    plus_code: {
+      compound_code: 'M3HH+M7 New York, NY, USA',
+      global_code: '87G8M3HH+M7',
+    },
+    reference: 'ChIJi_MSr29cwokR5UXEZZJeJ-c',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '15 Macdougal Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68519649999999,
+        lng: -73.91018749999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68647398029149,
+          lng: -73.90890866970848,
+        },
+        southwest: {
+          lat: 40.6837760197085,
+          lng: -73.9116066302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Sarfraz H. Subzwari, BS',
+    place_id: 'ChIJq8YcekBcwokR2Zv7uVCaRwg',
+    plus_code: {
+      compound_code: 'M3PQ+3W Brooklyn, NY, USA',
+      global_code: '87G8M3PQ+3W',
+    },
+    rating: 1,
+    reference: 'ChIJq8YcekBcwokR2Zv7uVCaRwg',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '1383 Bushwick Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67849069999999,
+        lng: -73.9218139,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67985728029149,
+          lng: -73.9204015697085,
+        },
+        southwest: {
+          lat: 40.67715931970849,
+          lng: -73.92309953029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Suresh Wattamwar, RPH',
+    place_id: 'ChIJwyJ9om9cwokRSSjprK4i1so',
+    plus_code: {
+      compound_code: 'M3HH+97 Brooklyn, NY, USA',
+      global_code: '87G8M3HH+97',
+    },
+    reference: 'ChIJwyJ9om9cwokRSSjprK4i1so',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: 'Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67985119999999,
+        lng: -73.9425598,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6812795302915,
+          lng: -73.94119691970849,
+        },
+        southwest: {
+          lat: 40.6785815697085,
+          lng: -73.94389488029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Quick Rx Specialty Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 4554,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/107045094087930432193">Quick Rx Specialty Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uECHQChfPeBcEAw8G_HScFZXOqIr1GRARM0VfiMRzL9cyzMgy6kqhHlhQW-eSWnQINbnwvqA8B6UeWk8GpTQwAEQqH-aBQ9xBrDTe8knjexH3LbTo7Mp79FHDFw7SfRDQmRTz-qTz_v3K35KerSze1GlSt8V-hRz8EangnHMhMLoKSAm',
+        width: 3242,
+      },
+    ],
+    place_id: 'ChIJS_HD-YVbwokRpbwN_avtf3Q',
+    plus_code: {
+      compound_code: 'M3H4+WX New York, NY, USA',
+      global_code: '87G8M3H4+WX',
+    },
+    rating: 4.8,
+    reference: 'ChIJS_HD-YVbwokRpbwN_avtf3Q',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 38,
+    vicinity: '1458 Fulton Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6877038,
+        lng: -73.9391339,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6889507802915,
+          lng: -73.9379810197085,
+        },
+        southwest: {
+          lat: 40.6862528197085,
+          lng: -73.94067898029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Gates & Garvey Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJOc15HotbwokRfyNsGpNHH3E',
+    plus_code: {
+      compound_code: 'M3Q6+38 Brooklyn, NY, USA',
+      global_code: '87G8M3Q6+38',
+    },
+    rating: 4.3,
+    reference: 'ChIJOc15HotbwokRfyNsGpNHH3E',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 19,
+    vicinity: '276 Marcus Garvey Boulevard, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67923859999999,
+        lng: -73.9218176,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68055828029149,
+          lng: -73.92055826970849,
+        },
+        southwest: {
+          lat: 40.67786031970849,
+          lng: -73.9232562302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rio Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJi_MSr29cwokRPFdVPSHmAwE',
+    plus_code: {
+      compound_code: 'M3HH+M7 Brooklyn, NY, USA',
+      global_code: '87G8M3HH+M7',
+    },
+    rating: 3.9,
+    reference: 'ChIJi_MSr29cwokRPFdVPSHmAwE',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 8,
+    vicinity: '15 Macdougal Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6885161,
+        lng: -73.92008509999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6898177302915,
+          lng: -73.9187835197085,
+        },
+        southwest: {
+          lat: 40.6871197697085,
+          lng: -73.9214814802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'C&J Wellness Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJfWq2ExNcwokRC2qPkLQYMAE',
+    plus_code: {
+      compound_code: 'M3QH+CX Brooklyn, NY, USA',
+      global_code: '87G8M3QH+CX',
+    },
+    rating: 5,
+    reference: 'ChIJfWq2ExNcwokRC2qPkLQYMAE',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 6,
+    vicinity: 'Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68869,
+        lng: -73.91989289999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6899013802915,
+          lng: -73.91868166970849,
+        },
+        southwest: {
+          lat: 40.6872034197085,
+          lng: -73.9213796302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Wellness Pharmacy',
+    place_id: 'ChIJxb4qulxdwokRlcyqiKEuLWc',
+    plus_code: {
+      compound_code: 'M3QJ+F2 Brooklyn, NY, USA',
+      global_code: '87G8M3QJ+F2',
+    },
+    rating: 5,
+    reference: 'ChIJxb4qulxdwokRlcyqiKEuLWc',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '1425 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6894192,
+        lng: -73.9220569,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.69079428029149,
+          lng: -73.92068171970851,
+        },
+        southwest: {
+          lat: 40.68809631970849,
+          lng: -73.92337968029152,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Walgreens Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 660,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/113808103460897943254">Walgreens Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEB73hHUkFFAAok21mJalf9Uqtcz8pM0sX-jVNhx1KsWTUcEmM-hJz_hlhSgG_uNhIdAzGGfP13At0-lawwmqMOX6hRv0zTihE6OA0wPyBvCQn3PwdljtwN7nGNCSPV_gE-pSnO6bkt1WgkgRea6VMhU1f6kKsI6u16vAmAffJyZ0bH6',
+        width: 1446,
+      },
+    ],
+    place_id: 'ChIJvUPb8BJcwokRcIb9uRW4yQI',
+    plus_code: {
+      compound_code: 'M3QH+Q5 New York, NY, USA',
+      global_code: '87G8M3QH+Q5',
+    },
+    price_level: 2,
+    rating: 2.1,
+    reference: 'ChIJvUPb8BJcwokRcIb9uRW4yQI',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 11,
+    vicinity: '1366 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6839595,
+        lng: -73.9295211,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6853260302915,
+          lng: -73.9280477697085,
+        },
+        southwest: {
+          lat: 40.6826280697085,
+          lng: -73.93074573029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Med Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1152,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/105055154360110815150">devilline sasha</a>',
+        ],
+        photo_reference:
+          'Aap_uED4OQl6G_iHONLpo0oMi17_UQnOhHdH4h5E9oJFdDzJ8UvimZQw2r7t15oVv4WD_Nu1E2dqIqz2yzPmvi2ryabNpESnDQA4S9sG6TQrhqVorCC3sHTiJvOxSsF1FEF6BtgvEk7ePmjejIr6--HFVFgaLdIOUnt-fzBCh0Dix9d58coz',
+        width: 864,
+      },
+    ],
+    place_id: 'ChIJDdhj8HNcwokR_I2GiF1Yu-U',
+    plus_code: {
+      compound_code: 'M3MC+H5 Brooklyn, NY, USA',
+      global_code: '87G8M3MC+H5',
+    },
+    rating: 5,
+    reference: 'ChIJDdhj8HNcwokR_I2GiF1Yu-U',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 27,
+    vicinity: '264 Malcolm X Boulevard, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67939009999999,
+        lng: -73.9218333,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68073908029149,
+          lng: -73.92048431970851,
+        },
+        southwest: {
+          lat: 40.6780411197085,
+          lng: -73.92318228029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Baba Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJndllrm9cwokRuEWYUfOOVUw',
+    plus_code: {
+      compound_code: 'M3HH+Q7 New York, NY, USA',
+      global_code: '87G8M3HH+Q7',
+    },
+    rating: 4.1,
+    reference: 'ChIJndllrm9cwokRuEWYUfOOVUw',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 9,
+    vicinity: '295 Ralph Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68561800000001,
+        lng: -73.91551559999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6870364802915,
+          lng: -73.9141807197085,
+        },
+        southwest: {
+          lat: 40.6843385197085,
+          lng: -73.9168786802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rite Aid Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJq6pqJmtcwokRvsLnRe99JSM',
+    plus_code: {
+      compound_code: 'M3PM+6Q Brooklyn, NY, USA',
+      global_code: '87G8M3PM+6Q',
+    },
+    rating: 4.5,
+    reference: 'ChIJq6pqJmtcwokRvsLnRe99JSM',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 2,
+    vicinity: '960 Halsey Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68065929999999,
+        lng: -73.92844049999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68200828029149,
+          lng: -73.9270915197085,
+        },
+        southwest: {
+          lat: 40.67931031970849,
+          lng: -73.9297894802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Gena Care Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3264,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/115571124955777877979">Gena Care Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEBRx2xgpwChUsSdsDjs3SUr4m6qqXqdArx0yaklWRzBmB37GhfeNXUSRnHAuKYz6KZROr7fEZ-gDYjc27v1wtHsOQhahK02S5ydJLTJ2hF8QtWCXUkJ02RWOILyujxrkmCiocNr4H7UvVniVzY39TVoE4j9D2FAGVcgy6UMIFWRUjdl',
+        width: 2448,
+      },
+    ],
+    place_id: 'ChIJHyMEHnFcwokR9_qPLcL6q2Q',
+    plus_code: {
+      compound_code: 'M3JC+7J Brooklyn, NY, USA',
+      global_code: '87G8M3JC+7J',
+    },
+    rating: 4.6,
+    reference: 'ChIJHyMEHnFcwokR9_qPLcL6q2Q',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 47,
+    vicinity: '173 Chauncey Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6854731,
+        lng: -73.91469859999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6867710302915,
+          lng: -73.91333796970849,
+        },
+        southwest: {
+          lat: 40.6840730697085,
+          lng: -73.91603593029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Fine Care Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/117631055324844247215">Fine Care Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEBvWd9vR14W-ELRPTihHWit4RulN6f9QQWekYsCWZYMQBdt3EImC1Guo0gbcfr-vncGSJROdHSjJ_hoOJXRf3Qr2yxVwUrtikdpkeO3Qp_0NAz90c4BE9NJ-lHXTp3kGGrwOFpUvTe9f4BJMpiJJ8WptU73CT9WmMrukiN6kyELSCQI',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJydeAz2pcwokRuzQ8iEhz218',
+    plus_code: {
+      compound_code: 'M3PP+54 Brooklyn, NY, USA',
+      global_code: '87G8M3PP+54',
+    },
+    rating: 4.7,
+    reference: 'ChIJydeAz2pcwokRuzQ8iEhz218',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 24,
+    vicinity: '1611 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.684818,
+        lng: -73.9144149,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68626378029149,
+          lng: -73.9129462197085,
+        },
+        southwest: {
+          lat: 40.68356581970849,
+          lng: -73.91564418029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Prime Infusions',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ7-1zwmpcwokRDo24cGAaueA',
+    plus_code: {
+      compound_code: 'M3MP+W6 Brooklyn, NY, USA',
+      global_code: '87G8M3MP+W6',
+    },
+    rating: 4,
+    reference: 'ChIJ7-1zwmpcwokRDo24cGAaueA',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '1624 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6785407,
+        lng: -73.9213118,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6798961302915,
+          lng: -73.92003121970849,
+        },
+        southwest: {
+          lat: 40.6771981697085,
+          lng: -73.92272918029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rite Aid Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJc1oln6FdwokRvTAjjFyOg8E',
+    plus_code: {
+      compound_code: 'M3HH+CF New York, NY, USA',
+      global_code: '87G8M3HH+CF',
+    },
+    rating: 2.5,
+    reference: 'ChIJc1oln6FdwokRvTAjjFyOg8E',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 2,
+    vicinity: '1950 Fulton Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.69170330000001,
+        lng: -73.9263143,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.69312223029151,
+          lng: -73.9248977197085,
+        },
+        southwest: {
+          lat: 40.69042426970851,
+          lng: -73.9275956802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Wyckoff Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJRxLTxg1cwokRjvZ1x-Abdn4',
+    plus_code: {
+      compound_code: 'M3RF+MF Brooklyn, NY, USA',
+      global_code: '87G8M3RF+MF',
+    },
+    rating: 3.9,
+    reference: 'ChIJRxLTxg1cwokRjvZ1x-Abdn4',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 7,
+    vicinity: '1226 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67744680000001,
+        lng: -73.91658959999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6787906802915,
+          lng: -73.91513981970849,
+        },
+        southwest: {
+          lat: 40.6760927197085,
+          lng: -73.91783778029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Hanna Care Inc',
+    place_id: 'ChIJSUdClGhcwokRR4KzIj4PHWs',
+    plus_code: {
+      compound_code: 'M3GM+X9 Brooklyn, NY, USA',
+      global_code: '87G8M3GM+X9',
+    },
+    reference: 'ChIJSUdClGhcwokRR4KzIj4PHWs',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '244 Saratoga Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.675832,
+        lng: -73.92220999999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6771844302915,
+          lng: -73.92072841970848,
+        },
+        southwest: {
+          lat: 40.6744864697085,
+          lng: -73.9234263802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Top Care Pharmacy Rx',
+    place_id: 'ChIJ3yGtE2VcwokR-qqycUsmays',
+    plus_code: {
+      compound_code: 'M3GH+84 New York, NY, USA',
+      global_code: '87G8M3GH+84',
+    },
+    rating: 3.6,
+    reference: 'ChIJ3yGtE2VcwokR-qqycUsmays',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 9,
+    vicinity: '380 Ralph Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6932709,
+        lng: -73.92827819999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6945479802915,
+          lng: -73.9270101697085,
+        },
+        southwest: {
+          lat: 40.6918500197085,
+          lng: -73.9297081302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Charles A. Ciaccio, RPH',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJRdn8mw5cwokRIiCZhooPG3Y',
+    plus_code: {
+      compound_code: 'M3VC+8M New York, NY, USA',
+      global_code: '87G8M3VC+8M',
+    },
+    rating: 3,
+    reference: 'ChIJRdn8mw5cwokRIiCZhooPG3Y',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '1153 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.68519649999999,
+        lng: -73.91018749999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68647398029149,
+          lng: -73.90890866970848,
+        },
+        southwest: {
+          lat: 40.6837760197085,
+          lng: -73.9116066302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Images Pharmacy',
+    place_id: 'ChIJq8YcekBcwokRbK7xsMJfC6g',
+    plus_code: {
+      compound_code: 'M3PQ+3W Brooklyn, NY, USA',
+      global_code: '87G8M3PQ+3W',
+    },
+    rating: 1,
+    reference: 'ChIJq8YcekBcwokRbK7xsMJfC6g',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '1383 Bushwick Avenue, 39 Newport Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6852955,
+        lng: -73.91007060000001,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.68651988029151,
+          lng: -73.90884386970849,
+        },
+        southwest: {
+          lat: 40.68382191970851,
+          lng: -73.9115418302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Icy Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJeXPqeUBcwokR25VZvn7VUy4',
+    plus_code: {
+      compound_code: 'M3PQ+4X Brooklyn, NY, USA',
+      global_code: '87G8M3PQ+4X',
+    },
+    reference: 'ChIJeXPqeUBcwokR25VZvn7VUy4',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '1383 Bushwick Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6937634,
+        lng: -73.9291374,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6950334302915,
+          lng: -73.9278644697085,
+        },
+        southwest: {
+          lat: 40.6923354697085,
+          lng: -73.9305624302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Mishkin Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 900,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/108605778596958236375">Igor Ostrovsky</a>',
+        ],
+        photo_reference:
+          'Aap_uEDzNoQZ-dZyvYWg-34awoWnoT2Amf5hvsXxhTb_raKQHfUNnDfRBDHS6baXHezp-JrJEiGP4keT2XAGLa2Cl-bRuYfPFlxxoIUPFk3PqmJNF5nqozAMEwNMqH7VRyY4ksk9y3EqpNDHgUc5N1BhpolLaJRaugg6o2jbKJrqdZ5s4jAK',
+        width: 1200,
+      },
+    ],
+    place_id: 'ChIJRdn8mw5cwokRREPTauJ5CG4',
+    plus_code: {
+      compound_code: 'M3VC+G8 New York, NY, USA',
+      global_code: '87G8M3VC+G8',
+    },
+    rating: 3.7,
+    reference: 'ChIJRdn8mw5cwokRREPTauJ5CG4',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 15,
+    vicinity: '1127 Broadway, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6771916,
+        lng: -73.93407479999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6786286302915,
+          lng: -73.93263686970849,
+        },
+        southwest: {
+          lat: 40.6759306697085,
+          lng: -73.9353348302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Atlantic Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/106867509499307479660">Atlantic Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uEAcKPiYxYqeopHjJDH4jA44_StUElYAowOQSDRUoiLXLg89B7_kdvIBBqj6NUP4cIxFj2nKDs28rtTU9-KXtTFdT_mOkav4oqABZDkU_ydxU_--31bezWY2jdp7kNLc3hUxLvtOVdq4vUjB0v87fcXp89hwUj67U2qPbjkETTlmWuF9',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJpceNRHhcwokRrXwHI8THA5s',
+    plus_code: {
+      compound_code: 'M3G8+V9 Brooklyn, NY, USA',
+      global_code: '87G8M3G8+V9',
+    },
+    rating: 4.7,
+    reference: 'ChIJpceNRHhcwokRrXwHI8THA5s',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 15,
+    vicinity: '1706 Atlantic Avenue # B, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.69884340000001,
+        lng: -73.91668079999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.70027378029151,
+          lng: -73.91532081970848,
+        },
+        southwest: {
+          lat: 40.69757581970851,
+          lng: -73.91801878029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Myrtle Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ-bNSChlcwokRHQ4ZgbihB8Y',
+    plus_code: {
+      compound_code: 'M3XM+G8 New York, NY, USA',
+      global_code: '87G8M3XM+G8',
+    },
+    rating: 4.4,
+    reference: 'ChIJ-bNSChlcwokRHQ4ZgbihB8Y',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 7,
+    vicinity: '1454 Myrtle Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6900044,
+        lng: -73.9064714,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6912756802915,
+          lng: -73.9052017697085,
+        },
+        southwest: {
+          lat: 40.6885777197085,
+          lng: -73.9078997302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rimco Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ596yrD5cwokRV9vmJQzPOSk',
+    plus_code: {
+      compound_code: 'M3RV+2C Brooklyn, NY, USA',
+      global_code: '87G8M3RV+2C',
+    },
+    rating: 3.7,
+    reference: 'ChIJ596yrD5cwokRV9vmJQzPOSk',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 24,
+    vicinity: '623 Wilson Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6720208,
+        lng: -73.9220528,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6733772802915,
+          lng: -73.92083081970848,
+        },
+        southwest: {
+          lat: 40.6706793197085,
+          lng: -73.92352878029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Ditmas Park Pharmacy, Inc.',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1152,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/110598578807841701584">Ditmas Park Pharmacy, Inc.</a>',
+        ],
+        photo_reference:
+          'Aap_uEB_y7ZFjqxRXJzZHZrzYVD8LEhDuOF2KeSgr390E5DujHcol6vu_KcsvCM5XwXnTULUkyvnCuJogCN4iZ-uYOtGx9iohqEfXa_d9ku28QLFQgDSVYWdxx2x1OMlTk2YLQmCnqjw57h5e0sV_DejCyoxVIpdVGoE-Vkn0qQXzUD0cI5A',
+        width: 2048,
+      },
+    ],
+    place_id: 'ChIJi-2MY2NcwokRAK_CrIQ5RoE',
+    plus_code: {
+      compound_code: 'M3CH+R5 Brooklyn, NY, USA',
+      global_code: '87G8M3CH+R5',
+    },
+    rating: 4.3,
+    reference: 'ChIJi-2MY2NcwokRAK_CrIQ5RoE',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 11,
+    vicinity: '509 Ralph Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6900044,
+        lng: -73.9064714,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.69128198029149,
+          lng: -73.90521241970849,
+        },
+        southwest: {
+          lat: 40.6885840197085,
+          lng: -73.90791038029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Wilson Drugs Inc',
+    place_id: 'ChIJlTB1_ztcwokRNf2eirpC754',
+    plus_code: {
+      compound_code: 'M3RV+2C New York, NY, USA',
+      global_code: '87G8M3RV+2C',
+    },
+    reference: 'ChIJlTB1_ztcwokRNf2eirpC754',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '623 Wilson Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.679575,
+        lng: -73.9389948,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6808383302915,
+          lng: -73.93756251970849,
+        },
+        southwest: {
+          lat: 40.6781403697085,
+          lng: -73.94026048029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Fulton Drugs',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/114974042947009449907">Fulton Drugs</a>',
+        ],
+        photo_reference:
+          'Aap_uECybVkYy5_SR322ZeSNm0WW___yNzG5aba-6NevqZeRsCxOBGe0qV1ul9Kmo53EhF_TxhVPoF6GVN2FEmuf18LOI8_UB3c0eA6kf2x2LB0EjULyeHM-oc2WoujnLyfDEOLuanwrKVFmiKPcSy9DwOWh5wVQygtmN2SAQnvUfMfqQ4a-',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJyfJrgIhbwokRd241wCnt-Bk',
+    plus_code: {
+      compound_code: 'M3H6+RC Brooklyn, NY, USA',
+      global_code: '87G8M3H6+RC',
+    },
+    rating: 4.6,
+    reference: 'ChIJyfJrgIhbwokRd241wCnt-Bk',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 17,
+    vicinity: '1548 Fulton Street, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.69671930000001,
+        lng: -73.9141898,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.69798118029151,
+          lng: -73.91292576970849,
+        },
+        southwest: {
+          lat: 40.69528321970851,
+          lng: -73.9156237302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Patricia E. Johnson, RPH',
+    place_id: 'ChIJ5WFUOxhcwokRo_JBrzsAdo0',
+    plus_code: {
+      compound_code: 'M3WP+M8 Brooklyn, NY, USA',
+      global_code: '87G8M3WP+M8',
+    },
+    rating: 5,
+    reference: 'ChIJ5WFUOxhcwokRo_JBrzsAdo0',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 1,
+    vicinity: '583 Knickerbocker Avenue, Brooklyn, NY 11221, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.69427810000001,
+        lng: -73.909994,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6955516302915,
+          lng: -73.90871151970849,
+        },
+        southwest: {
+          lat: 40.69285366970851,
+          lng: -73.9114094802915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Hancock Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ9QnpIz1cwokRYv9VSUBvXp0',
+    plus_code: {
+      compound_code: 'M3VR+P2 New York, NY, USA',
+      global_code: '87G8M3VR+P2',
+    },
+    rating: 4.3,
+    reference: 'ChIJ9QnpIz1cwokRYv9VSUBvXp0',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 14,
+    vicinity: '715 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6769655,
+        lng: -73.9084026,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67830903029149,
+          lng: -73.90689611970849,
+        },
+        southwest: {
+          lat: 40.67561106970849,
+          lng: -73.90959408029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Mohan D. Mane, RPh',
+    place_id: 'ChIJ47_QE0NcwokRX_G5FooJZVQ',
+    plus_code: {
+      compound_code: 'M3GR+QJ Brooklyn, NY, USA',
+      global_code: '87G8M3GR+QJ',
+    },
+    reference: 'ChIJ47_QE0NcwokRX_G5FooJZVQ',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: 'Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6769655,
+        lng: -73.9084026,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67830903029149,
+          lng: -73.90689611970849,
+        },
+        southwest: {
+          lat: 40.67561106970849,
+          lng: -73.90959408029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Madhuri A. Keluskar, BPharm',
+    place_id: 'ChIJ47_QE0NcwokR76gfNe9Nhos',
+    plus_code: {
+      compound_code: 'M3GR+QJ Brooklyn, NY, USA',
+      global_code: '87G8M3GR+QJ',
+    },
+    reference: 'ChIJ47_QE0NcwokR76gfNe9Nhos',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: 'Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67221110000001,
+        lng: -73.9166742,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67356778029151,
+          lng: -73.9154323697085,
+        },
+        southwest: {
+          lat: 40.67086981970851,
+          lng: -73.91813033029152,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Sams Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    place_id: 'ChIJ48UQxmZcwokRs61Sge5udUk',
+    plus_code: {
+      compound_code: 'M3CM+V8 Brooklyn, NY, USA',
+      global_code: '87G8M3CM+V8',
+    },
+    rating: 3.5,
+    reference: 'ChIJ48UQxmZcwokRs61Sge5udUk',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 8,
+    vicinity: '397 Saratoga Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67225699999999,
+        lng: -73.931112,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.67366853029149,
+          lng: -73.92970476970849,
+        },
+        southwest: {
+          lat: 40.67097056970849,
+          lng: -73.9324027302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Utica Express Pharmacy Inc.',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 4032,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/113301238086066465240">Utica Express Pharmacy Inc.</a>',
+        ],
+        photo_reference:
+          'Aap_uEBOdU-h-q3dQy82QJKiZqJX-L13hx83BaGTOeQYRq3S1e5VH2Y119jK1AFrRc3gCgGVUCY_KDKQ6i5rqk9vsfV6PTBUWtSm_-n7IUnYMaR0hZf_SlNXMUckBuxzqclmk6mkFriak-jAF_WVYnx_NF8cpKzg3kbRw3CrVrXNxYVtAVBg',
+        width: 3024,
+      },
+    ],
+    place_id: 'ChIJCRlAln5cwokRKnS9GU3S-_k',
+    plus_code: {
+      compound_code: 'M3C9+WH New York, NY, USA',
+      global_code: '87G8M3C9+WH',
+    },
+    rating: 4.8,
+    reference: 'ChIJCRlAln5cwokRKnS9GU3S-_k',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 6,
+    vicinity: '190 Utica Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.6703464,
+        lng: -73.9232207,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6716204302915,
+          lng: -73.92187871970849,
+        },
+        southwest: {
+          lat: 40.66892246970851,
+          lng: -73.92457668029149,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Olivia Adeshina',
+    opening_hours: {
+      open_now: false,
+    },
+    place_id: 'ChIJ2e_aiV9dwokRSuGjpgqZEVs',
+    plus_code: {
+      compound_code: 'M3CG+4P Brooklyn, NY, USA',
+      global_code: '87G8M3CG+4P',
+    },
+    reference: 'ChIJ2e_aiV9dwokRSuGjpgqZEVs',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    vicinity: '1629 Saint Johns Place, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.7002248,
+        lng: -73.92117089999999,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.7016370302915,
+          lng: -73.91976801970848,
+        },
+        southwest: {
+          lat: 40.6989390697085,
+          lng: -73.92246598029151,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Fine Care Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 1407,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/117411842699913092261">Fine Care Pharmacy</a>',
+        ],
+        photo_reference:
+          'Aap_uED2igR_gT9sHjqeiETEq1V2fMdA81Kk05VOxGFiKQWeFjR4YvFbLfHSgEXjQlQQmVczkSSNqp8zLTQCCUKiBElr3VO6q8-q4mFHO-v5520nt5SUCVm8EZK5Klj9IcvT1W_8Nc5G3BwitbXQizd-AX7n3wwCiSGu8BZhoIomDqK8O9ov',
+        width: 2048,
+      },
+    ],
+    place_id: 'ChIJhwB6pxtcwokRnGtSjZjDt50',
+    plus_code: {
+      compound_code: 'P32H+3G Brooklyn, NY, USA',
+      global_code: '87G8P32H+3G',
+    },
+    rating: 3.2,
+    reference: 'ChIJhwB6pxtcwokRnGtSjZjDt50',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 19,
+    vicinity: '380 Knickerbocker Avenue, Brooklyn',
+  },
+  {
+    business_status: 'OPERATIONAL',
+    geometry: {
+      location: {
+        lat: 40.67969299999999,
+        lng: -73.941605,
+      },
+      viewport: {
+        northeast: {
+          lat: 40.6811747802915,
+          lng: -73.94024316970849,
+        },
+        southwest: {
+          lat: 40.6784768197085,
+          lng: -73.9429411302915,
+        },
+      },
+    },
+    icon:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png',
+    icon_background_color: '#F88181',
+    icon_mask_base_uri:
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v2/pharmacy_pinlet',
+    name: 'Rite Choice Pharmacy',
+    opening_hours: {
+      open_now: true,
+    },
+    photos: [
+      {
+        height: 3024,
+        html_attributions: [
+          '<a href="https://maps.google.com/maps/contrib/111541471868079551540">Preethi Naidu</a>',
+        ],
+        photo_reference:
+          'Aap_uED6vyREyIUQKm56PqdIRoIGXnLVsj_m31z_ipTl4Zlns6xVUgjxVKMHhm7--AnHrxs3b0ams1iPRYGv5SvcIwDD0CQ9gnxUoUxDAeW9tRXP26ZuzJJwrkl3a0fjG2wbZ-1Ww4ZuBvrPxfIAHjgZfiydwF7i_8_CSD6mf1UjkjxndlZF',
+        width: 4032,
+      },
+    ],
+    place_id: 'ChIJs9uhAYZbwokRTTE-DChahXI',
+    plus_code: {
+      compound_code: 'M3H5+V9 Brooklyn, NY, USA',
+      global_code: '87G8M3H5+V9',
+    },
+    rating: 4.4,
+    reference: 'ChIJs9uhAYZbwokRTTE-DChahXI',
+    scope: 'GOOGLE',
+    types: [
+      'pharmacy',
+      'health',
+      'point_of_interest',
+      'store',
+      'establishment',
+    ],
+    user_ratings_total: 41,
+    vicinity: '1484 Fulton Street, Brooklyn',
+  },
 ];
