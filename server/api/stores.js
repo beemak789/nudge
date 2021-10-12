@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
     const lng = -73.96319586822943;
     const lat = 40.68076554817467;
     const fromRadius = 500;
-    // pharmacy
+    // convenience store
     const typeId = 1;
 
     const location = sequelize.literal(
