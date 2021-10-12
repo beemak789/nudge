@@ -78,39 +78,6 @@ const AddTask = (props) => {
           }}
           ><Text>{type}</Text></TouchableOpacity>
       })}
-
-          {// style = {(category.includes(types[0]) ? styles.selected : styles.notSelected)}
-          // onPress={() => {
-          //   if (category.includes(types[0])) {
-          //     //do not highlight
-          //     const filteredCategories = category.filter(
-          //       (removeType) => removeType === types[0]
-          //     );
-          //     addCategory(filteredCategories);
-          //   } else {
-          //     //highlgiht
-          //     addCategory([...category, types[0]]);
-          //   }
-          // }}
-      /* <SelectMultipleGroupButton
-        containerViewStyle={{
-          justifyContent: 'flex-start',
-        }}
-        highLightStyle={{
-          borderColor: 'gray',
-          backgroundColor: 'transparent',
-          textColor: 'gray',
-          borderTintColor: 'black',
-          backgroundTintColor: 'blue',
-          textTintColor: 'white',
-        }}
-        onSelectedValuesChange={(selectedValues) => addCategory(selectedValues)}
-        group={[
-          { value: 'grocery' },
-          { value: 'pharmacy' },
-          { value: 'bookstore' },
-        ]}
-      /> */}
       <Text>Select Priority</Text>
       <SelectMultipleGroupButton
         containerViewStyle={{
@@ -148,10 +115,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  selected :{
-    backgroundColor: "blue",
+  selected:{
+    backgroundColor: "gray",
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 4,
+    height: 24,
+    width: 100,
+    margin: 2,
   },
   notSelected:{
     backgroundColor: "transparent",
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 4,
+    height: 24,
+    width: 100,
+    margin: 2,
   }
 });
