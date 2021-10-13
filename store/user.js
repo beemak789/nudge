@@ -2,6 +2,7 @@ import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
+const ADD_FRIEND = 'ADD_FRIEND';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
@@ -15,6 +16,13 @@ export const setUserFriends = (friends) => {
   return {
     type: SET_USER_FRIENDS,
     friends,
+  };
+};
+
+export const addFriend = (friend) => {
+  return {
+    type: ADD_FRIEND,
+    friend,
   };
 };
 
@@ -106,6 +114,22 @@ export const _fetchUserFriends = (user) => {
   };
 };
 
+export const _addFriend = (user, friend) => {
+  console.log('add friend thunk')
+  return async (dispatch) => {
+    try {
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(user.id)
+      .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
+      dispatch(addFriend(friend))
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
 export const logOutUser = () => {
   return async (dispatch) => {
     try {
@@ -169,11 +193,17 @@ export const setExpoPushToken = (token) => {
 export default (state = {user: {}, friends: []}, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...action.user };
+      return { ...state, user: action.user };
     case SET_EXPO_PUSH_TOKEN:
       return { ...state, token: action.token };
     case SET_USER_FRIENDS:
         return { ...state, friends: action.friends };
+    case ADD_FRIEND:
+      const newFriends = [...state.friends]
+      if(state.friends.includes(action.friend)){
+        newFriends.push(action.friend)
+      }
+      return { ...state, friends: newFriends };
     default:
       return state;
   }

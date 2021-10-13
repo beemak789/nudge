@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements'
+import { _addFriend } from '../store/user';
 
 
 
@@ -20,6 +21,7 @@ const AddFriend = (props) => {
   const [text, onChangeText] = useState('');
   const [friends, friendsList] = useState()
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
 
   const onChangeSearch = async () => {
     friendsList([])
@@ -37,13 +39,10 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
-    console.log('add')
-    await firebase
-    .firestore()
-    .collection('users')
-    .doc(user.id)
-    .update({friends: firebase.firestore.FieldValue.arrayUnion(friends)})
-
+    console.log('addto friends')
+    dispatch(_addFriend(user, friends))
+    friendsList()
+    onChangeText('')
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -108,10 +107,11 @@ const styles = StyleSheet.create({
     borderRadius: 24,
   },
   search: {
+    margin: 5,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 10,
-    borderRadius: 4,
+    borderRadius: 20,
     borderColor: "transparent",
     borderWidth: 1,
     backgroundColor: '#83CA9E',
