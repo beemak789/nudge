@@ -15,7 +15,7 @@ import LogOut from './LogOut';
 
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
-// import { checkLocation } from '../store/location';
+import { checkLocation } from '../store/location';
 import { setUser, setExpoPushToken } from '../store/user';
 import ProfileStack from '../services/stacks/profileStack';
 
@@ -132,13 +132,13 @@ const Main = () => {
 
       let location = await Location.getCurrentPositionAsync({});
 
-      // dispatch(
-      //   checkLocation(
-      //     location,
-      //     location.coords.latitude,
-      //     location.coords.longitude
-      //   )
-      // );
+      dispatch(
+        checkLocation(
+          location,
+          location.coords.latitude,
+          location.coords.longitude
+        )
+      );
       let backPerm = await Location.requestBackgroundPermissionsAsync();
       console.log('backPerm', backPerm);
 
@@ -159,13 +159,13 @@ const Main = () => {
     if (data) {
       const { locations } = data;
 
-      // dispatch(
-      //   checkLocation(
-      //     locations[0],
-      //     locations[0].coords.latitude,
-      //     locations[0].coords.longitude
-      //   )
-      // );
+      dispatch(
+        checkLocation(
+          locations[0],
+          locations[0].coords.latitude,
+          locations[0].coords.longitude
+        )
+      );
 
       // do something with the locations captured in the background
       console.log('locations in task manager', locations);
@@ -190,6 +190,7 @@ const Main = () => {
         style: {
           backgroundColor: '#00818A',
         },
+        headerShown: false,
       }}
     >
       {!user.id ? (
