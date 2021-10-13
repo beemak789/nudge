@@ -1,10 +1,10 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // components
-import TaskList from "../Components/TaskList";
-import AddTask from "../Components/AddTask";
-
+import TaskList from '../Components/TaskList';
+import PlacesList from '../Components/PlacesList';
+import AddTask from '../Components/AddTask';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,18 +14,23 @@ export const Screens1Navigator = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
-          backgroundColor: "#709775",
+          backgroundColor: '#709775',
         },
-        headerTintColor: "white",
-        headerBackTitle: "Back",
+        headerTintColor: 'white',
+        headerBackTitle: 'Back',
       }}
     >
       <Stack.Screen
         name="Task List"
         component={TaskList}
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Places List"
+        component={PlacesList}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -37,10 +42,10 @@ export const Screens2Navigator = (props) => {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: "#709775",
+          backgroundColor: '#709775',
         },
-        headerTintColor: "white",
-        headerBackTitle: "Back",
+        headerTintColor: 'white',
+        headerBackTitle: 'Back',
       }}
     >
       <Stack.Screen
@@ -51,4 +56,3 @@ export const Screens2Navigator = (props) => {
     </Stack.Navigator>
   );
 };
-
