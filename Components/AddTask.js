@@ -11,6 +11,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 
+
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
   const [priority, setPriority] = useState('high');

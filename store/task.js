@@ -77,6 +77,7 @@ export const _createTask = ({ name, priority, category }) => {
         name,
         priority,
         category,
+        completed: false,
       };
       let id = await firebase
         .firestore()
@@ -117,6 +118,27 @@ const _updateTask = (task) => {
   };
 };
 
+export const _updateCompleteStatus = (task) => {
+  return async (dispatch) => {
+    try {
+      const res = await tasksRef
+        .doc(firebase.auth().currentUser.uid)
+        .collection('userTasks')
+        .doc(task.id)
+        .update({
+          completed: true
+        });
+
+      const updatedTask = {
+        ...task,
+        completed: true,
+      };
+      dispatch(updateTask(updatedTask));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 const _deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
@@ -144,11 +166,16 @@ export default (state = initialState, action) => {
     case ADD_TASK:
       return { ...state, tasks: [...state.tasks, action.task] };
     case UPDATE_TASK:
+      // 3 items
+      // [1, 2, 3]
+      // action.task.id = 1
       const updatedTasks = state.tasks.map((task) => {
         if (task.id === action.task.id) {
-          return action.task;
+          return action.task; // 1
         }
+        return task;
       });
+      // [1, 2, 3]
       return { ...state, tasks: updatedTasks };
     case DELETE_TASK:
       const deletedTasks = state.tasks.filter(

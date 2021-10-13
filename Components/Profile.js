@@ -20,7 +20,6 @@ export default function Profile (props) {
   const [last, setLast] = useState('');
   const { navigation } = props;
   const dispatch = useDispatch();
-  console.log("the user--->", first)
 
   return (
     <View style={styles.container}>

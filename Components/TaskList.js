@@ -5,9 +5,14 @@ import {
   Text,
   ListViewBase,
   Button,
+  View,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { _createTask, _fetchAllTasks } from '../store/task';
+import {
+  _createTask,
+  _fetchAllTasks,
+  _updateCompleteStatus,
+} from '../store/task';
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,6 +25,14 @@ const taskList = (props) => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
 
+  if (!tasks.length) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Button
@@ -31,12 +44,22 @@ const taskList = (props) => {
 
       <FlatList
         data={tasks}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Text style={styles.item}>
-            {item.name}, {item.priority} PRIORITY
-          </Text>
+          <View key={item.name}>
+            <Text style={styles.item}>
+              {item.name}, {item.priority} PRIORITY
+            </Text>
+            <Button
+              style={styles.completedButton}
+              title="Completed"
+              onPress={() => {
+                dispatch(_updateCompleteStatus(item));
+              }}
+            ></Button>
+          </View>
         )}
-      ></FlatList>
+      />
     </SafeAreaView>
   );
 };
@@ -48,12 +71,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+    padding: 20,
+  },
+  completedButton: {
+    marginRight: 10,
+    borderColor: '#2e64e5',
+    borderWidth: 2,
+    borderRadius: 3,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginHorizontal: 5,
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    fontSize: 20,
   },
 });
 
