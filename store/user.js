@@ -3,12 +3,19 @@ const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const ADD_FRIEND = 'ADD_FRIEND';
+const LOGOUT_USER = 'LOGOUT_USER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
   return {
     type: SET_USER,
     user,
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: SET_USER,
   };
 };
 
@@ -59,23 +66,23 @@ export const logInUser = (email, password) => {
   };
 };
 
-export const listenToUser = (uid) => {
-  return async (dispatch) => {
-    try {
-      const usersRef = firebase.firestore().collection('users');
-      await usersRef
-        .doc(uid)
-        .onSnapshot()
-        .catch(function (error) {
-          console.log(error);
-        });
+// export const listenToUser = (uid) => {
+//   return async (dispatch) => {
+//     try {
+//       const usersRef = firebase.firestore().collection('users');
+//       await usersRef
+//         .doc(uid)
+//         .onSnapshot()
+//         .catch(function (error) {
+//           console.log(error);
+//         });
 
-      dispatch(setUser({}));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
+//       dispatch(setUser({}));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// };
 
 export const fetchUpdatedUser = (user) => {
   return async (dispatch) => {
@@ -87,6 +94,20 @@ export const fetchUpdatedUser = (user) => {
         email,
       });
       dispatch(setUser(user));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const _setExpoPushToken = (user, token) => {
+  return async (dispatch) => {
+    try {
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        token
+      });
+      // dispatch(setExpoPushToken(token));
     } catch (err) {
       alert(err);
     }
@@ -128,6 +149,7 @@ export const _addFriend = (user, friend) => {
 };
 
 export const logOutUser = () => {
+  console.log('logout')
   return async (dispatch) => {
     try {
       await firebase
@@ -136,8 +158,7 @@ export const logOutUser = () => {
         .catch(function (error) {
           console.log(error);
         });
-
-      dispatch(setUser({}));
+      dispatch(logoutUser());
     } catch (err) {
       console.log(err);
     }
@@ -187,14 +208,16 @@ export const setExpoPushToken = (token) => {
   };
 };
 
-export default (state = {user: {}, friends: []}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...state, user: action.user };
+      return { ...action.user };
     case SET_EXPO_PUSH_TOKEN:
-      return { ...state, token: action.token };
+      return { ...state, token: action.token};
     case SET_USER_FRIENDS:
         return { ...state, friends: action.friends };
+    case LOGOUT_USER:
+      return {};
     case ADD_FRIEND:
       const newFriends = [...state.friends]
       if(!state.friends.includes(action.friend)){

@@ -38,7 +38,7 @@ export default function Profile (props) {
         <Button
           title="Logout"
           style={styles.logoutButton}
-          onPress={() => dispatch(logOutUser())}
+          onPress={() =>  dispatch(logOutUser())}
         />
       </View>
 
