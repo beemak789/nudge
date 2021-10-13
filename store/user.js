@@ -3,7 +3,6 @@ const SET_USER = 'SET_USER';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export const setUser = (user) => {
   return {
     type: SET_USER,
@@ -45,15 +44,12 @@ export const logInUser = (email, password) => {
 };
 
 export const listenToUser = (uid) => {
-
   return async (dispatch) => {
     try {
       const usersRef = firebase.firestore().collection('users');
       await usersRef
         .doc(uid)
-        .onSnapshot(
-
-        )
+        .onSnapshot()
         .catch(function (error) {
           console.log(error);
         });
@@ -68,14 +64,12 @@ export const listenToUser = (uid) => {
 export const fetchUpdatedUser = (user) => {
   return async (dispatch) => {
     try {
-      const {fullName, email, id} = user
+      const { fullName, email, id } = user;
       const userRef = firebase.firestore().collection('users');
-      const res = await userRef
-        .doc(id)
-        .update({
-          fullName,
-          email,
-        });
+      const res = await userRef.doc(id).update({
+        fullName,
+        email,
+      });
       dispatch(setUser(user));
     } catch (err) {
       alert(err);
@@ -83,9 +77,7 @@ export const fetchUpdatedUser = (user) => {
   };
 };
 
-
 export const logOutUser = () => {
-  console.log('log out user button clicked')
   return async (dispatch) => {
     try {
       await firebase
@@ -148,9 +140,9 @@ export const setExpoPushToken = (token) => {
 export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return {...action.user}
+      return { ...action.user };
     case SET_EXPO_PUSH_TOKEN:
-      return {...state, token: action.token}
+      return { ...state, token: action.token };
     default:
       return state;
   }

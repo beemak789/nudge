@@ -1,122 +1,154 @@
-
 export const data = [
   {
-    "latitude": "40.684922",
-    "longitude": "-73.922862"
+    latitude: '40.684922',
+    longitude: '-73.922862',
   },
   {
-    "latitude": "40.685215",
-    "longitude": "-73.920502"
+    latitude: '40.685215',
+    longitude: '-73.920502',
   },
   {
-    "latitude": "40.685526",
-    "longitude": "-73.917746"
+    latitude: '40.685526',
+    longitude: '-73.917746',
   },
   {
-    "latitude": "40.684792",
-    "longitude": "-73.917594"
+    latitude: '40.684792',
+    longitude: '-73.917594',
   },
   {
-    "latitude": "40.684028",
-    "longitude": "-73.917540"
+    latitude: '40.684028',
+    longitude: '-73.917540',
   },
   {
-    "latitude": "40.683315",
-    "longitude": "-73.917374"
+    latitude: '40.683315',
+    longitude: '-73.917374',
   },
   {
-    "latitude": "40.682554",
-    "longitude": "-73.917182"
+    latitude: '40.682554',
+    longitude: '-73.917182',
   },
   {
-    "latitude": "40.682278",
-    "longitude": "-73.919888"
+    latitude: '40.682278',
+    longitude: '-73.919888',
   },
   {
-    "latitude": "40.681955",
-    "longitude": "-73.922433"
+    latitude: '40.681955',
+    longitude: '-73.922433',
   },
   {
-    "latitude": "40.681505",
-    "longitude": "-73.925757"
+    latitude: '40.681505',
+    longitude: '-73.925757',
   },
   {
-    "latitude": "40.681268",
-    "longitude": "-73.928466"
+    latitude: '40.681268',
+    longitude: '-73.928466',
   },
   {
-    "latitude": "40.680911",
-    "longitude": "-73.931644"
+    latitude: '40.680911',
+    longitude: '-73.931644',
   },
   {
-    "latitude": "40.680915",
-    "longitude": "-73.931642"
+    latitude: '40.680915',
+    longitude: '-73.931642',
   },
   {
-    "latitude": "40.682397",
-    "longitude": "-73.931950"
+    latitude: '40.682397',
+    longitude: '-73.931950',
   },
   {
-    "latitude": "40.682055",
-    "longitude": "-73.934774"
+    latitude: '40.682055',
+    longitude: '-73.934774',
   },
   {
-    "latitude": "40.682862",
-    "longitude": "-73.935045"
+    latitude: '40.682862',
+    longitude: '-73.935045',
   },
   {
-    "latitude": "40.685649",
-    "longitude": "-73.935628"
+    latitude: '40.685649',
+    longitude: '-73.935628',
   },
   {
-    "latitude": "40.685381",
-    "longitude": "-73.938514"
+    latitude: '40.685381',
+    longitude: '-73.938514',
   },
-]
+];
 
 // loopThroughArray(data, function (arrayElement) {
 //   console.log(arrayElement);
 // }, 3000);
 
 export function loopThroughArray(array, callback, interval) {
-    var newLoopTimer = new LoopTimer(function (time) {
-        if (array.length){
-          var element = array.shift();
-          return callback(element, time - start);
-        }
-      }, interval);
-    var start = newLoopTimer.start();
+  var newLoopTimer = new LoopTimer(function (time) {
+    if (array.length) {
+      var element = array.shift();
+      return callback(element, time - start);
+    }
+  }, interval);
+  var start = newLoopTimer.start();
 }
 
 // Timer
 export function LoopTimer(render, interval) {
-    var timeout;
-    var lastTime;
+  var timeout;
+  var lastTime;
 
-    this.start = startLoop;
-    this.stop = stopLoop;
+  this.start = startLoop;
+  this.stop = stopLoop;
 
-    // Start Loop
-    function startLoop() {
-        timeout = setTimeout(createLoop, 0),
-        lastTime = Date.now();
-        return lastTime;
-    }
+  // Start Loop
+  function startLoop() {
+    (timeout = setTimeout(createLoop, 0)), (lastTime = Date.now());
+    return lastTime;
+  }
 
-    // Stop Loop
-    function stopLoop() {
-        clearTimeout(timeout);
-        return lastTime;
-    }
+  // Stop Loop
+  function stopLoop() {
+    clearTimeout(timeout);
+    return lastTime;
+  }
 
-    // The actual loop
-    function createLoop() {
-        var thisTime = Date.now();
-        var loopTime = thisTime - lastTime;
-        var delay = Math.max(interval - loopTime, 0);
-        timeout = setTimeout(createLoop, delay);
-        lastTime = thisTime + delay;
-        render(thisTime);
-    }
+  // The actual loop
+  function createLoop() {
+    var thisTime = Date.now();
+    var loopTime = thisTime - lastTime;
+    var delay = Math.max(interval - loopTime, 0);
+    timeout = setTimeout(createLoop, delay);
+    lastTime = thisTime + delay;
+    render(thisTime);
+  }
 }
 
+const Screen2 = (props) => {
+  const [display, setDisplay] = useState('');
+  return (
+    <SafeAreaView style={styles.container}>
+      <Button
+        onPress={() => {
+          //loop through data and make call to db with location, return stores
+          loopThroughArray(
+            data,
+            async function (arrayElement) {
+              console.log(
+                'LONGITUDE& LAT',
+                arrayElement.longitude,
+                arrayElement.latitude
+              );
+              try {
+                const response = await axios.get(
+                  `http://192.168.86.32:8080/api/stores/${arrayElement.longitude}/${arrayElement.latitude}/`
+                );
+                console.log('DATA', response.data);
+              } catch (error) {
+                console.log(error);
+              }
+            },
+            60000
+          );
+        }}
+        title="button"
+      >
+        hi
+      </Button>
+    </SafeAreaView>
+  );
+};

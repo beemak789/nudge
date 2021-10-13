@@ -3,21 +3,26 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { LogBox } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { useDispatch, useSelector } from 'react-redux';
+import { Text, View } from 'react-native';
+import { firebase } from '../config/firebase';
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
 
 // components
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-import { Screens1Navigator, Screens2Navigator } from '../services/Stacks';
-import { Text, View } from 'react-native';
-import { firebase } from '../config/firebase';
-import LogOut from './LogOut';
 
-import * as Location from 'expo-location';
-import * as TaskManager from 'expo-task-manager';
+// stacks
+import TasksStack from '../services/stacks/tasksStack';
+import PlacesStack from '../services/stacks/placesStack';
+import FriendsStack from '../services/stacks/friendsStack';
+import GroupsStack from '../services/stacks/groupsStack';
+import ProfileStack from '../services/stacks/profileStack';
+
+// redux
+import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
 import { setUser, setExpoPushToken } from '../store/user';
-import ProfileStack from '../services/stacks/profileStack';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -182,7 +187,7 @@ const Main = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Tasks List"
+      initialRouteName="Tasks Stack"
       screenOptions={{
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
@@ -204,17 +209,20 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name="Tasks List">
-            {(props) => <Screens1Navigator {...props} />}
+          <Tab.Screen name="Tasks Stack">
+            {(props) => <TasksStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Add Task Page">
-            {(props) => <Screens2Navigator {...props} />}
+          <Tab.Screen name="Places Stack">
+            {(props) => <PlacesStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="My Profile Page">
+          <Tab.Screen name="Friends Stack">
+            {(props) => <FriendsStack {...props} />}
+          </Tab.Screen>
+          <Tab.Screen name="Groups Stack">
+            {(props) => <GroupsStack {...props} />}
+          </Tab.Screen>
+          <Tab.Screen name="Profile Stack">
             {(props) => <ProfileStack {...props} />}
-          </Tab.Screen>
-          <Tab.Screen name="Log Out">
-            {(props) => <LogOut {...props} />}
           </Tab.Screen>
         </>
       )}

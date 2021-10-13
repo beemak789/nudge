@@ -21,12 +21,10 @@ const taskList = (props) => {
   const dispatch = useDispatch();
   const { tasks } = useSelector((state) => state.task);
   const { coords } = useSelector((state) => state.location);
-  console.log('cooooords,', coords);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
-
 
   if (!tasks.length) {
     return (
@@ -57,7 +55,6 @@ const taskList = (props) => {
       shadowOpacity: 0.1,
     };
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -96,17 +93,16 @@ const taskList = (props) => {
               </View>
               <View style={priorityStyle(item.priority)}></View>
               <Button
-              style={styles.completedButton}
-              title="Completed"
-              onPress={() => {
-                dispatch(_updateCompleteStatus(item));
-              }}
-            ></Button>
+                style={styles.completedButton}
+                title="Completed"
+                onPress={() => {
+                  dispatch(_updateCompleteStatus(item));
+                }}
+              ></Button>
             </View>
           )}
         ></FlatList>
       </View>
-
     </SafeAreaView>
   );
 };
