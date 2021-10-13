@@ -6,7 +6,6 @@ import {
   Button,
   View,
   TouchableOpacity,
-  View,
   Image,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
