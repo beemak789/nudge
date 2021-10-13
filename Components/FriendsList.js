@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    width: '95%',
+    justifyContent: "space-between",
+    width: 325,
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
