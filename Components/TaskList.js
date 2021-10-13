@@ -3,12 +3,17 @@ import {
   FlatList,
   SafeAreaView,
   Text,
-  TouchableOpacity,
+  Button,
   View,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { _createTask, _fetchAllTasks } from '../store/task';
+import {
+  _createTask,
+  _fetchAllTasks,
+  _updateCompleteStatus,
+} from '../store/task';
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,6 +26,15 @@ const taskList = (props) => {
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
+
+
+  if (!tasks.length) {
+    return (
+      <View>
+        <Text>You do not have any tasks...</Text>
+      </View>
+    );
+  }
 
   const priorityStyle = (priority) => {
     let color;
@@ -43,6 +57,7 @@ const taskList = (props) => {
       shadowOpacity: 0.1,
     };
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,6 +84,7 @@ const taskList = (props) => {
       <View style={styles.body}>
         <FlatList
           data={tasks}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.box}>
               <Image
@@ -79,10 +95,18 @@ const taskList = (props) => {
                 <Text style={styles.item}>{item.name}</Text>
               </View>
               <View style={priorityStyle(item.priority)}></View>
+              <Button
+              style={styles.completedButton}
+              title="Completed"
+              onPress={() => {
+                dispatch(_updateCompleteStatus(item));
+              }}
+            ></Button>
             </View>
           )}
         ></FlatList>
       </View>
+
     </SafeAreaView>
   );
 };
@@ -94,6 +118,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'space-evenly',
+    padding: 20,
+  },
+  completedButton: {
+    marginRight: 10,
+    borderColor: '#2e64e5',
+    borderWidth: 2,
+    borderRadius: 3,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginHorizontal: 5,
+  },
+  item: {
+    fontSize: 20,
   },
   body: {
     flex: 1,

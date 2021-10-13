@@ -14,6 +14,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 
+
 const images = {
   grocery: require('../public/grocery.png'),
   bakery: require('../public/bakery.png'),
@@ -29,6 +30,7 @@ const Store = ({storeType}) => {
     <Text>{storeType}</Text>
   </View>
 }
+
 
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
