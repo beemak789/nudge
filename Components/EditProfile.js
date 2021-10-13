@@ -27,6 +27,11 @@ const EditProfile = (props) => {
 
   return (
     <View style={styles.container}>
+
+    <Image
+        style={styles.userImage}
+        source={require('../public/nudgie.png')}
+      />
       <View style={styles.username}>
         <Text>Name: </Text>
         <TextInput
@@ -61,7 +66,14 @@ const EditProfile = (props) => {
 const styles = StyleSheet.create({
   container: {
     fontSize: 50,
-    justifyContent: "center"
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
+  userImage: {
+      height: 120,
+      width: 120,
+      borderRadius: 24,
+      marginTop: 50,
   },
   updateUserButton: {
     marginRight: 10,

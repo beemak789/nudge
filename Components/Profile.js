@@ -7,28 +7,63 @@ import {
   TouchableOpacity,
   Button,
   View,
-  ScrollView,
+  Switch,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../store/user';
 import { firebase } from '../config/firebase';
 import { logOutUser } from '../store/user';
 
-export default function Profile (props) {
+export default function Profile(props) {
   const user = useSelector((state) => state.user);
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { navigation } = props;
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((isEnabled) => !isEnabled);
+
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.userImage}
-        source={{
-          uri: 'https://i.pinimg.com/564x/cc/6b/9e/cc6b9e32841ff7e0914eee93da71057c.jpg',
-        }}
+        source={require('../public/nudgie.png')}
       />
+      <View>
+        <Text style={styles.title}>My Profile</Text>
+      </View>
+
+      <View style={styles.fields}>
+        <Text style={styles.usernameField}>
+          Username ---> <Text styles={styles.username}>{user.fullName || ""}</Text>
+        </Text>
+
+        <Text style={styles.emailField}>
+          Email--->       <Text style={styles.email}>{user.email || ""}</Text>
+        </Text>
+
+        <View style={styles.switchContainers}>
+          <Text style={styles.switchText}>Notifications</Text>
+          <View style={styles.notificationSwitch}>
+            <Switch
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.switchText}>Location</Text>
+            <Switch
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
+          <Text>BADGE SYSTEM GOES HERE</Text>
+        </View>
+      </View>
+
+
       <View style={styles.userButtonWrapper}>
         <Button
           style={styles.editButton}
@@ -42,29 +77,67 @@ export default function Profile (props) {
         />
       </View>
 
-      <Text style={styles.username}>Name: {user.fullName || ""}</Text>
-      <Text style={styles.useremail}>Email: {user.email || ""}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: 'white',
     alignItems: 'center',
   },
   userImage: {
-    marginTop: 40,
-    height: 150,
-    width: 150,
-    borderRadius: 75,
+    height: 120,
+    width: 120,
+    borderRadius: 24,
+    marginTop: 60,
+  },
+  title: {
+    marginTop: 20,
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  fields: {
+    flex: 2,
+    flexDirection: 'column',
+    fontWeight: 'bold',
+    fontSize: 50,
+    // backgroundColor: "grey",
+    width: '100%',
+    marginHorizontal: 100,
+    padding: 10,
+  },
+  usernameField: {
+    marginTop: 30,
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
   },
   username: {
+    marginLeft: 80,
     fontSize: 20,
-    marginBottom: 20,
   },
-  useremail: {
+  emailField: {
+    marginTop: 10,
+    fontWeight: 'bold',
     fontSize: 20,
+    marginBottom: 10,
+  },
+  email: {
+    fontSize: 20,
+  },
+  switchContainers: {
+    fontSize: 20,
+  },
+  notificationSwitch: {
+    flex: 1,
+  },
+  switchText: {
+    fontSize: 15,
+    marginTop: 15,
   },
   userButtonWrapper: {
     flexDirection: 'row',

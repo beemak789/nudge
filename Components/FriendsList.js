@@ -15,55 +15,66 @@ import { firebase } from '../config/firebase';
 
 const AddTask = (props) => {
   const [text, onChangeText] = useState('');
-  const [friends, friendsList] = useState()
+  const [friends, friendsList] = useState();
   const user = useSelector((state) => state.user);
 
   const onChangeSearch = async () => {
-    friendsList([])
-    const lowerText = text.toLowerCase()
+    friendsList([]);
+    const lowerText = text.toLowerCase();
     const query = await firebase
-    .firestore()
-    .collection('users')
-    .where('email', "==", lowerText)
-    .get()
-    .then( (snapshot) => {
-      snapshot.forEach( (doc) => {
-        friendsList(doc.data())
-      })
-    })
-  }
+      .firestore()
+      .collection('users')
+      .where('email', '==', lowerText)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          friendsList(doc.data());
+        });
+      });
+  };
 
-  const addToFriends = async() => {
-    console.log('add')
+  const addToFriends = async () => {
+    console.log('add');
     await firebase
-    .firestore()
-    .collection('users')
-    .doc(user.id)
-    .update({friends: firebase.firestore.FieldValue.arrayUnion(friends)})
-
-  }
+      .firestore()
+      .collection('users')
+      .doc(user.id)
+      .update({ friends: firebase.firestore.FieldValue.arrayUnion(friends) });
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <View style= {{margin: 20,
+      <View
+        style={{
+          margin: 20,
           alignItems: 'center',
           justifyContent: 'center',
-          flex: 1}}>
-      <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
-      <View style={{ marginBottom: 30 }}>
-        <Text style={styles.title}>Add Friend</Text>
-        <TextInput
-          style={styles.itemName}
-          onChangeText={(value) => {
-            friendsList('')
-            onChangeText(value)
-          }}
-          value={text}
-          placeholder="enter your friend's email"
-        />
+          flex: 1,
+        }}
+      >
+        <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+        <View style={{ marginBottom: 30 }}>
+          <Text style={styles.title}>Add Friend</Text>
+          <TextInput
+            style={styles.itemName}
+            onChangeText={(value) => {
+              friendsList('');
+              onChangeText(value);
+            }}
+            value={text}
+            placeholder="enter your friend's email"
+          />
+        </View>
+        {friends ? (
+          <TouchableOpacity onPress={addToFriends}>
+            <Text>{friends.fullName}</Text>
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
       </View>
-      { (friends) ? <TouchableOpacity onPress={addToFriends}><Text>{friends.fullName}</Text></TouchableOpacity> : <View/>}
-      </View>
-      <Button title="search" onPress={onChangeSearch}><Text>Search</Text></Button>
+      <Button title="search" onPress={onChangeSearch}>
+        <Text>Search</Text>
+      </Button>
     </SafeAreaView>
   );
 };
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'black',
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   notSelectedText: {
     color: 'gray',
@@ -154,7 +165,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 45,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
@@ -170,7 +181,7 @@ const styles = StyleSheet.create({
   storeIcon: {
     width: 50,
     height: 50,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     marginBottom: 5,
   },
   notSelectedPriority: {
