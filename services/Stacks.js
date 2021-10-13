@@ -40,7 +40,7 @@ export const Screens2Navigator = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
           backgroundColor: '#709775',
         },
@@ -51,7 +51,7 @@ export const Screens2Navigator = (props) => {
       <Stack.Screen
         name="Add Task"
         component={AddTask}
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
