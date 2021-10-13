@@ -65,7 +65,7 @@ const AddTask = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
           flex: 1}}>
-      <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+      <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
       <View style={{ marginBottom: 30 }}>
         <Text style={styles.title}>New Task</Text>
         <TextInput
