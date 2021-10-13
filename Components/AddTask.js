@@ -81,7 +81,7 @@ const AddTask = (props) => {
         </Text>
         <Text style={{marginBottom: 10}}>Select all that apply</Text>
         <View style ={{height: 100}}>
-        <ScrollView style={{height: 30}} horizontal={true}>
+        <ScrollView style={{height: 30}} showsHorizontalScrollIndicator={false} horizontal={true}>
           {types.map((type) => {
             return (
               <TouchableOpacity
