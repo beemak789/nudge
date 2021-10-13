@@ -96,9 +96,7 @@ export const fetchUpdatedUser = (user) => {
 export const _fetchUserFriends = (user) => {
   return async (dispatch) => {
     try {
-      console.log('friends')
       const { fullName, email, id } = user;
-      console.log(id)
       const tasks = await firebase
         .firestore()
         .collection('users')
@@ -115,7 +113,6 @@ export const _fetchUserFriends = (user) => {
 };
 
 export const _addFriend = (user, friend) => {
-  console.log('add friend thunk')
   return async (dispatch) => {
     try {
       await firebase
@@ -200,7 +197,7 @@ export default (state = {user: {}, friends: []}, action) => {
         return { ...state, friends: action.friends };
     case ADD_FRIEND:
       const newFriends = [...state.friends]
-      if(state.friends.includes(action.friend)){
+      if(!state.friends.includes(action.friend)){
         newFriends.push(action.friend)
       }
       return { ...state, friends: newFriends };

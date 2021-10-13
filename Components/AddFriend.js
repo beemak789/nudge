@@ -39,7 +39,6 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
-    console.log('addto friends')
     dispatch(_addFriend(user, friends))
     friendsList()
     onChangeText('')
