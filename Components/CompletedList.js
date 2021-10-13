@@ -18,7 +18,7 @@ import {
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import { priorityStyle, NoTasks } from '../services/taskListFuncs';
+import { priorityStyle } from '../services/taskListFuncs';
 
 const CompletedList = (props) => {
   const dispatch = useDispatch();
@@ -29,7 +29,25 @@ const CompletedList = (props) => {
   }, [dispatch]);
 
   if (!tasks.length) {
-    return <NoTasks />;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.noTasksText}>You don't have any tasks...</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={(props) => {
+              props.navigation.navigate('Add Task');
+            }}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text style={styles.buttonText}>Add a Task!</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   const updateCompleteStatus = (item) => {

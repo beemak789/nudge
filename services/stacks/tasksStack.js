@@ -14,7 +14,7 @@ import { updateTask } from '../../store/task';
 
 const Stack = createNativeStackNavigator();
 
-const CategoriesStack = () => {
+const CategoriesStack = (props) => {
   return (
     <SafeAreaProvider>
       <Tab.Navigator
@@ -28,8 +28,12 @@ const CategoriesStack = () => {
           headerShown: true,
         }}
       >
-        <Tab.Screen name="Task List" component={TaskList} />
-        <Tab.Screen name="Completed List" component={CompletedList} />
+        <Tab.Screen name="Task List" component={TaskList} {...props} />
+        <Tab.Screen
+          name="Completed List"
+          component={CompletedList}
+          {...props}
+        />
       </Tab.Navigator>
     </SafeAreaProvider>
   );
