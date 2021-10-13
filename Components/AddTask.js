@@ -7,9 +7,29 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  ScrollView,
+  ButtonGroup
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
+
+
+const images = {
+  grocery: require('../public/grocery.png'),
+  bakery: require('../public/bakery.png'),
+  bookstore: require('../public/bookstore.png'),
+  pharmacy: require('../public/pharmacy.png'),
+  other: require('../public/other.png')
+}
+const types = ['grocery', 'pharmacy', 'bookstore', 'bakery', 'other'];
+const priorityTypes = ['high', 'medium', 'low'];
+
+const Store = ({storeType}) => {
+  <View>
+    <Text>{storeType}</Text>
+  </View>
+}
 
 
 const AddTask = (props) => {
@@ -18,8 +38,11 @@ const AddTask = (props) => {
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
 
-  const types = ['grocery', 'pharmacy', 'bookstore'];
-  const priorityTypes = ['high', 'medium', 'low']
+
+
+  const renderItem = (item) => (
+    <Store storeType={item} />
+  )
 
   const onSubmit = () => {
     dispatch(
@@ -36,95 +59,209 @@ const AddTask = (props) => {
     addCategory([]);
     setPriority('');
   };
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginBottom: 30}}>
-      <TextInput
-        style = {styles.itemName}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="item name"
-      />
+      <View style= {{margin: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1}}>
+      <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+      <View style={{ marginBottom: 30 }}>
+        <Text style={styles.title}>New Task</Text>
+        <TextInput
+          style={styles.itemName}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder="enter item name"
+        />
       </View>
-      <Text>Where can we find this item?</Text>
-      <View style={{flexDirection: "row", margin: 3}}>
-      {types.map((type) => {
-        return <TouchableOpacity
-          key = {type}
-          style = {(category.includes(type) ? styles.selected : styles.notSelected)}
-          onPress={() => {
-            if (category.includes(type)) {
-              //do not highlight
-              const filteredCategories = category.filter(
-                (removeType) => removeType !== type
-              );
-              addCategory(filteredCategories);
-            } else {
-              //highlgiht
-              addCategory([...category, type]);
-            }
-          }}
-          ><Text>{type}</Text></TouchableOpacity>
-      })}
+      <View>
+        <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginBottom: 10 }}>
+          Where can we find this item?
+        </Text>
+        <Text style={{marginBottom: 10}}>Select all that apply</Text>
+        <View style ={{height: 100}}>
+        <ScrollView style={{height: 30}} showsHorizontalScrollIndicator={false} horizontal={true}>
+          {types.map((type) => {
+            return (
+              <TouchableOpacity
+                key={type}
+                style={
+                  category.includes(type) ? styles.selected : styles.notSelected
+                }
+                onPress={() => {
+                  if (category.includes(type)) {
+                    //do not highlight
+                    const filteredCategories = category.filter(
+                      (removeType) => removeType !== type
+                    );
+                    addCategory(filteredCategories);
+                  } else {
+                    //highlgiht
+                    addCategory([...category, type]);
+                  }
+                }}
+              >
+                <Image source={images[type]} style={styles.storeIcon} />
+                <Text
+                  style={
+                    category.includes(type)
+                      ? styles.selectedText
+                      : styles.notSelectedText
+                  }
+                >
+                  {type}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+        </View>
+      <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginTop: 10 }}>Select Priority</Text>
+      <View style={{ flexDirection: 'row', margin: 3, justifyContent: "space-evenly" }}>
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'high' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('high')}>
+            <Text style={[styles.btnText, priority === 'high' ? { color: "black", fontWeight: "bold" } : null]}>high</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'medium' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('medium')}>
+            <Text style={[styles.btnText, priority === 'medium' ? { color: "black", fontWeight: "bold" } : null]}>medium</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'low' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('low')}>
+            <Text style={[styles.btnText, priority === 'low' ? { color: "black", fontWeight: "bold" } : null]}>low</Text>
+          </TouchableOpacity>
       </View>
-      <Text>Select Priority</Text>
-      <View style={{flexDirection: "row", margin: 3}}>
-      {priorityTypes.map((level) => {
-        return <TouchableOpacity
-          key = {level}
-          style = {(priority === level) ? styles.selected : styles.notSelected}
-          onPress={() => {
-            if (priority !== level) {
-              //do not highlight
-              setPriority(level)
-            }
-          }}
-          ><Text>{level}</Text></TouchableOpacity>
-      })}
       </View>
-      <Button onPress={onSubmit} title="save" />
-      <Button
-        onPress={() => {
-          getPlaces();
-        }}
-        title="places url"
-      />
+      <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+        <Text style={{color: "black", fontWeight: "bold"}}>
+          save
+        </Text>
+      </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-}
+};
 export default AddTask;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   itemName: {
     fontSize: 20,
-  },
-  selected:{
-    backgroundColor: "gray",
-    borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
+    borderWidth: 1,
+    textAlign: 'center',
+    borderColor: 'transparent',
     borderRadius: 4,
-    height: 30,
-    width: 100,
-    margin: 2,
+    margin: 5,
+    padding: 10,
+    width: 250,
+    backgroundColor: '#EBF6EF',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 3,
+      width: 3,
+    },
   },
-  notSelected:{
+  selected: {
+    backgroundColor: '#83CA9E',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    height: 90,
+    width: 80,
+    margin: 5,
+    shadowColor: '#000000',
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+  },
+  notSelected: {
+    backgroundColor: '#EBF6EF',
+    color: 'gray',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    height: 90,
+    width: 80,
+    margin: 5,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+  },
+  nudgie: {
+    height: 150,
+    width: 150,
+    borderRadius: 24,
+  },
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  selectedText: {
+    color: 'black',
+    fontWeight: "bold",
+  },
+  notSelectedText: {
+    color: 'gray',
+  },
+  save: {
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 45,
+    borderRadius: 20,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
+  },
+  storeIcon: {
+    width: 50,
+    height: 50,
     backgroundColor: "transparent",
-    borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
+    marginBottom: 5,
+  },
+  notSelectedPriority: {
+    backgroundColor: '#EBF6EF',
+    color: 'gray',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
     height: 30,
     width: 100,
-    margin: 2,
-  }
+    margin: 5,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+  },
 });

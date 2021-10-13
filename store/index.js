@@ -1,6 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-// import { createLogger } from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import task from './task';
 import user from './user';
