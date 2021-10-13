@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ScrollView
+  ScrollView,
+  ButtonGroup
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
-import { SelectMultipleGroupButton } from 'react-native-selectmultiple-button';
 
 const images = {
   grocery: require('../public/grocery.png'),
@@ -43,11 +43,10 @@ const AddTask = (props) => {
   )
 
   const onSubmit = () => {
-    console.log(priority[0]);
     dispatch(
       _createTask({
         name: text,
-        priority: priority[0],
+        priority,
         category,
       })
     );
@@ -58,7 +57,6 @@ const AddTask = (props) => {
     addCategory([]);
     setPriority('');
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style= {{margin: 20,
@@ -119,24 +117,15 @@ const AddTask = (props) => {
         </View>
       <Text style={{ fontSize: 20, textAlign: 'left', fontWeight: "bold", marginTop: 10 }}>Select Priority</Text>
       <View style={{ flexDirection: 'row', margin: 3, justifyContent: "space-evenly" }}>
-        <SelectMultipleGroupButton
-          containerViewStyle={{
-            justifyContent: 'flex-start',
-          }}
-          highLightStyle={{
-            borderColor: 'gray',
-            backgroundColor: 'transparent',
-            textColor: 'gray',
-            borderTintColor: 'transparent',
-            backgroundTintColor: '#83CA9E',
-            textTintColor: 'black',
-          }}
-          onSelectedValuesChange={(selectedValues) =>
-            setPriority(selectedValues)
-          }
-          multiple={false}
-          group={[{ value: 'high' }, { value: 'medium' }, { value: 'low' }]}
-        />
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'high' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('high')}>
+            <Text style={[styles.btnText, priority === 'high' ? { color: "black", fontWeight: "bold" } : null]}>high</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'medium' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('medium')}>
+            <Text style={[styles.btnText, priority === 'medium' ? { color: "black", fontWeight: "bold" } : null]}>medium</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notSelectedPriority, priority === 'low' ? { backgroundColor: "#83CA9E" } : null]} onPress={() => setPriority('low')}>
+            <Text style={[styles.btnText, priority === 'low' ? { color: "black", fontWeight: "bold" } : null]}>low</Text>
+          </TouchableOpacity>
       </View>
       </View>
       <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
@@ -225,14 +214,15 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'black',
+    fontWeight: "bold",
   },
   notSelectedText: {
     color: 'gray',
   },
   save: {
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 45,
     borderRadius: 20,
     borderColor: "transparent",
     borderWidth: 1,
@@ -252,5 +242,24 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "transparent",
     marginBottom: 5,
-  }
+  },
+  notSelectedPriority: {
+    backgroundColor: '#EBF6EF',
+    color: 'gray',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    height: 30,
+    width: 100,
+    margin: 5,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+  },
 });
