@@ -126,20 +126,45 @@ export const _updateCompleteStatus = (task) => {
         .collection('userTasks')
         .doc(task.id)
         .update({
-          completed: true
+          completed: true,
         });
 
       const updatedTask = {
         ...task,
         completed: true,
       };
+      console.log(updatedTask);
       dispatch(updateTask(updatedTask));
     } catch (err) {
       console.log(err);
     }
   };
 };
-const _deleteTask = (taskId) => {
+
+export const _updateIncompleteStatus = (task) => {
+  return async (dispatch) => {
+    try {
+      const res = await tasksRef
+        .doc(firebase.auth().currentUser.uid)
+        .collection('userTasks')
+        .doc(task.id)
+        .update({
+          completed: false,
+        });
+
+      const updatedTask = {
+        ...task,
+        completed: false,
+      };
+      console.log(updatedTask);
+      dispatch(updateTask(updatedTask));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
       await tasksRef
