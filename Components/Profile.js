@@ -10,12 +10,10 @@ import {
   Switch,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../store/user';
-import { firebase } from '../config/firebase';
 import { logOutUser } from '../store/user';
 
 export default function Profile(props) {
-  const user = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { navigation } = props;
@@ -34,35 +32,30 @@ export default function Profile(props) {
         <Text style={styles.title}>My Profile</Text>
       </View>
 
-      <View style={styles.fields}>
-        <Text style={styles.usernameField}>
-          Username ---> <Text styles={styles.username}>{user.fullName || ""}</Text>
-        </Text>
+      <View style={userFields.fields}>
+        <View style={userFields.textContainer}>
+          <Text style={userFields.usernameLabel}>Username</Text>
+          <Text styles={userFields.username}>{user.fullName || ''}</Text>
+        </View>
 
-        <Text style={styles.emailField}>
-          Email--->       <Text style={styles.email}>{user.email || ""}</Text>
-        </Text>
+        <View style={userFields.textContainer}>
+          <Text style={userFields.emailLabel}>Email</Text>
+          <Text styles={userFields.email}>{user.email || ''}</Text>
+        </View>
 
-        <View style={styles.switchContainers}>
-          <Text style={styles.switchText}>Notifications</Text>
-          <View style={styles.notificationSwitch}>
-            <Switch
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
+        <View style={switchStyles.switchContainers}>
+          <View style={switchStyles.singleSwitch}>
+            <Text style={switchStyles.switchText}>Notifications</Text>
+            <Switch onValueChange={toggleSwitch} value={isEnabled} />
           </View>
 
-          <View>
-            <Text style={styles.switchText}>Location</Text>
-            <Switch
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
+          <View style={switchStyles.singleSwitch}>
+            <Text style={switchStyles.switchText}>Location</Text>
+            <Switch onValueChange={toggleSwitch} value={isEnabled} />
           </View>
           <Text>BADGE SYSTEM GOES HERE</Text>
         </View>
       </View>
-
 
       <View style={styles.userButtonWrapper}>
         <Button
@@ -76,11 +69,11 @@ export default function Profile(props) {
           onPress={() => dispatch(logOutUser())}
         />
       </View>
-
     </View>
   );
 }
 
+// PAGE STYLES
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -100,45 +93,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: 5,
   },
-  fields: {
-    flex: 2,
-    flexDirection: 'column',
-    fontWeight: 'bold',
-    fontSize: 50,
-    // backgroundColor: "grey",
-    width: '100%',
-    marginHorizontal: 100,
-    padding: 10,
-  },
-  usernameField: {
-    marginTop: 30,
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  username: {
-    marginLeft: 80,
-    fontSize: 20,
-  },
-  emailField: {
-    marginTop: 10,
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  email: {
-    fontSize: 20,
-  },
-  switchContainers: {
-    fontSize: 20,
-  },
-  notificationSwitch: {
-    flex: 1,
-  },
-  switchText: {
-    fontSize: 15,
-    marginTop: 15,
-  },
   userButtonWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -148,23 +102,77 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   editButton: {
-    marginRight: 10,
-    borderColor: '#2e64e5',
-    borderWidth: 2,
-    borderRadius: 3,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginHorizontal: 5,
+    ...buttonStyle
   },
   userButtonText: {
     color: '#2e64e5',
   },
   logoutButton: {
-    borderColor: '#2e64e5',
-    borderWidth: 2,
-    borderRadius: 3,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginHorizontal: 5,
+    ...buttonStyle
   },
 });
+
+// PREFERENCE STYLES
+const switchStyles = StyleSheet.create({
+  switchContainers: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    fontSize: 20,
+    marginTop: 20,
+  },
+  switchText: {
+    fontSize: 15,
+    marginTop: 15,
+  },
+  singleSwitch: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+});
+
+// USER FIELDS styles
+const userFields = StyleSheet.create({
+  fields: {
+    flex: 1,
+    flexDirection: 'column',
+    fontWeight: 'bold',
+    fontSize: 50,
+    // backgroundColor: "grey",
+    width: '100%',
+    marginLeft: 30,
+    marginRight: 30,
+    padding: 10,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  usernameLabel: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  username: {
+    fontSize: 20,
+  },
+  emailLabel: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  email: {
+    fontSize: 40,
+  },
+});
+
+const buttonStyle = {
+  marginRight: 10,
+  borderColor: '#83CA9E',
+  borderWidth: 2,
+  borderRadius: 3,
+  paddingVertical: 10,
+  paddingHorizontal: 12,
+  marginHorizontal: 5,
+}

@@ -10,16 +10,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const appReducer = combineReducers({ task, user, location, places });
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage: AsyncStorage,
+// };
 
-const persistedReducer = persistReducer(persistConfig, appReducer);
+// const persistedReducer = persistReducer(persistConfig, appReducer);
 
 export const store = createStore(
-  persistedReducer,
+  appReducer,
   applyMiddleware(thunkMiddleware)
 );
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);

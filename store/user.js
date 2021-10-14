@@ -29,6 +29,7 @@ export const addFriend = (friend) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
+      console.log('gonna log in!!!!')
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -44,6 +45,7 @@ export const logInUser = (email, password) => {
                 return;
               }
               const data = firestoreDocument.data();
+              console.log('returned data --->',data)
               dispatch(setUser(data));
             })
             .catch((error) => {
@@ -96,17 +98,17 @@ export const fetchUpdatedUser = (user) => {
 export const _fetchUserFriends = (user) => {
   return async (dispatch) => {
     try {
-      console.log('friends')
+      console.log('friends');
       const { fullName, email, id } = user;
-      console.log(id)
+      console.log(id);
       const tasks = await firebase
         .firestore()
         .collection('users')
         .doc(id)
         .get()
         .then((snapshot) => {
-          let userFriends = snapshot.data().friends
-          dispatch(setUserFriends(userFriends))
+          let userFriends = snapshot.data().friends;
+          dispatch(setUserFriends(userFriends));
         });
     } catch (err) {
       alert(err);
@@ -115,15 +117,14 @@ export const _fetchUserFriends = (user) => {
 };
 
 export const _addFriend = (user, friend) => {
-  console.log('add friend thunk')
   return async (dispatch) => {
     try {
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(user.id)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
-      dispatch(addFriend(friend))
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .update({ friends: firebase.firestore.FieldValue.arrayUnion(friend) });
+      dispatch(addFriend(friend));
     } catch (err) {
       alert(err);
     }
@@ -139,7 +140,6 @@ export const logOutUser = () => {
         .catch(function (error) {
           console.log(error);
         });
-
       dispatch(setUser({}));
     } catch (err) {
       console.log(err);
@@ -190,18 +190,18 @@ export const setExpoPushToken = (token) => {
   };
 };
 
-export default (state = {user: {}, friends: []}, action) => {
+export default (state = { user: {}, friends: [] }, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.user };
     case SET_EXPO_PUSH_TOKEN:
       return { ...state, token: action.token };
     case SET_USER_FRIENDS:
-        return { ...state, friends: action.friends };
+      return { ...state, friends: action.friends };
     case ADD_FRIEND:
-      const newFriends = [...state.friends]
-      if(state.friends.includes(action.friend)){
-        newFriends.push(action.friend)
+      const newFriends = [...state.friends];
+      if (state.friends.includes(action.friend)) {
+        newFriends.push(action.friend);
       }
       return { ...state, friends: newFriends };
     default:
