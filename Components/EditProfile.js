@@ -16,7 +16,7 @@ import { fetchUpdatedUser } from '../store/user';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const EditProfile = (props) => {
-  const  { user }  = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const [userData, setUserData] = useState({
     email: user.email || '',

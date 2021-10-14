@@ -53,37 +53,27 @@ export default function Profile(props) {
             <Text style={switchStyles.switchText}>Location</Text>
             <Switch onValueChange={toggleSwitch} value={isEnabled} />
           </View>
-          <Text>BADGE SYSTEM GOES HERE</Text>
+          <Text style={styles.badges}>Badges</Text>
+          <Image
+            style={styles.badgeNudgie}
+            source={require('../public/nudgie2.png')}
+          />
         </View>
       </View>
 
       <View style={styles.userButtonWrapper}>
-      <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
-        <View style={styles.editButton}>
-          <Text style={styles.editProfileText}>Edit Profile</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
+          <View style={styles.editButton}>
+            <Text style={styles.editProfileText}>Edit Profile</Text>
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => dispatch(logOutUser())}>
-        <View style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </View>
-      </TouchableOpacity>
-
-    </View>
-
-      {/* <View style={styles.userButtonWrapper}>
-        <Button
-          style={styles.editButton}
-          onPress={() => navigation.navigate('Edit Profile')}
-          title="Edit Profile"
-        />
-        <Button
-          title="Logout"
-          style={styles.logoutButton}
-          onPress={() => dispatch(logOutUser())}
-        />
-      </View> */}
+        <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+          <View style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -91,19 +81,19 @@ export default function Profile(props) {
 const buttonStyle = {
   marginRight: 10,
   backgroundColor: '#83CA9E',
-  borderRadius: 3,
+  borderRadius: 8,
   paddingVertical: 15,
   paddingHorizontal: 12,
   marginHorizontal: 5,
-  justifyContent: "center",
+  justifyContent: 'center',
   shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    marginTop: 10,
+  shadowOpacity: 0.3,
+  shadowRadius: 2,
+  shadowOffset: {
+    height: 2,
+    width: 2,
+  },
+  marginTop: 10,
 };
 // PAGE STYLES
 const styles = StyleSheet.create({
@@ -117,6 +107,12 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 24,
     marginTop: 60,
+  },
+  badgeNudgie: {
+    height: 40,
+    width: 40,
+    marginTop: 10,
+    marginLeft: 10,
   },
   title: {
     marginTop: 20,
@@ -137,17 +133,22 @@ const styles = StyleSheet.create({
   },
   editProfileText: {
     fontSize: 18,
-    color: "white",
-    fontWeight: "bold"
+    color: 'white',
+    fontWeight: 'bold',
   },
   logoutText: {
     fontSize: 18,
-    color: "white",
-    fontWeight: "bold"
+    color: 'white',
+    fontWeight: 'bold',
   },
   logoutButton: {
     ...buttonStyle,
   },
+  badges: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: 10,
+  }
 });
 
 // PREFERENCE STYLES
@@ -204,5 +205,3 @@ const userFields = StyleSheet.create({
     fontSize: 40,
   },
 });
-
-
