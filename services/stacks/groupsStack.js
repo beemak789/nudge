@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // components
 import GroupsList from '../../Components/GroupsList';
 import AddGroup from '../../Components/AddGroup'
+import SingleGroup from '../../Components/SingleGroup';
 const Stack = createNativeStackNavigator();
 
 const groupsStack = (props) => {
@@ -26,6 +27,11 @@ const groupsStack = (props) => {
       <Stack.Screen
         name="Add Group"
         component={AddGroup}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Single Group"
+        component={SingleGroup}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

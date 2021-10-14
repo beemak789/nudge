@@ -10,68 +10,62 @@ import {
   FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllGroups } from '../store/group';
+import { fetchUserGroups, selectGroup, _setGroups } from '../store/group';
+import SingleGroup from './SingleGroup'
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.groups);
 
   useEffect(() => {
-    dispatch(fetchAllGroups());
+    // dispatch(_setGroups([]))
+    dispatch(fetchUserGroups());
   }, []);
 
-  useEffect(() => {
-    if (props.match) {
-        setId(props.match?.params.id);
-        setProject(props.match?.params.project);
-    }
-}, [props.match?.params]);
-
-
+  if (!groups.length) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.noTasksText}>You're not part of any groups yet!</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.navigate('Add Group');
+            }}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text style={styles.buttonText}>Create A Group</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>My Groups</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            props.navigation.navigate('Add Group');
-          }}
-        >
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          props.navigation.navigate('Add Group');
+        }}
+      >
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
       <View style={styles.body}>
         <FlatList
           data={groups}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.box}>
-              <Image
-                style={styles.image}
-                source={require('../public/nudgie2.png')}
-              />
-              <View style={styles.info}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('Add Group');
-                  }}
-                >
-                  <Text style={styles.buttonText}>{item.name}</Text>
-                </TouchableOpacity>
-              </View>
-              <Button
-                style={styles.completedButton}
-                title="Alert"
-                onPress={() => {
-                  console.log('sending bat signal');
-                }}
-              ></Button>
-            </View>
+            <SingleGroup group = {item}/>
           )}
         ></FlatList>
       </View>
     </SafeAreaView>
-  );
+  )
 };
 
 export default GroupsList;

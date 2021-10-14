@@ -38,7 +38,6 @@ export const addFriend = (friend) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
-      console.log('gonna log in!!!!')
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -50,11 +49,10 @@ export const logInUser = (email, password) => {
             .get()
             .then((firestoreDocument) => {
               if (!firestoreDocument.exists) {
-                alert('User does not exist anymore.');
+                alert('User does not exist.');
                 return;
               }
               const data = firestoreDocument.data();
-              console.log('returned data --->',data)
               dispatch(setUser(data));
             })
             .catch((error) => {
@@ -69,24 +67,6 @@ export const logInUser = (email, password) => {
     }
   };
 };
-
-// export const listenToUser = (uid) => {
-//   return async (dispatch) => {
-//     try {
-//       const usersRef = firebase.firestore().collection('users');
-//       await usersRef
-//         .doc(uid)
-//         .onSnapshot()
-//         .catch(function (error) {
-//           console.log(error);
-//         });
-
-//       dispatch(setUser({}));
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-// };
 
 export const fetchUpdatedUser = (user) => {
   return async (dispatch) => {
@@ -107,13 +87,11 @@ export const fetchUpdatedUser = (user) => {
 export const _setExpoPushToken = (user) => {
   return async (dispatch) => {
     try {
-      console.log('I AM HERE)')
       console.log(user.token)
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
         token: user.token
       });
-      // dispatch(setExpoPushToken(token));
     } catch (err) {
       alert(err);
     }
@@ -124,7 +102,7 @@ export const _fetchUserFriends = (user) => {
   return async (dispatch) => {
     try {
       const { fullName, email, id } = user;
-      const tasks = await firebase
+      const friends = await firebase
         .firestore()
         .collection('users')
         .doc(id)
@@ -179,7 +157,7 @@ export const logOutUser = () => {
   };
 };
 
-export const signUpUser = (email, password, first, last, location) => {
+export const signUpUser = (email, password, first, last) => {
   return async (dispatch) => {
     try {
       firebase
@@ -191,9 +169,7 @@ export const signUpUser = (email, password, first, last, location) => {
           const data = {
             id: uid,
             email,
-            fullName: first + last,
-            lat: location.coords.latitude,
-            long: location.coords.longitude,
+            fullName: first + last
           };
 
           const usersRef = firebase.firestore().collection('users');
