@@ -49,7 +49,7 @@ const AddGroup = (props) => {
           flex: 1,
         }}
       >
-        <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+        <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
         <View style={{ marginBottom: 10 }}>
           <Text style={styles.title}>New Group</Text>
           <TextInput

@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: '#FFFFFF',
     margin: 15,
-    backgroundColor: '#FAF3DD',
+    // backgroundColor: '#FAF3DD',
   },
   box: {
     display: 'flex',

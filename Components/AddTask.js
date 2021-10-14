@@ -15,9 +15,9 @@ import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 
 const images = {
-  grocery: require('../public/grocery.png'),
+  supermarket: require('../public/supermarket.png'),
   bakery: require('../public/bakery.png'),
-  bookstore: require('../public/bookstore.png'),
+  book_store: require('../public/book_store.png'),
   pharmacy: require('../public/pharmacy.png'),
   other: require('../public/other.png'),
 };
@@ -61,7 +61,7 @@ const AddTask = (props) => {
           flex: 1,
         }}
       >
-        <Image source={require('../public/nudgie.png')} style={styles.nudgie} />
+        <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
         <View style={{ marginBottom: 30 }}>
           <Text style={styles.title}>New Task</Text>
           <TextInput
