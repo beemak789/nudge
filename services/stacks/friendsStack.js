@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // components
 import FriendsList from '../../Components/FriendsList';
+import AddFriend from '../../Components/AddFriend';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ const friendsStack = (props) => {
         name="Friends List"
         component={FriendsList}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Add Friend"
+        component={AddFriend}
       />
     </Stack.Navigator>
   );
