@@ -7,6 +7,7 @@ const LOGOUT_USER = 'LOGOUT_USER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
+  console.log(user)
   return {
     type: SET_USER,
     user,
@@ -100,12 +101,14 @@ export const fetchUpdatedUser = (user) => {
   };
 };
 
-export const _setExpoPushToken = (user, token) => {
+export const _setExpoPushToken = (user) => {
   return async (dispatch) => {
     try {
+      console.log('I AM HERE)')
+      console.log(user.token)
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        token
+        token: user.token
       });
       // dispatch(setExpoPushToken(token));
     } catch (err) {

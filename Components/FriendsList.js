@@ -16,6 +16,30 @@ import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
 import { _fetchUserFriends } from '../store/user';
 
+// _______SEND NOTIFICATION ________
+async function sendPushNotification(toExpoToken, from) {
+  console.log(toExpoToken)
+  if(toExpoToken){
+    const message = {
+      to: toExpoToken,
+      sound: 'default',
+      title: `Nudge from ${from}`,
+      body: `${from} is at the grocery store! Do you need anything?`,
+      data: { someData: 'goes here' },
+    };
+
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+  }
+}
+
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
@@ -47,8 +71,14 @@ const FriendsList = (props) => {
       keyExtractor={(item) => item.id}
       renderItem= {( { item } ) => (
         <View style={styles.box}>
-          <Text style={styles.item}>{item.fullName}</Text>
-          <Text style={styles.item}>{item.email}</Text>
+          <TouchableOpacity
+            onPress={async () => {
+              await sendPushNotification(item.token, user.fullName)
+              console.log('pressed sent')
+            }}>
+            <Text style={styles.item}>{item.fullName}</Text>
+            {/* <Text style={styles.item}>{item.email}</Text> */}
+          </TouchableOpacity>
         </View>
       )}>
       </FlatList>
@@ -136,3 +166,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+
+

@@ -95,7 +95,9 @@ const Main = () => {
           .catch((error) => {
             setLoading(false);
           });
-          dispatch(_setExpoPushToken(user, user.token));
+          if(user.token){
+            dispatch(_setExpoPushToken(user))
+          }
       } else {
         setLoading(false);
       }
@@ -133,9 +135,7 @@ const Main = () => {
 
 
   useEffect(() => {
-    console.log('register for push notificatons')
     registerForPushNotificationsAsync().then((token) => {
-      //***************************/
       dispatch(setExpoPushToken(token));
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
