@@ -71,7 +71,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE_GROUP:
-      return { ...state, groups: [...state.group, action.group] };
+      return { ...state, groups: [...state.groups, action.group] };
     case SET_GROUPS:
       return { ...state, groups: action.groups };
     default:

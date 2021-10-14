@@ -14,11 +14,20 @@ import { fetchAllGroups } from '../store/group';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
-  const { groups } = useSelector((state) => state.group);
+  const { groups } = useSelector((state) => state.groups);
 
   useEffect(() => {
     dispatch(fetchAllGroups());
   }, []);
+
+  useEffect(() => {
+    if (props.match) {
+        setId(props.match?.params.id);
+        setProject(props.match?.params.project);
+    }
+}, [props.match?.params]);
+
+
 
   return (
     <SafeAreaView style={styles.container}>
