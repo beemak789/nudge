@@ -58,6 +58,21 @@ export default function Profile(props) {
       </View>
 
       <View style={styles.userButtonWrapper}>
+      <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
+        <View style={styles.editButton}>
+          <Text style={styles.editProfileText}>Edit Profile</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+        <View style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </View>
+      </TouchableOpacity>
+
+    </View>
+
+      {/* <View style={styles.userButtonWrapper}>
         <Button
           style={styles.editButton}
           onPress={() => navigation.navigate('Edit Profile')}
@@ -68,11 +83,28 @@ export default function Profile(props) {
           style={styles.logoutButton}
           onPress={() => dispatch(logOutUser())}
         />
-      </View>
+      </View> */}
     </View>
   );
 }
 
+const buttonStyle = {
+  marginRight: 10,
+  backgroundColor: '#83CA9E',
+  borderRadius: 3,
+  paddingVertical: 15,
+  paddingHorizontal: 12,
+  marginHorizontal: 5,
+  justifyContent: "center",
+  shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
+};
 // PAGE STYLES
 const styles = StyleSheet.create({
   container: {
@@ -97,18 +129,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
-    marginTop: 20,
     marginBottom: 10,
     padding: 20,
   },
   editButton: {
-    ...buttonStyle
+    ...buttonStyle,
   },
-  userButtonText: {
-    color: '#2e64e5',
+  editProfileText: {
+    fontSize: 18,
+    color: "white",
+    fontWeight: "bold"
+  },
+  logoutText: {
+    fontSize: 18,
+    color: "white",
+    fontWeight: "bold"
   },
   logoutButton: {
-    ...buttonStyle
+    ...buttonStyle,
   },
 });
 
@@ -167,12 +205,4 @@ const userFields = StyleSheet.create({
   },
 });
 
-const buttonStyle = {
-  marginRight: 10,
-  borderColor: '#83CA9E',
-  borderWidth: 2,
-  borderRadius: 3,
-  paddingVertical: 10,
-  paddingHorizontal: 12,
-  marginHorizontal: 5,
-}
+
