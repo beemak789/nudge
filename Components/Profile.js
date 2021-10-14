@@ -9,6 +9,7 @@ import {
   View,
   Switch,
 } from 'react-native';
+import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOutUser } from '../store/user';
 
@@ -53,11 +54,18 @@ export default function Profile(props) {
             <Text style={switchStyles.switchText}>Location</Text>
             <Switch onValueChange={toggleSwitch} value={isEnabled} />
           </View>
-          <Text style={styles.badges}>Badges</Text>
-          <Image
-            style={styles.badgeNudgie}
-            source={require('../public/nudgie2.png')}
-          />
+
+          <View>
+            <Text style={styles.badges}>Badges</Text>
+          </View>
+
+          <View>
+            <Badge style={styles.badgeNumber}>1</Badge>
+            <Image
+              style={styles.badgeNudgie}
+              source={require('../public/nudgie2.png')}
+            />
+          </View>
         </View>
       </View>
 
@@ -114,6 +122,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
   },
+  badgeNumber: {
+    margin: 'auto',
+  },
   title: {
     marginTop: 20,
     fontSize: 30,
@@ -145,10 +156,10 @@ const styles = StyleSheet.create({
     ...buttonStyle,
   },
   badges: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
     marginTop: 10,
-  }
+  },
 });
 
 // PREFERENCE STYLES
