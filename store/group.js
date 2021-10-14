@@ -18,14 +18,12 @@ export const _createGroup = (group) => {
     group,
   };
 };
-export const _fetchAllGroups = () => {
+export const fetchAllGroups = () => {
   return async (dispatch) => {
     try {
       await firebase
         .firestore()
         .collection('groups')
-        .doc(firebase.auth().currentUser.uid)
-        .collection('userGroups')
         .get()
         .then((snapshot) => {
           let groups = snapshot.docs.map((doc) => {
@@ -40,19 +38,16 @@ export const _fetchAllGroups = () => {
     }
   };
 };
-export const createGroup = ({ name, members, tasks = [] }) => {
+export const createGroup = ({ name, members}) => {
   return async (dispatch) => {
     try {
       const data = {
         name,
-        members,
-        tasks
+        members
       };
       let id = await firebase
         .firestore()
         .collection('groups')
-        .doc(firebase.auth().currentUser.uid)
-        .collection('userGroups')
         .add(data)
         .then((result) => {
           return result.id;
@@ -61,7 +56,6 @@ export const createGroup = ({ name, members, tasks = [] }) => {
         _createGroup({
           name,
           members,
-          tasks,
           id
         })
       );

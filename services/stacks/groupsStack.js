@@ -19,7 +19,7 @@ const groupsStack = (props) => {
       }}
     >
       <Stack.Screen
-        name="Groups List"
+        name="Group List"
         component={GroupsList}
         options={{ headerShown: false }}
       />

@@ -10,14 +10,14 @@ import {
   FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { _fetchAllGroups } from '../store/group';
+import { fetchAllGroups } from '../store/group';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.group);
 
   useEffect(() => {
-    dispatch(_fetchAllGroups());
+    dispatch(fetchAllGroups());
   }, []);
 
   return (

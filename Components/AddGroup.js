@@ -12,29 +12,30 @@ import {
   ButtonGroup,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { _createTask } from '../store/task';
+import { createGroup } from '../store/group';
+import { firebase } from '../config/firebase';
 
 const AddGroup = (props) => {
+  const user = useSelector((state) => state.user)
   const [text, onChangeText] = useState('');
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState([user]);
   const [emails, setEmails] = useState([])
   const [tasks, setTasks] = useState([]);
   const dispatch = useDispatch();
 
-  const onSubmit = () => {
+  const onSubmit = (members) => {
     dispatch(
-      _createGroup({
+      createGroup({
         name: text,
-        members,
-        tasks,
+        members
       })
     );
     props.navigation.navigate('Group List', {
       screen: 'Group List',
     });
     onChangeText('');
-    addCategory([]);
-    setTasks([]);
+    setMembers([user]);
+
   };
   const friends = useSelector((state) => state.user.friends)
 
@@ -81,38 +82,38 @@ const AddGroup = (props) => {
                 <TouchableOpacity
                   key={friend.email}
                   style={
-                    members.includes(friend.email)
+                    members.includes(friend)
                       ? styles.selected
                       : styles.notSelected
                   }
                   onPress={() => {
-                    if (members.includes(friend.email)) {
+                    if (members.includes(friend)) {
                       //do not highlight
                       const filteredCategories = members.filter(
-                        (removeType) => removeType !== friend.email
+                        (removeType) => removeType !== friend
                       );
                       setMembers(filteredCategories);
                     } else {
                       //highlgiht
-                      setMembers([...members, friend.email]);
+                      setMembers([...members, friend]);
                     }
                   }}
                 >
                   <Text
                     style={
-                      members.includes(friend.email)
+                      members.includes(friend)
                         ? styles.selectedText
                         : styles.notSelectedText
                     }
                   >
-                    {friend.email}
+                    {friend.fullName}
                   </Text>
                 </TouchableOpacity>
               );
             })}
           </View>
         </View>
-        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+        <TouchableOpacity style={styles.save} onPress={() => onSubmit(members)} title="save">
           <Text style={{ color: 'black', fontWeight: 'bold' }}>Save</Text>
         </TouchableOpacity>
       </View>
