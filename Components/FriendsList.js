@@ -58,7 +58,7 @@ const FriendsList = (props) => {
             props.navigation.navigate("Add Friend");
           }}
         >
-        <Text style={styles.buttonText}>+</Text>
+        <Icon color="black" type="ionicon" name="person-add-outline" size={20} />
         </TouchableOpacity>
       </View>
       <View style= {{margin: 20,

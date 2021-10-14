@@ -7,6 +7,7 @@ import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
+import { Icon } from 'react-native-elements'
 
 // components
 import LogIn from './LogIn';
@@ -235,19 +236,39 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name="Tasks Stack">
+          <Tab.Screen name="Tasks Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon style={{marginRight: 10}} color="black" type="ionicon" name="list-outline" size={20} />
+              )}}>
             {(props) => <TasksStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Places Stack">
+          <Tab.Screen name="Places Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="location-outline" size={20} />
+            )}}>
             {(props) => <PlacesStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Friends Stack">
+          <Tab.Screen name="Friends Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="people-outline" size={20} />
+            )}}>
             {(props) => <FriendsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Groups Stack">
+          <Tab.Screen name="Groups Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="chatbox-outline" size={20} />
+            )}}>
             {(props) => <GroupsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Profile Stack">
+          <Tab.Screen name="Profile Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="person-circle-outline" size={20} />
+            )}}>
             {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
         </>
