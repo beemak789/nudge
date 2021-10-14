@@ -35,34 +35,33 @@ const SignUp = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContent}>
-        <Image
-          style={styles.avatar}
-          source={{
-            uri: 'https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg',
-          }}
+      <Image
+          style={styles.nudgie}
+          source={require('../public/nudgie2.png')}
         />
+        <Text style={styles.title}>nudge</Text>
       </View>
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="First Name"
           placeholderTextColor="#003f5c"
           onChangeText={(first) => setFirst(first)}
         />
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="Last Name"
           placeholderTextColor="#003f5c"
           onChangeText={(last) => setLast(last)}
         />
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="Email"
           autoCapitalize="none"
           placeholderTextColor="#003f5c"
@@ -70,9 +69,9 @@ const SignUp = (props) => {
         />
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="Password"
           autoCapitalize="none"
           placeholderTextColor="#003f5c"
@@ -81,10 +80,10 @@ const SignUp = (props) => {
         />
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
-          placeholder="confirm password"
+          style={styles.item}
+          placeholder="Confirm Password"
           autoCapitalize="none"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
@@ -92,13 +91,13 @@ const SignUp = (props) => {
         />
       </View>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.loginBtn}>
+      <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.loginText}>SIGN UP</Text>
       </TouchableOpacity>
-      <Text>Existing User?</Text>
+      <Text style={{marginTop: 20}}>Existing User?</Text>
       <TouchableOpacity
         onPress={() => props.navigation.navigate('Log In')}
-        style={styles.loginBtn}
+        style={styles.button}
       >
         <Text style={styles.loginText}>Log In!</Text>
       </TouchableOpacity>
@@ -111,63 +110,83 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  image: {
-    marginBottom: 40,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    // justifyContent: "center",
   },
 
   inputView: {
-    backgroundColor: '#dde5b6',
+    backgroundColor: "#dde5b6",
     borderRadius: 30,
-    width: '70%',
+    width: "70%",
     height: 45,
     marginBottom: 20,
   },
-  imageContent: {
-    padding: 10,
-    alignItems: 'center',
-    marginBottom: 30,
+  nudgie: {
+    marginTop: 30,
+    height: 150,
+    width: 150,
+    borderRadius: 24,
   },
 
   avatar: {
     width: 140,
     height: 140,
   },
-  headerText: {
-    fontWeight: '700',
-    fontSize: 40,
-    alignSelf: 'center',
-    fontFamily: 'Helvetica-Bold',
-    marginTop: 30,
-    color: '#264653',
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
   },
 
-  TextInput: {
-    height: 50,
-    flex: 1,
+  box: {
+    display: 'flex',
+    justifyContent: "space-between",
+    width: 325,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  item: {
     padding: 10,
-    marginLeft: 20,
-    alignItems: 'center',
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
   },
-
-  loginBtn: {
-    width: '80%',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
+  button: {
     justifyContent: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: '#709775',
+    width: 200,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    margin: 5,
   },
   loginText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 18,
+    textAlign: 'center',
   },
 
   forgot_button: {

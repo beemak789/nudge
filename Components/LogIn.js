@@ -74,17 +74,6 @@ const LogIn = (props) => {
   );
 };
 
-// const mapState = state => {
-//   return {
-
-//   };
-// };
-
-// const mapDispatch = (dispatch, {newJWT}) => {
-//   return {
-
-//   };
-// };
 
 export default LogIn;
 
@@ -93,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
 
   inputView: {
@@ -104,6 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   nudgie: {
+    marginTop: 30,
     height: 150,
     width: 150,
     borderRadius: 24,
