@@ -4,6 +4,7 @@ const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 
 const ADD_FRIEND = 'ADD_FRIEND';
+const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,10 +29,17 @@ export const setUserFriends = (friends) => {
   };
 };
 
-export const addFriend = (friend) => {
+export const addFriend = (friendId) => {
   return {
     type: ADD_FRIEND,
-    friend,
+    friendId,
+  };
+};
+
+export const deleteFriend = (friendId) => {
+  return {
+    type: DELETE_FRIEND,
+    friendId,
   };
 };
 
@@ -107,8 +115,6 @@ export const fetchUpdatedUser = (user) => {
 export const _setExpoPushToken = (user) => {
   return async (dispatch) => {
     try {
-      console.log('I AM HERE)')
-      console.log(user.token)
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
         token: user.token
@@ -120,42 +126,79 @@ export const _setExpoPushToken = (user) => {
   };
 };
 
-export const _fetchUserFriends = (user) => {
+export const _fetchUserFriends = (userId) => {
   return async (dispatch) => {
     try {
-      const { fullName, email, id } = user;
-      const tasks = await firebase
+      await firebase
         .firestore()
         .collection('users')
-        .doc(id)
+        .doc(userId)
         .get()
-        .then((snapshot) => {
-          let userFriends = snapshot.data().friends;
-          dispatch(setUserFriends(userFriends));
-        });
+        .then(async (friendsList) => {
+          let userFriends = friendsList.data().friends;
+          let result = await Promise.all(userFriends.map(async (friend) => await _fetchSingleFriendInfo(friend)))
+          dispatch(setUserFriends(result))
+      })
     } catch (err) {
       alert(err);
     }
   };
 };
 
-export const _addFriend = (user, friend) => {
+export const _fetchSingleFriendInfo = async (friendId) => {
+  let userInfo
+  await firebase
+    .firestore()
+    .collection('users')
+    .doc(friendId)
+    .get()
+    .then( (snapshot) => {
+      userInfo = snapshot.data()
+  })
+  return userInfo
+};
+
+export const _addFriend = (userId, friendId) => {
   return async (dispatch) => {
     try {
-      console.log('***', friend.id)
       await firebase
       .firestore()
       .collection('users')
-      .doc(user.id)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
+      .doc(userId)
+      .update({friends: firebase.firestore.FieldValue.arrayUnion(friendId)})
       // add two way friendship
       await firebase
       .firestore()
       .collection('users')
-      .doc(friend.id)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(user)})
+      .doc(friendId)
+      .update({friends: firebase.firestore.FieldValue.arrayUnion(userId)})
 
-      dispatch(addFriend(friend))
+      const friendInfoForState = await _fetchSingleFriendInfo(friendId)
+      dispatch(addFriend(friendInfoForState))
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+
+export const _deleteFriend = (userId, friendId) => {
+  return async (dispatch) => {
+    try {
+
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(userId)
+      .update({friends: firebase.firestore.FieldValue.arrayRemove(friendId)})
+
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(friendId)
+      .update({friends: firebase.firestore.FieldValue.arrayRemove(userId)})
+
+      dispatch(deleteFriend(friendId))
     } catch (err) {
       alert(err);
     }
@@ -232,12 +275,15 @@ export default (state = {}, action) => {
         return { ...state, friends: action.friends };
     case LOGOUT_USER:
       return {};
+    case DELETE_FRIEND:
+      const deleteFriend = [...state.friends].filter( (friend) => friend.id !== action.friendId)
+      return { ...state, friends: deleteFriend };
     case ADD_FRIEND:
       const newFriends = [...state.friends]
-      if(!state.friends.includes(action.friend)){
-        newFriends.push(action.friend)
+      if(!state.friends.includes(action.friendId)){
+        newFriends.push(action.friendId)
       }
-      return { ...state, friends: action.friends };
+      return { ...state, friends: newFriends };
     default:
       return state;
   }

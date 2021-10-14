@@ -126,34 +126,34 @@ const Main = () => {
     });
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //       return;
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
+  //     let location = await Location.getCurrentPositionAsync({});
 
-      dispatch(
-        checkLocation(
-          location,
-          location.coords.latitude,
-          location.coords.longitude
-        )
-      );
-      let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log('backPerm', backPerm);
+  //     dispatch(
+  //       checkLocation(
+  //         location,
+  //         location.coords.latitude,
+  //         location.coords.longitude
+  //       )
+  //     );
+  //     let backPerm = await Location.requestBackgroundPermissionsAsync();
+  //     console.log('backPerm', backPerm);
 
-      if (backPerm.status === 'granted') {
-        await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-          distanceInterval: 5,
-          accuracy: Location.Accuracy.Balanced,
-        });
-      }
-    })();
-  }, []);
+  //     if (backPerm.status === 'granted') {
+  //       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+  //         distanceInterval: 5,
+  //         accuracy: Location.Accuracy.Balanced,
+  //       });
+  //     }
+  //   })();
+  // }, []);
 
 
   useEffect(() => {

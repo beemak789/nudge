@@ -14,7 +14,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
-import { _fetchUserFriends } from '../store/user';
+import { _deleteFriend, _fetchSingleFriendInfo, _fetchUserFriends } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
@@ -46,8 +46,8 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(_fetchUserFriends(user))
-  }, [dispatch])
+    dispatch(_fetchUserFriends(user.id))
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
       <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 20}}>
@@ -72,12 +72,17 @@ const FriendsList = (props) => {
       renderItem= {( { item } ) => (
         <View style={styles.box}>
           <TouchableOpacity
+            onPress={() => {
+              console.log('pressped delete')
+              dispatch(_deleteFriend(user.id, item.id))}
+            }>
+            <Text> delete </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={async () => {
               await sendPushNotification(item.token, user.fullName)
-              console.log('pressed sent')
             }}>
             <Text style={styles.item}>{item.fullName}</Text>
-            {/* <Text style={styles.item}>{item.email}</Text> */}
           </TouchableOpacity>
         </View>
       )}>
