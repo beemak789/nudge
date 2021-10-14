@@ -21,7 +21,7 @@ const images = {
   pharmacy: require('../public/pharmacy.png'),
   other: require('../public/other.png'),
 };
-const types = ['grocery', 'pharmacy', 'bookstore', 'bakery', 'other'];
+const types = ['supermarket', 'pharmacy', 'book_store', 'bakery', 'other'];
 const priorityTypes = ['high', 'medium', 'low'];
 
 const Store = ({ storeType }) => {

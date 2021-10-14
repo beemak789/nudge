@@ -3,33 +3,35 @@ import {
   FlatList,
   SafeAreaView,
   Text,
-  Button,
   View,
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { useNavigation } from '@react-navigation/native';
 import {
   _deleteTask,
   _fetchAllTasks,
   _updateCompleteStatus,
 } from '../store/task';
-import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/taskListFuncs';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { tasks } = useSelector((state) => state.task);
+
+  const incompleteTasks = tasks.filter((task) => task.completed === false);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
 
-  if (!tasks.length) {
+  if (!incompleteTasks.length) {
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -37,7 +39,7 @@ const taskList = (props) => {
           <TouchableOpacity
             style={styles.button}
             onPress={(props) => {
-              props.navigation.navigate('Add Task');
+              navigation.navigate('Add Task');
             }}
           >
             <Image
@@ -73,11 +75,11 @@ const taskList = (props) => {
       </View>
       <View style={styles.body}>
         <FlatList
-          data={tasks}
+          data={incompleteTasks}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
-              renderLeftActions={LeftSwipeActions('Complete')}
+              renderLeftActions={LeftSwipeActions}
               renderRightActions={RightSwipeActions}
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}

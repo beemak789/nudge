@@ -15,6 +15,7 @@ import {
   _fetchAllTasks,
   _updateIncompleteStatus,
 } from '../store/task';
+import { useNavigation } from '@react-navigation/native';
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
@@ -22,7 +23,10 @@ import { priorityStyle } from '../services/taskListFuncs';
 
 const CompletedList = (props) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { tasks } = useSelector((state) => state.task);
+
+  const completeTasks = tasks.filter((task) => task.completed === true);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -36,7 +40,7 @@ const CompletedList = (props) => {
           <TouchableOpacity
             style={styles.button}
             onPress={(props) => {
-              props.navigation.navigate('Add Task');
+              navigation.navigate('Add Task');
             }}
           >
             <Image
@@ -62,11 +66,11 @@ const CompletedList = (props) => {
       <View style={{ marginLeft: 'auto', padding: 5 }}></View>
       <View style={styles.body}>
         <FlatList
-          data={tasks}
+          data={completeTasks}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
-              renderLeftActions={LeftSwipeActions('Incomplete')}
+              renderLeftActions={LeftSwipeActions}
               renderRightActions={RightSwipeActions}
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}

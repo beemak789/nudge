@@ -1,5 +1,4 @@
 import { firebase } from '../config/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //reference to the "tasks" collection in Firestore
 const tasksRef = firebase.firestore().collection('tasks');
@@ -156,7 +155,7 @@ export const _updateIncompleteStatus = (task) => {
         ...task,
         completed: false,
       };
-      console.log(updatedTask);
+
       dispatch(updateTask(updatedTask));
     } catch (err) {
       console.log(err);

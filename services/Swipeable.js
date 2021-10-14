@@ -21,7 +21,7 @@ export const LeftSwipeActions = (complete) => {
           paddingVertical: 20,
         }}
       >
-        {complete}
+        Complete
       </Text>
     </View>
   );
