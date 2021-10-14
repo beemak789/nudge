@@ -47,6 +47,7 @@ const tasksStack = (props) => {
         },
         headerTintColor: 'white',
         headerBackTitle: '',
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen name="Categories Stack">
