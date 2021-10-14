@@ -14,11 +14,11 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
+import { Icon } from 'react-native-elements'
 import { _deleteFriend, _fetchSingleFriendInfo, _fetchUserFriends } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
-  console.log(toExpoToken)
   if(toExpoToken){
     const message = {
       to: toExpoToken,
@@ -46,9 +46,7 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('use effect', user)
     dispatch( _fetchUserFriends(user.id))
-    console.log('use after', user)
   }, [dispatch])
 
   return (
@@ -70,23 +68,25 @@ const FriendsList = (props) => {
       <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
       <Text style={styles.title}>Your Nudgies</Text>
       {(user.friends.length < 1) ? <Text>No friends</Text>:
-        (user.friends[0].id) ? (             <FlatList
+        (user.friends[0].id) ? (
+        <FlatList
           data={user.friends}
           keyExtractor={(item) => item.id}
           renderItem= {( { item } ) => (
             <View style={styles.box}>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('pressped delete')
-                  dispatch(_deleteFriend(user.id, item.id))}
-                }>
-                <Text> delete </Text>
-              </TouchableOpacity>
+
               <TouchableOpacity
                 onPress={async () => {
                   await sendPushNotification(item.token, user.fullName)
                 }}>
-                <Text style={styles.item}>{item.fullName}</Text>
+              <Icon style={{marginLeft: 5}}color="black" type="ionicon" name="notifications-outline" size={20} />
+              </TouchableOpacity>
+              <Text style={styles.item}>{item.fullName}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(_deleteFriend(user.id, item.id))}
+                }>
+                <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
               </TouchableOpacity>
             </View>
           )}>
