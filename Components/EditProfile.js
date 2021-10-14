@@ -16,7 +16,7 @@ import { fetchUpdatedUser } from '../store/user';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const EditProfile = (props) => {
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   const [userData, setUserData] = useState({
     email: user.email || '',
@@ -30,7 +30,7 @@ const EditProfile = (props) => {
     <View style={styles.container}>
       <Image
         style={styles.userImage}
-        source={require('../public/nudgie.png')}
+        source={require('../public/nudgie2.png')}
       />
 
       <View style={styles.username}>

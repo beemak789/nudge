@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logOutUser } from '../store/user';
 
 export default function Profile(props) {
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { navigation } = props;
@@ -28,7 +28,7 @@ export default function Profile(props) {
     <View style={styles.container}>
       <Image
         style={styles.userImage}
-        source={require('../public/nudgie.png')}
+        source={require('../public/nudgie2.png')}
       />
       <View>
         <Text style={styles.title}>My Profile</Text>

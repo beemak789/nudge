@@ -22,7 +22,7 @@ import ProfileStack from '../services/stacks/profileStack';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
-import { setUser, setExpoPushToken } from '../store/user';
+import { setUser, setExpoPushToken, _setExpoPushToken } from '../store/user';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -76,7 +76,7 @@ const Main = () => {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
@@ -117,6 +117,9 @@ const Main = () => {
           .catch((error) => {
             setLoading(false);
           });
+          if(user.token){
+            dispatch(_setExpoPushToken(user))
+          }
       } else {
         setLoading(false);
       }
@@ -150,6 +153,33 @@ const Main = () => {
         });
       }
     })();
+  }, []);
+
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      dispatch(setExpoPushToken(token));
+    });
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
 
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
