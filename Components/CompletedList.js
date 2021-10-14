@@ -3,35 +3,36 @@ import {
   FlatList,
   SafeAreaView,
   Text,
+  Button,
   View,
   TouchableOpacity,
   Image,
 } from 'react-native';
 import React, { useEffect } from 'react';
-import { AntDesign } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { useNavigation } from '@react-navigation/native';
 import {
   _deleteTask,
   _fetchAllTasks,
-  _updateCompleteStatus,
+  _updateIncompleteStatus,
 } from '../store/task';
+import { useNavigation } from '@react-navigation/native';
+import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/taskListFuncs';
 
-const taskList = (props) => {
+const CompletedList = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { tasks } = useSelector((state) => state.task);
 
-  const incompleteTasks = tasks.filter((task) => task.completed === false);
+  const completeTasks = tasks.filter((task) => task.completed === true);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
 
-  if (!incompleteTasks.length) {
+  if (!tasks.length) {
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -54,7 +55,7 @@ const taskList = (props) => {
   }
 
   const updateCompleteStatus = (item) => {
-    dispatch(_updateCompleteStatus(item));
+    dispatch(_updateIncompleteStatus(item));
   };
   const deleteTask = (itemId) => {
     dispatch(_deleteTask(itemId));
@@ -62,20 +63,10 @@ const taskList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            props.navigation.navigate('Add Task');
-          }}
-        />
-      </View>
+      <View style={{ marginLeft: 'auto', padding: 5 }}></View>
       <View style={styles.body}>
         <FlatList
-          data={incompleteTasks}
+          data={completeTasks}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
@@ -98,7 +89,7 @@ const taskList = (props) => {
   );
 };
 
-export default taskList;
+export default CompletedList;
 
 const styles = StyleSheet.create({
   container: {
@@ -194,37 +185,3 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-
-//PUT NOTIFICATION STUFF DOWN HERE SINCE WE'LL WANT TO USE IN ANOTHER SCREEN
-
-//_______SEND NOTIFICATION ________
-//async function sendPushNotification(expoPushToken) {
-//   const message = {
-//     to: expoPushToken,
-//     sound: 'default',
-//     title: 'Nudge for Toothpaste',
-//     body: 'You are close to a Target, do you still need toothpaste?',
-//     data: { someData: 'goes here' },
-//   };
-
-//   await fetch('https://exp.host/--/api/v2/push/send', {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Accept-encoding': 'gzip, deflate',
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(message),
-//   });
-// }
-
-//_______BUTTON ________
-// <Button
-// title="Press to Send Notification"
-// onPress={async () => {
-//   await sendPushNotification(
-//     'ExponentPushToken[HUGDheOPfKBBF_iDUs2ETG]'
-//   );
-//   console.log('sent');
-// }}
-// />

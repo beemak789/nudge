@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 
 import { ListItem, Text, Icon, Avatar, Divider } from 'react-native-elements';
-import { useSelector } from 'react-redux';
+import { _fetchPlaces } from '../store/places';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ReviewStars = (props) => {
   const FullStar = (key) => (
@@ -52,13 +53,23 @@ const ReviewStars = (props) => {
 };
 
 const PlacesList = (props) => {
+  const dispatch = useDispatch();
   const places = useSelector((state) => state.places);
 
   if (!places.length) {
     return (
       <SafeAreaView style={styles.container2}>
         <View>
-          <Text>There are no locations near you</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => dispatch(_fetchPlaces())}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text style={styles.buttonText}>Press to complete a task!</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -74,51 +85,64 @@ const PlacesList = (props) => {
         </View>
       )}
       {places.length > 0 && (
-        <FlatList
-          data={places}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <ListItem chevron={{ color: '#e90000', size: 30 }}>
-                <Avatar
-                  title={item.name}
-                  rounded={false}
-                  size={'large'}
-                  source={
-                    item.photos && {
-                      uri: baseImage,
+        <>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => dispatch(_fetchPlaces())}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text style={styles.buttonText}>Press to complete a task!</Text>
+          </TouchableOpacity>
+
+          <FlatList
+            data={places}
+            renderItem={({ item }) => (
+              <TouchableOpacity>
+                <ListItem chevron={{ color: '#e90000', size: 30 }}>
+                  <Avatar
+                    title={item.name}
+                    rounded={false}
+                    size={'large'}
+                    source={
+                      item.photos && {
+                        uri: baseImage,
+                      }
                     }
-                  }
-                  containerStyle={{ marginLeft: 20 }}
-                />
-                <ListItem.Content>
-                  <ListItem.Title>
-                    <View style={styles.rowDirection}>
-                      <Text>{item.name}</Text>
-                      <Text>distance</Text>
-                    </View>
-                  </ListItem.Title>
-                  <ListItem.Subtitle>
-                    {item.rating && (
-                      <View>
-                        <View style={styles.startReviewsContainer}>
-                          <ReviewStars stars={item.rating} />
-                          <Text style={styles.rarting}>
-                            {item.rating.toFixed(1)}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text>{item.vicinity}</Text>
-                        </View>
+                    containerStyle={{ marginLeft: 20 }}
+                  />
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <View style={styles.rowDirection}>
+                        <Text>{item.name}</Text>
+                        <Text>distance</Text>
                       </View>
-                    )}
-                  </ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-              <Divider orientation="horizontal" />
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
+                    </ListItem.Title>
+                    <ListItem.Subtitle>
+                      {item.rating && (
+                        <View>
+                          <View style={styles.startReviewsContainer}>
+                            <ReviewStars stars={item.rating} />
+                            <Text style={styles.rarting}>
+                              {item.rating.toFixed(1)}
+                            </Text>
+                          </View>
+                          <View>
+                            <Text>{item.vicinity}</Text>
+                          </View>
+                        </View>
+                      )}
+                    </ListItem.Subtitle>
+                  </ListItem.Content>
+                </ListItem>
+                <Divider orientation="horizontal" />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </>
       )}
     </SafeAreaView>
   );
@@ -167,5 +191,36 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginLeft: 'auto',
+  },
+  button: {
+    backgroundColor: '#EBF6EF',
+    padding: 5,
+    borderRadius: 25,
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderColor: '#FFFFFF',
+    margin: 5,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  buttonText: {
+    color: '#4a7c59',
+    fontWeight: '700',
+    fontSize: 22,
+  },
+  nudgie: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    margin: 5,
+  },
+  noTasksText: {
+    fontWeight: '700',
+    fontSize: 20,
   },
 });
