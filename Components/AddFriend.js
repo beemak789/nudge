@@ -39,9 +39,10 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
-    dispatch(_addFriend(user, friends))
-    friendsList()
-    onChangeText('')
+    console.log('*****', friends.id)
+    // dispatch(_addFriend(user, friends))
+    // friendsList()
+    // onChangeText('')
   }
   return (
     <SafeAreaView style={styles.container}>

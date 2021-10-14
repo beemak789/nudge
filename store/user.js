@@ -139,11 +139,19 @@ export const _fetchUserFriends = (user) => {
 export const _addFriend = (user, friend) => {
   return async (dispatch) => {
     try {
+      console.log('***', friend.id)
       await firebase
       .firestore()
       .collection('users')
       .doc(user.id)
       .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
+
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(friend.id)
+      .update({friends: firebase.firestore.FieldValue.arrayUnion(user)})
+
       dispatch(addFriend(friend))
     } catch (err) {
       alert(err);
