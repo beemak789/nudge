@@ -18,8 +18,9 @@ export default function Profile(props) {
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { navigation } = props;
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((isEnabled) => !isEnabled);
+  const [isEnabled, setEnabled] = useState(false);
+  const toggleSwitch = () => setEnabled((isEnabled) => !isEnabled);
+
 
   const dispatch = useDispatch();
 
@@ -144,12 +145,12 @@ const styles = StyleSheet.create({
   },
   editProfileText: {
     fontSize: 18,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
   },
   logoutText: {
     fontSize: 18,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
   },
   logoutButton: {

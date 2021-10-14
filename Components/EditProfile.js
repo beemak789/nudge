@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   updateText: {
     fontSize: 15,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
   },
 });
