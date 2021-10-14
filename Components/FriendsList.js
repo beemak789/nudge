@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 45,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',

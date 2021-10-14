@@ -13,33 +13,40 @@ import {
   TextInput,
 } from 'react-native';
 import { fetchUpdatedUser } from '../store/user';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const EditProfile = (props) => {
-  const user = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const [userData, setUserData] = useState({
-    email: user.email || "",
-    fullName: user.fullName || "",
-    id: user.id || ""
+    email: user.email || '',
+    fullName: user.fullName || '',
+    id: user.id || '',
   });
 
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.userImage}
+        source={require('../public/nudgie.png')}
+      />
+
       <View style={styles.username}>
-        <Text>Name: </Text>
+        <Text style={styles.nameLabel}>Name</Text>
         <TextInput
           placeholder="Full Name"
           placeholderTextColor="#666666"
           autoCorrect={false}
+          multiline={true}
           value={userData.fullName}
           onChangeText={(txt) => setUserData({ ...userData, fullName: txt })}
         />
       </View>
 
       <View style={styles.useremail}>
-        <Text>Email: </Text>
+        <Text style={styles.emailLabel}>Email</Text>
         <TextInput
           placeholder="Email"
           placeholderTextColor="#666666"
@@ -49,40 +56,77 @@ const EditProfile = (props) => {
         />
       </View>
 
-      <Button
+      <TouchableOpacity
         style={styles.updateUserButton}
-        title="Update"
         onPress={() => dispatch(fetchUpdatedUser(userData))}
-      />
+      >
+        <Text style={styles.updateText}>Update</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     fontSize: 50,
-    justifyContent: "center"
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
+  userImage: {
+    height: 120,
+    width: 120,
+    borderRadius: 24,
+    marginTop: 50,
   },
   updateUserButton: {
-    marginRight: 10,
-    borderColor: '#2e64e5',
-    borderWidth: 2,
-    borderRadius: 3,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginHorizontal: 5,
+    justifyContent: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 45,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
   },
   username: {
-    marginTop: 20,
-    justifyContent: 'center',
+    display: 'flex',
+    padding: 15,
+    width: '95%',
+    marginTop: 10,
+    borderRadius: 10,
     flexDirection: 'row',
-    alignItems: 'center',
+    shadowColor: 'black',
+    justifyContent: 'space-between',
   },
   useremail: {
-    fontSize: 20,
-    justifyContent: 'center',
+    display: 'flex',
+    padding: 15,
+    width: '95%',
+    borderRadius: 10,
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  nameLabel: {
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  emailLabel: {
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  updateText: {
+    fontSize: 15,
+    color: 'black',
+    fontWeight: 'bold',
   },
 });
 

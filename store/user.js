@@ -38,6 +38,7 @@ export const addFriend = (friend) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
+      console.log('gonna log in!!!!')
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -53,6 +54,7 @@ export const logInUser = (email, password) => {
                 return;
               }
               const data = firestoreDocument.data();
+              console.log('returned data --->',data)
               dispatch(setUser(data));
             })
             .catch((error) => {
@@ -128,8 +130,8 @@ export const _fetchUserFriends = (user) => {
         .doc(id)
         .get()
         .then((snapshot) => {
-          let userFriends = snapshot.data().friends
-          dispatch(setUserFriends(userFriends))
+          let userFriends = snapshot.data().friends;
+          dispatch(setUserFriends(userFriends));
         });
     } catch (err) {
       alert(err);
@@ -146,7 +148,7 @@ export const _addFriend = (user, friend) => {
       .collection('users')
       .doc(user.id)
       .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
-
+      // add two way friendship
       await firebase
       .firestore()
       .collection('users')
@@ -235,7 +237,7 @@ export default (state = {}, action) => {
       if(!state.friends.includes(action.friend)){
         newFriends.push(action.friend)
       }
-      return { ...state, friends: newFriends };
+      return { ...state, friends: action.friends };
     default:
       return state;
   }
