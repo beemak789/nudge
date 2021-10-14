@@ -22,7 +22,7 @@ import ProfileStack from '../services/stacks/profileStack';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
-import { setUser, setExpoPushToken, _setExpoPushToken } from '../store/user';
+import { setUser, setExpoPushToken, _setExpoPushToken, _fetchUserFriends } from '../store/user';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -109,9 +109,10 @@ const Main = () => {
         usersRef
           .doc(user.uid)
           .get()
-          .then((document) => {
+          .then(async (document) => {
             const userData = document.data() || {};
             setLoading(false);
+            await _fetchUserFriends(user.uid)
             dispatch(setUser(userData));
           })
           .catch((error) => {

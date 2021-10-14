@@ -46,8 +46,11 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(_fetchUserFriends(user.id))
-  }, [])
+    console.log('use effect', user)
+    dispatch( _fetchUserFriends(user.id))
+    console.log('use after', user)
+  }, [dispatch])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 20}}>
@@ -66,27 +69,29 @@ const FriendsList = (props) => {
           flex: 1}}>
       <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
       <Text style={styles.title}>Your Nudgies</Text>
-      <FlatList
-      data={user.friends}
-      keyExtractor={(item) => item.id}
-      renderItem= {( { item } ) => (
-        <View style={styles.box}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log('pressped delete')
-              dispatch(_deleteFriend(user.id, item.id))}
-            }>
-            <Text> delete </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={async () => {
-              await sendPushNotification(item.token, user.fullName)
-            }}>
-            <Text style={styles.item}>{item.fullName}</Text>
-          </TouchableOpacity>
-        </View>
-      )}>
-      </FlatList>
+      {(user.friends.length < 1) ? <Text>No friends</Text>:
+        (user.friends[0].id) ? (             <FlatList
+          data={user.friends}
+          keyExtractor={(item) => item.id}
+          renderItem= {( { item } ) => (
+            <View style={styles.box}>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('pressped delete')
+                  dispatch(_deleteFriend(user.id, item.id))}
+                }>
+                <Text> delete </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={async () => {
+                  await sendPushNotification(item.token, user.fullName)
+                }}>
+                <Text style={styles.item}>{item.fullName}</Text>
+              </TouchableOpacity>
+            </View>
+          )}>
+          </FlatList>) : (<Text>Loading...</Text>)
+      }
       </View>
     </SafeAreaView>
   );

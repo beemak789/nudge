@@ -9,7 +9,6 @@ const LOGOUT_USER = 'LOGOUT_USER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
-  console.log(user)
   return {
     type: SET_USER,
     user,
@@ -29,10 +28,10 @@ export const setUserFriends = (friends) => {
   };
 };
 
-export const addFriend = (friendId) => {
+export const addFriend = (friend) => {
   return {
     type: ADD_FRIEND,
-    friendId,
+    friend,
   };
 };
 
@@ -46,7 +45,6 @@ export const deleteFriend = (friendId) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
-      console.log('gonna log in!!!!')
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -62,8 +60,8 @@ export const logInUser = (email, password) => {
                 return;
               }
               const data = firestoreDocument.data();
-              console.log('returned data --->',data)
               dispatch(setUser(data));
+              _fetchUserFriends(uid)
             })
             .catch((error) => {
               alert(error);
@@ -154,6 +152,9 @@ export const _fetchSingleFriendInfo = async (friendId) => {
     .get()
     .then( (snapshot) => {
       userInfo = snapshot.data()
+      if(userInfo.friends) {
+        delete userInfo.friends
+      }
   })
   return userInfo
 };
@@ -280,8 +281,8 @@ export default (state = {}, action) => {
       return { ...state, friends: deleteFriend };
     case ADD_FRIEND:
       const newFriends = [...state.friends]
-      if(!state.friends.includes(action.friendId)){
-        newFriends.push(action.friendId)
+      if(!state.friends.includes(action.friend)){
+        newFriends.push(action.friend)
       }
       return { ...state, friends: newFriends };
     default:
