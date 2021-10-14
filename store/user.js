@@ -2,7 +2,9 @@ import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
+
 const ADD_FRIEND = 'ADD_FRIEND';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {

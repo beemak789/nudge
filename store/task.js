@@ -1,5 +1,4 @@
 import { firebase } from '../config/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //reference to the "tasks" collection in Firestore
 const tasksRef = firebase.firestore().collection('tasks');
@@ -126,20 +125,45 @@ export const _updateCompleteStatus = (task) => {
         .collection('userTasks')
         .doc(task.id)
         .update({
-          completed: true
+          completed: true,
         });
 
       const updatedTask = {
         ...task,
         completed: true,
       };
+      console.log(updatedTask);
       dispatch(updateTask(updatedTask));
     } catch (err) {
       console.log(err);
     }
   };
 };
-const _deleteTask = (taskId) => {
+
+export const _updateIncompleteStatus = (task) => {
+  return async (dispatch) => {
+    try {
+      const res = await tasksRef
+        .doc(firebase.auth().currentUser.uid)
+        .collection('userTasks')
+        .doc(task.id)
+        .update({
+          completed: false,
+        });
+
+      const updatedTask = {
+        ...task,
+        completed: false,
+      };
+
+      dispatch(updateTask(updatedTask));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
       await tasksRef
@@ -166,16 +190,12 @@ export default (state = initialState, action) => {
     case ADD_TASK:
       return { ...state, tasks: [...state.tasks, action.task] };
     case UPDATE_TASK:
-      // 3 items
-      // [1, 2, 3]
-      // action.task.id = 1
       const updatedTasks = state.tasks.map((task) => {
         if (task.id === action.task.id) {
-          return action.task; // 1
+          return action.task;
         }
         return task;
       });
-      // [1, 2, 3]
       return { ...state, tasks: updatedTasks };
     case DELETE_TASK:
       const deletedTasks = state.tasks.filter(
