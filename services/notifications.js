@@ -11,9 +11,8 @@ export async function registerForPushNotificationsAsync() {
     if (existingStatus !== 'granted') {
       // set permission based on switch value
       const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
+      finalStatus = await status;
     }
-
     if (finalStatus !== 'granted') {
       alert('Failed to get push token for push notification!');
       return;
@@ -57,7 +56,7 @@ export async function notificationsPrompt(
   responseListener,
   setNotification
 ) {
-  const token = registerForPushNotificationsAsync();
+  const token = await registerForPushNotificationsAsync();
   dispatch(setExpoPushToken(token));
   // This listener is fired whenever a notification is received while the app is foregrounded
   notificationListener.current = Notifications.addNotificationReceivedListener(
