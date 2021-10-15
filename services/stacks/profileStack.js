@@ -7,7 +7,8 @@ import EditProfile from '../../Components/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
-export default function ProfileStack() {
+export default function ProfileStack(props) {
+  const {notificationListener, responseListener} = props
   return (
     <Stack.Navigator initialRouteName={'My Profile'}>
       <Stack.Screen
@@ -16,7 +17,9 @@ export default function ProfileStack() {
           headerShown: false,
         }}
       >
-        {(props) => <Profile {...props} />}
+        {(props) => <Profile {...props} notificationListener={notificationListener}
+          responseListener={responseListener}
+        />}
       </Stack.Screen>
       <Stack.Screen
         name="Edit Profile"

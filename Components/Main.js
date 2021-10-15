@@ -7,7 +7,7 @@ import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 // components
 import LogIn from './LogIn';
@@ -23,7 +23,17 @@ import ProfileStack from '../services/stacks/profileStack';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
-import { setUser, setExpoPushToken, _setExpoPushToken, _fetchUserFriends } from '../store/user';
+import { setUser, setExpoPushToken, _setExpoPushToken } from '../store/user';
+import {
+  registerForPushNotificationsAsync,
+  notificationsPrompt,
+} from '../services/notifications';
+import {
+  setUser,
+  setExpoPushToken,
+  _setExpoPushToken,
+  _fetchUserFriends,
+} from '../store/user';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -35,37 +45,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    return token;
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -79,21 +58,9 @@ const Main = () => {
   const responseListener = useRef();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      dispatch(setExpoPushToken(token));
-    });
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
 
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
+  useEffect(() => {
+    notificationsPrompt(dispatch, notificationListener, setNotification);
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -113,15 +80,15 @@ const Main = () => {
           .then(async (document) => {
             const userData = document.data() || {};
             setLoading(false);
-            await _fetchUserFriends(user.uid)
+            await _fetchUserFriends(user.uid);
             dispatch(setUser(userData));
           })
           .catch((error) => {
             setLoading(false);
           });
-          if(user.token){
-            dispatch(_setExpoPushToken(user))
-          }
+        if (user.token) {
+          dispatch(_setExpoPushToken(user));
+        }
       } else {
         setLoading(false);
       }
@@ -157,24 +124,21 @@ const Main = () => {
   //   })();
   // }, []);
 
-
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
       dispatch(setExpoPushToken(token));
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
-      }
-    );
+      });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
-      }
-    );
+      });
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -201,7 +165,7 @@ const Main = () => {
       );
 
       // do something with the locations captured in the background
-      console.log('locations in task manager', locations);
+      // console.log('locations in task manager', locations);
     }
   });
 
@@ -236,40 +200,92 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name="Tasks Stack"
+          <Tab.Screen
+            name="Tasks Stack"
             options={{
               tabBarIcon: () => (
-                <Icon style={{marginRight: 10}} color="black" type="ionicon" name="list-outline" size={20} />
-              )}}>
+                <Icon
+                  style={{ marginRight: 10 }}
+                  color="black"
+                  type="ionicon"
+                  name="list-outline"
+                  size={20}
+                />
+              ),
+            }}
+          >
             {(props) => <TasksStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Places Stack"
-          options={{
-            tabBarIcon: () => (
-              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="location-outline" size={20} />
-            )}}>
+          <Tab.Screen
+            name="Places Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  color="black"
+                  type="ionicon"
+                  name="location-outline"
+                  size={20}
+                />
+              ),
+            }}
+          >
             {(props) => <PlacesStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Friends Stack"
-          options={{
-            tabBarIcon: () => (
-              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="people-outline" size={20} />
-            )}}>
+          <Tab.Screen
+            name="Friends Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  color="black"
+                  type="ionicon"
+                  name="people-outline"
+                  size={20}
+                />
+              ),
+            }}
+          >
             {(props) => <FriendsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Groups Stack"
-          options={{
-            tabBarIcon: () => (
-              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="chatbox-outline" size={20} />
-            )}}>
+          <Tab.Screen
+            name="Groups Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  color="black"
+                  type="ionicon"
+                  name="chatbox-outline"
+                  size={20}
+                />
+              ),
+            }}
+          >
             {(props) => <GroupsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Profile Stack"
-          options={{
-            tabBarIcon: () => (
-              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="person-circle-outline" size={20} />
-            )}}>
-            {(props) => <ProfileStack {...props} />}
+
+          <Tab.Screen
+            name="Profile Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  color="black"
+                  type="ionicon"
+                  name="person-circle-outline"
+                  size={20}
+                />
+              ),
+            }}
+          >
+            {(props) => (
+              <ProfileStack
+                {...props}
+                notificationListener={notificationListener}
+                responseListener={responseListener}
+              />
+            )}
           </Tab.Screen>
         </>
       )}
