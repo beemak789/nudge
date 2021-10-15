@@ -59,7 +59,10 @@ const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    notificationsPrompt(dispatch, notificationListener, setNotification);
+    //the token exists and the user wants to turns off notification, the toggle button is OFF.
+    if (user.allowNotifications === 'ON') {
+      notificationsPrompt(dispatch, notificationListener, setNotification);
+    }
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -278,13 +281,7 @@ const Main = () => {
               ),
             }}
           >
-            {(props) => (
-              <ProfileStack
-                {...props}
-                notificationListener={notificationListener}
-                responseListener={responseListener}
-              />
-            )}
+            {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
         </>
       )}

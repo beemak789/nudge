@@ -18,12 +18,10 @@ import {
 } from '../store/user';
 
 export default function Profile(props) {
-  const { notificationListener, responseListener } = props;
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
   const { navigation } = props;
-  const [notification, setNotification] = useState(false);
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
 
   //toggle it from false to true
@@ -33,25 +31,16 @@ export default function Profile(props) {
     // if off, request token again
     // set toggle value (inverse of pervious) in state
     if (toggle) {
-      dispatch(enableNotifications(notificationListener, setNotification));
+      dispatch(enableNotifications(user));
     } else {
       //if there is no token
       dispatch(
-        disableNotifications(user, notificationListener, responseListener)
+        disableNotifications(user)
       );
     }
 
     setNotificationToggle(!notificationToggle);
   };
-
-  //This is the same as line 27
-  // useEffect(() => {
-  //   if (token) {
-  //     setNotificationToggle(true)
-  //   } else {
-  //     setNotificationToggle(false)
-  //   }
-  // }, [])
 
   return (
     <View style={styles.container}>
