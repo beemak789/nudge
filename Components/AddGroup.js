@@ -19,6 +19,7 @@ import { Icon } from 'react-native-elements'
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user)
+  const { groups } = useSelector((state) => state.groups)
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user]);
   const dispatch = useDispatch();
@@ -40,15 +41,16 @@ const AddGroup = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {{ alignItems: 'right', marginLeft: 20, marginTop: 20}}>
-      <TouchableOpacity
+      <View style = {{ alignItems: 'right', marginLeft: 20, marginTop: 0}}>
+      {(groups.length) ?<TouchableOpacity
         style={styles.button}
         onPress={() => {
           props.navigation.navigate("Group List");
         }}
       >
         <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> : <View style={{height: 73}}></View>}
+
       </View>
       <View
         style={{

@@ -51,7 +51,7 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 20}}>
+      <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 0}}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {

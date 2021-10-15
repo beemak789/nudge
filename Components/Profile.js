@@ -153,10 +153,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userImage: {
-    height: 120,
-    width: 120,
+    height: 150,
+    width: 150,
     borderRadius: 24,
-    marginTop: 60,
+    marginTop: 73,
   },
   badgeNudgie: {
     width: 90,
