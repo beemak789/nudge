@@ -8,55 +8,33 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import { ListItem, Text, Avatar, Divider } from 'react-native-elements';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import * as Linking from 'expo-linking';
 
-import { ListItem, Text, Icon, Avatar, Divider } from 'react-native-elements';
-import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
+import { _deleteTask, _updateCompleteStatus } from '../store/task';
+import { _fetchPlaces, clearPlaces } from '../store/places';
 
-const ReviewStars = (props) => {
-  const FullStar = (key) => (
-    <Icon color="#FFC300" key={key} type="ionicon" name="ios-star" size={12} />
-  );
-
-  const HalfStar = (key) => (
-    <Icon
-      color="#FFC300"
-      key={key}
-      type="ionicon"
-      name="md-star-half"
-      size={12}
-    />
-  );
-
-  const EmptyStar = (key) => (
-    <Icon
-      color="#FFC300"
-      key={key}
-      type="ionicon"
-      name="ios-star-outline"
-      size={12}
-    />
-  );
-
-  const { stars } = props;
-  let starReviews = [];
-  for (let i = 1; i <= 5; i++) {
-    let star = FullStar(i);
-    if (stars + 1 - i > 0 && stars + 1 - i < 1) {
-      star = HalfStar(i);
-    } else if (i > stars) {
-      star = EmptyStar(i);
-    }
-    starReviews.push(star);
-  }
-  return <View style={{ flex: 1, flexDirection: 'row' }}>{starReviews}</View>;
-};
+import { ReviewStars } from '../services/StarRating';
+import { priorityStyle } from '../services/PriorityStyle';
+import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
-  const places = useSelector((state) => state.places);
+  const { places, status } = useSelector((state) => state.place);
+  const { currTask } = useSelector((state) => state.task);
 
-  if (!places.length) {
+  const updateCompleteStatus = (item) => {
+    dispatch(_updateCompleteStatus(item));
+    dispatch(clearPlaces());
+  };
+  const deleteTask = (itemId) => {
+    dispatch(_deleteTask(itemId));
+    dispatch(clearPlaces());
+  };
+
+  if (!places.length && !currTask.id) {
     return (
       <SafeAreaView style={styles.container2}>
         <View>
@@ -73,10 +51,51 @@ const PlacesList = (props) => {
         </View>
       </SafeAreaView>
     );
+  } else if (!places.length && status.length && currTask.id) {
+    return (
+      <SafeAreaView style={styles.container2}>
+        <View>
+          <Text>{status}</Text>
+          <Swipeable
+            renderLeftActions={LeftSwipeActions}
+            renderRightActions={RightSwipeActions}
+            onSwipeableRightOpen={() => deleteTask(currTask.id)}
+            onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
+          >
+            <View style={styles.box}>
+              <View style={styles.info}>
+                <Text style={styles.item}>{currTask.name}</Text>
+              </View>
+              <View style={priorityStyle(currTask.priority)}></View>
+            </View>
+          </Swipeable>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => dispatch(_fetchPlaces())}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+
+            <Text style={styles.buttonText}>Complete a different task?</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
   }
 
-  const baseImage =
-    'https://images.unsplash.com/photo-1552334405-4929565998d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80';
+  const generateLink = (item) => {
+    const name = item.name.replace(/\s/g, '+');
+
+    const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
+    Linking.openURL(mapsLink);
+
+  };
+
+  const getImage = (lat, long) => {
+  //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
+  // };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -94,21 +113,38 @@ const PlacesList = (props) => {
               style={styles.nudgie}
               source={require('../public/nudgie2.png')}
             />
-            <Text style={styles.buttonText}>Press to complete a task!</Text>
+            <Text style={styles.buttonText}>
+              Press to complete another task!
+            </Text>
           </TouchableOpacity>
-
+          <Swipeable
+            renderLeftActions={LeftSwipeActions}
+            renderRightActions={RightSwipeActions}
+            onSwipeableRightOpen={() => deleteTask(currTask.id)}
+            onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
+          >
+            <View style={styles.box}>
+              <View style={styles.info}>
+                <Text style={styles.item}>{currTask.name}</Text>
+              </View>
+              <View style={priorityStyle(currTask.priority)}></View>
+            </View>
+          </Swipeable>
           <FlatList
             data={places}
             renderItem={({ item }) => (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => generateLink(item)}>
                 <ListItem chevron={{ color: '#e90000', size: 30 }}>
                   <Avatar
                     title={item.name}
                     rounded={false}
                     size={'large'}
                     source={
-                      item.photos && {
-                        uri: baseImage,
+                      item.marker && {
+                        uri: getImage(
+                          item.marker.latitude,
+                          item.marker.longitude
+                        ),
                       }
                     }
                     containerStyle={{ marginLeft: 20 }}
@@ -191,6 +227,33 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginLeft: 'auto',
+  },
+  box: {
+    alignSelf: 'center',
+    display: 'flex',
+    width: '95%',
+    borderRadius: 10,
+    backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  info: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    padding: 5,
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#EBF6EF',

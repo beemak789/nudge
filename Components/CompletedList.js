@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+
 import React, { useEffect } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
@@ -18,8 +19,11 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import { priorityStyle } from '../services/taskListFuncs';
+import {
+  LeftCompleteSwipeActions,
+  RightSwipeActions,
+} from '../services/Swipeable';
+import { priorityStyle } from '../services/PriorityStyle';
 
 const CompletedList = (props) => {
   const dispatch = useDispatch();
@@ -70,7 +74,7 @@ const CompletedList = (props) => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
-              renderLeftActions={LeftSwipeActions}
+              renderLeftActions={LeftCompleteSwipeActions}
               renderRightActions={RightSwipeActions}
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
