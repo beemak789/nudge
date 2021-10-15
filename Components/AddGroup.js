@@ -19,8 +19,6 @@ const AddGroup = (props) => {
   const user = useSelector((state) => state.user)
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user]);
-  const [emails, setEmails] = useState([])
-  const [tasks, setTasks] = useState([]);
   const dispatch = useDispatch();
 
   const onSubmit = (members) => {
@@ -30,12 +28,11 @@ const AddGroup = (props) => {
         members
       })
     );
+    onChangeText('');
+    setMembers([user]);
     props.navigation.navigate('Group List', {
       screen: 'Group List',
     });
-    onChangeText('');
-    setMembers([user]);
-
   };
   const friends = useSelector((state) => state.user.friends)
 

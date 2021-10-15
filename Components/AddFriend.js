@@ -42,6 +42,7 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
+
     for(let i = 0; i < user.friends.length; i++){
       if(user.friends[i].id === friends.id){
         friendsList({error: 'This person is already your friend'})
@@ -49,6 +50,7 @@ const AddFriend = (props) => {
       }
     }
     dispatch(_addFriend(user.id, friends.id))
+
     friendsList()
     onChangeText('')
   }
