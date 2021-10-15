@@ -49,23 +49,23 @@ const SingleGroup = (props) => {
       onSwipeableRightOpen={() => deleteGroup(props.group.id)}
     >
       <View style={styles.box}>
-      <Icon style={{marginLeft: 5}} color="black" type="ionicon" name="notifications-outline" size={20} />
+      <Icon style={{marginLeft: 5, marginRight: 50}} color="black" type="ionicon" name="notifications-outline" size={20} />
         {/* <Image
                 style={styles.image}
                 source={require('../public/nudgie2.png')}
               /> */}
-        <View style={styles.info}>
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(selectGroup(props.group.id));
-              props.navigation.navigate('Group List');
-            }}
-          >
-            <Text style={styles.buttonText}>{props.group.name}</Text>
-          </TouchableOpacity>
+      <View style={styles.info}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(selectGroup(props.group.id));
+            props.navigation.navigate('Group List');
+          }}
+        >
+          <Text style={styles.buttonText}>{props.group.name}</Text>
+        </TouchableOpacity>
 
-        </View>
-        <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
+      </View>
+      <Icon style={{marginRight: 5, marginLeft: 50}}color="black" type="ionicon" name="trash-outline" size={22} />
         {/* <Button
                 style={styles.completedButton}
                 title="Send Alert"
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
+    justifyContent:"space-between",
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowOffset: {
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
     color: '#4a7c59',
     fontWeight: '700',
     fontSize: 22,
-    paddingHorizontal: 100,
   },
   nudgie: {
     width: 50,

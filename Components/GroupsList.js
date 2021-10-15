@@ -63,7 +63,7 @@ const GroupsList = (props) => {
         />
       </View>
       <Text style={styles.title}>My Groups</Text>
-          <Text style={styles.buttonText}>+</Text>
+        <Text style={styles.buttonText}>+</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
