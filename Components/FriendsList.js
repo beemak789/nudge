@@ -14,11 +14,11 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
-import { _fetchUserFriends } from '../store/user';
+import { Icon } from 'react-native-elements'
+import { _deleteFriend, _fetchSingleFriendInfo, _fetchUserFriends } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
-  console.log(toExpoToken)
   if(toExpoToken){
     const message = {
       to: toExpoToken,
@@ -46,8 +46,9 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(_fetchUserFriends(user))
+    dispatch( _fetchUserFriends(user.id))
   }, [dispatch])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 20}}>
@@ -57,7 +58,7 @@ const FriendsList = (props) => {
             props.navigation.navigate("Add Friend");
           }}
         >
-        <Text style={styles.buttonText}>+</Text>
+        <Icon color="black" type="ionicon" name="person-add-outline" size={20} />
         </TouchableOpacity>
       </View>
       <View style= {{margin: 20,
@@ -66,22 +67,31 @@ const FriendsList = (props) => {
           flex: 1}}>
       <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
       <Text style={styles.title}>Your Nudgies</Text>
-      <FlatList
-      data={user.friends}
-      keyExtractor={(item) => item.id}
-      renderItem= {( { item } ) => (
-        <View style={styles.box}>
-          <TouchableOpacity
-            onPress={async () => {
-              await sendPushNotification(item.token, user.fullName)
-              console.log('pressed sent')
-            }}>
-            <Text style={styles.item}>{item.fullName}</Text>
-            {/* <Text style={styles.item}>{item.email}</Text> */}
-          </TouchableOpacity>
-        </View>
-      )}>
-      </FlatList>
+      {(user.friends.length < 1) ? <Text>No friends</Text>:
+        (user.friends[0].id) ? (
+        <FlatList
+          data={user.friends}
+          keyExtractor={(item) => item.id}
+          renderItem= {( { item } ) => (
+            <View style={styles.box}>
+
+              <TouchableOpacity
+                onPress={async () => {
+                  await sendPushNotification(item.token, user.fullName)
+                }}>
+              <Icon style={{marginLeft: 5}}color="black" type="ionicon" name="notifications-outline" size={20} />
+              </TouchableOpacity>
+              <Text style={styles.item}>{item.fullName}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(_deleteFriend(user.id, item.id))}
+                }>
+                <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
+              </TouchableOpacity>
+            </View>
+          )}>
+          </FlatList>) : (<Text>Loading...</Text>)
+      }
       </View>
     </SafeAreaView>
   );

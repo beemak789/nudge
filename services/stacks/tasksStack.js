@@ -19,13 +19,11 @@ const CategoriesStack = (props) => {
     <SafeAreaProvider>
       <Tab.Navigator
         screenOptions={{
-          activeTintColor: '#6ede8a',
+          activeTintColor: 'white',
           itemStyle: { marginVertical: 10 },
-          inactiveTintColor: '#dde5b6',
-          style: {
-            backgroundColor: '#00818A',
-          },
-          headerShown: true,
+          inactiveTintColor: 'white',
+          headerShown: false,
+          style: {position: 'relative', top: 100}
         }}
       >
         <Tab.Screen name="Task List" component={TaskList} {...props} />
@@ -45,10 +43,11 @@ const tasksStack = (props) => {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#709775',
+          backgroundColor: 'white',
         },
         headerTintColor: 'white',
-        headerBackTitle: 'Back',
+        headerBackTitle: '',
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen name="Categories Stack">

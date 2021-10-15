@@ -28,18 +28,15 @@ const LogIn = (props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContent}>
         <Image
-          style={styles.avatar}
-          source={{
-            uri:
-              "https://i.fbcd.co/products/resized/resized-750-500/f2177c99d17188c13fa062882305de8a3a836804c7037e8c43f5bfa28f227bf8.jpg",
-          }}
+          style={styles.nudgie}
+          source={require('../public/nudgie2.png')}
         />
-        <Text style={styles.headerText}>Name of App</Text>
+        <Text style={styles.title}>nudge</Text>
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="Email"
           placeholderTextColor="#003f5c"
           autoCapitalize="none"
@@ -47,9 +44,9 @@ const LogIn = (props) => {
         />
       </View>
 
-      <View style={styles.inputView}>
+      <View style={styles.box}>
         <TextInput
-          style={styles.TextInput}
+          style={styles.item}
           placeholder="Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
@@ -58,18 +55,18 @@ const LogIn = (props) => {
         />
       </View>
 
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.loginBtn}>
+      <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.loginText}>LOG IN</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity>
+        <Text style={styles.forgot_button}>Forgot Password?</Text>
+      </TouchableOpacity> */}
 
-      <Text>New User?</Text>
+      <Text style= {{marginTop: 20}}>New User?</Text>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Sign Up")}
-        style={styles.loginBtn}
+        style={styles.button}
       >
         <Text style={styles.loginText}>Sign Up!</Text>
       </TouchableOpacity>
@@ -77,17 +74,6 @@ const LogIn = (props) => {
   );
 };
 
-// const mapState = state => {
-//   return {
-
-//   };
-// };
-
-// const mapDispatch = (dispatch, {newJWT}) => {
-//   return {
-
-//   };
-// };
 
 export default LogIn;
 
@@ -96,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
 
   inputView: {
@@ -106,47 +92,72 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
   },
-  imageContent: {
-    padding: 10,
-    alignItems: "center",
-    marginBottom: 30,
+  nudgie: {
+    marginTop: 30,
+    height: 150,
+    width: 150,
+    borderRadius: 24,
   },
 
   avatar: {
     width: 140,
     height: 140,
   },
-  headerText: {
-    fontWeight: "700",
-    fontSize: 40,
-    alignSelf: "center",
-    fontFamily: "Helvetica-Bold",
-    marginTop: 30,
-    color: "#264653",
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
   },
 
-  TextInput: {
-    height: 50,
-    flex: 1,
+  box: {
+    display: 'flex',
+    justifyContent: "space-between",
+    width: 325,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  item: {
     padding: 10,
-    marginLeft: 20,
-    alignItems: "center",
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'left',
+    width: "90%",
   },
-
-  loginBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: "#709775",
+  button: {
+    justifyContent: 'center',
+    width: 200,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    margin: 5,
   },
   loginText: {
     color: "white",
     fontWeight: "700",
     fontSize: 18,
+    textAlign: 'center',
   },
 
   forgot_button: {

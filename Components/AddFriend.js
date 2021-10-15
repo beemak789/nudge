@@ -24,7 +24,7 @@ const AddFriend = (props) => {
   const dispatch = useDispatch()
 
   const onChangeSearch = async () => {
-    friendsList([])
+    friendsList()
     const lowerText = text.toLowerCase()
     const query = await firebase
     .firestore()
@@ -32,6 +32,9 @@ const AddFriend = (props) => {
     .where('email', "==", lowerText)
     .get()
     .then( (snapshot) => {
+      if(snapshot.doc === undefined){
+        friendsList({error: 'No one by this email'})
+      }
       snapshot.forEach( (doc) => {
         friendsList(doc.data())
       })
@@ -39,7 +42,15 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
-    dispatch(_addFriend(user, friends))
+
+    for(let i = 0; i < user.friends.length; i++){
+      if(user.friends[i].id === friends.id){
+        friendsList({error: 'This person is already your friend'})
+        return
+      }
+    }
+    dispatch(_addFriend(user.id, friends.id))
+
     friendsList()
     onChangeText('')
   }
@@ -76,12 +87,12 @@ const AddFriend = (props) => {
       style={styles.search}><Icon color="black" type="ionicon" name="search-outline" size={20} /></TouchableOpacity>
       </View>
       </View>
-      { (friends) ? <TouchableOpacity onPress={addToFriends}>
+      { (friends) ? ((!friends.error) ? <TouchableOpacity onPress={addToFriends}>
       <View style={styles.box}>
           <Text style={styles.item}>{friends.fullName}</Text>
-          <Text style={styles.item}>+</Text>
+          <Icon style={{marginRight: 10}} color="black" type="ionicon" name="person-add-outline" size={20} />
         </View>
-      </TouchableOpacity> : <View/>}
+      </TouchableOpacity> : <Text>{friends.error}</Text>) : <View />}
       </View>
 
     </SafeAreaView>
