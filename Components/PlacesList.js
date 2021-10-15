@@ -24,7 +24,7 @@ const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places, status } = useSelector((state) => state.place);
   const { currTask, tasks } = useSelector((state) => state.task);
-
+  console.log(tasks);
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
     dispatch(clearPlaces());

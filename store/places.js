@@ -62,49 +62,81 @@ export const _fetchPlaces = () => {
 
           let url = `${nearbyBase}${locationUrl}${radiusUrl}${typeData}${api}`;
 
+          let newPromise;
           if (type === 'other') {
             const search = currTask.name.replace(/\s/g, '%');
             const query = `&query=${search}`;
 
-            url = `${nearbyBase}${locationUrl}${query}${radiusUrl}${api}`;
+            url = `${queryBase}${locationUrl}${query}${radiusUrl}${api}`;
+
+            newPromise = new Promise((res, rej) => {
+              res(
+                fetch(url)
+                  .then((res) => res.json())
+                  .then((res) => {
+                    res.results.map((element) => {
+                      if (placeIds.includes(element.place_id)) {
+                        return null;
+                      } else {
+                        const marketObj = {};
+                        marketObj.id = element.place_id;
+                        marketObj.name = element.name;
+                        marketObj.types = element.types;
+                        marketObj.photos = element.photos;
+                        marketObj.rating = element.rating;
+                        marketObj.vicinity = element.formatted_address;
+                        marketObj.marker = {
+                          latitude: element.geometry.location.lat,
+                          longitude: element.geometry.location.lng,
+                        };
+
+                        placeIds.push(marketObj.id);
+                        places.push(marketObj);
+                      }
+                    });
+                  })
+              );
+            });
+          } else {
+            newPromise = new Promise((res, rej) => {
+              res(
+                fetch(url)
+                  .then((res) => res.json())
+                  .then((res) => {
+                    res.results.map((element) => {
+                      if (
+                        placeIds.includes(element.place_id) ||
+                        !element.types.includes(type)
+                      ) {
+                        return null;
+                      } else {
+                        const marketObj = {};
+                        marketObj.id = element.place_id;
+                        marketObj.name = element.name;
+                        marketObj.types = element.types;
+                        marketObj.photos = element.photos;
+                        marketObj.rating = element.rating;
+                        marketObj.vicinity = element.vicinity;
+                        marketObj.marker = {
+                          latitude: element.geometry.location.lat,
+                          longitude: element.geometry.location.lng,
+                        };
+
+                        placeIds.push(marketObj.id);
+                        places.push(marketObj);
+                      }
+                    });
+                  })
+              );
+            });
           }
 
-          let newPromise = new Promise((res, rej) => {
-            res(
-              fetch(url)
-                .then((res) => res.json())
-                .then((res) => {
-                  res.results.map((element) => {
-                    if (
-                      placeIds.includes(element.place_id) ||
-                      !element.types.includes(type)
-                    ) {
-                      return null;
-                    } else {
-                      const marketObj = {};
-                      marketObj.id = element.place_id;
-                      marketObj.name = element.name;
-                      marketObj.types = element.types;
-                      marketObj.photos = element.photos;
-                      marketObj.rating = element.rating;
-                      marketObj.vicinity = element.vicinity;
-                      marketObj.marker = {
-                        latitude: element.geometry.location.lat,
-                        longitude: element.geometry.location.lng,
-                      };
-
-                      placeIds.push(marketObj.id);
-                      places.push(marketObj);
-                    }
-                  });
-                })
-            );
-          });
           promises.push(newPromise);
         })
       );
 
       await Promise.all(promises).then(() => {
+        console.log('plaaaaces', places);
         if (places.length) {
           dispatch(setPlaces(places));
           dispatch(setCurrTask(currTask));
