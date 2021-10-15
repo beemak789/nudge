@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  FlatList,
+  FlatList
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserGroups, selectGroup, _setGroups } from '../store/group';
 import SingleGroup from './SingleGroup'
+import { AntDesign } from '@expo/vector-icons';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
@@ -46,15 +47,18 @@ const GroupsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ marginLeft: 'auto', padding: 5 }}>
+        <AntDesign.Button
+          name="pluscircle"
+          size={30}
+          color="#83CA9E"
+          backgroundColor="transparent"
+          onPress={() => {
+            props.navigation.navigate('Add Group');
+          }}
+        />
+      </View>
       <Text style={styles.title}>My Groups</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.navigate('Add Group');
-        }}
-      >
-        <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
       <View style={styles.body}>
         <FlatList
           data={groups}

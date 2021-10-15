@@ -3,7 +3,7 @@ import { firebase } from '../config/firebase';
 const SET_GROUPS = 'SET_GROUPS';
 const ADD_GROUP = 'CREATE_GROUP';
 const SELECT_GROUP = 'SELECT_GROUP';
-const DELETE_GROUP = ''
+const DELETE_GROUP = 'DELETE_GROUP'
 
 export const _setGroups = (groups) => {
   return {
@@ -22,6 +22,13 @@ export const _selectGroup = (selectedGroup) => {
   return {
     type: SELECT_GROUP,
     selectedGroup,
+  };
+};
+
+export const _deleteGroup = (groupId) => {
+  return {
+    type: DELETE_GROUP,
+    groupId,
   };
 };
 
@@ -100,6 +107,40 @@ export const createGroup = ({ name, members}) => {
     }
   };
 };
+// ____NOT TESTED
+// export const deleteGroup = ({ groupId, name, members}) => {
+//   return async (dispatch) => {
+//     try {
+//       const data = {
+//         groupId
+//         name,
+//         members
+//       };
+//       // delete the group based on id
+//       let group = await firebase
+//         .firestore()
+//         .collection('groups')
+//         .doc(groupId)
+//         .delete()
+//       // adds the new groupID to each members' groups array on their user object
+//       members.forEach(async (member) =>
+//       await firebase
+//       .firestore()
+//       .collection('users')
+//       .doc(member.id)
+//       .update({groups: firebase.firestore.FieldValue.arrayRemove(groupId)})
+//       )
+//       //deletes group from redux store
+//       dispatch(
+//         _deleteGroup({
+//           groupId
+//         })
+//       );
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// };
 
 export const selectGroup = (groupId) => {
   return async (dispatch) => {
@@ -130,7 +171,10 @@ export default (state = initialState, action) => {
     case ADD_GROUP:
       return { ...state, groups: [...state.groups, action.group] };
     case DELETE_GROUP:
-      return {}
+    const deletedGroups = state.groups.filter(
+        (group) => group.id !== action.groupId
+      );
+      return { ...state, groups: deletedGroups };
     case SELECT_GROUP:
       return {...state, selectedGroup: action.selectedGroup}
     default:
