@@ -8,18 +8,23 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ScrollView,
   ButtonGroup,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
+import { _fetchUserFriends } from '../store/user'
+import { useDerivedValue } from 'react-native-reanimated';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user)
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user]);
   const dispatch = useDispatch();
+  const friends = useSelector((state) => state.user.friends)
+  useEffect(() => {
+    dispatch(_fetchUserFriends(user));
+  }, [dispatch]);
 
   const onSubmit = (members) => {
     dispatch(
@@ -34,7 +39,6 @@ const AddGroup = (props) => {
       screen: 'Group List',
     });
   };
-  const friends = useSelector((state) => state.user.friends)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,8 +75,6 @@ const AddGroup = (props) => {
           </Text>
           <View
             style={{ height: 50 }}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
           >
             {friends.map((friend) => {
               return (
@@ -109,10 +111,11 @@ const AddGroup = (props) => {
               );
             })}
           </View>
+
         </View>
         <TouchableOpacity style={styles.save} onPress={() => onSubmit(members)} title="save">
-          <Text style={{ color: 'black', fontWeight: 'bold' }}>Save</Text>
-        </TouchableOpacity>
+            <Text style={{ color: 'black', fontWeight: 'bold' }}>Save</Text>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -145,34 +148,14 @@ const styles = StyleSheet.create({
     },
   },
   selected: {
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
     backgroundColor: '#83CA9E',
-    borderWidth: 1,
-    borderColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 4,
-    height: 90,
-    width: 80,
-    margin: 5,
-    shadowColor: '#000000',
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-  },
-  notSelected: {
-    backgroundColor: '#EBF6EF',
-    color: 'gray',
-    borderWidth: 1,
-    borderColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 4,
-    height: 90,
-    width: 80,
-    margin: 5,
     shadowColor: '#000000',
     shadowOpacity: 0.3,
     shadowRadius: 2,
@@ -180,6 +163,25 @@ const styles = StyleSheet.create({
       height: 2,
       width: 2,
     },
+    marginTop: 10,
+  },
+  notSelected: {
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    borderColor: "transparent",
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#EBF6EF',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
   },
   nudgie: {
     height: 150,

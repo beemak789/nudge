@@ -20,7 +20,7 @@ const persistConfig = {
 
 export const store = createStore(
   appReducer,
-  applyMiddleware(thunkMiddleware, createLogger())
+  applyMiddleware(thunkMiddleware)
 );
 
 // export const persistor = persistStore(store);
