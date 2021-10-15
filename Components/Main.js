@@ -7,6 +7,7 @@ import { Text, View } from 'react-native';
 import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
+import { Icon } from 'react-native-elements'
 
 // components
 import LogIn from './LogIn';
@@ -22,7 +23,7 @@ import ProfileStack from '../services/stacks/profileStack';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
-import { setUser, setExpoPushToken, _setExpoPushToken } from '../store/user';
+import { setUser, setExpoPushToken, _setExpoPushToken, _fetchUserFriends } from '../store/user';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -109,9 +110,10 @@ const Main = () => {
         usersRef
           .doc(user.uid)
           .get()
-          .then((document) => {
+          .then(async (document) => {
             const userData = document.data() || {};
             setLoading(false);
+            await _fetchUserFriends(user.uid)
             dispatch(setUser(userData));
           })
           .catch((error) => {
@@ -126,34 +128,34 @@ const Main = () => {
     });
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //       return;
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
+  //     let location = await Location.getCurrentPositionAsync({});
 
-      dispatch(
-        checkLocation(
-          location,
-          location.coords.latitude,
-          location.coords.longitude
-        )
-      );
-      let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log('backPerm', backPerm);
+  //     dispatch(
+  //       checkLocation(
+  //         location,
+  //         location.coords.latitude,
+  //         location.coords.longitude
+  //       )
+  //     );
+  //     let backPerm = await Location.requestBackgroundPermissionsAsync();
+  //     console.log('backPerm', backPerm);
 
-      if (backPerm.status === 'granted') {
-        await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-          distanceInterval: 5,
-          accuracy: Location.Accuracy.Balanced,
-        });
-      }
-    })();
-  }, []);
+  //     if (backPerm.status === 'granted') {
+  //       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+  //         distanceInterval: 5,
+  //         accuracy: Location.Accuracy.Balanced,
+  //       });
+  //     }
+  //   })();
+  // }, []);
 
 
   useEffect(() => {
@@ -234,19 +236,39 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name="Tasks Stack">
+          <Tab.Screen name="Tasks Stack"
+            options={{
+              tabBarIcon: () => (
+                <Icon style={{marginRight: 10}} color="black" type="ionicon" name="list-outline" size={20} />
+              )}}>
             {(props) => <TasksStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Places Stack">
+          <Tab.Screen name="Places Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="location-outline" size={20} />
+            )}}>
             {(props) => <PlacesStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Friends Stack">
+          <Tab.Screen name="Friends Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="people-outline" size={20} />
+            )}}>
             {(props) => <FriendsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Groups Stack">
+          <Tab.Screen name="Groups Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="chatbox-outline" size={20} />
+            )}}>
             {(props) => <GroupsStack {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Profile Stack">
+          <Tab.Screen name="Profile Stack"
+          options={{
+            tabBarIcon: () => (
+              <Icon style={{marginRight: 10}} color="black" type="ionicon" name="person-circle-outline" size={20} />
+            )}}>
             {(props) => <ProfileStack {...props} />}
           </Tab.Screen>
         </>
