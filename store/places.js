@@ -36,6 +36,7 @@ export const _fetchPlaces = () => {
       const { location, task } = getState();
       const tasks = task.incomplete;
       const currTask = tasks[Math.floor(Math.random() * tasks.length)];
+      dispatch(setCurrTask(currTask));
 
       let radius = 1000;
       if (task.priority === 'high') {
@@ -136,15 +137,12 @@ export const _fetchPlaces = () => {
       );
 
       await Promise.all(promises).then(() => {
-        console.log('plaaaaces', places);
         if (places.length) {
           dispatch(setPlaces(places));
-          dispatch(setCurrTask(currTask));
         } else {
           const status =
             'There are no locations currently near you for this task!';
           dispatch(setStatus(status));
-          dispatch(setCurrTask(currTask));
         }
       });
     } catch (error) {

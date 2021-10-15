@@ -59,7 +59,9 @@ const AddTask = (props) => {
         category,
       })
     );
-    props.navigation.navigate('Task List');
+    props.navigation.navigate('Categories Stack', {
+      screen: 'Task List',
+    });
     onChangeText('');
     addCategory([]);
     setPriority('');
@@ -220,7 +222,11 @@ const AddTask = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
-          onPress={() => props.navigation.navigate('Task List')}
+          onPress={() =>
+            props.navigation.navigate('Categories Stack', {
+              screen: 'Task List',
+            })
+          }
           title="cancel"
         >
           <Text style={styles.saveText}>cancel</Text>

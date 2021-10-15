@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { ListItem, Text, Avatar, Divider } from 'react-native-elements';
+import { ListItem, Text, Divider } from 'react-native-elements';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import * as Linking from 'expo-linking';
 
@@ -22,9 +22,9 @@ import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
-  const { places, status } = useSelector((state) => state.place);
-  const { currTask, tasks } = useSelector((state) => state.task);
-  console.log(tasks);
+  const { places } = useSelector((state) => state.place);
+  const { currTask } = useSelector((state) => state.task);
+
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
     dispatch(clearPlaces());
@@ -34,65 +34,6 @@ const PlacesList = (props) => {
     dispatch(clearPlaces());
   };
 
-  if (!tasks.length) {
-    return (
-      <SafeAreaView style={styles.container2}>
-        <View>
-          <Text>You have no tasks!</Text>
-        </View>
-      </SafeAreaView>
-    );
-  } else if (!places.length && !currTask.id) {
-    return (
-      <SafeAreaView style={styles.container2}>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => dispatch(_fetchPlaces())}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>Press to complete a task!</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  } else if (!places.length && status.length && currTask.id) {
-    return (
-      <SafeAreaView style={styles.container2}>
-        <View>
-          <Text>{status}</Text>
-          <Swipeable
-            renderLeftActions={LeftSwipeActions}
-            renderRightActions={RightSwipeActions}
-            onSwipeableRightOpen={() => deleteTask(currTask.id)}
-            onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
-          >
-            <View style={styles.box}>
-              <View style={styles.info}>
-                <Text style={styles.item}>{currTask.name}</Text>
-              </View>
-              <View style={priorityStyle(currTask.priority)}></View>
-            </View>
-          </Swipeable>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => dispatch(_fetchPlaces())}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-
-            <Text style={styles.buttonText}>Complete a different task?</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
 
@@ -100,9 +41,6 @@ const PlacesList = (props) => {
     Linking.openURL(mapsLink);
   };
 
-  const getImage = (lat, long) => {
-    //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
-  };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -142,20 +80,6 @@ const PlacesList = (props) => {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => generateLink(item)}>
                 <ListItem chevron={{ color: '#e90000', size: 30 }}>
-                  <Avatar
-                    title={item.name}
-                    rounded={false}
-                    size={'large'}
-                    source={
-                      item.marker && {
-                        uri: getImage(
-                          item.marker.latitude,
-                          item.marker.longitude
-                        ),
-                      }
-                    }
-                    containerStyle={{ marginLeft: 20 }}
-                  />
                   <ListItem.Content>
                     <ListItem.Title>
                       <View style={styles.rowDirection}>
@@ -200,24 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  menuTitle: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Medium',
-    color: '#575757',
-    marginLeft: 20,
-    marginTop: 10,
-  },
-  mapView: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  restaurantList: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  chevron: {
-    color: '#e90000',
-  },
+
   rowDirection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -286,10 +193,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: 'transparent',
     margin: 5,
-  },
-  noTasksText: {
-    fontWeight: '700',
-    fontSize: 20,
   },
 });
 

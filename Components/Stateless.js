@@ -1,32 +1,17 @@
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-} from 'react-native';
-
-import React, { useEffect } from 'react';
-import { AntDesign } from '@expo/vector-icons';
+import { StyleSheet, FlatList, Text, View, SafeAreaView } from 'react-native';
+import React from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
   _deleteTask,
   _fetchAllTasks,
   _updateCompleteStatus,
 } from '../store/task';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 
-const taskList = (props) => {
+const Stateless = (props) => {
   const dispatch = useDispatch();
-  const { incomplete } = useSelector((state) => state.task);
-
-  useEffect(() => {
-    dispatch(_fetchAllTasks());
-  }, []);
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
@@ -38,19 +23,11 @@ const taskList = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            props.navigation.navigate('Add Task');
-          }}
-        />
+        <Text>{props.title}</Text>
       </View>
       <View style={styles.body}>
         <FlatList
-          data={incomplete}
+          data={props.list}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
@@ -73,7 +50,7 @@ const taskList = (props) => {
   );
 };
 
-export default taskList;
+export default Stateless;
 
 const styles = StyleSheet.create({
   container: {
