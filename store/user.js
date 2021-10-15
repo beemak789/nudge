@@ -4,21 +4,13 @@ const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const REMOVE_EXPO_PUSH_TOKEN = 'REMOVE_EXPO_PUSH_TOKEN';
 const ADD_FRIEND = 'ADD_FRIEND';
-<<<<<<< HEAD
-const LOGOUT_USER = 'LOGOUT_USER';
-=======
 const DELETE_FRIEND = 'DELETE_FRIEND';
-const LOGOUT_USER = 'LOGOUT_USER'
->>>>>>> main
+const LOGOUT_USER = 'LOGOUT_USER';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { notificationsPrompt } from '../services/notifications';
 import * as Notifications from 'expo-notifications';
 
 export const setUser = (user) => {
-<<<<<<< HEAD
-  console.log(user);
-=======
->>>>>>> main
   return {
     type: SET_USER,
     user,
@@ -45,7 +37,6 @@ export const addFriend = (friend) => {
   };
 };
 
-<<<<<<< HEAD
 // USER NOTIFICATIONS
 export const setExpoPushToken = (token) => {
   return {
@@ -54,16 +45,10 @@ export const setExpoPushToken = (token) => {
   };
 };
 
-export const removeExpoPushToken = (token) => {
-  return {
-    type: REMOVE_EXPO_PUSH_TOKEN,
-    token,
-=======
 export const deleteFriend = (friendId) => {
   return {
     type: DELETE_FRIEND,
     friendId,
->>>>>>> main
   };
 };
 
@@ -86,7 +71,7 @@ export const logInUser = (email, password) => {
               }
               const data = firestoreDocument.data();
               dispatch(setUser(data));
-              _fetchUserFriends(uid)
+              _fetchUserFriends(uid);
             })
             .catch((error) => {
               alert(error);
@@ -182,9 +167,13 @@ export const _fetchUserFriends = (user) => {
         .get()
         .then(async (friendsList) => {
           let userFriends = friendsList.data().friends;
-          let result = await Promise.all(userFriends.map(async (friend) => await _fetchSingleFriendInfo(friend)))
-          dispatch(setUserFriends(result))
-      })
+          let result = await Promise.all(
+            userFriends.map(
+              async (friend) => await _fetchSingleFriendInfo(friend)
+            )
+          );
+          dispatch(setUserFriends(result));
+        });
     } catch (err) {
       alert(err);
     }
@@ -192,62 +181,64 @@ export const _fetchUserFriends = (user) => {
 };
 
 export const _fetchSingleFriendInfo = async (friendId) => {
-  let userInfo
+  let userInfo;
   await firebase
     .firestore()
     .collection('users')
     .doc(friendId)
     .get()
-    .then( (snapshot) => {
-      userInfo = snapshot.data()
-      if(userInfo.friends) {
-        delete userInfo.friends
+    .then((snapshot) => {
+      userInfo = snapshot.data();
+      if (userInfo.friends) {
+        delete userInfo.friends;
       }
-  })
-  return userInfo
+    });
+  return userInfo;
 };
 
 export const _addFriend = (userId, friendId) => {
   return async (dispatch) => {
     try {
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(userId)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(friendId)})
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .update({
+          friends: firebase.firestore.FieldValue.arrayUnion(friendId),
+        });
       // add two way friendship
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(friendId)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(userId)})
+        .firestore()
+        .collection('users')
+        .doc(friendId)
+        .update({ friends: firebase.firestore.FieldValue.arrayUnion(userId) });
 
-      const friendInfoForState = await _fetchSingleFriendInfo(friendId)
-      dispatch(addFriend(friendInfoForState))
+      const friendInfoForState = await _fetchSingleFriendInfo(friendId);
+      dispatch(addFriend(friendInfoForState));
     } catch (err) {
       alert(err);
     }
   };
 };
 
-
 export const _deleteFriend = (userId, friendId) => {
   return async (dispatch) => {
     try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .update({
+          friends: firebase.firestore.FieldValue.arrayRemove(friendId),
+        });
 
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(userId)
-      .update({friends: firebase.firestore.FieldValue.arrayRemove(friendId)})
+        .firestore()
+        .collection('users')
+        .doc(friendId)
+        .update({ friends: firebase.firestore.FieldValue.arrayRemove(userId) });
 
-      await firebase
-      .firestore()
-      .collection('users')
-      .doc(friendId)
-      .update({friends: firebase.firestore.FieldValue.arrayRemove(userId)})
-
-      dispatch(deleteFriend(friendId))
+      dispatch(deleteFriend(friendId));
     } catch (err) {
       alert(err);
     }
@@ -283,7 +274,7 @@ export const signUpUser = (email, password, first, last) => {
           const data = {
             id: uid,
             email,
-            fullName: first + last
+            fullName: first + last,
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -319,7 +310,9 @@ export default (state = {}, action) => {
     case LOGOUT_USER:
       return {};
     case DELETE_FRIEND:
-      const deleteFriend = [...state.friends].filter( (friend) => friend.id !== action.friendId)
+      const deleteFriend = [...state.friends].filter(
+        (friend) => friend.id !== action.friendId
+      );
       return { ...state, friends: deleteFriend };
     case ADD_FRIEND:
       const newFriends = [...state.friends];
