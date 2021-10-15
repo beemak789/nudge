@@ -18,12 +18,10 @@ import {
 } from '../store/user';
 
 export default function Profile(props) {
-  const { notificationListener, responseListener } = props;
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
   const { navigation } = props;
-  const [notification, setNotification] = useState(false);
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
 
   //toggle it from false to true
@@ -33,28 +31,18 @@ export default function Profile(props) {
     // if off, request token again
     // set toggle value (inverse of pervious) in state
     if (toggle) {
-      dispatch(enableNotifications(notificationListener, setNotification));
+      dispatch(enableNotifications(user));
     } else {
       //if there is no token
-      dispatch(
-        disableNotifications(user, notificationListener, responseListener)
-      );
+      dispatch(disableNotifications(user));
     }
 
     setNotificationToggle(!notificationToggle);
   };
 
-  //This is the same as line 27
-  // useEffect(() => {
-  //   if (token) {
-  //     setNotificationToggle(true)
-  //   } else {
-  //     setNotificationToggle(false)
-  //   }
-  // }, [])
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView style = {styles.container}>
+    <View style = {{display: "flex", alignItems:"center"}}>
       <Image
         style={styles.userImage}
         source={require('../public/nudgie2.png')}
@@ -80,7 +68,7 @@ export default function Profile(props) {
             <Switch
               onValueChange={toggleNotification}
               value={notificationToggle}
-              trackColor={{ true: 'green' }}
+              trackColor={{ true: '#83CA9E' }}
             />
           </View>
 
@@ -91,7 +79,7 @@ export default function Profile(props) {
                 console.log('this is pressed');
               }}
               value={true}
-              trackColor={{ true: 'green' }}
+              trackColor={{ true: '#83CA9E' }}
             />
           </View>
 
@@ -99,10 +87,9 @@ export default function Profile(props) {
             <Text style={styles.badges}>Badges</Text>
           </View>
 
-          <View>
-            <Badge style={styles.badgeNumber}>1</Badge>
-            <Image
-              style={styles.badgeNudgie}
+          <View style = {styles.badgeNudgie}>
+            {/* <Badge style={styles.badgeNumber}>1</Badge> */}
+            <Image style = {{height: 80, width: 80, padding: 5}}
               source={require('../public/nudgie2.png')}
             />
           </View>
@@ -123,17 +110,19 @@ export default function Profile(props) {
         </TouchableOpacity>
       </View>
     </View>
+    </SafeAreaView>
   );
 }
 
 const buttonStyle = {
-  marginRight: 10,
-  backgroundColor: '#83CA9E',
-  borderRadius: 8,
-  paddingVertical: 15,
-  paddingHorizontal: 12,
-  marginHorizontal: 5,
   justifyContent: 'center',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 20,
+  borderColor: "transparent",
+  borderWidth: 1,
+  elevation: 3,
+  backgroundColor: '#EBF6EF',
   shadowColor: '#000000',
   shadowOpacity: 0.3,
   shadowRadius: 2,
@@ -151,16 +140,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userImage: {
-    height: 120,
-    width: 120,
+    height: 150,
+    width: 150,
     borderRadius: 24,
-    marginTop: 60,
+    marginTop: 73,
   },
   badgeNudgie: {
-    height: 40,
-    width: 40,
+    width: 90,
+    height: 90,
+    borderColor: '#83CA9E',
+    borderRadius: 20,
+    borderWidth: 1,
     marginTop: 10,
-    marginLeft: 10,
+    padding: 5,
   },
   badgeNumber: {
     margin: 'auto',
@@ -184,12 +176,12 @@ const styles = StyleSheet.create({
   },
   editProfileText: {
     fontSize: 18,
-    color: 'black',
+    color: '#4a7c59',
     fontWeight: 'bold',
   },
   logoutText: {
     fontSize: 18,
-    color: 'black',
+    color: '#4a7c59',
     fontWeight: 'bold',
   },
   logoutButton: {
@@ -212,10 +204,12 @@ const switchStyles = StyleSheet.create({
   },
   switchText: {
     fontSize: 15,
-    marginTop: 15,
+    paddingVertical: 5,
   },
   singleSwitch: {
     justifyContent: 'space-between',
+    // backgroundColor: 'gray',
+    marginBottom: 5,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -226,12 +220,10 @@ const userFields = StyleSheet.create({
   fields: {
     flex: 1,
     flexDirection: 'column',
+    justifyContent:"flex-start",
     fontWeight: 'bold',
     fontSize: 50,
-    // backgroundColor: "grey",
-    width: '100%',
-    marginLeft: 30,
-    marginRight: 30,
+    width: 350,
     padding: 10,
   },
   textContainer: {
@@ -241,18 +233,14 @@ const userFields = StyleSheet.create({
   },
   usernameLabel: {
     fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  username: {
-    fontSize: 20,
+    fontSize: 18,
+    margin: 5,
+    marginLeft: 0,
   },
   emailLabel: {
     fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  email: {
-    fontSize: 40,
+    fontSize: 18,
+    margin:5,
+    marginLeft: 0,
   },
 });
