@@ -9,45 +9,17 @@ import {
   Button,
   FlatList
 } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup } from '../store/group'
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-
-// _______SEND NOTIFICATION ________NOT TESTED
-// async function sendPushNotification(group, from) {
-//   console.log(group)
-//   group.members.forEach(async (member) => {
-//     const message = {
-//       to: member.token,
-//       sound: 'default',
-//       title: `Nudge from ${from}`,
-//       body: `${from} is at the grocery store! Do you need anything?`,
-//       data: { someData: 'goes here' },
-//     };
-
-//     await fetch('https://exp.host/--/api/v2/push/send', {
-//       method: 'POST',
-//       headers: {
-//         Accept: 'application/json',
-//         'Accept-encoding': 'gzip, deflate',
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(message),
-//     });
-//   })
-// }
+import { useNavigation } from '@react-navigation/native';
 
 const SingleGroup = (props) => {
   const dispatch = useDispatch();
-  const group = useSelector((state) => state.selectedGroup)
   const user = useSelector ((state) => state.user)
+  const navigation = useNavigation()
+
   return (
         <View style={styles.box}>
-          <Swipeable
-              renderRightActions={RightSwipeActions}
-              onSwipeableRightOpen={() => deleteGroup(props.group.id)}
-          >
             <Image
                 style={styles.image}
                 source={require('../public/nudgie2.png')}
@@ -55,22 +27,15 @@ const SingleGroup = (props) => {
               <View style={styles.info}>
                 <TouchableOpacity
                   onPress={() => {
+                    console.log(props.group.id)
                     dispatch(selectGroup(props.group.id));
-                    props.navigation.navigate('Group List');
+                    navigation.navigate('Single Group List');
                   }}
                 >
                   <Text style={styles.buttonText}>{props.group.name}</Text>
                 </TouchableOpacity>
               </View>
-              <Button
-                style={styles.completedButton}
-                title="Send Alert"
-                onPress={() => {
-                // await sendPushNotification(props.group.id, user.fullName)
-                console.log('pressed sent')
-            }}>
-              </Button>
-          </Swipeable>
+
         </View>
   );
 };
