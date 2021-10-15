@@ -43,12 +43,14 @@ export const setExpoPushToken = (token) => {
   };
 };
 
+//Set Notification Status to "ON" or "OFF"
 export const setExpoNotificationStatus = (status) => {
   return {
     type: SET_EXPO_NOTIFICATION_STATUS,
     status,
   };
 };
+
 export const deleteFriend = (friendId) => {
   return {
     type: DELETE_FRIEND,

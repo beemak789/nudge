@@ -16,13 +16,14 @@ import { AntDesign } from '@expo/vector-icons';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
-  const { groups } = useSelector((state) => state.groups);
+  const groups  = useSelector((state) => state.groups) || [];
 
   useEffect(() => {
     // dispatch(_setGroups([]))
     dispatch(fetchUserGroups());
     console.log(groups)
   }, []);
+
 
   if (!groups.length) {
     return (

@@ -34,9 +34,7 @@ export default function Profile(props) {
       dispatch(enableNotifications(user));
     } else {
       //if there is no token
-      dispatch(
-        disableNotifications(user)
-      );
+      dispatch(disableNotifications(user));
     }
 
     setNotificationToggle(!notificationToggle);

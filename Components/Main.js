@@ -59,7 +59,7 @@ const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //the token exists and the user wants to turns off notification, the toggle button is OFF.
+    //if user's notification status = "ON" then execute the following:
     if (user.allowNotifications === 'ON') {
       notificationsPrompt(dispatch, notificationListener, setNotification);
     }
