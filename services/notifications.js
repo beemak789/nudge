@@ -1,10 +1,10 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import { setExpoPushToken } from '../store/user';
 
 export async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
-    console.log('***** requesying token *****')
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -54,6 +54,7 @@ export async function unregisterForPushNotificationsAsync() {
 export async function notificationsPrompt(
   dispatch,
   notificationListener,
+  responseListener,
   setNotification
 ) {
   const token = registerForPushNotificationsAsync();

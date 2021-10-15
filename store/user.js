@@ -7,6 +7,7 @@ const ADD_FRIEND = 'ADD_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { notificationsPrompt } from '../services/notifications';
+import * as Notifications from 'expo-notifications';
 
 export const setUser = (user) => {
   console.log(user);
@@ -54,7 +55,6 @@ export const removeExpoPushToken = (token) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
-      console.log('gonna log in!!!!');
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -70,7 +70,6 @@ export const logInUser = (email, password) => {
                 return;
               }
               const data = firestoreDocument.data();
-              console.log('returned data --->', data);
               dispatch(setUser(data));
             })
             .catch((error) => {
@@ -135,20 +134,36 @@ export const _setExpoPushToken = (user) => {
 };
 
 // NOTIFICATIONS
-export const enableNotifications = (notificationListener, setNotification) => {
+export const enableNotifications = (
+  notificationListener,
+  responseListener,
+  setNotification
+) => {
   return async (dispatch) => {
     try {
-      notificationsPrompt(dispatch, notificationListener, setNotification)
+      notificationsPrompt(
+        dispatch,
+        notificationListener,
+        responseListener,
+        setNotification
+      );
     } catch (err) {
       alert(err);
     }
   };
 };
 
-export const disableNotifications = (user) => {
+export const disableNotifications = (
+  user,
+  notificationListener,
+  responseListener
+) => {
   return async (dispatch) => {
     try {
-      const { token } = user;
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
         token: null,
@@ -182,7 +197,6 @@ export const _fetchUserFriends = (user) => {
 export const _addFriend = (user, friend) => {
   return async (dispatch) => {
     try {
-      console.log('***', friend.id);
       await firebase
         .firestore()
         .collection('users')

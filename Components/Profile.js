@@ -18,13 +18,14 @@ import {
 } from '../store/user';
 
 export default function Profile(props) {
+  const { notificationListener, responseListener } = props;
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
   const { navigation } = props;
   const [notification, setNotification] = useState(false);
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
-  const notificationListener = useRef();
+
   //toggle it from false to true
   const toggleNotification = (toggle) => {
     // toggle argument is new incoming value
@@ -32,13 +33,15 @@ export default function Profile(props) {
     // if off, request token again
     // set toggle value (inverse of pervious) in state
     if (toggle) {
-      dispatch(enableNotifications(notificationListener, setNotification))
+      dispatch(enableNotifications(notificationListener, setNotification));
     } else {
       //if there is no token
-      dispatch(disableNotifications(user))
+      dispatch(
+        disableNotifications(user, notificationListener, responseListener)
+      );
     }
 
-    setNotificationToggle(!notificationToggle)
+    setNotificationToggle(!notificationToggle);
   };
 
   //This is the same as line 27
@@ -83,7 +86,13 @@ export default function Profile(props) {
 
           <View style={switchStyles.singleSwitch}>
             <Text style={switchStyles.switchText}>Location</Text>
-            <Switch onValueChange={() => {console.log("this is pressed")}} value={true} trackColor={{true: "green"}} />
+            <Switch
+              onValueChange={() => {
+                console.log('this is pressed');
+              }}
+              value={true}
+              trackColor={{ true: 'green' }}
+            />
           </View>
 
           <View>

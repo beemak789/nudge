@@ -49,6 +49,7 @@ const Main = () => {
   const responseListener = useRef();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   useEffect(() => {
     notificationsPrompt(dispatch, notificationListener, setNotification)
 
@@ -60,7 +61,7 @@ const Main = () => {
     };
   }, []);
 
-  console.log('notification --->', notification)
+
   useEffect(() => {
     const usersRef = firebase.firestore().collection('users');
     firebase.auth().onAuthStateChanged((user) => {
@@ -103,7 +104,7 @@ const Main = () => {
         )
       );
       let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log('backPerm', backPerm);
+      // console.log('backPerm', backPerm);
 
       if (backPerm.status === 'granted') {
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
@@ -158,7 +159,7 @@ const Main = () => {
       );
 
       // do something with the locations captured in the background
-      console.log('locations in task manager', locations);
+      // console.log('locations in task manager', locations);
     }
   });
 
@@ -206,7 +207,8 @@ const Main = () => {
             {(props) => <GroupsStack {...props} />}
           </Tab.Screen>
           <Tab.Screen name="Profile Stack">
-            {(props) => <ProfileStack {...props} />}
+            {(props) => <ProfileStack {...props } notificationListener={notificationListener}
+            responseListener={responseListener} />}
           </Tab.Screen>
         </>
       )}
