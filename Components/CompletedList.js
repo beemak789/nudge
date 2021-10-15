@@ -19,7 +19,10 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { _fetchPlaces } from '../store/places';
 import { useDispatch, useSelector } from 'react-redux';
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import {
+  LeftCompleteSwipeActions,
+  RightSwipeActions,
+} from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 
 const CompletedList = (props) => {
@@ -71,7 +74,7 @@ const CompletedList = (props) => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
-              renderLeftActions={LeftSwipeActions}
+              renderLeftActions={LeftCompleteSwipeActions}
               renderRightActions={RightSwipeActions}
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}

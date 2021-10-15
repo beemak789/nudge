@@ -24,7 +24,7 @@ const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places, status } = useSelector((state) => state.place);
   const { currTask } = useSelector((state) => state.task);
-
+  console.log(places);
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
     dispatch(clearPlaces());
@@ -86,12 +86,16 @@ const PlacesList = (props) => {
   }
 
   const generateLink = (item) => {
-    const mapsLink = `https://www.google.com/maps/place/?q=place_id:${item.id}`;
+    const name = item.name.replace(/\s/g, '+');
+
+    const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
+    console.log(mapsLink);
   };
 
-  const baseImage =
-    'https://images.unsplash.com/photo-1552334405-4929565998d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80';
+  const getImage = (lat, long) => {
+  //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
+  // };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -136,8 +140,11 @@ const PlacesList = (props) => {
                     rounded={false}
                     size={'large'}
                     source={
-                      item.photos && {
-                        uri: baseImage,
+                      item.marker && {
+                        uri: getImage(
+                          item.marker.latitude,
+                          item.marker.longitude
+                        ),
                       }
                     }
                     containerStyle={{ marginLeft: 20 }}
