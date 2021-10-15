@@ -16,20 +16,20 @@ import { AntDesign } from '@expo/vector-icons';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
-  const groups  = useSelector((state) => state.groups) || [];
+  const { groups } = useSelector((state) => state.groups);
+  const user = useSelector((state)=> state.user)
+
 
   useEffect(() => {
-    // dispatch(_setGroups([]))
-    dispatch(fetchUserGroups());
-    console.log(groups)
-  }, []);
+    dispatch(fetchUserGroups(user))
+  }, [dispatch]);
 
 
   if (!groups.length) {
     return (
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.noTasksText}>You're not part of any groups yet!</Text>
+          <Text>You're not part of any groups yet!</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -61,7 +61,6 @@ const GroupsList = (props) => {
         />
       </View>
       <Text style={styles.title}>My Groups</Text>
-          <Text style={styles.buttonText}>+</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -73,7 +72,7 @@ const GroupsList = (props) => {
       <View style={styles.body}>
         <FlatList
           data={groups}
-          keyExtractor={(item) => item.groupId}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <SingleGroup group = {item}/>
           )}

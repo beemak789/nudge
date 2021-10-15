@@ -12,10 +12,18 @@ const ADD_TASK = 'ADD_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
 const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 const DELETE_TASK = 'DELETE_TASK';
-
+const SET_GROUP_TASKS = 'SET_GROUP_TASKS';
+const ADD_GROUP_TASK = 'ADD_GROUP_TASK'
 export const setAllTasks = (tasks) => {
   return {
     type: SET_ALL_TASKS,
+    tasks,
+  };
+};
+
+export const setGroupTasks = (tasks) => {
+  return {
+    type: SET_GROUP_TASKS,
     tasks,
   };
 };
@@ -44,6 +52,13 @@ export const clearAllTasks = () => {
 export const addTask = (task) => {
   return {
     type: ADD_TASK,
+    task,
+  };
+};
+
+export const addGroupTask = (task) => {
+  return {
+    type: ADD_GROUP_TASK,
     task,
   };
 };
@@ -93,6 +108,56 @@ export const _fetchAllTasks = () => {
   };
 };
 
+export const fetchGroupTasks = (groupId) => {
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .get()
+        .then((snapshot) => {
+          let tasks = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            const id = doc.id;
+            return { id, ...data };
+          });
+          dispatch(setGroupTasks(tasks));
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _createGroupTask = (groupId, {name}) => {
+  return async (dispatch) => {
+    try {
+      const data = {
+        name,
+        completed: false
+      };
+      let id = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .add(data)
+        .then((result) => {
+          return result.id;
+        });
+      dispatch(
+        addGroupTask({
+          name,
+          completed: false
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 //not fully tested, but almost fully tested
 export const _createTask = ({ name, priority, category }) => {
   return async (dispatch) => {
@@ -217,6 +282,7 @@ const initialState = {
   currTask: {},
   tasks: [],
   incomplete: [],
+  selectedGroupTasks: []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -227,6 +293,8 @@ export default (state = initialState, action) => {
       return { ...state, tasks: action.tasks, incomplete: incompleteTasks };
     case SET_CURR_TASK:
       return { ...state, currTask: action.currTask };
+    case SET_GROUP_TASKS:
+      return { ...state, selectedGroupTasks: action.tasks};
     case CLEAR_CURR_TASK:
       return { ...state, currTask: action.currTask };
     case CLEAR_ALL_TASKS:
@@ -235,6 +303,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tasks: [...state.tasks, action.task],
+        incomplete: [...state.incomplete, action.task],
+      };
+    case ADD_GROUP_TASK:
+      return {
+        ...state,
+        selectedGroupTasks: [...state.selectedGroupTasks, action.task],
         incomplete: [...state.incomplete, action.task],
       };
     case UPDATE_TASK:
