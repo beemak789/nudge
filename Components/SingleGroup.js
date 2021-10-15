@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup } from '../store/group';
 import { Icon } from 'react-native-elements'
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 // _______SEND NOTIFICATION ________NOT TESTED
 // async function sendPushNotification(group, from) {
