@@ -1,12 +1,13 @@
 import {
   StyleSheet,
   FlatList,
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from 'react-native';
+
 import React, { useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -18,20 +19,18 @@ import {
 } from '../store/task';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import { priorityStyle } from '../services/taskListFuncs';
+import { priorityStyle } from '../services/PriorityStyle';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { tasks } = useSelector((state) => state.task);
-
-  const incompleteTasks = tasks.filter((task) => task.completed === false);
+  const { incomplete, currTask } = useSelector((state) => state.task);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
-  }, [dispatch]);
+  }, []);
 
-  if (!incompleteTasks.length) {
+  if (!incomplete.length) {
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -75,7 +74,7 @@ const taskList = (props) => {
       </View>
       <View style={styles.body}>
         <FlatList
-          data={incompleteTasks}
+          data={incomplete}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
@@ -194,4 +193,3 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-

@@ -5,11 +5,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import task from './task';
 import user from './user';
 import location from './location';
-import places from './places';
-import group from './group';
+import place from './places';
+import groups from './group';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const appReducer = combineReducers({ task, user, location, places, group });
+const appReducer = combineReducers({ task, user, location, place, groups });
 
 const persistConfig = {
   key: 'root',

@@ -26,6 +26,32 @@ export const LeftSwipeActions = (complete) => {
     </View>
   );
 };
+
+export const LeftCompleteSwipeActions = (complete) => {
+  return (
+    <View
+      style={{
+        backgroundColor: '#ffcb69',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        borderRadius: 10,
+        marginLeft: 5,
+      }}
+    >
+      <Text
+        style={{
+          color: '#40394a',
+          paddingHorizontal: 10,
+          fontWeight: '600',
+          paddingHorizontal: 30,
+          paddingVertical: 20,
+        }}
+      >
+        Incomplete
+      </Text>
+    </View>
+  );
+};
 export const RightSwipeActions = () => {
   return (
     <View

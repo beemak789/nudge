@@ -9,81 +9,73 @@ import {
   Button,
   FlatList
 } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserGroups, selectGroup, _setGroups } from '../store/group';
-import SingleGroup from './SingleGroup'
-import { AntDesign } from '@expo/vector-icons';
+import { selectGroup } from '../store/group'
+import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 
-const GroupsList = (props) => {
+// _______SEND NOTIFICATION ________NOT TESTED
+// async function sendPushNotification(group, from) {
+//   console.log(group)
+//   group.members.forEach(async (member) => {
+//     const message = {
+//       to: member.token,
+//       sound: 'default',
+//       title: `Nudge from ${from}`,
+//       body: `${from} is at the grocery store! Do you need anything?`,
+//       data: { someData: 'goes here' },
+//     };
+
+//     await fetch('https://exp.host/--/api/v2/push/send', {
+//       method: 'POST',
+//       headers: {
+//         Accept: 'application/json',
+//         'Accept-encoding': 'gzip, deflate',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(message),
+//     });
+//   })
+// }
+
+const SingleGroup = (props) => {
   const dispatch = useDispatch();
-  const { groups } = useSelector((state) => state.groups);
-
-  useEffect(() => {
-    // dispatch(_setGroups([]))
-    dispatch(fetchUserGroups());
-  }, []);
-
-  if (!groups.length) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text style={styles.noTasksText}>You're not part of any groups yet!</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate('Add Group');
-            }}
+  const group = useSelector((state) => state.selectedGroup)
+  const user = useSelector ((state) => state.user)
+  return (
+        <View style={styles.box}>
+          <Swipeable
+              renderRightActions={RightSwipeActions}
+              onSwipeableRightOpen={() => deleteGroup(props.group.id)}
           >
             <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>Create A Group</Text>
-          </TouchableOpacity>
+                style={styles.image}
+                source={require('../public/nudgie2.png')}
+              />
+              <View style={styles.info}>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(selectGroup(props.group.id));
+                    props.navigation.navigate('Group List');
+                  }}
+                >
+                  <Text style={styles.buttonText}>{props.group.name}</Text>
+                </TouchableOpacity>
+              </View>
+              <Button
+                style={styles.completedButton}
+                title="Send Alert"
+                onPress={() => {
+                // await sendPushNotification(props.group.id, user.fullName)
+                console.log('pressed sent')
+            }}>
+              </Button>
+          </Swipeable>
         </View>
-      </SafeAreaView>
-    );
-  }
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            props.navigation.navigate('Add Group');
-          }}
-        />
-      </View>
-      <Text style={styles.title}>My Groups</Text>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            props.navigation.navigate('Group Chat');
-          }}
-        >
-          <Text style={styles.buttonText}>Chat</Text>
-        </TouchableOpacity>
-
-      <View style={styles.body}>
-        <FlatList
-          data={groups}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <SingleGroup group = {item}/>
-          )}
-        ></FlatList>
-      </View>
-    </SafeAreaView>
-  )
+  );
 };
 
-export default GroupsList;
+export default SingleGroup;
 
 const styles = StyleSheet.create({
   container: {
