@@ -1,6 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -36,28 +34,26 @@ const CategoriesStack = (props) => {
 
 const tasksStack = (props) => {
   return (
-    <SafeAreaProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#709775',
-          },
-          headerTintColor: 'white',
-          headerBackTitle: 'Back',
-        }}
-      >
-        <Stack.Screen name="Categories Stack">
-          {(props) => <CategoriesStack {...props} />}
-        </Stack.Screen>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: '#709775',
+        },
+        headerTintColor: 'white',
+        headerBackTitle: 'Back',
+      }}
+    >
+      <Stack.Screen name="Categories Stack">
+        {(props) => <CategoriesStack {...props} />}
+      </Stack.Screen>
 
-        <Stack.Screen
-          name="Add Task"
-          component={AddTask}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </SafeAreaProvider>
+      <Stack.Screen
+        name="Add Task"
+        component={AddTask}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 };
 

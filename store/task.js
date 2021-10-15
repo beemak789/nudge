@@ -148,7 +148,6 @@ export const _updateCompleteStatus = (item) => {
       const { task } = getState();
 
       if (task.currTask.id === item.id) {
-        console.log('is same');
         dispatch(clearPlaces());
       }
 

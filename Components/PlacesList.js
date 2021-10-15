@@ -24,7 +24,7 @@ const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places, status } = useSelector((state) => state.place);
   const { currTask } = useSelector((state) => state.task);
-  console.log(places);
+
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
     dispatch(clearPlaces());
@@ -90,7 +90,7 @@ const PlacesList = (props) => {
 
     const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
-    console.log(mapsLink);
+
   };
 
   const getImage = (lat, long) => {
