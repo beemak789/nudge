@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,18 +11,44 @@ import {
 } from 'react-native';
 import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { logOutUser } from '../store/user';
+import {
+  logOutUser,
+  enableNotifications,
+  disableNotifications,
+} from '../store/user';
 
 export default function Profile(props) {
   const user = useSelector((state) => state.user);
-  const [first, setFirst] = useState('');
-  const [last, setLast] = useState('');
-  const { navigation } = props;
-  const [isEnabled, setEnabled] = useState(false);
-  const toggleSwitch = () => setEnabled((isEnabled) => !isEnabled);
-
-
+  const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
+  const { navigation } = props;
+  const [notification, setNotification] = useState(false);
+  let [notificationToggle, setNotificationToggle] = useState(() => !!token);
+  const notificationListener = useRef();
+  //toggle it from false to true
+  const toggleNotification = (toggle) => {
+    // toggle argument is new incoming value
+    // if on remove token
+    // if off, request token again
+    // set toggle value (inverse of pervious) in state
+    if (toggle) {
+      dispatch(enableNotifications(notificationListener, setNotification))
+    } else {
+      //if there is no token
+      dispatch(disableNotifications(user))
+    }
+
+    setNotificationToggle(!notificationToggle)
+  };
+
+  //This is the same as line 27
+  // useEffect(() => {
+  //   if (token) {
+  //     setNotificationToggle(true)
+  //   } else {
+  //     setNotificationToggle(false)
+  //   }
+  // }, [])
 
   return (
     <View style={styles.container}>
@@ -48,12 +74,16 @@ export default function Profile(props) {
         <View style={switchStyles.switchContainers}>
           <View style={switchStyles.singleSwitch}>
             <Text style={switchStyles.switchText}>Notifications</Text>
-            <Switch onValueChange={toggleSwitch} value={isEnabled} />
+            <Switch
+              onValueChange={toggleNotification}
+              value={notificationToggle}
+              trackColor={{ true: 'green' }}
+            />
           </View>
 
           <View style={switchStyles.singleSwitch}>
             <Text style={switchStyles.switchText}>Location</Text>
-            <Switch onValueChange={toggleSwitch} value={isEnabled} />
+            <Switch onValueChange={() => {console.log("this is pressed")}} value={true} trackColor={{true: "green"}} />
           </View>
 
           <View>

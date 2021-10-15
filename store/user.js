@@ -2,13 +2,14 @@ import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
-
+const REMOVE_EXPO_PUSH_TOKEN = 'REMOVE_EXPO_PUSH_TOKEN';
 const ADD_FRIEND = 'ADD_FRIEND';
-const LOGOUT_USER = 'LOGOUT_USER'
+const LOGOUT_USER = 'LOGOUT_USER';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { notificationsPrompt } from '../services/notifications';
 
 export const setUser = (user) => {
-  console.log(user)
+  console.log(user);
   return {
     type: SET_USER,
     user,
@@ -35,10 +36,25 @@ export const addFriend = (friend) => {
   };
 };
 
+// USER NOTIFICATIONS
+export const setExpoPushToken = (token) => {
+  return {
+    type: SET_EXPO_PUSH_TOKEN,
+    token,
+  };
+};
+
+export const removeExpoPushToken = (token) => {
+  return {
+    type: REMOVE_EXPO_PUSH_TOKEN,
+    token,
+  };
+};
+
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
-      console.log('gonna log in!!!!')
+      console.log('gonna log in!!!!');
       await firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -54,7 +70,7 @@ export const logInUser = (email, password) => {
                 return;
               }
               const data = firestoreDocument.data();
-              console.log('returned data --->',data)
+              console.log('returned data --->', data);
               dispatch(setUser(data));
             })
             .catch((error) => {
@@ -107,13 +123,37 @@ export const fetchUpdatedUser = (user) => {
 export const _setExpoPushToken = (user) => {
   return async (dispatch) => {
     try {
-      console.log('I AM HERE)')
-      console.log(user.token)
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        token: user.token
+        token: user.token,
       });
       // dispatch(setExpoPushToken(token));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+// NOTIFICATIONS
+export const enableNotifications = (notificationListener, setNotification) => {
+  return async (dispatch) => {
+    try {
+      notificationsPrompt(dispatch, notificationListener, setNotification)
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const disableNotifications = (user) => {
+  return async (dispatch) => {
+    try {
+      const { token } = user;
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        token: null,
+      });
+      dispatch(setExpoPushToken(null));
     } catch (err) {
       alert(err);
     }
@@ -142,20 +182,20 @@ export const _fetchUserFriends = (user) => {
 export const _addFriend = (user, friend) => {
   return async (dispatch) => {
     try {
-      console.log('***', friend.id)
+      console.log('***', friend.id);
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(user.id)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(friend)})
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .update({ friends: firebase.firestore.FieldValue.arrayUnion(friend) });
       // add two way friendship
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(friend.id)
-      .update({friends: firebase.firestore.FieldValue.arrayUnion(user)})
+        .firestore()
+        .collection('users')
+        .doc(friend.id)
+        .update({ friends: firebase.firestore.FieldValue.arrayUnion(user) });
 
-      dispatch(addFriend(friend))
+      dispatch(addFriend(friend));
     } catch (err) {
       alert(err);
     }
@@ -163,7 +203,7 @@ export const _addFriend = (user, friend) => {
 };
 
 export const logOutUser = () => {
-  console.log('logout')
+  console.log('logout');
   return async (dispatch) => {
     try {
       await firebase
@@ -215,27 +255,23 @@ export const signUpUser = (email, password, first, last, location) => {
   };
 };
 
-export const setExpoPushToken = (token) => {
-  return {
-    type: SET_EXPO_PUSH_TOKEN,
-    token,
-  };
-};
-
 export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...action.user };
     case SET_EXPO_PUSH_TOKEN:
-      return { ...state, token: action.token};
+      return { ...state, token: action.token };
+    case REMOVE_EXPO_PUSH_TOKEN:
+      delete state.token;
+      return state;
     case SET_USER_FRIENDS:
-        return { ...state, friends: action.friends };
+      return { ...state, friends: action.friends };
     case LOGOUT_USER:
       return {};
     case ADD_FRIEND:
-      const newFriends = [...state.friends]
-      if(!state.friends.includes(action.friend)){
-        newFriends.push(action.friend)
+      const newFriends = [...state.friends];
+      if (!state.friends.includes(action.friend)) {
+        newFriends.push(action.friend);
       }
       return { ...state, friends: action.friends };
     default:

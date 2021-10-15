@@ -18,7 +18,7 @@ import { _fetchUserFriends } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
-  console.log(toExpoToken)
+  console.log("this is the token---->", toExpoToken)
   if(toExpoToken){
     const message = {
       to: toExpoToken,
