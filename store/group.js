@@ -33,7 +33,7 @@ export const _deleteGroup = (groupId) => {
 };
 
 //should return a list of groups that user is part of
-export const fetchUserGroups = () => {
+export const fetchUserGroups = (user) => {
   return async (dispatch) => {
     try {
       //this is the user we want to fetch groups for
@@ -41,7 +41,7 @@ export const fetchUserGroups = () => {
       let arrayOfIds = await firebase
         .firestore()
         .collection('users')
-        .doc(firebase.auth().currentUser.uid)
+        .doc(user.id)
         .get()
         .then((snapshot) => {
             groupsArray = snapshot.data().groups
@@ -60,11 +60,10 @@ export const fetchUserGroups = () => {
             .then((snapshot) => {
               groupsArrayInfo.push({...snapshot.data(), id: group})
               return snapshot.data()
-              dispatch(_setGroups(groupsArrayInfo))
             })
-
-          })
-      )}
+          }))
+          dispatch(_setGroups(groupsArrayInfo))
+      }
       catch (err) {
         console.log(err);
     }
@@ -89,11 +88,11 @@ export const createGroup = ({ name, members}) => {
       // adds the new groupID to each members' groups array on their user object
       members.forEach(async (member) =>
       await firebase
-      .firestore()
-      .collection('users')
-      .doc(member.id)
-      .update({groups: firebase.firestore.FieldValue.arrayUnion(groupId)})
-      )
+        .firestore()
+        .collection('users')
+        .doc(member.id)
+        .update({groups: firebase.firestore.FieldValue.arrayUnion(groupId)})
+        )
       //adds the new group to the redux store
       dispatch(
         _addGroup({
@@ -108,51 +107,52 @@ export const createGroup = ({ name, members}) => {
   };
 };
 // ____NOT TESTED
-// export const deleteGroup = ({ groupId, name, members}) => {
-//   return async (dispatch) => {
-//     try {
-//       const data = {
-//         groupId
-//         name,
-//         members
-//       };
-//       // delete the group based on id
-//       let group = await firebase
-//         .firestore()
-//         .collection('groups')
-//         .doc(groupId)
-//         .delete()
-//       // adds the new groupID to each members' groups array on their user object
-//       members.forEach(async (member) =>
-//       await firebase
-//       .firestore()
-//       .collection('users')
-//       .doc(member.id)
-//       .update({groups: firebase.firestore.FieldValue.arrayRemove(groupId)})
-//       )
-//       //deletes group from redux store
-//       dispatch(
-//         _deleteGroup({
-//           groupId
-//         })
-//       );
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-// };
+export const deleteGroup = (groupId, members) => {
+  return async (dispatch) => {
+    try {
+      // delete the group based on id
+      let group = await firebase
+        .firestore()
+        .collection('groups')
+        .doc(groupId)
+        .delete()
+      // delete the group from every group member
+      members.map(async (member) =>
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(member.id)
+      .update({groups: firebase.firestore.FieldValue.arrayRemove(groupId)})
+      )
+      //deletes group from redux store
+      dispatch(
+        _deleteGroup({
+          groupId
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 export const selectGroup = (groupId) => {
   return async (dispatch) => {
     try {
+      console.log("GROUPID", groupId)
       //fetch the group from firestore
       let selectedGroup = await firebase
         .firestore()
         .collection('groups')
         .doc(groupId)
         .get()
+        .then((snapshot) =>{
+          console.log("FIRESTORE", snapshot.data())
+          let group = snapshot.data()
+          dispatch(_selectGroup({group: group, id: groupId}));
+        }
+        )
       //set the retrieved object to the selectedGroup key on redux state
-        dispatch(_selectGroup(selectedGroup));
       }
        catch (err) {
         console.log(err);
@@ -162,7 +162,10 @@ export const selectGroup = (groupId) => {
 
 const initialState = {
   groups: [],
-  selectedGroup: {}
+  selectedGroup: {
+    id: '',
+    group: {}
+  }
 };
 export default (state = initialState, action) => {
   switch (action.type) {

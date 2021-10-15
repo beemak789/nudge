@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ScrollView,
   ButtonGroup,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,9 @@ import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
 import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements'
+import { _fetchUserFriends } from '../store/user'
+import { fetchUserGroups } from '../store/user'
+import { useDerivedValue } from 'react-native-reanimated';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user)
@@ -23,6 +25,10 @@ const AddGroup = (props) => {
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user]);
   const dispatch = useDispatch();
+  const friends = useSelector((state) => state.user.friends)
+  useEffect(() => {
+    dispatch(_fetchUserFriends(user));
+  }, [dispatch]);
 
   const onSubmit = (members) => {
     dispatch(
@@ -37,7 +43,6 @@ const AddGroup = (props) => {
       screen: 'Group List',
     });
   };
-  const friends = useSelector((state) => state.user.friends)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,9 +88,7 @@ const AddGroup = (props) => {
           </Text>
           <Text style={{ marginBottom: 10 }}>Select friends to add them to group</Text>
           <View
-            style={{ height: 200 }}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
+            style={{ height: 50 }}
           >
             {friends.map((friend) => {
               return (
@@ -125,10 +128,12 @@ const AddGroup = (props) => {
               );
             })}
           </View>
+
         </View>
         <TouchableOpacity style={styles.button} onPress={() => onSubmit(members)} title="save">
           <Text style={{ color: 'black', fontWeight: 'bold' }}>save</Text>
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
@@ -184,17 +189,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    borderColor: "transparent",
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
     marginTop: 10,
   },
   box: {
@@ -208,11 +202,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     alignItems: 'center',
     shadowOpacity: 0.2,
-    shadowOffset: {
-      height: 1,
-      width: -2,
-    },
-    elevation: 2,
   },
   item: {
     padding: 10,

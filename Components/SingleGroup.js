@@ -9,7 +9,6 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup } from '../store/group';
 import { Icon } from 'react-native-elements'
@@ -76,6 +75,7 @@ const SingleGroup = (props) => {
               </Button> */}
       </View>
     </Swipeable>
+
   );
 };
 

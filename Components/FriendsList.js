@@ -49,6 +49,8 @@ const FriendsList = (props) => {
     dispatch( _fetchUserFriends(user))
   }, [dispatch])
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 0}}>

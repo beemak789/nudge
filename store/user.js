@@ -2,13 +2,11 @@ import { firebase } from '../config/firebase';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
-const REMOVE_EXPO_PUSH_TOKEN = 'REMOVE_EXPO_PUSH_TOKEN';
+const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { notificationsPrompt } from '../services/notifications';
-import * as Notifications from 'expo-notifications';
 
 export const setUser = (user) => {
   return {
@@ -42,6 +40,14 @@ export const setExpoPushToken = (token) => {
   return {
     type: SET_EXPO_PUSH_TOKEN,
     token,
+  };
+};
+
+//Set Notification Status to "ON" or "OFF"
+export const setExpoNotificationStatus = (status) => {
+  return {
+    type: SET_EXPO_NOTIFICATION_STATUS,
+    status,
   };
 };
 
@@ -116,41 +122,28 @@ export const _setExpoPushToken = (user) => {
 };
 
 // NOTIFICATIONS
-export const enableNotifications = (
-  notificationListener,
-  responseListener,
-  setNotification
-) => {
+export const enableNotifications = (user) => {
   return async (dispatch) => {
     try {
-      notificationsPrompt(
-        dispatch,
-        notificationListener,
-        responseListener,
-        setNotification
-      );
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        allowNotifications: 'ON',
+      });
+      dispatch(setExpoNotificationStatus('ON'));
     } catch (err) {
       alert(err);
     }
   };
 };
 
-export const disableNotifications = (
-  user,
-  notificationListener,
-  responseListener
-) => {
+export const disableNotifications = (user) => {
   return async (dispatch) => {
     try {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        token: null,
+        allowNotifications: 'OFF',
       });
-      dispatch(setExpoPushToken(null));
+      dispatch(setExpoNotificationStatus('OFF'));
     } catch (err) {
       alert(err);
     }
@@ -166,7 +159,7 @@ export const _fetchUserFriends = (user) => {
         .doc(user.id)
         .get()
         .then(async (friendsList) => {
-          console.log('firebase', friendsList.data())
+          console.log('firebase', friendsList.data());
           let userFriends = friendsList.data().friends;
           let result = await Promise.all(
             userFriends.map(
@@ -276,7 +269,8 @@ export const signUpUser = (email, password, first, last) => {
             id: uid,
             email,
             fullName: first + last,
-            friends: []
+            friends: [],
+            allowNotifications: 'OFF',
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -304,9 +298,8 @@ export default (state = {}, action) => {
       return { ...state, ...action.user };
     case SET_EXPO_PUSH_TOKEN:
       return { ...state, token: action.token };
-    case REMOVE_EXPO_PUSH_TOKEN:
-      delete state.token;
-      return state;
+    case SET_EXPO_NOTIFICATION_STATUS:
+      return { ...state, allowNotifications: action.status };
     case SET_USER_FRIENDS:
       return { ...state, friends: action.friends };
     case LOGOUT_USER:
