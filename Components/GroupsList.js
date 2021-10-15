@@ -21,6 +21,7 @@ const GroupsList = (props) => {
   useEffect(() => {
     // dispatch(_setGroups([]))
     dispatch(fetchUserGroups());
+    console.log(groups)
   }, []);
 
   if (!groups.length) {
@@ -60,7 +61,6 @@ const GroupsList = (props) => {
       </View>
       <Text style={styles.title}>My Groups</Text>
           <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -69,11 +69,10 @@ const GroupsList = (props) => {
         >
           <Text style={styles.buttonText}>Chat</Text>
         </TouchableOpacity>
-
       <View style={styles.body}>
         <FlatList
           data={groups}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.groupId}
           renderItem={({ item }) => (
             <SingleGroup group = {item}/>
           )}
