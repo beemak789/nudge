@@ -31,6 +31,14 @@ const GroupsList = (props) => {
         >
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.navigation.navigate('Group Chat');
+          }}
+        >
+          <Text style={styles.buttonText}>Chat</Text>
+        </TouchableOpacity>
       <View style={styles.body}>
         <FlatList
           data={groups}
