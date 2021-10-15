@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator();
 
 const CategoriesStack = (props) => {
   return (
-    <SafeAreaProvider>
       <Tab.Navigator
         screenOptions={{
           activeTintColor: 'white',
@@ -30,7 +29,6 @@ const CategoriesStack = (props) => {
           {...props}
         />
       </Tab.Navigator>
-    </SafeAreaProvider>
   );
 };
 
@@ -38,13 +36,14 @@ const tasksStack = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
           backgroundColor: 'white',
         },
         headerTintColor: 'white',
         headerBackTitle: '',
         headerShadowVisible: false,
+
       }}
     >
       <Stack.Screen name="Categories Stack">

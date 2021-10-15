@@ -95,7 +95,7 @@ const PlacesList = (props) => {
 
   const getImage = (lat, long) => {
   //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
-  // };
+  };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -183,8 +183,6 @@ const PlacesList = (props) => {
     </SafeAreaView>
   );
 };
-
-export default PlacesList;
 
 const styles = StyleSheet.create({
   container: {
@@ -287,3 +285,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+export default PlacesList;

@@ -163,9 +163,10 @@ export const _fetchUserFriends = (user) => {
       await firebase
         .firestore()
         .collection('users')
-        .doc(userId)
+        .doc(user.id)
         .get()
         .then(async (friendsList) => {
+          console.log('firebase', friendsList.data())
           let userFriends = friendsList.data().friends;
           let result = await Promise.all(
             userFriends.map(

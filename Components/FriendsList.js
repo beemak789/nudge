@@ -46,7 +46,7 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch( _fetchUserFriends(user.id))
+    dispatch( _fetchUserFriends(user))
   }, [dispatch])
 
   return (
