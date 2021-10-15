@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
+    width: "90%"
   },
   button: {
     justifyContent: 'center',
