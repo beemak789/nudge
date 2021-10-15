@@ -23,7 +23,7 @@ import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places, status } = useSelector((state) => state.place);
-  const { currTask } = useSelector((state) => state.task);
+  const { currTask, tasks } = useSelector((state) => state.task);
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
@@ -34,7 +34,15 @@ const PlacesList = (props) => {
     dispatch(clearPlaces());
   };
 
-  if (!places.length && !currTask.id) {
+  if (!tasks.length) {
+    return (
+      <SafeAreaView style={styles.container2}>
+        <View>
+          <Text>You have no tasks!</Text>
+        </View>
+      </SafeAreaView>
+    );
+  } else if (!places.length && !currTask.id) {
     return (
       <SafeAreaView style={styles.container2}>
         <View>
@@ -90,11 +98,10 @@ const PlacesList = (props) => {
 
     const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
-
   };
 
   const getImage = (lat, long) => {
-  //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
+    //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
   };
   return (
     <SafeAreaView style={styles.container2}>

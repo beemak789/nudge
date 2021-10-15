@@ -46,7 +46,8 @@ export const _fetchPlaces = () => {
         radius = 400;
       }
 
-      const baseUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
+      const nearbyBase = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
+      const queryBase = `https://maps.googleapis.com/maps/api/place/textsearch/json?`;
       const api = `&key=${GOOGLE_PLACES_API}`;
       let types = [...currTask.category];
       let placeIds = [];
@@ -55,9 +56,18 @@ export const _fetchPlaces = () => {
 
       await Promise.all(
         types.map(async (type) => {
-          const locationUrl = `location=${location.coords.latitude},${location.coords.longitude}&radius=${radius}`;
+          const locationUrl = `location=${location.coords.latitude},${location.coords.longitude}`;
+          const radiusUrl = `&radius=${radius}`;
           const typeData = `&types=${type}`;
-          let url = `${baseUrl}${locationUrl}${typeData}${api}`;
+
+          let url = `${nearbyBase}${locationUrl}${radiusUrl}${typeData}${api}`;
+
+          if (type === 'other') {
+            const search = currTask.name.replace(/\s/g, '%');
+            const query = `&query=${search}`;
+
+            url = `${nearbyBase}${locationUrl}${query}${radiusUrl}${api}`;
+          }
 
           let newPromise = new Promise((res, rej) => {
             res(

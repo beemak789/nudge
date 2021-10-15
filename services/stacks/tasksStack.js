@@ -13,22 +13,18 @@ const Stack = createNativeStackNavigator();
 
 const CategoriesStack = (props) => {
   return (
-      <Tab.Navigator
-        screenOptions={{
-          activeTintColor: 'white',
-          itemStyle: { marginVertical: 10 },
-          inactiveTintColor: 'white',
-          headerShown: false,
-          style: { position: 'relative', top: 100 },
-        }}
-      >
-        <Tab.Screen name="Task List" component={TaskList} {...props} />
-        <Tab.Screen
-          name="Completed List"
-          component={CompletedList}
-          {...props}
-        />
-      </Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        activeTintColor: 'white',
+        itemStyle: { marginVertical: 10 },
+        inactiveTintColor: 'white',
+        headerShown: false,
+        // style: { position: 'relative', top: 100 },
+      }}
+    >
+      <Tab.Screen name="Task List" component={TaskList} {...props} />
+      <Tab.Screen name="Completed List" component={CompletedList} {...props} />
+    </Tab.Navigator>
   );
 };
 
@@ -39,11 +35,11 @@ const tasksStack = (props) => {
         headerShown: true,
         headerStyle: {
           backgroundColor: 'white',
+          height: 10,
         },
         headerTintColor: 'white',
         headerBackTitle: '',
         headerShadowVisible: false,
-
       }}
     >
       <Stack.Screen name="Categories Stack">
