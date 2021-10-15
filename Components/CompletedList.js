@@ -32,6 +32,8 @@ const CompletedList = (props) => {
 
   const completeTasks = tasks.filter((task) => task.completed === true);
 
+
+
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);

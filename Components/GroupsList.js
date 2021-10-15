@@ -18,11 +18,12 @@ const GroupsList = (props) => {
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.groups);
   const user = useSelector((state)=> state.user)
-  console.log("THIS IS USER", user)
+
 
   useEffect(() => {
     dispatch(fetchUserGroups(user))
   }, [dispatch]);
+
 
   if (!groups.length) {
     return (
