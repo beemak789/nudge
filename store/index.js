@@ -6,10 +6,10 @@ import task from './task';
 import user from './user';
 import location from './location';
 import place from './places';
-import group from './group';
+import groups from './group';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const appReducer = combineReducers({ task, user, location, place, group });
+const appReducer = combineReducers({ task, user, location, place, groups });
 
 const persistConfig = {
   key: 'root',
@@ -20,7 +20,7 @@ const persistConfig = {
 
 export const store = createStore(
   appReducer,
-  applyMiddleware(thunkMiddleware)
+  applyMiddleware(thunkMiddleware, createLogger())
 );
 
 // export const persistor = persistStore(store);

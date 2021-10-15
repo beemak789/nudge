@@ -269,6 +269,7 @@ export const signUpUser = (email, password, first, last) => {
             id: uid,
             email,
             fullName: first + last,
+            friends: [],
             allowNotifications: 'OFF',
           };
 
@@ -294,7 +295,7 @@ export const signUpUser = (email, password, first, last) => {
 export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...action.user };
+      return { ...state, ...action.user };
     case SET_EXPO_PUSH_TOKEN:
       return { ...state, token: action.token };
     case SET_EXPO_NOTIFICATION_STATUS:

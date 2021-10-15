@@ -13,11 +13,15 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
+import { AntDesign } from '@expo/vector-icons';
+import { Icon } from 'react-native-elements'
 import { _fetchUserFriends } from '../store/user'
+import { fetchUserGroups } from '../store/user'
 import { useDerivedValue } from 'react-native-reanimated';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user)
+  const { groups } = useSelector((state) => state.groups)
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user]);
   const dispatch = useDispatch();
@@ -42,37 +46,47 @@ const AddGroup = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style = {{ alignItems: 'right', marginLeft: 20, marginTop: 0}}>
+      {(groups.length) ?<TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          props.navigation.navigate("Group List");
+        }}
+      >
+        <Text style={styles.buttonText}>Back</Text>
+      </TouchableOpacity> : <View style={{height: 73}}></View>}
+
+      </View>
       <View
         style={{
-          margin: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
+          // margin: 20,
           flex: 1,
+          alignItems: 'center',
+          // justifyContent: 'center',
         }}
       >
         <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
-        <View style={{ marginBottom: 10 }}>
-          <Text style={styles.title}>New Group</Text>
+        <View style={{ marginBottom: 30 }}>
+          <Text style={styles.title}>Create a New Group</Text>
+          <View style = {{display: "flex", flexDirection:"row", alignItems:"center"}}>
           <TextInput
-            style={styles.itemName}
+            style={styles.newGroupName}
             onChangeText={onChangeText}
             value={text}
             placeholder="enter group name"
           />
-        </View>
-        <View>
-          <Text style={{ marginBottom: 10 }}>Select friends to add them to group</Text>
-          <View style={{ height: 20 }}></View>
+          </View>
           <Text
             style={{
               fontSize: 20,
               textAlign: 'left',
               fontWeight: 'bold',
-              marginTop: 10,
+              marginTop: 20,
             }}
           >
             Select Friends
           </Text>
+          <Text style={{ marginBottom: 10 }}>Select friends to add them to group</Text>
           <View
             style={{ height: 50 }}
           >
@@ -107,15 +121,19 @@ const AddGroup = (props) => {
                   >
                     {friend.fullName}
                   </Text>
+                  <View style = {{display: "flex", marginRight: 5, alignItems:"center"}}>
+                  <Icon color="black" type="ionicon" name="person-add-outline" size={20} />
+                  </View>
                 </TouchableOpacity>
               );
             })}
           </View>
 
         </View>
-        <TouchableOpacity style={styles.save} onPress={() => onSubmit(members)} title="save">
-            <Text style={{ color: 'black', fontWeight: 'bold' }}>Save</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => onSubmit(members)} title="save">
+          <Text style={{ color: 'black', fontWeight: 'bold' }}>save</Text>
+        </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
@@ -126,10 +144,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  itemName: {
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  nudgie: {
+    height: 150,
+    width: 150,
+    borderRadius: 24,
+  },
+  search: {
+    margin: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: "transparent",
+    borderWidth: 1,
+    backgroundColor: '#83CA9E',
+  },
+  newGroupName: {
     fontSize: 20,
     borderWidth: 1,
     textAlign: 'center',
@@ -137,7 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     margin: 5,
     padding: 10,
-    width: 250,
+    width: 300,
     backgroundColor: '#EBF6EF',
     shadowColor: '#000000',
     shadowOpacity: 0.3,
@@ -147,101 +184,75 @@ const styles = StyleSheet.create({
       width: 3,
     },
   },
-  selected: {
+  button: {
     justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 4,
-    borderColor: "transparent",
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    marginTop: 10,
-  },
-  notSelected: {
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 4,
-    borderColor: "transparent",
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#EBF6EF',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    marginTop: 10,
-  },
-  nudgie: {
-    height: 150,
-    width: 150,
-    borderRadius: 24,
-  },
-  title: {
-    fontSize: 30,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    margin: 5,
-  },
-  selectedText: {
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  notSelectedText: {
-    color: 'gray',
-  },
-  save: {
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 45,
     borderRadius: 20,
-    borderColor: 'transparent',
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
     marginTop: 10,
   },
-  storeIcon: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'transparent',
-    marginBottom: 5,
-  },
-  notSelectedPriority: {
-    backgroundColor: '#EBF6EF',
-    color: 'gray',
-    borderWidth: 1,
-    borderColor: 'transparent',
+  box: {
+    display: 'flex',
+    justifyContent: "space-between",
+    width: 250,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#83CA9E',
+    flexDirection: 'row',
+    shadowColor: 'black',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 4,
-    height: 30,
-    width: 100,
-    margin: 5,
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
+    shadowOpacity: 0.2,
   },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  selected:{
+    display: 'flex',
+    justifyContent: "space-between",
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#83CA9E',
+    // backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: "center",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  notSelected:{
+    display: 'flex',
+    justifyContent: "space-between",
+    margin: 10,
+    borderRadius: 10,
+    // backgroundColor: 'black',
+    backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: "center",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  selectedText:{
+    padding: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'left',
+  },
+  notSelectedText:{
+    padding: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    textAlign: 'left',
+  }
 });

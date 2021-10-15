@@ -53,7 +53,7 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 20}}>
+      <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 0}}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -81,7 +81,7 @@ const FriendsList = (props) => {
                 onPress={async () => {
                   await sendPushNotification(item.token, user.fullName)
                 }}>
-              <Icon style={{marginLeft: 5}}color="black" type="ionicon" name="notifications-outline" size={20} />
+              <Icon style={{marginLeft: 5}} color="black" type="ionicon" name="notifications-outline" size={20} />
               </TouchableOpacity>
               <Text style={styles.item}>{item.fullName}</Text>
               <TouchableOpacity

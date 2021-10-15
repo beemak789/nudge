@@ -7,36 +7,76 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectGroup } from '../store/group'
-import { useNavigation } from '@react-navigation/native';
+import { selectGroup } from '../store/group';
+import { Icon } from 'react-native-elements'
+import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+
+// _______SEND NOTIFICATION ________NOT TESTED
+// async function sendPushNotification(group, from) {
+//   console.log(group)
+//   group.members.forEach(async (member) => {
+//     const message = {
+//       to: member.token,
+//       sound: 'default',
+//       title: `Nudge from ${from}`,
+//       body: `${from} is at the grocery store! Do you need anything?`,
+//       data: { someData: 'goes here' },
+//     };
+
+//     await fetch('https://exp.host/--/api/v2/push/send', {
+//       method: 'POST',
+//       headers: {
+//         Accept: 'application/json',
+//         'Accept-encoding': 'gzip, deflate',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(message),
+//     });
+//   })
+// }
 
 const SingleGroup = (props) => {
   const dispatch = useDispatch();
-  const user = useSelector ((state) => state.user)
-  const navigation = useNavigation()
-
+  const group = useSelector((state) => state.selectedGroup);
+  const user = useSelector((state) => state.user);
   return (
-        <View style={styles.box}>
-            <Image
+    <Swipeable
+      renderRightActions={RightSwipeActions}
+      onSwipeableRightOpen={() => deleteGroup(props.group.id)}
+    >
+      <View style={styles.box}>
+      <Icon style={{marginLeft: 5, marginRight: 50}} color="black" type="ionicon" name="notifications-outline" size={20} />
+        {/* <Image
                 style={styles.image}
                 source={require('../public/nudgie2.png')}
-              />
-              <View style={styles.info}>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log(props.group.id)
-                    dispatch(selectGroup(props.group.id));
-                    navigation.navigate('Single Group List');
-                  }}
-                >
-                  <Text style={styles.buttonText}>{props.group.name}</Text>
-                </TouchableOpacity>
-              </View>
+              /> */}
+      <View style={styles.info}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(selectGroup(props.group.id));
+            props.navigation.navigate('Group List');
+          }}
+        >
+          <Text style={styles.buttonText}>{props.group.name}</Text>
+        </TouchableOpacity>
 
-        </View>
+      </View>
+      <Icon style={{marginRight: 5, marginLeft: 50}}color="black" type="ionicon" name="trash-outline" size={22} />
+        {/* <Button
+                style={styles.completedButton}
+                title="Send Alert"
+                onPress={() => {
+                // await sendPushNotification(props.group.id, user.fullName)
+                console.log('pressed sent')
+            }}>
+              </Button> */}
+      </View>
+    </Swipeable>
+
   );
 };
 
@@ -45,10 +85,10 @@ export default SingleGroup;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 20,
+    // backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'space-evenly',
+    // padding: 20,
   },
   completedButton: {
     marginRight: 10,
@@ -58,32 +98,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     marginHorizontal: 5,
+    alignContent: 'flex-end',
   },
   item: {
     fontSize: 20,
   },
-  body: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10,
-  },
-  image: {
-    width: 80,
-    height: 80,
-    // borderWidth: 1,
-    borderColor: '#FFFFFF',
-    margin: 15,
-    // backgroundColor: '#FAF3DD',
-  },
   box: {
     display: 'flex',
-    width: '95%',
+    // width: 250,
+    alignItems: "baseline",
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
+    justifyContent:"space-between",
     shadowColor: 'black',
-    alignItems: 'center',
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 1,
@@ -92,8 +121,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   info: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
     marginLeft: 15,
     padding: 5,
   },
@@ -102,16 +129,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
-  },
-  priority: {
-    marginLeft: 'auto',
-    marginBottom: 'auto',
-    backgroundColor: 'red',
-    width: 25,
-    height: 25,
-    borderRadius: 4,
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
   },
   button: {
     backgroundColor: '#EBF6EF',

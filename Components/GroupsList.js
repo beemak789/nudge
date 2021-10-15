@@ -12,13 +12,15 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserGroups, selectGroup, _setGroups } from '../store/group';
 import SingleGroup from './SingleGroup'
+import AddGroup from './AddGroup'
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.groups);
+  const navigation = useNavigation();
   const user = useSelector((state)=> state.user)
-
 
   useEffect(() => {
     dispatch(fetchUserGroups(user))
@@ -27,23 +29,24 @@ const GroupsList = (props) => {
 
   if (!groups.length) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>You're not part of any groups yet!</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate('Add Group');
-            }}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>Create A Group</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      <AddGroup navigation={navigation}/>
+      // <SafeAreaView style={styles.container}>
+      //   <View>
+      //     <Text>You're not part of any groups yet!</Text>
+      //     <TouchableOpacity
+      //       style={styles.button}
+      //       onPress={() => {
+      //         props.navigation.navigate('Add Group');
+      //       }}
+      //     >
+      //       <Image
+      //         style={styles.nudgie}
+      //         source={require('../public/nudgie2.png')}
+      //       />
+      //       <Text style={styles.buttonText}>Create A Group</Text>
+      //     </TouchableOpacity>
+      //   </View>
+      // </SafeAreaView>
     );
   }
 
