@@ -12,15 +12,46 @@ import {
   ButtonGroup,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { _createTask } from '../store/task';
+import { _createTask, _updateTask } from '../store/task';
 
 const EditTask = (props) => {
+  const [taskName, onChangeTaskName] = useState(`${props.route.params.item.name}`);
+  const [priority, setPriority] = useState(`${props.route.params.item.priority}`);
+  const [category, addCategory] = useState([`${props.route.params.item.category}`]);
   const dispatch = useDispatch();
-
-  const onSubmit = () => {
-    console.log('submitted')
+  const types = [
+    'supermarket',
+    'pharmacy',
+    'book_store',
+    'bakery',
+    'clothing_store',
+    'drugstore',
+    'convenience_store',
+    'florist',
+    'home_goods_store',
+    'shoe_store',
+    'liquor_store',
+    'other',
+  ];
+  const images = {
+    supermarket: require('../public/supermarket.png'),
+    bakery: require('../public/bakery.png'),
+    book_store: require('../public/book_store.png'),
+    pharmacy: require('../public/pharmacy.png'),
+    other: require('../public/other.png'),
   };
-  console.log('alskdjf', props.route.params)
+  const onSubmit = () => {
+    dispatch(_updateTask({
+      id: props.route.params.item.id,
+      name: taskName,
+      priority,
+      category
+    }))
+    props.navigation.navigate('Categories Stack', {
+      screen: 'Task List',
+    })
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -33,11 +64,137 @@ const EditTask = (props) => {
       >
         <View style={{ marginBottom: 30 }}>
           <Text style={styles.title}>Edit Task</Text>
+          <TextInput
+            style={styles.itemName}
+            onChangeText={onChangeTaskName}
+            value={taskName}
+          />
         </View>
-        <Text>name: {props.route.params.item.name}</Text>
-        <Text>priority: {props.route.params.item.priority}</Text>
+        <View>
+        <Text
+            style={{
+              fontSize: 20,
+              textAlign: 'left',
+              fontWeight: 'bold',
+              margin: 10,
+            }}
+          >Change location</Text>
+        <View style={{ height: 100 }}>
+            <ScrollView
+              style={{ height: 30 }}
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            >
+              {types.map((type) => {
+                return (
+                  <TouchableOpacity
+                    key={type}
+                    style={
+                      category.includes(type)
+                        ? styles.selected
+                        : styles.notSelected
+                    }
+                    onPress={() => {
+                      if (category.includes(type)) {
+                        //do not highlight
+                        const filteredCategories = category.filter(
+                          (removeType) => removeType !== type
+                        );
+                        addCategory(filteredCategories);
+                      } else {
+                        //highlgiht
+                        addCategory([...category, type]);
+                      }
+                    }}
+                  >
+                    <Image source={images[type]} style={styles.storeIcon} />
+                    <Text
+                      style={
+                        category.includes(type)
+                          ? styles.selectedText
+                          : styles.notSelectedText
+                      }
+                    >
+                      {type}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+          <Text
+            style={{
+              fontSize: 20,
+              textAlign: 'left',
+              fontWeight: 'bold',
+              margin: 10,
+            }}
+          >Change priority</Text>
+        <View
+            style={{
+              flexDirection: 'row',
+              margin: 3,
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <TouchableOpacity
+              style={[
+                styles.notSelectedPriority,
+                priority === 'high' ? { backgroundColor: '#83CA9E' } : null,
+              ]}
+              onPress={() => setPriority('high')}
+            >
+              <Text
+                style={[
+                  styles.btnText,
+                  priority === 'high'
+                    ? { color: 'black', fontWeight: 'bold' }
+                    : null,
+                ]}
+              >
+                high
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.notSelectedPriority,
+                priority === 'medium' ? { backgroundColor: '#83CA9E' } : null,
+              ]}
+              onPress={() => setPriority('medium')}
+            >
+              <Text
+                style={[
+                  styles.btnText,
+                  priority === 'medium'
+                    ? { color: 'black', fontWeight: 'bold' }
+                    : null,
+                ]}
+              >
+                medium
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.notSelectedPriority,
+                priority === 'low' ? { backgroundColor: '#83CA9E' } : null,
+              ]}
+              onPress={() => setPriority('low')}
+            >
+              <Text
+                style={[
+                  styles.btnText,
+                  priority === 'low'
+                    ? { color: 'black', fontWeight: 'bold' }
+                    : null,
+                ]}
+              >
+                low
+              </Text>
+            </TouchableOpacity>
+          </View>
+          </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
+          <Text style={styles.saveText}>update</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
