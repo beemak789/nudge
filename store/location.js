@@ -1,9 +1,16 @@
 const SET_LOCATION = 'SET_LOCATION';
-
+const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
 export const setBackgroundLocation = (location) => {
   return {
     type: SET_LOCATION,
     location,
+  };
+};
+
+export const setExpoLocationStatus = (status) => {
+  return {
+    type: SET_EXPO_LOCATION_STATUS,
+    status,
   };
 };
 
@@ -45,6 +52,35 @@ export const checkLocation = (currLocation, currLat, currLng) => {
       dispatch(setBackgroundLocation(currLocation));
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+//LOCATION STATUS
+export const enableLocation = (user) => {
+  return async (dispatch) => {
+    try {
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        allowLocation: 'ON',
+      });
+      dispatch(setExpoLocationStatus('ON'));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const disableLocation = (user) => {
+  return async (dispatch) => {
+    try {
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        allowLocation: 'OFF',
+      });
+      dispatch(setExpoLocationStatus('OFF'));
+    } catch (err) {
+      alert(err);
     }
   };
 };

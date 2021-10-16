@@ -9,36 +9,67 @@ import {
   View,
   Switch,
 } from 'react-native';
-import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  logOutUser,
+  _logOutUser,
   enableNotifications,
   disableNotifications,
 } from '../store/user';
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
+
+
 
 export default function Profile(props) {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.user.token);
+  const userLocation = useSelector((state) => state.location);
+  console.log("the users location---->", userLocation)
+
   const dispatch = useDispatch();
   const { navigation } = props;
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
+  let [locationToggle, setLocationToggle] = useState(() => !!location);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  //If location is foregrounded then toggle argument is true
+  const getInitialPosition = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permission to access location was denied');
+        return;
+      }
+      //This doesn't seem to get my current Position -- this is for foreground
+      const gps = await Location.getCurrentPositionAsync({});
+
+      setLocation({
+        ...location,
+        latitude: gps.coords.latitude,
+        longitude: gps.coords.longitude,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
 
   //toggle it from false to true
   const toggleNotification = (toggle) => {
+    if (toggle) {
+      dispatch(enableNotifications(user));
+    } else {
+      dispatch(disableNotifications(user));
+    }
+    setNotificationToggle(!notificationToggle);
+  };
+  //Notes:
     // toggle argument is new incoming value
     // if on remove token
     // if off, request token again
     // set toggle value (inverse of pervious) in state
-    if (toggle) {
-      dispatch(enableNotifications(user));
-    } else {
-      //if there is no token
-      dispatch(disableNotifications(user));
-    }
-
-    setNotificationToggle(!notificationToggle);
-  };
 
   return (
     <SafeAreaView style = {styles.container}>
@@ -103,7 +134,7 @@ export default function Profile(props) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+        <TouchableOpacity onPress={() => dispatch(_logOutUser())}>
           <View style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>
           </View>

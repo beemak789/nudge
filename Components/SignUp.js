@@ -6,15 +6,19 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
   Image,
 } from 'react-native';
 
 // Redux
 import { LogBox } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { signUpUser } from '../store/user';
 
 LogBox.ignoreLogs(['Setting a timer']);
+
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('');
@@ -34,73 +38,79 @@ const SignUp = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.imageContent}>
-      <Image
-          style={styles.nudgie}
-          source={require('../public/nudgie2.png')}
-        />
-        <Text style={styles.title}>nudge</Text>
-      </View>
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="First Name"
-          placeholderTextColor="#003f5c"
-          onChangeText={(first) => setFirst(first)}
-        />
-      </View>
-
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Last Name"
-          placeholderTextColor="#003f5c"
-          onChangeText={(last) => setLast(last)}
-        />
-      </View>
-
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Email"
-          autoCapitalize="none"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Password"
-          autoCapitalize="none"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Confirm Password"
-          autoCapitalize="none"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setConfirmPassword(password)}
-        />
-      </View>
-
-      <TouchableOpacity onPress={onSubmit} style={styles.button}>
-        <Text style={styles.loginText}>SIGN UP</Text>
-      </TouchableOpacity>
-      <Text style={{marginTop: 20}}>Existing User?</Text>
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate('Log In')}
-        style={styles.button}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
       >
-        <Text style={styles.loginText}>Log In!</Text>
-      </TouchableOpacity>
+        <View style={styles.imageContent}>
+          <Image
+            style={styles.nudgie}
+            source={require('../public/nudgie2.png')}
+          />
+          <Text style={styles.title}>nudge</Text>
+        </View>
+        <ScrollView>
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="First Name"
+              placeholderTextColor="#003f5c"
+              onChangeText={(first) => setFirst(first)}
+            />
+          </View>
+
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Last Name"
+              placeholderTextColor="#003f5c"
+              onChangeText={(last) => setLast(last)}
+            />
+          </View>
+
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Email"
+              autoCapitalize="none"
+              placeholderTextColor="#003f5c"
+              onChangeText={(email) => setEmail(email)}
+            />
+          </View>
+
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Password"
+              autoCapitalize="none"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
+
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Confirm Password"
+              autoCapitalize="none"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(password) => setConfirmPassword(password)}
+            />
+          </View>
+        </ScrollView>
+        <TouchableOpacity onPress={onSubmit} style={styles.button}>
+          <Text style={styles.loginText}>SIGN UP</Text>
+        </TouchableOpacity>
+        <Text style={{ marginTop: 20 }}>Existing User?</Text>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('Log In')}
+          style={styles.button}
+        >
+          <Text style={styles.loginText}>Log In!</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -110,15 +120,15 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
     // justifyContent: "center",
   },
 
   inputView: {
-    backgroundColor: "#dde5b6",
+    backgroundColor: '#dde5b6',
     borderRadius: 30,
-    width: "70%",
+    width: '70%',
     height: 45,
     marginBottom: 20,
   },
@@ -142,7 +152,7 @@ const styles = StyleSheet.create({
 
   box: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     width: 325,
     margin: 10,
     borderRadius: 10,
@@ -162,7 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'left',
-    width: "90%"
+    width: '90%',
   },
   button: {
     justifyContent: 'center',
@@ -170,7 +180,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
@@ -184,8 +194,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   loginText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 18,
     textAlign: 'center',
   },

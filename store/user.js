@@ -239,7 +239,7 @@ export const _deleteFriend = (userId, friendId) => {
   };
 };
 
-export const logOutUser = () => {
+export const _logOutUser = () => {
   console.log('logout');
   return async (dispatch) => {
     try {
@@ -271,6 +271,7 @@ export const signUpUser = (email, password, first, last) => {
             fullName: first + last,
             friends: [],
             allowNotifications: 'OFF',
+            allowLocation: "OFF"
           };
 
           const usersRef = firebase.firestore().collection('users');
