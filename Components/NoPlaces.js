@@ -33,7 +33,14 @@ const NoPlaces = (props) => {
   if (!incomplete.length) {
     return (
       <SafeAreaView style={styles.container2}>
-        <View>
+        <View style= {{margin: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1}}>
+          <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
           <Text>You have no tasks!</Text>
         </View>
       </SafeAreaView>
@@ -93,7 +100,6 @@ const NoPlaces = (props) => {
 const styles = StyleSheet.create({
   container2: {
     flex: 1,
-    justifyContent: 'center',
   },
 
   box: {
@@ -145,8 +151,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   nudgie: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     backgroundColor: 'transparent',
     margin: 5,
   },
