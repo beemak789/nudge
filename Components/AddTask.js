@@ -21,7 +21,20 @@ const images = {
   pharmacy: require('../public/pharmacy.png'),
   other: require('../public/other.png'),
 };
-const types = ['supermarket', 'pharmacy', 'book_store', 'bakery', 'other'];
+const types = [
+  'supermarket',
+  'pharmacy',
+  'book_store',
+  'bakery',
+  'clothing_store',
+  'drugstore',
+  'convenience_store',
+  'florist',
+  'home_goods_store',
+  'shoe_store',
+  'liquor_store',
+  'other',
+];
 const priorityTypes = ['high', 'medium', 'low'];
 
 const Store = ({ storeType }) => {
@@ -46,7 +59,9 @@ const AddTask = (props) => {
         category,
       })
     );
-    props.navigation.navigate('Task List');
+    props.navigation.navigate('Categories Stack', {
+      screen: 'Task List',
+    });
     onChangeText('');
     addCategory([]);
     setPriority('');
@@ -61,7 +76,10 @@ const AddTask = (props) => {
           flex: 1,
         }}
       >
-        <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
+        <Image
+          source={require('../public/nudgie2.png')}
+          style={styles.nudgie}
+        />
         <View style={{ marginBottom: 30 }}>
           <Text style={styles.title}>New Task</Text>
           <TextInput
@@ -204,7 +222,11 @@ const AddTask = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
-          onPress={() => props.navigation.navigate('Task List')}
+          onPress={() =>
+            props.navigation.navigate('Categories Stack', {
+              screen: 'Task List',
+            })
+          }
           title="cancel"
         >
           <Text style={styles.saveText}>cancel</Text>
