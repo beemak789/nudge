@@ -11,9 +11,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persistor}> */}
+        <PersistGate loading={null} persistor={persistor}>
           <Main />
-        {/* </PersistGate> */}
+        </PersistGate>
       </Provider>
     </NavigationContainer>
   );

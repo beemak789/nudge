@@ -12,60 +12,46 @@ import {
   ButtonGroup,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { _createTask } from '../store/task';
+import { _createTask, _updateTask } from '../store/task';
 
-const images = {
-  supermarket: require('../public/supermarket.png'),
-  bakery: require('../public/bakery.png'),
-  book_store: require('../public/book_store.png'),
-  pharmacy: require('../public/pharmacy.png'),
-  other: require('../public/other.png'),
-};
-const types = [
-  'supermarket',
-  'pharmacy',
-  'book_store',
-  'bakery',
-  'clothing_store',
-  'drugstore',
-  'convenience_store',
-  'florist',
-  'home_goods_store',
-  'shoe_store',
-  'liquor_store',
-  'other',
-];
-const priorityTypes = ['high', 'medium', 'low'];
-
-const Store = ({ storeType }) => {
-  <View>
-    <Text>{storeType}</Text>
-  </View>;
-};
-
-const AddTask = (props) => {
-  const [text, onChangeText] = useState('');
-  const [priority, setPriority] = useState('high');
-  const [category, addCategory] = useState([]);
+const EditTask = (props) => {
+  const [taskName, onChangeTaskName] = useState(`${props.route.params.item.name}`);
+  const [priority, setPriority] = useState(`${props.route.params.item.priority}`);
+  const [category, addCategory] = useState([`${props.route.params.item.category}`]);
   const dispatch = useDispatch();
-
-  const renderItem = (item) => <Store storeType={item} />;
-
+  const types = [
+    'supermarket',
+    'pharmacy',
+    'book_store',
+    'bakery',
+    'clothing_store',
+    'drugstore',
+    'convenience_store',
+    'florist',
+    'home_goods_store',
+    'shoe_store',
+    'liquor_store',
+    'other',
+  ];
+  const images = {
+    supermarket: require('../public/supermarket.png'),
+    bakery: require('../public/bakery.png'),
+    book_store: require('../public/book_store.png'),
+    pharmacy: require('../public/pharmacy.png'),
+    other: require('../public/other.png'),
+  };
   const onSubmit = () => {
-    dispatch(
-      _createTask({
-        name: text,
-        priority,
-        category,
-      })
-    );
+    dispatch(_updateTask({
+      id: props.route.params.item.id,
+      name: taskName,
+      priority,
+      category
+    }))
     props.navigation.navigate('Categories Stack', {
       screen: 'Task List',
-    });
-    onChangeText('');
-    addCategory([]);
-    setPriority('');
+    })
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -76,32 +62,24 @@ const AddTask = (props) => {
           flex: 1,
         }}
       >
-        <Image
-          source={require('../public/nudgie2.png')}
-          style={styles.nudgie}
-        />
         <View style={{ marginBottom: 30 }}>
-          <Text style={styles.title}>New Task</Text>
+          <Text style={styles.title}>Edit Task</Text>
           <TextInput
             style={styles.itemName}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="enter item name"
+            onChangeText={onChangeTaskName}
+            value={taskName}
           />
         </View>
         <View>
-          <Text
+        <Text
             style={{
               fontSize: 20,
               textAlign: 'left',
               fontWeight: 'bold',
-              marginBottom: 10,
+              margin: 10,
             }}
-          >
-            Where can we find this item?
-          </Text>
-          <Text style={{ marginBottom: 10 }}>Select all that apply</Text>
-          <View style={{ height: 100 }}>
+          >Change location</Text>
+        <View style={{ height: 100 }}>
             <ScrollView
               style={{ height: 30 }}
               showsHorizontalScrollIndicator={false}
@@ -149,12 +127,10 @@ const AddTask = (props) => {
               fontSize: 20,
               textAlign: 'left',
               fontWeight: 'bold',
-              marginTop: 10,
+              margin: 10,
             }}
-          >
-            Select Priority
-          </Text>
-          <View
+          >Change priority</Text>
+        <View
             style={{
               flexDirection: 'row',
               margin: 3,
@@ -216,9 +192,9 @@ const AddTask = (props) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+          </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
+          <Text style={styles.saveText}>update</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
@@ -235,7 +211,7 @@ const AddTask = (props) => {
     </SafeAreaView>
   );
 };
-export default AddTask;
+export default EditTask;
 
 const styles = StyleSheet.create({
   container: {

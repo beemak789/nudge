@@ -38,5 +38,5 @@ export const ReviewStars = (props) => {
     }
     starReviews.push(star);
   }
-  return <View style={{ flex: 1, flexDirection: 'row' }}>{starReviews}</View>;
+  return <View style={{ flexDirection: 'row' }}>{starReviews}</View>;
 };

@@ -5,15 +5,16 @@ import { setExpoPushToken } from '../store/user';
 export async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
+    const {
+      status: existingStatus,
+    } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
       // set permission based on switch value
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = await status;
     }
-    console.log9notificationsPrompt(dispatch, notificationListener, setNotification);
+    // console.log9notificationsPrompt(dispatch, notificationListener, setNotification);
     if (finalStatus !== 'granted') {
       alert('Failed to get push token for push notification!');
       return;
@@ -21,7 +22,7 @@ export async function registerForPushNotificationsAsync() {
     token = (await Notifications.getExpoPushTokenAsync()).data;
     return token;
   } else {
-    alert('Must use physical device for Push Notifications');
+    // alert('Must use physical device for Push Notifications');
   }
 
   if (Platform.OS === 'android') {
@@ -67,8 +68,9 @@ export async function notificationsPrompt(
   );
 
   // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-  responseListener.current =
-    Notifications.addNotificationResponseReceivedListener((response) => {
+  responseListener.current = Notifications.addNotificationResponseReceivedListener(
+    (response) => {
       console.log(response);
-    });
+    }
+  );
 }

@@ -16,11 +16,11 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-// const persistedReducer = persistReducer(persistConfig, appReducer);
+const persistedReducer = persistReducer(persistConfig, appReducer);
 
 export const store = createStore(
-  appReducer,
-  applyMiddleware(thunkMiddleware, createLogger())
+  persistedReducer,
+  applyMiddleware(thunkMiddleware)
 );
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);

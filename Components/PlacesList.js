@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { ListItem, Text, Avatar, Divider } from 'react-native-elements';
+import { ListItem, Text, Divider } from 'react-native-elements';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import * as Linking from 'expo-linking';
 
@@ -19,10 +19,11 @@ import { _fetchPlaces, clearPlaces } from '../store/places';
 import { ReviewStars } from '../services/StarRating';
 import { priorityStyle } from '../services/PriorityStyle';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { Icon } from 'react-native-elements'
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
-  const { places, status } = useSelector((state) => state.place);
+  const { places } = useSelector((state) => state.place);
   const { currTask } = useSelector((state) => state.task);
 
   const updateCompleteStatus = (item) => {
@@ -34,68 +35,13 @@ const PlacesList = (props) => {
     dispatch(clearPlaces());
   };
 
-  if (!places.length && !currTask.id) {
-    return (
-      <SafeAreaView style={styles.container2}>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => dispatch(_fetchPlaces())}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>Press to complete a task!</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  } else if (!places.length && status.length && currTask.id) {
-    return (
-      <SafeAreaView style={styles.container2}>
-        <View>
-          <Text>{status}</Text>
-          <Swipeable
-            renderLeftActions={LeftSwipeActions}
-            renderRightActions={RightSwipeActions}
-            onSwipeableRightOpen={() => deleteTask(currTask.id)}
-            onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
-          >
-            <View style={styles.box}>
-              <View style={styles.info}>
-                <Text style={styles.item}>{currTask.name}</Text>
-              </View>
-              <View style={priorityStyle(currTask.priority)}></View>
-            </View>
-          </Swipeable>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => dispatch(_fetchPlaces())}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-
-            <Text style={styles.buttonText}>Complete a different task?</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
 
     const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
-
   };
 
-  const getImage = (lat, long) => {
-  //   return `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=20&minx=${lat}&miny=${long}&maxx=${lat}&maxy=${long}&size=medium&mapfilter=true`;
-  };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -105,64 +51,41 @@ const PlacesList = (props) => {
       )}
       {places.length > 0 && (
         <>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => dispatch(_fetchPlaces())}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>
-              Press to complete another task!
-            </Text>
-          </TouchableOpacity>
-          <Swipeable
+          {/* <Swipeable
             renderLeftActions={LeftSwipeActions}
             renderRightActions={RightSwipeActions}
             onSwipeableRightOpen={() => deleteTask(currTask.id)}
             onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
-          >
-            <View style={styles.box}>
-              <View style={styles.info}>
+          > */}
+          <View style={{display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 10, justifyContent: "space-evenly"}}>
+            <Text style={{fontSize: 16}}>Stores near you that may carry:</Text>
+            <View>
+              <View style={{borderWidth: 1, borderRadius: 4, borderColor: "transparent", alignSelf: "center", backgroundColor: "#83CA9E", marginTop: 10}}>
                 <Text style={styles.item}>{currTask.name}</Text>
               </View>
-              <View style={priorityStyle(currTask.priority)}></View>
-            </View>
-          </Swipeable>
+          </View>
+              {/* <View style={priorityStyle(currTask.priority)}></View> */}
+          </View>
+          {/* </Swipeable> */}
           <FlatList
             data={places}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => generateLink(item)}>
-                <ListItem chevron={{ color: '#e90000', size: 30 }}>
-                  <Avatar
-                    title={item.name}
-                    rounded={false}
-                    size={'large'}
-                    source={
-                      item.marker && {
-                        uri: getImage(
-                          item.marker.latitude,
-                          item.marker.longitude
-                        ),
-                      }
-                    }
-                    containerStyle={{ marginLeft: 20 }}
-                  />
+              <TouchableOpacity style= {{margin: 10, marginBottom: 0}} onPress={() => generateLink(item)}>
+                <ListItem chevron={{ color: '#e90000', size: 30}}>
                   <ListItem.Content>
-                    <ListItem.Title>
+                    <ListItem.Title style= {{}}>
                       <View style={styles.rowDirection}>
-                        <Text>{item.name}</Text>
-                        <Text>distance</Text>
+                        <Text style={{fontWeight: "bold", justifyContent: "flex-start"}}>{item.name}</Text>
+                        <Text syle={{justifyContent:"center"}}>distance</Text>
                       </View>
                     </ListItem.Title>
                     <ListItem.Subtitle>
                       {item.rating && (
                         <View>
                           <View style={styles.startReviewsContainer}>
-                            <ReviewStars stars={item.rating} />
-                            <Text style={styles.rarting}>
-                              {item.rating.toFixed(1)}
+                            <ReviewStars stars={item.rating}/>
+                            <Text style={styles.rating}>
+                               {item.rating.toFixed(1)}
                             </Text>
                           </View>
                           <View>
@@ -178,6 +101,21 @@ const PlacesList = (props) => {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
+        <TouchableOpacity
+            style={styles.newTask}
+            onPress={() => dispatch(_fetchPlaces())}
+          >
+            {/* <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            /> */}
+            <View style={{display: "flex", flexDirection:"row"}}>
+            <Text style={{fontSize: 20, fontWeight: "bold"}}>
+              New Task
+            </Text>
+            <Icon color="black" type="ionicon" name="shuffle-outline" size={24} />
+            </View>
+          </TouchableOpacity>
         </>
       )}
     </SafeAreaView>
@@ -193,27 +131,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  menuTitle: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Medium',
-    color: '#575757',
-    marginLeft: 20,
-    marginTop: 10,
-  },
-  mapView: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  restaurantList: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  chevron: {
-    color: '#e90000',
-  },
+
   rowDirection: {
+    display: "flex",
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: "center",
   },
   startReviewsContainer: {
     flexDirection: 'row',
@@ -224,7 +147,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rating: {
-    marginLeft: 'auto',
+
+    marginLeft: 5,
   },
   box: {
     alignSelf: 'center',
@@ -248,10 +172,11 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   item: {
-    padding: 10,
+    padding: 5,
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
+    fontWeight: "bold"
   },
   button: {
     backgroundColor: '#EBF6EF',
@@ -280,9 +205,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 5,
   },
-  noTasksText: {
-    fontWeight: '700',
-    fontSize: 20,
+  newTask:{
+    borderColor: "transparent",
+    borderWidth: 1,
+    borderRadius: 25,
+    margin: 10,
+    padding: 5,
+    backgroundColor: '#EBF6EF',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
   },
 });
 

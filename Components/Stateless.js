@@ -1,33 +1,17 @@
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-} from 'react-native';
-
-import React, { useEffect } from 'react';
-import { AntDesign } from '@expo/vector-icons';
+import { StyleSheet, FlatList, Text, View, SafeAreaView } from 'react-native';
+import React from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
   _deleteTask,
   _fetchAllTasks,
   _updateCompleteStatus,
 } from '../store/task';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
-import { _fetchPlaces } from '../store/places';
 
-const taskList = (props) => {
+const Stateless = (props) => {
   const dispatch = useDispatch();
-  const { incomplete } = useSelector((state) => state.task);
-
-  useEffect(() => {
-    dispatch(_fetchAllTasks());
-  }, []);
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item));
@@ -39,19 +23,11 @@ const taskList = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            props.navigation.navigate('Add Task');
-          }}
-        />
+        <Text>{props.title}</Text>
       </View>
       <View style={styles.body}>
         <FlatList
-          data={incomplete}
+          data={props.list}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Swipeable
@@ -60,22 +36,12 @@ const taskList = (props) => {
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
             >
-              <TouchableOpacity style={styles.box}
-                onPress={()=> {
-                  dispatch(_fetchPlaces(item))
-                  props.navigation.navigate("Places Stack")
-                }}
-                onLongPress={() => {
-                  console.log('Long Press')
-                  props.navigation.navigate("Edit Stack", {
-                    item
-                  })
-                }}>
+              <View style={styles.box}>
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
                 <View style={priorityStyle(item.priority)}></View>
-              </TouchableOpacity>
+              </View>
             </Swipeable>
           )}
         ></FlatList>
@@ -84,7 +50,7 @@ const taskList = (props) => {
   );
 };
 
-export default taskList;
+export default Stateless;
 
 const styles = StyleSheet.create({
   container: {
