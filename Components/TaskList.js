@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
+import ModalBadge from './ModalBadge';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const taskList = (props) => {
           }}
         />
       </View>
+
       <View style={styles.body}>
         <FlatList
           data={incomplete}
@@ -60,17 +62,19 @@ const taskList = (props) => {
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
             >
-              <TouchableOpacity style={styles.box}
-                onPress={()=> {
-                  dispatch(_fetchPlaces(item))
-                  props.navigation.navigate("Places Stack")
+              <TouchableOpacity
+                style={styles.box}
+                onPress={() => {
+                  dispatch(_fetchPlaces(item));
+                  props.navigation.navigate('Places Stack');
                 }}
                 onLongPress={() => {
-                  console.log('Long Press')
-                  props.navigation.navigate("Edit Stack", {
-                    item
-                  })
-                }}>
+                  console.log('Long Press');
+                  props.navigation.navigate('Edit Stack', {
+                    item,
+                  });
+                }}
+              >
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>

@@ -21,7 +21,7 @@ import ProfileStack from '../services/stacks/profileStack';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { checkLocation } from '../store/location';
+import { checkLocation, enableLocation, disableLocation } from '../store/location';
 
 import {
   setUser,
@@ -29,6 +29,9 @@ import {
   _setExpoPushToken,
   _fetchUserFriends,
 } from '../store/user';
+import {
+  notificationsPrompt,
+} from '../services/notifications';
 
 const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -71,8 +74,7 @@ async function registerForPushNotificationsAsync() {
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
-  // const [user, setUser] = useState({});
-  // const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(null);
   // const [expoPushToken, setExpoPushToken] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -97,6 +99,10 @@ const Main = () => {
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
+
+      // if (user.allowNotifications === 'ON') {
+      //   notificationsPrompt(dispatch, notificationListener, setNotification);
+      // }
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -135,10 +141,11 @@ const Main = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
+        disableLocation()
         setErrorMsg('Permission to access location was denied');
         return;
       }
-
+      enableLocation()
       let location = await Location.getCurrentPositionAsync({});
 
       dispatch(

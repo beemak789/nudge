@@ -1,16 +1,11 @@
+import { firebase } from '../config/firebase';
+import * as Location from 'expo-location';
+import { setExpoLocationStatus } from './user';
 const SET_LOCATION = 'SET_LOCATION';
-const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
 export const setBackgroundLocation = (location) => {
   return {
     type: SET_LOCATION,
     location,
-  };
-};
-
-export const setExpoLocationStatus = (status) => {
-  return {
-    type: SET_EXPO_LOCATION_STATUS,
-    status,
   };
 };
 
@@ -57,28 +52,39 @@ export const checkLocation = (currLocation, currLat, currLng) => {
 };
 
 //LOCATION STATUS
-export const enableLocation = (user) => {
-  return async (dispatch) => {
+export const enableLocation = () => {
+  return async (dispatch, getState) => {
     try {
+      const { user } = getState();
+      let location = await Location.getCurrentPositionAsync({});
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowLocation: 'ON',
+        locationStatus: 'GRANTED',
       });
-      dispatch(setExpoLocationStatus('ON'));
+
+      dispatch(
+        checkLocation(
+          location,
+          location.coords.latitude,
+          location.coords.longitude
+        )
+      );
+      dispatch(setExpoLocationStatus('GRANTED'));
     } catch (err) {
       alert(err);
     }
   };
 };
 
-export const disableLocation = (user) => {
-  return async (dispatch) => {
+export const disableLocation = () => {
+  return async (dispatch, getState) => {
     try {
+      const { user } = getState();
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowLocation: 'OFF',
+        locationStatus: 'DENY',
       });
-      dispatch(setExpoLocationStatus('OFF'));
+      dispatch(setExpoLocationStatus('DENY'));
     } catch (err) {
       alert(err);
     }

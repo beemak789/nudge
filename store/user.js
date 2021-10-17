@@ -3,6 +3,8 @@ const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
+const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
+
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
@@ -48,6 +50,13 @@ export const setExpoNotificationStatus = (status) => {
   return {
     type: SET_EXPO_NOTIFICATION_STATUS,
     status,
+  };
+};
+
+export const setExpoLocationStatus = (locationStatus) => {
+  return {
+    type: SET_EXPO_LOCATION_STATUS,
+    locationStatus,
   };
 };
 
@@ -239,7 +248,7 @@ export const _deleteFriend = (userId, friendId) => {
   };
 };
 
-export const _logOutUser = () => {
+export const logOutUser = () => {
   console.log('logout');
   return async (dispatch) => {
     try {
@@ -271,7 +280,7 @@ export const signUpUser = (email, password, first, last) => {
             fullName: first + last,
             friends: [],
             allowNotifications: 'OFF',
-            allowLocation: "OFF"
+            locationStatus: "DENIED"
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -303,6 +312,8 @@ export default (state = {}, action) => {
       return { ...state, allowNotifications: action.status };
     case SET_USER_FRIENDS:
       return { ...state, friends: action.friends };
+    case SET_EXPO_LOCATION_STATUS:
+      return {...state, locationStatus: action.locationStatus}
     case LOGOUT_USER:
       return {};
     case DELETE_FRIEND:

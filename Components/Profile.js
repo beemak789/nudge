@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,50 +11,48 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  _logOutUser,
+  logOutUser,
   enableNotifications,
   disableNotifications,
 } from '../store/user';
-import * as Location from 'expo-location';
-import * as TaskManager from 'expo-task-manager';
-
-
+import { enableLocation, disableLocation } from '../store/location';
 
 export default function Profile(props) {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.user.token);
   const userLocation = useSelector((state) => state.location);
-  console.log("the users location---->", userLocation)
-
+  console.log('the user location---->', userLocation);
+  console.log('the user--->', user);
   const dispatch = useDispatch();
   const { navigation } = props;
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
-  let [locationToggle, setLocationToggle] = useState(() => !!location);
+  let [locationToggle, setLocationToggle] = useState(false);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  //If location is foregrounded then toggle argument is true
-  const getInitialPosition = async () => {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Permission to access location was denied');
-        return;
-      }
-      //This doesn't seem to get my current Position -- this is for foreground
-      const gps = await Location.getCurrentPositionAsync({});
-
-      setLocation({
-        ...location,
-        latitude: gps.coords.latitude,
-        longitude: gps.coords.longitude,
-      });
-    } catch (err) {
-      console.log(err);
+  const locationFn = async () => {
+    if (locationToggle) {
+      dispatch(disableLocation());
+      setLocationToggle(false)
+      return;
+    } else {
+      dispatch(enableLocation());
+      setLocationToggle(true)
     }
+
+  }
+  useEffect(() => {
+    locationFn()
+  }, []);
+
+  const toggleLocation = (toggle) => {
+    if (toggle) {
+      dispatch(enableLocation(user));
+    } else {
+      dispatch(disableLocation(user));
+    }
+    setLocationToggle(!locationToggle);
   };
-
-
 
   //toggle it from false to true
   const toggleNotification = (toggle) => {
@@ -65,82 +63,76 @@ export default function Profile(props) {
     }
     setNotificationToggle(!notificationToggle);
   };
-  //Notes:
-    // toggle argument is new incoming value
-    // if on remove token
-    // if off, request token again
-    // set toggle value (inverse of pervious) in state
 
   return (
-    <SafeAreaView style = {styles.container}>
-    <View style = {{display: "flex", alignItems:"center"}}>
-      <Image
-        style={styles.userImage}
-        source={require('../public/nudgie2.png')}
-      />
-      <View>
-        <Text style={styles.title}>My Profile</Text>
-      </View>
-
-      <View style={userFields.fields}>
-        <View style={userFields.textContainer}>
-          <Text style={userFields.usernameLabel}>Username</Text>
-          <Text styles={userFields.username}>{user.fullName || ''}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={{ display: 'flex', alignItems: 'center' }}>
+        <Image
+          style={styles.userImage}
+          source={require('../public/nudgie2.png')}
+        />
+        <View>
+          <Text style={styles.title}>My Profile</Text>
         </View>
 
-        <View style={userFields.textContainer}>
-          <Text style={userFields.emailLabel}>Email</Text>
-          <Text styles={userFields.email}>{user.email || ''}</Text>
+        <View style={userFields.fields}>
+          <View style={userFields.textContainer}>
+            <Text style={userFields.usernameLabel}>Username</Text>
+            <Text styles={userFields.username}>{user.fullName || ''}</Text>
+          </View>
+
+          <View style={userFields.textContainer}>
+            <Text style={userFields.emailLabel}>Email</Text>
+            <Text styles={userFields.email}>{user.email || ''}</Text>
+          </View>
+
+          <View style={switchStyles.switchContainers}>
+            <View style={switchStyles.singleSwitch}>
+              <Text style={switchStyles.switchText}>Notifications</Text>
+              <Switch
+                onValueChange={toggleNotification}
+                value={notificationToggle}
+                trackColor={{ true: '#83CA9E' }}
+              />
+            </View>
+
+            <View style={switchStyles.singleSwitch}>
+              <Text style={switchStyles.switchText}>Location</Text>
+              <Switch
+                onValueChange={toggleLocation}
+                value={locationToggle}
+                trackColor={{ true: '#83CA9E' }}
+              />
+            </View>
+
+            <View>
+              <Text style={styles.badges}>Badges</Text>
+            </View>
+
+            <View style={styles.badgeNudgie}>
+              {/* <Badge style={styles.badgeNumber}>1</Badge> */}
+              <Image
+                style={{ height: 80, width: 80, padding: 5 }}
+                source={require('../public/nudgie2.png')}
+              />
+            </View>
+          </View>
         </View>
 
-        <View style={switchStyles.switchContainers}>
-          <View style={switchStyles.singleSwitch}>
-            <Text style={switchStyles.switchText}>Notifications</Text>
-            <Switch
-              onValueChange={toggleNotification}
-              value={notificationToggle}
-              trackColor={{ true: '#83CA9E' }}
-            />
-          </View>
+        <View style={styles.userButtonWrapper}>
+          <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
+            <View style={styles.editButton}>
+              <Text style={styles.editProfileText}>Edit Profile</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={switchStyles.singleSwitch}>
-            <Text style={switchStyles.switchText}>Location</Text>
-            <Switch
-              onValueChange={() => {
-                console.log('this is pressed');
-              }}
-              value={true}
-              trackColor={{ true: '#83CA9E' }}
-            />
-          </View>
-
-          <View>
-            <Text style={styles.badges}>Badges</Text>
-          </View>
-
-          <View style = {styles.badgeNudgie}>
-            {/* <Badge style={styles.badgeNumber}>1</Badge> */}
-            <Image style = {{height: 80, width: 80, padding: 5}}
-              source={require('../public/nudgie2.png')}
-            />
-          </View>
+          <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+            <View style={styles.logoutButton}>
+              <Text style={styles.logoutText}>Logout</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={styles.userButtonWrapper}>
-        <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
-          <View style={styles.editButton}>
-            <Text style={styles.editProfileText}>Edit Profile</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => dispatch(_logOutUser())}>
-          <View style={styles.logoutButton}>
-            <Text style={styles.logoutText}>Logout</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
     </SafeAreaView>
   );
 }
@@ -150,7 +142,7 @@ const buttonStyle = {
   paddingVertical: 10,
   paddingHorizontal: 20,
   borderRadius: 20,
-  borderColor: "transparent",
+  borderColor: 'transparent',
   borderWidth: 1,
   elevation: 3,
   backgroundColor: '#EBF6EF',
@@ -251,7 +243,7 @@ const userFields = StyleSheet.create({
   fields: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent:"flex-start",
+    justifyContent: 'flex-start',
     fontWeight: 'bold',
     fontSize: 50,
     width: 350,
@@ -271,7 +263,7 @@ const userFields = StyleSheet.create({
   emailLabel: {
     fontWeight: 'bold',
     fontSize: 18,
-    margin:5,
+    margin: 5,
     marginLeft: 0,
   },
 });
