@@ -24,25 +24,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
+import { updateBadgeCount } from '../store/user';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
   const { incomplete } = useSelector((state) => state.task);
   //
-  const { tasks } = useSelector((state) => state.task);
   const user = useSelector((state) => state.user);
+  const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
-  const [height, setHeight] = useState(null);
-  const [width, setWidth] = useState(null);
-  const confettiRef = useRef(null);
+
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, []);
-
-  // useEffect(() => {
-  //   setHeight(confettiRef.current.clientHeight)
-  // })
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item, setModalVisible));
@@ -80,7 +75,22 @@ const taskList = (props) => {
               day!
             </Text>
 
-            <Text style={styles.modalText}>Claim My Badge!</Text>
+            <Text style={styles.modalText}>Tap on me for your badge!</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                dispatch(updateBadgeCount(user))
+                console.log("the badge count in onpress--->", badgeCount)
+              }}
+            >
+              <Image
+                style={styles.badgeIcon}
+                source={{
+                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                }}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -151,12 +161,21 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 15,
     marginTop: 20,
-    color: '#4a7c59',
+    color: 'black',
     fontWeight: 'bold',
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   iconToCloseModal: {
     marginLeft: 230,
+  },
+  badgeIcon: {
+    justifyContent: 'center',
+    margin: 'auto',
+    height: 100,
+    width: 100,
+    borderRadius: 24,
+    marginTop: 20,
+    marginLeft: 80,
   },
   item: {
     fontSize: 20,

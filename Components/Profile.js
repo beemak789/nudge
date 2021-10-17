@@ -19,30 +19,25 @@ import { enableLocation, disableLocation } from '../store/location';
 
 export default function Profile(props) {
   const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.user.token);
-  const userLocation = useSelector((state) => state.location);
-  console.log('the user location---->', userLocation);
-  console.log('the user--->', user);
+  const { token, badgeCount } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { navigation } = props;
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
   let [locationToggle, setLocationToggle] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
 
   const locationFn = async () => {
     if (locationToggle) {
       dispatch(disableLocation());
-      setLocationToggle(false)
+      setLocationToggle(false);
       return;
     } else {
       dispatch(enableLocation());
-      setLocationToggle(true)
+      setLocationToggle(true);
     }
-
-  }
+  };
   useEffect(() => {
-    locationFn()
+    locationFn();
   }, []);
 
   const toggleLocation = (toggle) => {
@@ -109,12 +104,42 @@ export default function Profile(props) {
               <Text style={styles.badges}>Badges</Text>
             </View>
 
-            <View style={styles.badgeNudgie}>
-              {/* <Badge style={styles.badgeNumber}>1</Badge> */}
-              <Image
-                style={{ height: 80, width: 80, padding: 5 }}
-                source={require('../public/nudgie2.png')}
-              />
+            <View
+              style={{
+                width: 100,
+                height: 100,
+                backgroundColor: 'white',
+                borderRadius: 50,
+              }}
+            >
+              <View style={styles.badgeNudgie}>
+                <Image
+                  style={{ height: 70, width: 70, padding: 5 }}
+                  source={require('../public/nudgie2.png')}
+                />
+              </View>
+              <View
+                style={{
+                  position: 'absolute',
+                  width: 38,
+                  height: 38,
+                  borderRadius: 20,
+                  marginLeft: 65,
+                  backgroundColor: 'green',
+                }}
+              >
+                <Text
+                  style={{
+                    size: 10,
+                    color: 'white',
+                    marginLeft: 15,
+                    marginTop: 10,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {badgeCount}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -175,7 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     marginTop: 10,
-    padding: 5,
+    padding: 8,
   },
   badgeNumber: {
     margin: 'auto',

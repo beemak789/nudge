@@ -4,6 +4,7 @@ const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
 const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
+const SET_BADGE_COUNT = 'SET_BADGE_COUNT';
 
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
@@ -57,6 +58,14 @@ export const setExpoLocationStatus = (locationStatus) => {
   return {
     type: SET_EXPO_LOCATION_STATUS,
     locationStatus,
+  };
+};
+
+//BADGE COUNT
+export const setBadgeCount = (badgeCount) => {
+  return {
+    type: SET_BADGE_COUNT,
+    badgeCount,
   };
 };
 
@@ -153,6 +162,26 @@ export const disableNotifications = (user) => {
         allowNotifications: 'OFF',
       });
       dispatch(setExpoNotificationStatus('OFF'));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+//Badge Count
+export const updateBadgeCount = (user) => {
+  return async (dispatch) => {
+    try {
+      const { badgeCount } = user;
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        badgeCount: firebase.firestore.FieldValue.increment(1),
+      });
+      const updatedBadgeCount = {
+        ...user,
+        badgeCount: badgeCount + 1,
+      };
+      dispatch(setBadgeCount(badgeCount + 1));
     } catch (err) {
       alert(err);
     }
@@ -280,7 +309,8 @@ export const signUpUser = (email, password, first, last) => {
             fullName: first + last,
             friends: [],
             allowNotifications: 'OFF',
-            locationStatus: "DENIED"
+            locationStatus: 'DENIED',
+            badgeCount: 0,
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -313,7 +343,9 @@ export default (state = {}, action) => {
     case SET_USER_FRIENDS:
       return { ...state, friends: action.friends };
     case SET_EXPO_LOCATION_STATUS:
-      return {...state, locationStatus: action.locationStatus}
+      return { ...state, locationStatus: action.locationStatus };
+    case SET_BADGE_COUNT:
+      return { ...state, badgeCount: action.badgeCount };
     case LOGOUT_USER:
       return {};
     case DELETE_FRIEND:
