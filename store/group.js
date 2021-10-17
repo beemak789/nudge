@@ -1,4 +1,5 @@
 import { firebase } from '../config/firebase';
+import { deleteUserGroup } from './user';
 
 const SET_GROUPS = 'SET_GROUPS';
 const ADD_GROUP = 'CREATE_GROUP';
@@ -130,6 +131,7 @@ export const deleteGroup = (groupId, members) => {
           groupId
         })
       );
+
     } catch (err) {
       console.log(err);
     }
@@ -177,7 +179,7 @@ export default (state = initialState, action) => {
     const deletedGroups = state.groups.filter(
         (group) => group.id !== action.groupId
       );
-      return { ...state, groups: deletedGroups };
+      return { ...state, groups: deletedGroups, selectedGroup: {id: '', group: {}} };
     case SELECT_GROUP:
       return {...state, selectedGroup: action.selectedGroup}
     default:

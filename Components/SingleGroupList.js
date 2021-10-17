@@ -20,6 +20,7 @@ import {
   _fetchUserFriends,
 } from '../store/user';
 import { deleteGroup } from '../store/group';
+import { deleteUserGroup } from '../store/user'
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
@@ -55,6 +56,13 @@ const SingleGroupList = (props) => {
     dispatch(fetchGroupTasks(selectedGroup.id));
   }, [dispatch]);
 
+  const _deleteGroup = async () => {
+    await dispatch(deleteUserGroup(selectedGroup.id))
+    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
+    navigation.navigate('Group List')
+
+  }
+
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
     console.log("MEMBERS", members);
@@ -87,7 +95,7 @@ const SingleGroupList = (props) => {
           color="#83CA9E"
           backgroundColor="transparent"
           onPress={() => {
-            props.navigation.navigate('Add Group Task');
+            navigation.navigate('Add Group Task');
           }}
         />
       </View>
@@ -119,9 +127,9 @@ const SingleGroupList = (props) => {
         )}
       </View>
       <TouchableOpacity
-                onPress={() => {
-                  dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
-                  props.navigation.navigate('Group List')
+                onPress={() => {_deleteGroup()
+                  console.log('USER', user)
+                  console.log('selected group', selectedGroup)
                 }}>
               <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
       </TouchableOpacity>
