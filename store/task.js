@@ -107,6 +107,7 @@ export const _fetchAllTasks = () => {
     }
   };
 };
+//db.collection('chats').doc('#randomHASH').collection('conversations').onSnapshot((snapshot) => {...});
 
 export const fetchGroupTasks = (groupId) => {
   return async (dispatch) => {
@@ -116,15 +117,14 @@ export const fetchGroupTasks = (groupId) => {
         .collection('groupTasks')
         .doc(groupId)
         .collection('tasks')
-        .get()
-        .then((snapshot) => {
+        .onSnapshot((snapshot) => {
           let tasks = snapshot.docs.map((doc) => {
             const data = doc.data();
             const id = doc.id;
             return { id, ...data };
           });
           dispatch(setGroupTasks(tasks));
-        });
+        })
     } catch (err) {
       console.log(err);
     }
@@ -158,7 +158,7 @@ export const _createGroupTask = (groupId, {name}) => {
     }
   };
 };
-//not fully tested, but almost fully tested
+
 export const _createTask = ({ name, priority, category }) => {
   return async (dispatch) => {
     try {

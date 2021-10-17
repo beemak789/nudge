@@ -20,6 +20,7 @@ import {
   _fetchUserFriends,
 } from '../store/user';
 import { deleteGroup } from '../store/group';
+import { deleteUserGroup } from '../store/user'
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
@@ -53,32 +54,40 @@ const SingleGroupList = (props) => {
 
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
-    console.log("SELECTED GROUP", selectedGroup)
   }, [dispatch]);
+
+  const _deleteGroup = async () => {
+    await dispatch(deleteUserGroup(selectedGroup.id))
+    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
+    navigation.navigate('Group List')
+
+  }
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
-    console.log("MEMBERS", members);
     members.forEach(async (member) => {
-      const message = {
-        to: member.token,
-        sound: 'default',
-        title: `Nudge from ${from}`,
-        body: `${from} is at the grocery store! Do you need anything?`,
-        data: { someData: 'goes here' },
-      };
+      if (member.allowNotifications === 'ON'){
+        const message = {
+          to: member.token,
+          sound: 'default',
+          title: `Nudge from ${from}`,
+          body: `${from} is at the grocery store! Do you need anything?`,
+          data: { someData: 'goes here' },
+        };
 
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-    });
-  }
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message),
+        });
+      }
+    }
+  )
+}
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
@@ -88,7 +97,7 @@ const SingleGroupList = (props) => {
           color="#83CA9E"
           backgroundColor="transparent"
           onPress={() => {
-            props.navigation.navigate('Add Group Task');
+            navigation.navigate('Add Group Task');
           }}
         />
       </View>
@@ -120,10 +129,7 @@ const SingleGroupList = (props) => {
         )}
       </View>
       <TouchableOpacity
-                onPress={() => {
-                  dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
-                  props.navigation.navigate('Group List')
-                }}>
+                onPress={() => {_deleteGroup()}}>
               <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
       </TouchableOpacity>
     </SafeAreaView>

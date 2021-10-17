@@ -152,7 +152,6 @@ const Main = () => {
         )
       );
       let backPerm = await Location.requestBackgroundPermissionsAsync();
-      console.log('backPerm', backPerm);
 
       if (backPerm.status === 'granted') {
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {

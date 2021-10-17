@@ -1,4 +1,5 @@
 import { firebase } from '../config/firebase';
+import { deleteUserGroup } from './user';
 
 const SET_GROUPS = 'SET_GROUPS';
 const ADD_GROUP = 'CREATE_GROUP';
@@ -130,6 +131,7 @@ export const deleteGroup = (groupId, members) => {
           groupId
         })
       );
+
     } catch (err) {
       console.log(err);
     }
@@ -139,7 +141,6 @@ export const deleteGroup = (groupId, members) => {
 export const selectGroup = (groupId) => {
   return async (dispatch) => {
     try {
-      console.log("GROUPID", groupId)
       //fetch the group from firestore
       let selectedGroup = await firebase
         .firestore()
@@ -147,7 +148,6 @@ export const selectGroup = (groupId) => {
         .doc(groupId)
         .get()
         .then((snapshot) =>{
-          console.log("FIRESTORE", snapshot.data())
           let group = snapshot.data()
           dispatch(_selectGroup({group: group, id: groupId}));
         }
@@ -177,7 +177,7 @@ export default (state = initialState, action) => {
     const deletedGroups = state.groups.filter(
         (group) => group.id !== action.groupId
       );
-      return { ...state, groups: deletedGroups };
+      return { ...state, groups: deletedGroups, selectedGroup: {id: '', group: {}} };
     case SELECT_GROUP:
       return {...state, selectedGroup: action.selectedGroup}
     default:
