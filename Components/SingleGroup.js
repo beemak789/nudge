@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   View,
-  TouchableOpacity,
-  Image,
-  Button,
-  FlatList,
+  TouchableOpacity
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup } from '../store/group';
 import { Icon } from 'react-native-elements'
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { useNavigation } from '@react-navigation/core';
 
 // _______SEND NOTIFICATION ________NOT TESTED
 // async function sendPushNotification(group, from) {
@@ -43,6 +40,7 @@ const SingleGroup = (props) => {
   const dispatch = useDispatch();
   const group = useSelector((state) => state.selectedGroup);
   const user = useSelector((state) => state.user);
+  const navigation = useNavigation()
   return (
     <Swipeable
       renderRightActions={RightSwipeActions}
@@ -56,9 +54,9 @@ const SingleGroup = (props) => {
               /> */}
       <View style={styles.info}>
         <TouchableOpacity
-          onPress={() => {
-            dispatch(selectGroup(props.group.id));
-            props.navigation.navigate('Group List');
+          onPress={async () => {
+            await dispatch(selectGroup(props.group.id));
+            navigation.navigate('Single Group List');
           }}
         >
           <Text style={styles.buttonText}>{props.group.name}</Text>
@@ -84,11 +82,7 @@ export default SingleGroup;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'space-evenly',
-    // padding: 20,
+    flex: 1
   },
   completedButton: {
     marginRight: 10,
@@ -105,7 +99,6 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    // width: 250,
     alignItems: "baseline",
     margin: 10,
     borderRadius: 10,

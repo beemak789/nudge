@@ -53,7 +53,6 @@ const SingleGroupList = (props) => {
 
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
-    console.log("SELECTED GROUP", selectedGroup)
   }, [dispatch]);
 
   // _______SEND NOTIFICATION _______
