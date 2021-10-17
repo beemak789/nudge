@@ -12,9 +12,17 @@ import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGroupTasks, _createTask } from '../store/task';
+import {
+  fetchGroupTasks,
+  _createTask,
+  _deleteGroupTask,
+  _updateGroupCompleteStatus,
+} from '../store/task';
 import { _fetchGroupMembers } from '../store/group';
 import { firebase } from '../config/firebase';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { priorityStyle } from '../services/PriorityStyle';
 import {
   _deleteFriend,
   _fetchSingleFriendInfo,
@@ -52,7 +60,7 @@ const SingleGroupList = (props) => {
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
   const navigation = useNavigation();
-  console.log(tasks);
+
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
   }, [dispatch]);
@@ -91,6 +99,14 @@ const SingleGroupList = (props) => {
       }
     });
   }
+
+  const updateCompleteStatus = (item) => {
+    dispatch(_updateGroupCompleteStatus(item, selectedGroup.id));
+  };
+  const deleteTask = (itemId) => {
+    dispatch(_deleteGroupTask(itemId, selectedGroup.id));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
@@ -125,9 +141,19 @@ const SingleGroupList = (props) => {
             data={tasks}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.box}>
-                <Text style={styles.item}>{item.name}</Text>
-              </View>
+              <Swipeable
+                renderLeftActions={LeftSwipeActions}
+                renderRightActions={RightSwipeActions}
+                onSwipeableRightOpen={() => deleteTask(item.id)}
+                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
+              >
+                <View style={styles.box}>
+                  <View style={styles.info}>
+                    <Text style={styles.item}>{item.name}</Text>
+                  </View>
+                  <View style={priorityStyle(item.priority)}></View>
+                </View>
+              </Swipeable>
             )}
           ></FlatList>
         ) : (
