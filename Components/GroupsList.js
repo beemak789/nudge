@@ -30,23 +30,6 @@ const GroupsList = (props) => {
   if (!groups.length) {
     return (
       <AddGroup navigation={navigation}/>
-      // <SafeAreaView style={styles.container}>
-      //   <View>
-      //     <Text>You're not part of any groups yet!</Text>
-      //     <TouchableOpacity
-      //       style={styles.button}
-      //       onPress={() => {
-      //         props.navigation.navigate('Add Group');
-      //       }}
-      //     >
-      //       <Image
-      //         style={styles.nudgie}
-      //         source={require('../public/nudgie2.png')}
-      //       />
-      //       <Text style={styles.buttonText}>Create A Group</Text>
-      //     </TouchableOpacity>
-      //   </View>
-      // </SafeAreaView>
     );
   }
 

@@ -128,16 +128,10 @@ const Screen2 = (props) => {
           loopThroughArray(
             data,
             async function (arrayElement) {
-              console.log(
-                'LONGITUDE& LAT',
-                arrayElement.longitude,
-                arrayElement.latitude
-              );
               try {
                 const response = await axios.get(
                   `http://192.168.86.32:8080/api/stores/${arrayElement.longitude}/${arrayElement.latitude}/`
                 );
-                console.log('DATA', response.data);
               } catch (error) {
                 console.log(error);
               }

@@ -17,8 +17,9 @@ const AddGroupTask = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
   const selectedGroup = useSelector((state) => state.groups.selectedGroup)
-  const onSubmit = () => {
-    dispatch(
+
+  const onSubmit = async () => {
+    await dispatch(
       _createGroupTask(selectedGroup.id, {
         name: text
       })

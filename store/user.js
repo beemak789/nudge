@@ -6,6 +6,8 @@ const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
+const DELETE_USER_GROUP = 'DELETE_USER_GROUP';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
@@ -55,6 +57,13 @@ export const deleteFriend = (friendId) => {
   return {
     type: DELETE_FRIEND,
     friendId,
+  };
+};
+
+export const deleteUserGroup = (groupId) => {
+  return {
+    type: DELETE_USER_GROUP,
+    groupId,
   };
 };
 
@@ -159,7 +168,6 @@ export const _fetchUserFriends = (user) => {
         .doc(user.id)
         .get()
         .then(async (friendsList) => {
-          console.log('firebase', friendsList.data());
           let userFriends = friendsList.data().friends;
           let result = await Promise.all(
             userFriends.map(
@@ -240,7 +248,6 @@ export const _deleteFriend = (userId, friendId) => {
 };
 
 export const logOutUser = () => {
-  console.log('logout');
   return async (dispatch) => {
     try {
       await firebase
@@ -309,6 +316,11 @@ export default (state = {}, action) => {
         (friend) => friend.id !== action.friendId
       );
       return { ...state, friends: deleteFriend };
+    case DELETE_USER_GROUP:
+        const deleteGroup = [...state.groups].filter(
+          (group) => group.id !== action.groupId
+        );
+        return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
       const newFriends = [...state.friends];
       if (!state.friends.includes(action.friend)) {
