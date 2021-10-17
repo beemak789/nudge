@@ -65,27 +65,29 @@ const SingleGroupList = (props) => {
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
-    console.log("MEMBERS", members);
     members.forEach(async (member) => {
-      const message = {
-        to: member.token,
-        sound: 'default',
-        title: `Nudge from ${from}`,
-        body: `${from} is at the grocery store! Do you need anything?`,
-        data: { someData: 'goes here' },
-      };
+      if (member.allowNotifications === 'ON'){
+        const message = {
+          to: member.token,
+          sound: 'default',
+          title: `Nudge from ${from}`,
+          body: `${from} is at the grocery store! Do you need anything?`,
+          data: { someData: 'goes here' },
+        };
 
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-    });
-  }
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message),
+        });
+      }
+    }
+  )
+}
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
@@ -127,10 +129,7 @@ const SingleGroupList = (props) => {
         )}
       </View>
       <TouchableOpacity
-                onPress={() => {_deleteGroup()
-                  console.log('USER', user)
-                  console.log('selected group', selectedGroup)
-                }}>
+                onPress={() => {_deleteGroup()}}>
               <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
       </TouchableOpacity>
     </SafeAreaView>

@@ -141,7 +141,6 @@ export const deleteGroup = (groupId, members) => {
 export const selectGroup = (groupId) => {
   return async (dispatch) => {
     try {
-      console.log("GROUPID", groupId)
       //fetch the group from firestore
       let selectedGroup = await firebase
         .firestore()
@@ -149,7 +148,6 @@ export const selectGroup = (groupId) => {
         .doc(groupId)
         .get()
         .then((snapshot) =>{
-          console.log("FIRESTORE", snapshot.data())
           let group = snapshot.data()
           dispatch(_selectGroup({group: group, id: groupId}));
         }

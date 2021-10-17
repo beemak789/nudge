@@ -168,7 +168,6 @@ export const _fetchUserFriends = (user) => {
         .doc(user.id)
         .get()
         .then(async (friendsList) => {
-          console.log('firebase', friendsList.data());
           let userFriends = friendsList.data().friends;
           let result = await Promise.all(
             userFriends.map(
@@ -249,7 +248,6 @@ export const _deleteFriend = (userId, friendId) => {
 };
 
 export const logOutUser = () => {
-  console.log('logout');
   return async (dispatch) => {
     try {
       await firebase
