@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   SafeAreaView,
 } from 'react-native';
 
@@ -60,17 +59,18 @@ const taskList = (props) => {
               onSwipeableRightOpen={() => deleteTask(item.id)}
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
             >
-              <TouchableOpacity style={styles.box}
-                onPress={()=> {
-                  dispatch(_fetchPlaces(item))
-                  props.navigation.navigate("Places Stack")
+              <TouchableOpacity
+                style={styles.box}
+                onPress={() => {
+                  dispatch(_fetchPlaces(item));
+                  props.navigation.navigate('Places Stack');
                 }}
                 onLongPress={() => {
-                  console.log('Long Press')
-                  props.navigation.navigate("Edit Stack", {
-                    item
-                  })
-                }}>
+                  props.navigation.navigate('Edit Stack', {
+                    item,
+                  });
+                }}
+              >
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>

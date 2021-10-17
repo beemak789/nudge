@@ -1,4 +1,6 @@
 import { firebase } from '../config/firebase';
+import { clearPlaces } from './places';
+import { clearCurrTask } from './task';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
@@ -240,7 +242,6 @@ export const _deleteFriend = (userId, friendId) => {
 };
 
 export const logOutUser = () => {
-  console.log('logout');
   return async (dispatch) => {
     try {
       await firebase
@@ -250,6 +251,8 @@ export const logOutUser = () => {
           console.log(error);
         });
       dispatch(logoutUser());
+      dispatch(clearPlaces());
+      dispatch(clearCurrTask());
     } catch (err) {
       console.log(err);
     }
@@ -270,6 +273,7 @@ export const signUpUser = (email, password, first, last) => {
             email,
             fullName: first + last,
             friends: [],
+            groups: [],
             allowNotifications: 'OFF',
           };
 
