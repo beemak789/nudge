@@ -27,7 +27,11 @@ const NoTasks = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{flex: 1, alignItems: "center", justifyContent:"center"}}>
+      <Image
+            style={styles.nudgie}
+            source={require('../public/nudgie2.png')}
+          />
         <Text style={styles.noTasksText}>You don't have any tasks...</Text>
         <TouchableOpacity
           style={styles.button}
@@ -35,10 +39,7 @@ const NoTasks = (props) => {
             navigation.navigate('Add Task');
           }}
         >
-          <Image
-            style={styles.nudgie}
-            source={require('../public/nudgie2.png')}
-          />
+
           <Text style={styles.buttonText}>Add a Task!</Text>
         </TouchableOpacity>
       </View>
@@ -75,11 +76,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#4a7c59',
     fontWeight: '700',
-    fontSize: 22,
+    fontSize: 18,
+    padding: 5,
   },
   nudgie: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     backgroundColor: 'transparent',
     margin: 5,
   },

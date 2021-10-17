@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { LogBox } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Text, View } from 'react-native';
@@ -23,10 +22,7 @@ import ProfileStack from '../services/stacks/profileStack';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLocation } from '../store/location';
-import {
-  registerForPushNotificationsAsync,
-  notificationsPrompt,
-} from '../services/notifications';
+
 import {
   setUser,
   setExpoPushToken,
@@ -45,6 +41,34 @@ Notifications.setNotificationHandler({
   }),
 });
 
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return token;
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
+
 const Main = () => {
   const [loading, setLoading] = useState(true);
   // const [user, setUser] = useState({});
@@ -59,10 +83,20 @@ const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //if user's notification status = "ON" then execute the following:
-    if (user.allowNotifications === 'ON') {
-      notificationsPrompt(dispatch, notificationListener, setNotification);
-    }
+    registerForPushNotificationsAsync().then((token) => {
+      dispatch(setExpoPushToken(token));
+    });
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
     return () => {
       Notifications.removeNotificationSubscription(

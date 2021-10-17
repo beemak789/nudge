@@ -9,6 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 import NoTasks from '../../Components/NoTasks';
 import TaskList from '../../Components/TaskList';
 import AddTask from '../../Components/AddTask';
+import EditTask from '../../Components/EditTask';
 import CompletedList from '../../Components/CompletedList';
 
 const Stack = createNativeStackNavigator();
@@ -61,6 +62,11 @@ const tasksStack = (props) => {
       <Stack.Screen
         name="Add Task"
         component={AddTask}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Stack"
+        component={EditTask}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

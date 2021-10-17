@@ -28,14 +28,18 @@ export const setStatus = (status) => {
   };
 };
 
-export const _fetchPlaces = () => {
+export const _fetchPlaces = (singlePlace = "random") => {
   return async (dispatch, getState) => {
     try {
       dispatch(clearPlaces());
 
       const { location, task } = getState();
       const tasks = task.incomplete;
-      const currTask = tasks[Math.floor(Math.random() * tasks.length)];
+
+      let currTask = tasks[Math.floor(Math.random() * tasks.length)];
+      if(singlePlace !== "random") {
+        currTask = singlePlace
+      }
       dispatch(setCurrTask(currTask));
 
       let radius = 1000;

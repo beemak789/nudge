@@ -191,7 +191,7 @@ export const _createTask = ({ name, priority, category }) => {
   };
 };
 
-const _updateTask = (task) => {
+export const _updateTask = (task) => {
   return async (dispatch) => {
     try {
       const res = await tasksRef
