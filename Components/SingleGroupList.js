@@ -6,13 +6,14 @@ import {
   Button,
   View,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGroupTasks, _createTask } from '../store/task';
+import { _fetchGroupMembers } from '../store/group';
 import { firebase } from '../config/firebase';
 import {
   _deleteFriend,
@@ -20,7 +21,7 @@ import {
   _fetchUserFriends,
 } from '../store/user';
 import { deleteGroup } from '../store/group';
-import { deleteUserGroup } from '../store/user'
+import { deleteUserGroup } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
@@ -50,23 +51,26 @@ const SingleGroupList = (props) => {
   const dispatch = useDispatch();
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
-  const navigation = useNavigation()
-
+  const navigation = useNavigation();
+  console.log(tasks);
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
   }, [dispatch]);
 
-  const _deleteGroup = async () => {
-    await dispatch(deleteUserGroup(selectedGroup.id))
-    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
-    navigation.navigate('Group List')
+  // useEffect(() => {
+  //   dispatch(_fetchGroupMembers(selectedGroup.group.members));
+  // }, [dispatch]);
 
-  }
+  const _deleteGroup = async () => {
+    await dispatch(deleteUserGroup(selectedGroup.id));
+    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members));
+    navigation.navigate('Group List');
+  };
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
     members.forEach(async (member) => {
-      if (member.allowNotifications === 'ON'){
+      if (member.allowNotifications === 'ON') {
         const message = {
           to: member.token,
           sound: 'default',
@@ -85,9 +89,8 @@ const SingleGroupList = (props) => {
           body: JSON.stringify(message),
         });
       }
-    }
-  )
-}
+    });
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
@@ -106,11 +109,14 @@ const SingleGroupList = (props) => {
         style={styles.completedButton}
         title="Alert"
         onPress={async () => {
-          await sendPushNotification(selectedGroup.group.members, user.fullName);
+          await sendPushNotification(
+            selectedGroup.group.members,
+            user.fullName
+          );
           console.log('pressed sent');
         }}
       ></Button>
-      <View>
+      <View style={styles.body}>
         <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
         {tasks.length < 1 ? (
           <Text>No tasks yet, add one!</Text>
@@ -129,8 +135,17 @@ const SingleGroupList = (props) => {
         )}
       </View>
       <TouchableOpacity
-                onPress={() => {_deleteGroup()}}>
-              <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
+        onPress={() => {
+          _deleteGroup();
+        }}
+      >
+        <Icon
+          style={{ marginRight: 5 }}
+          color="black"
+          type="ionicon"
+          name="trash-outline"
+          size={22}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -152,6 +167,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     margin: 5,
+  },
+  body: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 10,
   },
   save: {
     justifyContent: 'center',
