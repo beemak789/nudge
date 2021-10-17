@@ -8,7 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
-import ModalBadge from './ModalBadge';
 
 const taskList = (props) => {
   const dispatch = useDispatch();

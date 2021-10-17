@@ -28,7 +28,9 @@ const ModalBadge = (props) => {
     <Modal
     visible={modalOpen}
     >
-
+    <View>
+    <Text>This is the modal</Text>
+    </View>
     </Modal>
 
 
