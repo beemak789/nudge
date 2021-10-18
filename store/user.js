@@ -305,7 +305,7 @@ export const signUpUser = (email, password, first, last, location, reset) => {
           const data = {
             id: uid,
             email,
-            fullName: first + last,
+            fullName: first + " " + last,
             friends: [],
             locationStatus: 'GRANTED',
             badgeCount: 0,

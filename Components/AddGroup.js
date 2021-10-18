@@ -101,7 +101,7 @@ const AddGroup = (props) => {
           <Text style={{ marginBottom: 10 }}>
             Select friends to add them to group
           </Text>
-          <View style={{ height: 50 }}>
+          <View style={{}}>
             {friends.map((friend) => {
               return (
                 <TouchableOpacity
@@ -152,8 +152,8 @@ const AddGroup = (props) => {
             })}
           </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={onSubmit} title="save">
-          <Text style={{ color: 'black', fontWeight: 'bold' }}>save</Text>
+        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+          <Text style={styles.saveText}>save</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -275,5 +275,29 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'left',
+  },
+  saveText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  save: {
+    justifyContent: 'center',
+    width: 80,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
   },
 });
