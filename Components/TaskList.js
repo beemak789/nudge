@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   Modal,
   Alert,
@@ -69,7 +68,12 @@ const taskList = (props) => {
               size={24}
               onPress={() => setModalVisible(false)}
             />
-            <ConfettiCannon count={200} origin={{ x: -10, y: 0}} fadeOut={true} fallSpeed={2000}/>
+            <ConfettiCannon
+              count={200}
+              origin={{ x: -10, y: 0 }}
+              fadeOut={true}
+              fallSpeed={2000}
+            />
             <Text style={styles.modalText}>
               Nice job, {user.fullName}! You have completed your tasks for the
               day!
@@ -110,11 +114,10 @@ const taskList = (props) => {
                 style={styles.box}
                 onPress={() => {
                   dispatch(_fetchPlaces(item));
-                  navigate('Places Stack');
+                  props.navigation.navigate('Places Stack');
                 }}
                 onLongPress={() => {
-                  console.log('Long Press');
-                  navigate('Edit Stack', {
+                  props.navigation.navigate('Edit Stack', {
                     item,
                   });
                 }}

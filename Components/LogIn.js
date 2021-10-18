@@ -8,17 +8,19 @@ import {
   Image,
   SafeAreaView,
 } from 'react-native';
+
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/core';
 import { logInUser } from '../store/user';
 
 const LogIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { reset, navigate } = useNavigation();
+
+
   const dispatch = useDispatch();
   const onSubmit = () => {
-    dispatch(logInUser(email, password, reset));
+    dispatch(logInUser(email, password));
+
   };
 
   return (
@@ -55,13 +57,10 @@ const LogIn = (props) => {
       <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.loginText}>LOG IN</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity> */}
 
       <Text style={{ marginTop: 20 }}>New User?</Text>
       <TouchableOpacity
-        onPress={() => navigate('SignUp')}
+        onPress={() => props.navigation.navigate('Sign Up')}
         style={styles.button}
       >
         <Text style={styles.loginText}>Sign Up!</Text>

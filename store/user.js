@@ -1,4 +1,6 @@
 import { firebase } from '../config/firebase';
+import { clearPlaces } from './places';
+import { clearCurrTask } from './task';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
@@ -9,6 +11,8 @@ const SET_BADGE_COUNT = 'SET_BADGE_COUNT';
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
+const DELETE_USER_GROUP = 'DELETE_USER_GROUP';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setUser = (user) => {
@@ -76,7 +80,7 @@ export const deleteFriend = (friendId) => {
   };
 };
 
-export const logInUser = (email, password, reset) => {
+export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       await firebase
@@ -96,10 +100,6 @@ export const logInUser = (email, password, reset) => {
               const data = firestoreDocument.data();
               dispatch(setUser(data));
               _fetchUserFriends(uid);
-              reset({
-                index: 0,
-                routes: [{ name: 'Tabs' }],
-              });
             })
             .catch((error) => {
               alert(error);
@@ -129,23 +129,6 @@ export const fetchUpdatedUser = (user) => {
     }
   };
 };
-
-// export const _setExpoPushToken = (token) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       const { user } = getState();
-//       if (!user.token) {
-//         const userRef = firebase.firestore().collection('users');
-//         const res = await userRef.doc(user.id).update({
-//           token,
-//         });
-//         dispatch(setExpoPushToken(token));
-//       }
-//     } catch (err) {
-//       alert("err");
-//     }
-//   };
-// };
 
 export const _setExpoPushToken = (user) => {
   return async (dispatch) => {
@@ -214,7 +197,6 @@ export const _fetchUserFriends = (user) => {
         .doc(user.id)
         .get()
         .then(async (friendsList) => {
-          console.log('firebase', friendsList.data());
           let userFriends = friendsList.data().friends;
           let result = await Promise.all(
             userFriends.map(
@@ -294,7 +276,7 @@ export const _deleteFriend = (userId, friendId) => {
   };
 };
 
-export const logOutUser = (reset) => {
+export const logOutUser = () => {
   return async (dispatch) => {
     try {
       await firebase
@@ -304,11 +286,8 @@ export const logOutUser = (reset) => {
           console.log(error);
         });
       dispatch(logoutUser());
-      reset({
-        //makes Log in index 0 and there won't be anymore navigation routes...makes login the only page to navigate to.
-        index: 0,
-        routes: [{ name: 'LogIn' }],
-      });
+      dispatch(clearPlaces());
+      dispatch(clearCurrTask());
     } catch (err) {
       console.log(err);
     }
@@ -329,9 +308,10 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             email,
             fullName: first + last,
             friends: [],
-            allowNotifications: 'OFF',
             locationStatus: 'DENIED',
             badgeCount: 0,
+            groups: [],
+            allowNotifications: 'ON',
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -342,11 +322,6 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             .catch((error) => {
               alert(error);
             });
-          reset({
-            index: 0,
-            //puts me in the Tabs Stack Page and can't slide back out to the login page
-            routes: [{ name: 'Tabs' }],
-          });
         })
         .catch((error) => {
           alert(error);
@@ -379,6 +354,11 @@ export default (state = {}, action) => {
         (friend) => friend.id !== action.friendId
       );
       return { ...state, friends: deleteFriend };
+    case DELETE_USER_GROUP:
+      const deleteGroup = [...state.groups].filter(
+        (group) => group.id !== action.groupId
+      );
+      return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
       const newFriends = [...state.friends];
       if (!state.friends.includes(action.friend)) {

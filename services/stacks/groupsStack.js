@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // components
 import GroupsList from '../../Components/GroupsList';
-import AddGroup from '../../Components/AddGroup'
+import AddGroup from '../../Components/AddGroup';
 import SingleGroup from '../../Components/SingleGroup';
-import GroupChat from '../../Components/GroupChat'
+import GroupChat from '../../Components/GroupChat';
 import SingleGroupList from '../../Components/SingleGroupList';
 import AddGroupTask from '../../Components/AddGroupTask';
 const Stack = createNativeStackNavigator();
@@ -13,6 +13,7 @@ const Stack = createNativeStackNavigator();
 const groupsStack = (props) => {
   return (
     <Stack.Navigator
+      initialRouteName="Group List"
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -32,18 +33,9 @@ const groupsStack = (props) => {
         component={AddGroup}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Single Group"
-        component={SingleGroup}
-        />
-      <Stack.Screen
-        name="Add Group Task"
-        component={AddGroupTask}
-        />
-      <Stack.Screen
-        name="Single Group List"
-        component={SingleGroupList}
-        />
+      <Stack.Screen name="Single Group" component={SingleGroup} />
+      <Stack.Screen name="Add Group Task" component={AddGroupTask} />
+      <Stack.Screen name="Single Group List" component={SingleGroupList} />
       <Stack.Screen
         name="Group Chat"
         component={GroupChat}

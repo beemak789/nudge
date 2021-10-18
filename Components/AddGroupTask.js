@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image
+  Image,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { _createGroupTask } from '../store/task';
@@ -15,16 +15,17 @@ import { useNavigation } from '@react-navigation/core';
 const AddGroupTask = (props) => {
   const [text, onChangeText] = useState('');
   const dispatch = useDispatch();
-  const navigation = useNavigation()
-  const selectedGroup = useSelector((state) => state.groups.selectedGroup)
-  const onSubmit = () => {
-    dispatch(
+  const navigation = useNavigation();
+  const selectedGroup = useSelector((state) => state.groups.selectedGroup);
+
+  const onSubmit = async () => {
+    await dispatch(
       _createGroupTask(selectedGroup.id, {
-        name: text
+        name: text,
       })
     );
-    navigation.navigate('Single Group List');
     onChangeText('');
+    navigation.navigate('Single Group List');
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -36,9 +37,14 @@ const AddGroupTask = (props) => {
           flex: 1,
         }}
       >
-        <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
+        <Image
+          source={require('../public/nudgie2.png')}
+          style={styles.nudgie}
+        />
         <View style={{ marginBottom: 30 }}>
-          <Text style={styles.title}>New Task in {selectedGroup.group.name}</Text>
+          <Text style={styles.title}>
+            New Task in {selectedGroup.group.name}
+          </Text>
           <TextInput
             style={styles.itemName}
             onChangeText={onChangeText}

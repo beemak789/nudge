@@ -11,6 +11,7 @@ const CLEAR_ALL_TASKS = 'CLEAR_ALL_TASKS';
 const ADD_TASK = 'ADD_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
 const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
+const GROUP_COMPLETED_STATUS = 'GROUP_COMPLETED_STATUS';
 const DELETE_TASK = 'DELETE_TASK';
 const SET_GROUP_TASKS = 'SET_GROUP_TASKS';
 const ADD_GROUP_TASK = 'ADD_GROUP_TASK';
@@ -107,6 +108,7 @@ export const _fetchAllTasks = () => {
     }
   };
 };
+//db.collection('chats').doc('#randomHASH').collection('conversations').onSnapshot((snapshot) => {...});
 
 export const fetchGroupTasks = (groupId) => {
   return async (dispatch) => {
@@ -116,13 +118,13 @@ export const fetchGroupTasks = (groupId) => {
         .collection('groupTasks')
         .doc(groupId)
         .collection('tasks')
-        .get()
-        .then((snapshot) => {
+        .onSnapshot((snapshot) => {
           let tasks = snapshot.docs.map((doc) => {
             const data = doc.data();
             const id = doc.id;
             return { id, ...data };
           });
+
           dispatch(setGroupTasks(tasks));
         });
     } catch (err) {
@@ -132,11 +134,15 @@ export const fetchGroupTasks = (groupId) => {
 };
 
 export const _createGroupTask = (groupId, { name }) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const { user } = getState();
+      const userId = user.id;
+
       const data = {
         name,
         completed: false,
+        uid: userId,
       };
       let id = await firebase
         .firestore()
@@ -147,44 +153,6 @@ export const _createGroupTask = (groupId, { name }) => {
         .then((result) => {
           return result.id;
         });
-      dispatch(
-        addGroupTask({
-          name,
-          completed: false,
-        })
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-//not fully tested, but almost fully tested
-export const _createTask = ({ name, priority, category }) => {
-  return async (dispatch) => {
-    try {
-      const data = {
-        name,
-        priority,
-        category,
-        completed: false,
-      };
-      let id = await firebase
-        .firestore()
-        .collection('tasks')
-        .doc(firebase.auth().currentUser.uid)
-        .collection('userTasks')
-        .add(data)
-        .then((result) => {
-          return result.id;
-        });
-      dispatch(
-        addTask({
-          name,
-          priority,
-          category,
-          id,
-        })
-      );
     } catch (err) {
       console.log(err);
     }
@@ -243,6 +211,29 @@ export const _updateCompleteStatus = (item, setModalVisible) => {
   };
 };
 
+export const _updateGroupCompleteStatus = (item, groupId) => {
+  return async (dispatch) => {
+    try {
+      const res = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .doc(item.id)
+        .update({
+          completed: true,
+        });
+
+      const updatedTask = {
+        ...item,
+        completed: true,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const _updateIncompleteStatus = (task) => {
   return async (dispatch) => {
     try {
@@ -279,6 +270,22 @@ export const _deleteTask = (taskId) => {
         .doc(taskId)
         .delete();
       dispatch(deleteTask(taskId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _deleteGroupTask = (taskId, groupId) => {
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .doc(taskId)
+        .delete();
     } catch (err) {
       console.log(err);
     }

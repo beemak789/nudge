@@ -6,20 +6,30 @@ import {
   Button,
   View,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGroupTasks, _createTask } from '../store/task';
+import {
+  fetchGroupTasks,
+  _createTask,
+  _deleteGroupTask,
+  _updateGroupCompleteStatus,
+} from '../store/task';
+import { _fetchGroupMembers } from '../store/group';
 import { firebase } from '../config/firebase';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { priorityStyle } from '../services/PriorityStyle';
 import {
   _deleteFriend,
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
 import { deleteGroup } from '../store/group';
+import { deleteUserGroup } from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
@@ -49,36 +59,54 @@ const SingleGroupList = (props) => {
   const dispatch = useDispatch();
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
-    console.log("SELECTED GROUP", selectedGroup)
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(_fetchGroupMembers(selectedGroup.group.members));
+  // }, [dispatch]);
+
+  const _deleteGroup = async () => {
+    await dispatch(deleteUserGroup(selectedGroup.id));
+    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members));
+    navigation.navigate('Group List');
+  };
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
-    console.log("MEMBERS", members);
     members.forEach(async (member) => {
-      const message = {
-        to: member.token,
-        sound: 'default',
-        title: `Nudge from ${from}`,
-        body: `${from} is at the grocery store! Do you need anything?`,
-        data: { someData: 'goes here' },
-      };
+      if (member.allowNotifications === 'ON') {
+        const message = {
+          to: member.token,
+          sound: 'default',
+          title: `Nudge from ${from}`,
+          body: `${from} is at the grocery store! Do you need anything?`,
+          data: { someData: 'goes here' },
+        };
 
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message),
+        });
+      }
     });
   }
+
+  const updateCompleteStatus = (item) => {
+    dispatch(_updateGroupCompleteStatus(item, selectedGroup.id));
+  };
+  const deleteTask = (itemId) => {
+    dispatch(_deleteGroupTask(itemId, selectedGroup.id));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ marginLeft: 'auto', padding: 5 }}>
@@ -88,7 +116,7 @@ const SingleGroupList = (props) => {
           color="#83CA9E"
           backgroundColor="transparent"
           onPress={() => {
-            props.navigation.navigate('Add Group Task');
+            navigation.navigate('Add Group Task');
           }}
         />
       </View>
@@ -97,11 +125,14 @@ const SingleGroupList = (props) => {
         style={styles.completedButton}
         title="Alert"
         onPress={async () => {
-          await sendPushNotification(selectedGroup.group.members, user.fullName);
+          await sendPushNotification(
+            selectedGroup.group.members,
+            user.fullName
+          );
           console.log('pressed sent');
         }}
       ></Button>
-      <View>
+      <View style={styles.body}>
         <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
         {tasks.length < 1 ? (
           <Text>No tasks yet, add one!</Text>
@@ -110,9 +141,19 @@ const SingleGroupList = (props) => {
             data={tasks}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.box}>
-                <Text style={styles.item}>{item.name}</Text>
-              </View>
+              <Swipeable
+                renderLeftActions={LeftSwipeActions}
+                renderRightActions={RightSwipeActions}
+                onSwipeableRightOpen={() => deleteTask(item.id)}
+                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
+              >
+                <View style={styles.box}>
+                  <View style={styles.info}>
+                    <Text style={styles.item}>{item.name}</Text>
+                  </View>
+                  <View style={priorityStyle(item.priority)}></View>
+                </View>
+              </Swipeable>
             )}
           ></FlatList>
         ) : (
@@ -120,11 +161,17 @@ const SingleGroupList = (props) => {
         )}
       </View>
       <TouchableOpacity
-                onPress={() => {
-                  dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members))
-                  props.navigation.navigate('Group List')
-                }}>
-              <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
+        onPress={() => {
+          _deleteGroup();
+        }}
+      >
+        <Icon
+          style={{ marginRight: 5 }}
+          color="black"
+          type="ionicon"
+          name="trash-outline"
+          size={22}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -146,6 +193,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     margin: 5,
+  },
+  body: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 10,
   },
   save: {
     justifyContent: 'center',
