@@ -1,4 +1,5 @@
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -16,19 +17,25 @@ const Stack = createNativeStackNavigator();
 
 const CategoriesStack = (props) => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        activeTintColor: 'white',
-        itemStyle: { marginVertical: 10 },
-        inactiveTintColor: 'white',
-        headerShown: false,
-        // style: { position: 'relative', top: 100 },
-      }}
-      initialRouteName="Task List"
-    >
-      <Tab.Screen name="Task List" component={TaskList} {...props}/>
-      <Tab.Screen name="Completed List" component={CompletedList} {...props} />
-    </Tab.Navigator>
+    <>
+      <SafeAreaView></SafeAreaView>
+      <Tab.Navigator
+        screenOptions={{
+          activeTintColor: 'white',
+          itemStyle: { marginVertical: 10 },
+          inactiveTintColor: 'white',
+          headerShown: false,
+          // style: { position: 'relative', top: 100 },
+        }}
+      >
+        <Tab.Screen name="Task List" component={TaskList} {...props} />
+        <Tab.Screen
+          name="Completed List"
+          component={CompletedList}
+          {...props}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 
@@ -38,7 +45,7 @@ const tasksStack = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
           backgroundColor: 'white',
           height: 10,

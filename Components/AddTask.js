@@ -69,8 +69,8 @@ const AddTask = (props) => {
   const [priority, setPriority] = useState('high');
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
-  const renderItem = (item) => <Store storeType={item} />;
+
+
   const onSubmit = () => {
     if (!category.length) {
       dispatch(

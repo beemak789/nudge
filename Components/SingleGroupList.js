@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GOOGLE_PLACES_API } from '@env';
 import {
   StyleSheet,
   Text,
@@ -22,6 +23,7 @@ import { _fetchGroupMembers } from '../store/group';
 import { firebase } from '../config/firebase';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { priorityStyle } from '../services/PriorityStyle';
 import {
   _deleteFriend,
@@ -55,11 +57,13 @@ import { deleteUserGroup } from '../store/user';
 // }
 
 const SingleGroupList = (props) => {
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
-  const navigation = useNavigation();
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
@@ -79,12 +83,12 @@ const SingleGroupList = (props) => {
   async function sendPushNotification(members, from) {
     members.forEach(async (member) => {
       //get token from id function
-      if (member.allowNotifications === "ON") {
+      if (member.allowNotifications === 'ON') {
         const message = {
           to: member.token,
           sound: 'default',
           title: `Nudge from ${from}`,
-          body: `${from} is at the grocery store! Do you need anything?`,
+          body: `${from} is at ${search}! Do you need anything?`,
           data: { someData: 'goes here' },
         };
 
@@ -110,28 +114,43 @@ const SingleGroupList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            navigation.navigate('Add Group Task');
+      <View style={styles.search}>
+        <Icon
+          style={{ marginLeft: 5, marginRight: 50 }}
+          color="black"
+          type="ionicon"
+          name="notifications-outline"
+          size={20}
+          onPress={async () => {
+            await sendPushNotification(selectedGroup.members, user.fullName);
           }}
         />
+        <GooglePlacesAutocomplete
+          placeholder="Search"
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            console.log(data, details);
+            setSearch(data.description);
+          }}
+          onFail={(error) => console.error(error)}
+          query={{
+            key: GOOGLE_PLACES_API,
+            language: 'en',
+          }}
+        />
+        <View style={{ marginLeft: 'auto', padding: 5 }}>
+          <AntDesign.Button
+            name="pluscircle"
+            size={30}
+            color="#83CA9E"
+            backgroundColor="transparent"
+            onPress={() => {
+              navigation.navigate('Add Group Task');
+            }}
+          />
+        </View>
       </View>
 
-      <Button
-        style={styles.completedButton}
-        title="Alert"
-        onPress={async () => {
-          await sendPushNotification(
-            selectedGroup.members,
-            user.fullName
-          );
-        }}
-      ></Button>
       <View style={styles.body}>
         <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
         {tasks.length < 1 ? (
@@ -166,14 +185,14 @@ const SingleGroupList = (props) => {
         }}
       >
         <View style={styles.deleteButton}>
-        <Icon
-          style={{ marginRight: 5 }}
-          color="black"
-          type="ionicon"
-          name="trash-outline"
-          size={22}
-        />
-        <Text style={styles.deleteText}>Delete Group</Text>
+          <Icon
+            style={{ marginRight: 5 }}
+            color="black"
+            type="ionicon"
+            name="trash-outline"
+            size={22}
+          />
+          <Text style={styles.deleteText}>Delete Group</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>
@@ -185,6 +204,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  search: {
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 3,
   },
   nudgie: {
     height: 150,
@@ -201,6 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 10,
+    zIndex: 2,
   },
   save: {
     justifyContent: 'center',
@@ -262,10 +289,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   deleteButton: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 20,

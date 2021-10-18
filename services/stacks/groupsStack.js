@@ -1,6 +1,8 @@
 import React from 'react';
+import { Text, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useSelector } from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,36 +17,42 @@ import SingleGroupSettings from '../../Components/SingleGroupSettings';
 const Stack = createNativeStackNavigator();
 
 const SingleGroupStack = (props) => {
+  const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   return (
-    <Tab.Navigator
-      initialRouteName="Single Group List"
-      screenOptions={{
-        activeTintColor: 'white',
-        itemStyle: { marginVertical: 10 },
-        inactiveTintColor: 'white',
-        headerShown: false,
-        // style: { position: 'relative', top: 100 },
-      }}
-    >
-      <Tab.Screen
-        name="Single Group List"
-        component={SingleGroupList}
-        {...props}
-      />
+    <>
+      <SafeAreaView>
+        <Text>{selectedGroup.group.name}</Text>
+      </SafeAreaView>
+      <Tab.Navigator
+        initialRouteName="Single Group List"
+        screenOptions={{
+          activeTintColor: 'white',
+          itemStyle: { marginVertical: 10 },
+          inactiveTintColor: 'white',
+          headerShown: false,
+          // style: { position: 'relative', top: 100 },
+        }}
+      >
+        <Tab.Screen
+          name="Single Group List"
+          component={SingleGroupList}
+          {...props}
+        />
 
-      <Tab.Screen
-        name="Group Chat"
-        component={GroupChat}
-        options={{ headerShown: false }}
-        {...props}
-      />
+        <Tab.Screen
+          name="Group Chat"
+          component={GroupChat}
+          options={{ headerShown: false }}
+          {...props}
+        />
 
-      <Tab.Screen
-        name="Group Settings"
-        component={SingleGroupSettings}
-        {...props}
-      />
-    </Tab.Navigator>
+        <Tab.Screen
+          name="Group Settings"
+          component={SingleGroupSettings}
+          {...props}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 
@@ -53,12 +61,13 @@ const groupsStack = (props) => {
     <Stack.Navigator
       initialRouteName="Group List"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
-          backgroundColor: '#709775',
+          backgroundColor: 'white',
         },
         headerTintColor: 'white',
-        headerBackTitle: 'Back',
+        headerBackTitle: '',
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen
@@ -73,7 +82,21 @@ const groupsStack = (props) => {
       />
       <Stack.Screen name="Single Group" component={SingleGroup} />
 
-      <Stack.Screen name="Single Group Stack">
+      <Stack.Screen
+        name="Single Group Stack"
+        options={{
+          headerShown: true,
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'white',
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 0,
+            },
+          },
+        }}
+      >
         {(props) => <SingleGroupStack {...props} />}
       </Stack.Screen>
       <Stack.Screen name="Add Group Task" component={AddGroupTask} />
