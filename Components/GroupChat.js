@@ -17,12 +17,11 @@ import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements';
 import { _addFriend } from '../store/user';
 
-
 const chats = [
   { message: 'hello!', timestamp: '1', from: 'me' },
   { message: 'how are you', timestamp: '2', from: 'friend' },
-  { message: 'need anything?', timestamp: '3', from: 'me'  },
-  { message: 'yes bread', timestamp: '4', from: 'friend'},
+  { message: 'need anything?', timestamp: '3', from: 'me' },
+  { message: 'yes bread', timestamp: '4', from: 'friend' },
 ];
 
 const GroupChat = (props) => {
@@ -30,7 +29,7 @@ const GroupChat = (props) => {
   const [friends, friendsList] = useState();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const tasklistRef = useRef(null)
+  const tasklistRef = useRef(null);
 
   const onChangeSearch = async () => {
     friendsList();
@@ -52,44 +51,39 @@ const GroupChat = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'right', marginLeft: 20, marginTop: 20 }}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            props.navigation.navigate('Group List');
-          }}
+      <KeyboardAvoidingView
+        style={{ alignItems: 'center' }}
+        behavior="position"
+      >
+        <View
+          style={{ marginBottom: 30, display: 'flex', flexDirection: 'column' }}
         >
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>
-      </View>
-      <KeyboardAvoidingView style={{ alignItems: 'center'}} behavior="position">
-        <View style={{ marginBottom: 30, display: "flex", flexDirection: "column" }}>
-          <View style={{width: 350}}>
+          <View style={{ width: 350 }}>
             <Text style={styles.title}>Chat</Text>
             <FlatList
-              ref = {tasklistRef}
+              ref={tasklistRef}
               data={chats}
               keyExtractor={(item) => item.timestamp}
-              renderItem={( {item} ) => (
+              renderItem={({ item }) => (
                 <View>
-                <Text style = {styles[`${item.from}text`]}>{item.from}</Text>
-                <View style={styles[item.from]}>
-                  <Text style = {styles.chatMessage}>{item.message}</Text>
-                </View>
+                  <Text style={styles[`${item.from}text`]}>{item.from}</Text>
+                  <View style={styles[item.from]}>
+                    <Text style={styles.chatMessage}>{item.message}</Text>
+                  </View>
                 </View>
               )}
-              onContentSizeChange={() => tasklistRef.current.scrollToEnd() }
-              onLayout={() => tasklistRef.current.scrollToEnd() }
-              ></FlatList>
+              onContentSizeChange={() => tasklistRef.current.scrollToEnd()}
+              onLayout={() => tasklistRef.current.scrollToEnd()}
+            ></FlatList>
           </View>
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'flex-end',
-              justifyContent: "flex-end",
+              justifyContent: 'flex-end',
             }}
-            >
+          >
             <TextInput
               style={styles.message}
               onChangeText={(value) => {
@@ -185,7 +179,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#83CA9E',
     flexDirection: 'row',
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowOffset: {
@@ -201,7 +195,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOpacity: 0.2,
@@ -219,12 +213,12 @@ const styles = StyleSheet.create({
   },
   metext: {
     fontSize: 12,
-    textAlign:"right",
+    textAlign: 'right',
     marginRight: 5,
   },
   friendtext: {
     fontSize: 12,
-    textAlign:"left",
+    textAlign: 'left',
     marginRight: 5,
-  }
+  },
 });
