@@ -279,7 +279,7 @@ export const signUpUser = (email, password, first, last) => {
           const data = {
             id: uid,
             email,
-            fullName: first + last,
+            fullName: first + " " + last,
             friends: [],
             groups: [],
             allowNotifications: 'ON',
