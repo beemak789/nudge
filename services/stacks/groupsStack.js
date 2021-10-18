@@ -22,7 +22,7 @@ const SingleGroupStack = (props) => {
         activeTintColor: 'white',
         itemStyle: { marginVertical: 10 },
         inactiveTintColor: 'white',
-        headerShown: false,
+        headerShown: true,
         // style: { position: 'relative', top: 100 },
       }}
     >
@@ -56,6 +56,9 @@ const groupsStack = (props) => {
         headerShown: false,
         headerStyle: {
           backgroundColor: '#709775',
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
         },
         headerTintColor: 'white',
         headerBackTitle: 'Back',
@@ -73,7 +76,17 @@ const groupsStack = (props) => {
       />
       <Stack.Screen name="Single Group" component={SingleGroup} />
 
-      <Stack.Screen name="Single Group Stack">
+      <Stack.Screen name="Single Group Stack"
+        options ={{headerShown: true,
+        headerTintColor: "white",
+        headerStyle:{
+          backgroundColor: "white",
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          }
+        }}}>
         {(props) => <SingleGroupStack {...props} />}
       </Stack.Screen>
       <Stack.Screen name="Add Group Task" component={AddGroupTask} />
