@@ -53,15 +53,13 @@ const groupsStack = (props) => {
     <Stack.Navigator
       initialRouteName="Group List"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
-          backgroundColor: '#709775',
-          elevation: 0,
-          shadowOpacity: 0,
-          borderBottomWidth: 0,
+          backgroundColor: 'white',
         },
         headerTintColor: 'white',
-        headerBackTitle: 'Back',
+        headerBackTitle: '',
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen
