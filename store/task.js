@@ -137,12 +137,12 @@ export const _createGroupTask = (groupId, { name }) => {
   return async (dispatch, getState) => {
     try {
       const { user } = getState();
-      const userId = user.id;
+      const userName = user.fullName;
 
       const data = {
         name,
         completed: false,
-        uid: userId,
+        userName: userName,
       };
       let id = await firebase
         .firestore()

@@ -7,17 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  ButtonGroup,
+  Image
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
-import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
 import { _fetchUserFriends } from '../store/user';
-import { fetchUserGroups } from '../store/user';
-import { useDerivedValue } from 'react-native-reanimated';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user);
@@ -26,6 +22,7 @@ const AddGroup = (props) => {
   const [members, setMembers] = useState([user.id]);
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.user.friends);
+
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
   }, []);
@@ -62,10 +59,8 @@ const AddGroup = (props) => {
       </View>
       <View
         style={{
-          // margin: 20,
           flex: 1,
-          alignItems: 'center',
-          // justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <Image
