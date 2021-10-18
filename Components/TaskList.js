@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     alignItems: 'center',
     shadowOpacity: 0.2,
+    marginBottom: 10,
     shadowOffset: {
       height: 1,
       width: -2,
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     padding: 5,
   },
   item: {
@@ -226,6 +227,8 @@ const styles = StyleSheet.create({
   priority: {
     marginLeft: 'auto',
     marginBottom: 'auto',
+    display: 'flex',
+    alignSelf: 'center',
     backgroundColor: 'red',
     width: 25,
     height: 25,
