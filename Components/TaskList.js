@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Modal,
   Alert,
+  Image,
 } from 'react-native';
 
 import React, { useEffect, useState, useRef } from 'react';

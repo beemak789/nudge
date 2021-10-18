@@ -159,6 +159,37 @@ export const _createGroupTask = (groupId, { name }) => {
   };
 };
 
+export const _createTask = ({ name, priority, category }) => {
+  return async (dispatch) => {
+    try {
+      const data = {
+        name,
+        priority,
+        category,
+        completed: false,
+      };
+      let id = await firebase
+        .firestore()
+        .collection('tasks')
+        .doc(firebase.auth().currentUser.uid)
+        .collection('userTasks')
+        .add(data)
+        .then((result) => {
+          return result.id;
+        });
+      dispatch(
+        addTask({
+          name,
+          priority,
+          category,
+          id,
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 export const _updateTask = (task) => {
   return async (dispatch) => {
     try {
