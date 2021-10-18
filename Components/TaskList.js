@@ -5,11 +5,17 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
+  Modal,
+  Alert,
+  Image,
 } from 'react-native';
 
-import React, { useEffect } from 'react';
-import { AntDesign } from '@expo/vector-icons';
+import React, { useEffect, useState, useRef } from 'react';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import ConfettiCannon from 'react-native-confetti-cannon';
+import { useNavigation } from '@react-navigation/core';
+
 import {
   _deleteTask,
   _fetchAllTasks,
@@ -19,17 +25,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
+import { updateBadgeCount } from '../store/user';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
   const { incomplete } = useSelector((state) => state.task);
+  const { navigate } = useNavigation();
+  const user = useSelector((state) => state.user);
+  const badgeCount = useSelector((state) => state.user.badgeCount);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, []);
 
   const updateCompleteStatus = (item) => {
-    dispatch(_updateCompleteStatus(item));
+    dispatch(_updateCompleteStatus(item, setModalVisible));
   };
   const deleteTask = (itemId) => {
     dispatch(_deleteTask(itemId));
@@ -44,10 +55,51 @@ const taskList = (props) => {
           color="#83CA9E"
           backgroundColor="transparent"
           onPress={() => {
-            props.navigation.navigate('Add Task');
+            navigate('Add Task');
           }}
         />
       </View>
+      {/* COMPLETED TASKS MODAL********** */}
+      <Modal animationType="slide" visible={modalVisible} transparent={true}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <MaterialIcons
+              style={styles.iconToCloseModal}
+              name="close"
+              size={24}
+              onPress={() => setModalVisible(false)}
+            />
+            <ConfettiCannon
+              count={200}
+              origin={{ x: -10, y: 0 }}
+              fadeOut={true}
+              fallSpeed={2000}
+            />
+            <Text style={styles.modalText}>
+              Nice job, {user.fullName}! You have completed your tasks for the
+              day!
+            </Text>
+
+            <Text style={styles.modalText}>Tap on me for your badge!</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                dispatch(updateBadgeCount(user));
+              }}
+            >
+              <Image
+                style={styles.badgeIcon}
+                source={{
+                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* COMPLETED TASKS MODAL */}
+
       <View style={styles.body}>
         <FlatList
           data={incomplete}
@@ -94,7 +146,40 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     padding: 20,
   },
-
+  modalBackground: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  modalContainer: {
+    height: '40%',
+    width: '80%',
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    elevation: 20,
+    borderRadius: 20,
+  },
+  modalText: {
+    fontSize: 15,
+    marginTop: 20,
+    color: 'black',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+  },
+  iconToCloseModal: {
+    marginLeft: 230,
+  },
+  badgeIcon: {
+    justifyContent: 'center',
+    margin: 'auto',
+    height: 100,
+    width: 100,
+    borderRadius: 24,
+    marginTop: 20,
+    marginLeft: 80,
+  },
   item: {
     fontSize: 20,
   },

@@ -33,7 +33,6 @@ const CompletedList = (props) => {
   const completeTasks = tasks.filter((task) => task.completed === true);
 
 
-
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
@@ -59,6 +58,8 @@ const CompletedList = (props) => {
       </SafeAreaView>
     );
   }
+
+
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateIncompleteStatus(item));

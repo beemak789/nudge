@@ -190,7 +190,6 @@ export const _createTask = ({ name, priority, category }) => {
     }
   };
 };
-
 export const _updateTask = (task) => {
   return async (dispatch) => {
     try {
@@ -207,11 +206,14 @@ export const _updateTask = (task) => {
   };
 };
 
-export const _updateCompleteStatus = (item) => {
+export const _updateCompleteStatus = (item, setModalVisible) => {
   return async (dispatch, getState) => {
     try {
       const { task } = getState();
 
+      const completeTasks = task.tasks.filter(
+        (singleTask) => singleTask.completed === true
+      );
       if (task.currTask.id === item.id) {
         dispatch(clearPlaces());
       }
@@ -228,6 +230,10 @@ export const _updateCompleteStatus = (item) => {
         ...item,
         completed: true,
       };
+
+      if (task.tasks.length === completeTasks.length + 1) {
+        setModalVisible(true);
+      }
 
       dispatch(updateCompletedStatus(updatedTask));
     } catch (err) {

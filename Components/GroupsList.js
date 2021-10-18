@@ -8,6 +8,8 @@ import {
   Image,
   Button,
   FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -37,35 +39,42 @@ const GroupsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
-          onPress={() => {
-            props.navigation.navigate('Add Group');
-          }}
-        />
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="red"
-          backgroundColor="transparent"
-          onPress={() => {
-            dispatch(clearGroups());
-          }}
-        />
-      </View>
-      <Text style={styles.title}>My Groups</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+        <ScrollView>
+          <View style={{ marginLeft: 'auto', padding: 5 }}>
+            <AntDesign.Button
+              name="pluscircle"
+              size={30}
+              color="#83CA9E"
+              backgroundColor="transparent"
+              onPress={() => {
+                props.navigation.navigate('Add Group');
+              }}
+            />
+            <AntDesign.Button
+              name="pluscircle"
+              size={30}
+              color="red"
+              backgroundColor="transparent"
+              onPress={() => {
+                dispatch(clearGroups());
+              }}
+            />
+          </View>
+          <Text style={styles.title}>My Groups</Text>
 
-      <View style={styles.body}>
-        <FlatList
-          data={groups}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SingleGroup group={item} />}
-        ></FlatList>
-      </View>
+          <View style={styles.body}>
+            <FlatList
+              data={groups}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <SingleGroup group={item} />}
+            ></FlatList>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

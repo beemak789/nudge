@@ -3,16 +3,15 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
   TextInput,
   TouchableOpacity,
   View,
   Image,
   ScrollView,
-  ButtonGroup,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
+import { useNavigation } from '@react-navigation/core';
 
 const images = {
   supermarket: require('../public/supermarket.png'),
@@ -255,7 +254,7 @@ const AddTask = (props) => {
         <TouchableOpacity
           style={styles.save}
           onPress={() =>
-            props.navigation.navigate('Categories Stack', {
+            navigate('Categories Stack', {
               screen: 'Task List',
             })
           }

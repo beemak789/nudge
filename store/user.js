@@ -5,6 +5,9 @@ const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
+const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
+const SET_BADGE_COUNT = 'SET_BADGE_COUNT';
+
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
@@ -55,17 +58,25 @@ export const setExpoNotificationStatus = (status) => {
   };
 };
 
+export const setExpoLocationStatus = (locationStatus) => {
+  return {
+    type: SET_EXPO_LOCATION_STATUS,
+    locationStatus,
+  };
+};
+
+//BADGE COUNT
+export const setBadgeCount = (badgeCount) => {
+  return {
+    type: SET_BADGE_COUNT,
+    badgeCount,
+  };
+};
+
 export const deleteFriend = (friendId) => {
   return {
     type: DELETE_FRIEND,
     friendId,
-  };
-};
-
-export const deleteUserGroup = (groupId) => {
-  return {
-    type: DELETE_USER_GROUP,
-    groupId,
   };
 };
 
@@ -131,16 +142,15 @@ export const _setExpoPushToken = (user) => {
     }
   };
 };
-
 // NOTIFICATIONS
 export const enableNotifications = (user) => {
   return async (dispatch) => {
     try {
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowNotifications: 'ON',
+        allowNotifications: true,
       });
-      dispatch(setExpoNotificationStatus('ON'));
+      dispatch(setExpoNotificationStatus(true));
     } catch (err) {
       alert(err);
     }
@@ -152,9 +162,25 @@ export const disableNotifications = (user) => {
     try {
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowNotifications: 'OFF',
+        allowNotifications: false,
       });
-      dispatch(setExpoNotificationStatus('OFF'));
+      dispatch(setExpoNotificationStatus(false));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+//Badge Count
+export const updateBadgeCount = (user) => {
+  return async (dispatch) => {
+    try {
+      const { badgeCount } = user;
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        badgeCount: firebase.firestore.FieldValue.increment(1),
+      });
+      dispatch(setBadgeCount(badgeCount + 1));
     } catch (err) {
       alert(err);
     }
@@ -267,7 +293,7 @@ export const logOutUser = () => {
   };
 };
 
-export const signUpUser = (email, password, first, last) => {
+export const signUpUser = (email, password, first, last, location, reset) => {
   return async (dispatch) => {
     try {
       firebase
@@ -281,8 +307,10 @@ export const signUpUser = (email, password, first, last) => {
             email,
             fullName: first + " " + last,
             friends: [],
+            locationStatus: true,
+            badgeCount: 0,
             groups: [],
-            allowNotifications: 'ON',
+            allowNotifications: true,
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -314,6 +342,10 @@ export default (state = {}, action) => {
       return { ...state, allowNotifications: action.status };
     case SET_USER_FRIENDS:
       return { ...state, friends: action.friends };
+    case SET_EXPO_LOCATION_STATUS:
+      return { ...state, locationStatus: action.locationStatus };
+    case SET_BADGE_COUNT:
+      return { ...state, badgeCount: action.badgeCount };
     case LOGOUT_USER:
       return {};
     case DELETE_FRIEND:

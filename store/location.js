@@ -1,5 +1,7 @@
+import { firebase } from '../config/firebase';
+import * as Location from 'expo-location';
+import { setExpoLocationStatus } from './user';
 const SET_LOCATION = 'SET_LOCATION';
-
 export const setBackgroundLocation = (location) => {
   return {
     type: SET_LOCATION,
@@ -45,6 +47,46 @@ export const checkLocation = (currLocation, currLat, currLng) => {
       dispatch(setBackgroundLocation(currLocation));
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+//LOCATION STATUS
+export const enableLocation = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState();
+      let location = await Location.getCurrentPositionAsync({});
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        locationStatus: true,
+      });
+
+      dispatch(
+        checkLocation(
+          location,
+          location.coords.latitude,
+          location.coords.longitude
+        )
+      );
+      dispatch(setExpoLocationStatus(true));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const disableLocation = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState();
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        locationStatus: false,
+      });
+      dispatch(setExpoLocationStatus(false));
+    } catch (err) {
+      alert(err);
     }
   };
 };

@@ -83,7 +83,7 @@ const SingleGroupList = (props) => {
   async function sendPushNotification(members, from) {
     members.forEach(async (member) => {
       //get token from id function
-      if (member.allowNotifications === 'ON') {
+      if (member.allowNotifications === true) {
         const message = {
           to: member.token,
           sound: 'default',

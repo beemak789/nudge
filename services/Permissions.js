@@ -22,7 +22,9 @@ const requestPermissions = async () => {
 //   </TouchableOpacity>
 // );
 
-TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+TaskManager.defineTask(LOCATION_TASK_NAME, (loc) => {
+  const error = loc.error;
+  const data = loc.data;
   if (error) {
     // Error occurred - check `error.message` for more details.
     return;
