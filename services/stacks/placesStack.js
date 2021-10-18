@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -50,21 +51,26 @@ const DisplayPlacesStack = (props) => {
   });
 
   return (
-    <Tab.Navigator
-      screenOptions={{
-        activeTintColor: 'white',
-        itemStyle: { marginVertical: 10 },
-        inactiveTintColor: 'white',
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen name="Places List" component={PlacesList} {...props} />
-      {tabs.map((tab) => (
-        <Tab.Screen key={Object.keys(tab)[0]} name={Object.keys(tab)[0]}>
-          {(props) => <Stateless {...props} list={tab[Object.keys(tab)[0]]} />}
-        </Tab.Screen>
-      ))}
-    </Tab.Navigator>
+    <>
+      <SafeAreaView></SafeAreaView>
+      <Tab.Navigator
+        screenOptions={{
+          activeTintColor: 'white',
+          itemStyle: { marginVertical: 10 },
+          inactiveTintColor: 'white',
+          headerShown: false,
+        }}
+      >
+        <Tab.Screen name="Places List" component={PlacesList} {...props} />
+        {tabs.map((tab) => (
+          <Tab.Screen key={Object.keys(tab)[0]} name={Object.keys(tab)[0]}>
+            {(props) => (
+              <Stateless {...props} list={tab[Object.keys(tab)[0]]} />
+            )}
+          </Tab.Screen>
+        ))}
+      </Tab.Navigator>
+    </>
   );
 };
 
@@ -74,7 +80,7 @@ const placesStack = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
           backgroundColor: '#709775',
         },

@@ -61,12 +61,13 @@ const groupsStack = (props) => {
     <Stack.Navigator
       initialRouteName="Group List"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
-          backgroundColor: '#709775',
+          backgroundColor: 'white',
         },
         headerTintColor: 'white',
-        headerBackTitle: 'Back',
+        headerBackTitle: '',
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen
@@ -81,7 +82,21 @@ const groupsStack = (props) => {
       />
       <Stack.Screen name="Single Group" component={SingleGroup} />
 
-      <Stack.Screen name="Single Group Stack">
+      <Stack.Screen
+        name="Single Group Stack"
+        options={{
+          headerShown: true,
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'white',
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 0,
+            },
+          },
+        }}
+      >
         {(props) => <SingleGroupStack {...props} />}
       </Stack.Screen>
       <Stack.Screen name="Add Group Task" component={AddGroupTask} />
