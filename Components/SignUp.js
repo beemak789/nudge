@@ -20,6 +20,9 @@ import { signUpUser } from '../store/user';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
+//Documentation for use Navigation - can "go back"
+//https://reactnavigation.org/docs/use-navigation/
+
 const SignUp = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

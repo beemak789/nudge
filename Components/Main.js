@@ -161,9 +161,13 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
+    // registerForPushNotificationsAsync().then((token) => {
+    //   dispatch(_setExpoPushToken(token));
+    // });
     registerForPushNotificationsAsync().then((token) => {
-      dispatch(_setExpoPushToken(token));
+      dispatch(setExpoPushToken(token));
     });
+
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {

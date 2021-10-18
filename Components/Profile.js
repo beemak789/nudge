@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/core';
 export default function Profile() {
   const user = useSelector((state) => state.user);
   const { token, badgeCount } = useSelector((state) => state.user);
+  console.log("the user---->", user)
   const { navigate, reset } = useNavigation();
   const dispatch = useDispatch();
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);

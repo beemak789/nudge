@@ -95,7 +95,7 @@ export const logInUser = (email, password, reset) => {
               }
               const data = firestoreDocument.data();
               dispatch(setUser(data));
-              _fetchUserFriends(uid); // should be inside dispatch
+              _fetchUserFriends(uid);
               reset({
                 index: 0,
                 routes: [{ name: 'Tabs' }],
@@ -130,23 +130,35 @@ export const fetchUpdatedUser = (user) => {
   };
 };
 
-export const _setExpoPushToken = (token) => {
-  return async (dispatch, getState) => {
+// export const _setExpoPushToken = (token) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const { user } = getState();
+//       if (!user.token) {
+//         const userRef = firebase.firestore().collection('users');
+//         const res = await userRef.doc(user.id).update({
+//           token,
+//         });
+//         dispatch(setExpoPushToken(token));
+//       }
+//     } catch (err) {
+//       alert("err");
+//     }
+//   };
+// };
+
+export const _setExpoPushToken = (user) => {
+  return async (dispatch) => {
     try {
-      const { user } = getState();
-      if (!user.token) {
-        const userRef = firebase.firestore().collection('users');
-        const res = await userRef.doc(user.id).update({
-          token,
-        });
-        dispatch(setExpoPushToken(token));
-      }
+      const userRef = firebase.firestore().collection('users');
+      const res = await userRef.doc(user.id).update({
+        token: user.token,
+      });
     } catch (err) {
-      alert("err");
+      alert(err);
     }
   };
 };
-
 // NOTIFICATIONS
 export const enableNotifications = (user) => {
   return async (dispatch) => {
