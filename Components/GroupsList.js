@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserGroups, selectGroup, _setGroups } from '../store/group';
-import SingleGroup from './SingleGroup'
-import AddGroup from './AddGroup'
+import {
+  fetchUserGroups,
+  selectGroup,
+  _setGroups,
+  clearGroups,
+} from '../store/group';
+import SingleGroup from './SingleGroup';
+import AddGroup from './AddGroup';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,17 +25,14 @@ const GroupsList = (props) => {
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.groups);
   const navigation = useNavigation();
-  const user = useSelector((state)=> state.user)
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(fetchUserGroups(user))
+    dispatch(fetchUserGroups(user));
   }, [dispatch]);
 
-
   if (!groups.length) {
-    return (
-      <AddGroup navigation={navigation}/>
-    );
+    return <AddGroup navigation={navigation} />;
   }
 
   return (
@@ -45,27 +47,34 @@ const GroupsList = (props) => {
             props.navigation.navigate('Add Group');
           }}
         />
+        <AntDesign.Button
+          name="pluscircle"
+          size={30}
+          color="red"
+          backgroundColor="transparent"
+          onPress={() => {
+            dispatch(clearGroups());
+          }}
+        />
       </View>
       <Text style={styles.title}>My Groups</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            props.navigation.navigate('Group Chat');
-          }}
-        >
-          <Text style={styles.buttonText}>Chat</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          props.navigation.navigate('Group Chat');
+        }}
+      >
+        <Text style={styles.buttonText}>Chat</Text>
+      </TouchableOpacity>
       <View style={styles.body}>
         <FlatList
           data={groups}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <SingleGroup group = {item}/>
-          )}
+          renderItem={({ item }) => <SingleGroup group={item} />}
         ></FlatList>
       </View>
     </SafeAreaView>
-  )
+  );
 };
 
 export default GroupsList;

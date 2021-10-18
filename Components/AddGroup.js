@@ -14,48 +14,51 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
 import { AntDesign } from '@expo/vector-icons';
-import { Icon } from 'react-native-elements'
-import { _fetchUserFriends } from '../store/user'
-import { fetchUserGroups } from '../store/user'
+import { Icon } from 'react-native-elements';
+import { _fetchUserFriends } from '../store/user';
+import { fetchUserGroups } from '../store/user';
 import { useDerivedValue } from 'react-native-reanimated';
 
 const AddGroup = (props) => {
-  const user = useSelector((state) => state.user)
-  const { groups } = useSelector((state) => state.groups)
+  const user = useSelector((state) => state.user);
+  const { groups } = useSelector((state) => state.groups);
   const [text, onChangeText] = useState('');
-  const [members, setMembers] = useState([user]);
+  const [members, setMembers] = useState([user.id]);
   const dispatch = useDispatch();
-  const friends = useSelector((state) => state.user.friends)
+  const friends = useSelector((state) => state.user.friends);
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
-  }, [dispatch]);
+  }, []);
 
-  const onSubmit = (members) => {
+  const onSubmit = () => {
     dispatch(
       createGroup({
         name: text,
-        members
+        members,
       })
     );
+
     onChangeText('');
-    setMembers([user]);
-    props.navigation.navigate('Group List', {
-      screen: 'Group List',
-    });
+    setMembers([user.id]);
+
+    props.navigation.navigate('Group List');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {{ alignItems: 'right', marginLeft: 20, marginTop: 0}}>
-      {(groups.length) ?<TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.navigate("Group List");
-        }}
-      >
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity> : <View style={{height: 73}}></View>}
-
+      <View style={{ alignItems: 'right', marginLeft: 20, marginTop: 0 }}>
+        {groups.length ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.navigate('Group List');
+            }}
+          >
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={{ height: 73 }}></View>
+        )}
       </View>
       <View
         style={{
@@ -65,16 +68,25 @@ const AddGroup = (props) => {
           // justifyContent: 'center',
         }}
       >
-        <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
+        <Image
+          source={require('../public/nudgie2.png')}
+          style={styles.nudgie}
+        />
         <View style={{ marginBottom: 30 }}>
           <Text style={styles.title}>Create a New Group</Text>
-          <View style = {{display: "flex", flexDirection:"row", alignItems:"center"}}>
-          <TextInput
-            style={styles.newGroupName}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="enter group name"
-          />
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <TextInput
+              style={styles.newGroupName}
+              onChangeText={onChangeText}
+              value={text}
+              placeholder="enter group name"
+            />
           </View>
           <Text
             style={{
@@ -86,54 +98,63 @@ const AddGroup = (props) => {
           >
             Select Friends
           </Text>
-          <Text style={{ marginBottom: 10 }}>Select friends to add them to group</Text>
-          <View
-            style={{ height: 50 }}
-          >
+          <Text style={{ marginBottom: 10 }}>
+            Select friends to add them to group
+          </Text>
+          <View style={{ height: 50 }}>
             {friends.map((friend) => {
               return (
                 <TouchableOpacity
-                  key={friend.email}
+                  key={friend.id}
                   style={
-                    members.includes(friend)
+                    members.includes(friend.id)
                       ? styles.selected
                       : styles.notSelected
                   }
                   onPress={() => {
-                    if (members.includes(friend)) {
+                    if (members.includes(friend.id)) {
                       //do not highlight
                       const filteredCategories = members.filter(
-                        (removeType) => removeType !== friend
+                        (removeType) => removeType !== friend.id
                       );
                       setMembers(filteredCategories);
                     } else {
                       //highlgiht
-                      setMembers([...members, friend]);
+                      setMembers([...members, friend.id]);
                     }
                   }}
                 >
                   <Text
                     style={
-                      members.includes(friend)
+                      members.includes(friend.id)
                         ? styles.selectedText
                         : styles.notSelectedText
                     }
                   >
                     {friend.fullName}
                   </Text>
-                  <View style = {{display: "flex", marginRight: 5, alignItems:"center"}}>
-                  <Icon color="black" type="ionicon" name="person-add-outline" size={20} />
+                  <View
+                    style={{
+                      display: 'flex',
+                      marginRight: 5,
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Icon
+                      color="black"
+                      type="ionicon"
+                      name="person-add-outline"
+                      size={20}
+                    />
                   </View>
                 </TouchableOpacity>
               );
             })}
           </View>
-
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => onSubmit(members)} title="save">
+        <TouchableOpacity style={styles.button} onPress={onSubmit} title="save">
           <Text style={{ color: 'black', fontWeight: 'bold' }}>save</Text>
         </TouchableOpacity>
-
       </View>
     </SafeAreaView>
   );
@@ -162,7 +183,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     backgroundColor: '#83CA9E',
   },
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     width: 250,
     margin: 10,
     borderRadius: 10,
@@ -209,16 +230,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
   },
-  selected:{
+  selected: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#83CA9E',
     // backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
-    alignItems: "center",
+    alignItems: 'center',
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 1,
@@ -226,16 +247,16 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  notSelected:{
+  notSelected: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     margin: 10,
     borderRadius: 10,
     // backgroundColor: 'black',
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
-    alignItems: "center",
+    alignItems: 'center',
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 1,
@@ -243,16 +264,16 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  selectedText:{
+  selectedText: {
     padding: 10,
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'left',
   },
-  notSelectedText:{
+  notSelectedText: {
     padding: 10,
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'left',
-  }
+  },
 });

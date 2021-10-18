@@ -59,14 +59,10 @@ const DisplayPlacesStack = (props) => {
       }}
     >
       <Tab.Screen name="Places List" component={PlacesList} {...props} />
-      {tabs.map((tab, idx) => (
-        <Tab.Screen
-          key={Object.keys(tab)[0]}
-          name={Object.keys(tab)[0]}
-          component={(props) => (
-            <Stateless {...props} list={tab[Object.keys(tab)[0]]} />
-          )}
-        />
+      {tabs.map((tab) => (
+        <Tab.Screen key={Object.keys(tab)[0]} name={Object.keys(tab)[0]}>
+          {(props) => <Stateless {...props} list={tab[Object.keys(tab)[0]]} />}
+        </Tab.Screen>
       ))}
     </Tab.Navigator>
   );

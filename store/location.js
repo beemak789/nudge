@@ -38,7 +38,7 @@ export const checkLocation = (currLocation, currLat, currLng) => {
         const distance = getDistance(prevLat, prevLng, currLat, currLng);
 
         if (distance >= 1000) {
-          // dispatch(_highPriorityFetchPlaces(currLat, currLng));
+          // do something
         }
       }
 

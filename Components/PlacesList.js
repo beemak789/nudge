@@ -4,36 +4,24 @@ import {
   FlatList,
   SafeAreaView,
   View,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import { ListItem, Text, Divider } from 'react-native-elements';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import * as Linking from 'expo-linking';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { _deleteTask, _updateCompleteStatus } from '../store/task';
-import { _fetchPlaces, clearPlaces } from '../store/places';
+import { _fetchPlaces } from '../store/places';
 
 import { ReviewStars } from '../services/StarRating';
-import { priorityStyle } from '../services/PriorityStyle';
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places } = useSelector((state) => state.place);
   const { currTask } = useSelector((state) => state.task);
-
-  const updateCompleteStatus = (item) => {
-    dispatch(_updateCompleteStatus(item));
-    dispatch(clearPlaces());
-  };
-  const deleteTask = (itemId) => {
-    dispatch(_deleteTask(itemId));
-    dispatch(clearPlaces());
-  };
+  const location = useSelector((state) => state.location);
 
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
@@ -42,6 +30,35 @@ const PlacesList = (props) => {
     Linking.openURL(mapsLink);
   };
 
+  const returnDistance = (item) => {
+    const currLat = location.coords.latitude;
+    const currLng = location.coords.longitude;
+    const storeLat = item.marker.latitude;
+    const storeLng = item.marker.longitude;
+
+    function deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+      var R = 6371; // Radius of the earth in km
+      var dLat = deg2rad(lat2 - lat1); // deg2rad above
+      var dLon = deg2rad(lon2 - lon1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) *
+          Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c * 1000; // Distance in m
+      return d;
+    }
+
+    const distance =
+      getDistance(currLat, currLng, storeLat, storeLng) * 0.000621;
+    return distance.toFixed(2);
+  };
   return (
     <SafeAreaView style={styles.container2}>
       {places.length <= 0 && (
@@ -51,41 +68,67 @@ const PlacesList = (props) => {
       )}
       {places.length > 0 && (
         <>
-          {/* <Swipeable
-            renderLeftActions={LeftSwipeActions}
-            renderRightActions={RightSwipeActions}
-            onSwipeableRightOpen={() => deleteTask(currTask.id)}
-            onSwipeableLeftOpen={() => updateCompleteStatus(currTask)}
-          > */}
-          <View style={{display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 10, justifyContent: "space-evenly"}}>
-            <Text style={{fontSize: 16}}>Stores near you that may carry:</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginHorizontal: 10,
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>
+              Stores near you that may carry:
+            </Text>
             <View>
-              <View style={{borderWidth: 1, borderRadius: 4, borderColor: "transparent", alignSelf: "center", backgroundColor: "#83CA9E", marginTop: 10}}>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 4,
+                  borderColor: 'transparent',
+                  alignSelf: 'center',
+                  backgroundColor: '#83CA9E',
+                  marginTop: 10,
+                }}
+              >
                 <Text style={styles.item}>{currTask.name}</Text>
               </View>
+            </View>
           </View>
-              {/* <View style={priorityStyle(currTask.priority)}></View> */}
-          </View>
-          {/* </Swipeable> */}
+
           <FlatList
             data={places}
             renderItem={({ item }) => (
-              <TouchableOpacity style= {{margin: 10, marginBottom: 0}} onPress={() => generateLink(item)}>
-                <ListItem chevron={{ color: '#e90000', size: 30}}>
+              <TouchableOpacity
+                style={{ margin: 10, marginBottom: 0 }}
+                onPress={() => generateLink(item)}
+              >
+                <ListItem chevron={{ color: '#e90000', size: 30 }}>
                   <ListItem.Content>
-                    <ListItem.Title style= {{}}>
+                    <ListItem.Title style={{}}>
                       <View style={styles.rowDirection}>
-                        <Text style={{fontWeight: "bold", justifyContent: "flex-start"}}>{item.name}</Text>
-                        <Text syle={{justifyContent:"center"}}>distance</Text>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            justifyContent: 'flex-start',
+                          }}
+                        >
+                          {item.name}
+                        </Text>
+                        <Text syle={{ justifyContent: 'center' }}>
+                          {item.marker && location.coords
+                            ? `${returnDistance(item)} miles`
+                            : null}
+                        </Text>
                       </View>
                     </ListItem.Title>
                     <ListItem.Subtitle>
                       {item.rating && (
                         <View>
                           <View style={styles.startReviewsContainer}>
-                            <ReviewStars stars={item.rating}/>
+                            <ReviewStars stars={item.rating} />
                             <Text style={styles.rating}>
-                               {item.rating.toFixed(1)}
+                              {item.rating.toFixed(1)}
                             </Text>
                           </View>
                           <View>
@@ -101,19 +144,18 @@ const PlacesList = (props) => {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
-        <TouchableOpacity
+          <TouchableOpacity
             style={styles.newTask}
             onPress={() => dispatch(_fetchPlaces())}
           >
-            {/* <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            /> */}
-            <View style={{display: "flex", flexDirection:"row"}}>
-            <Text style={{fontSize: 20, fontWeight: "bold"}}>
-              New Task
-            </Text>
-            <Icon color="black" type="ionicon" name="shuffle-outline" size={24} />
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>New Task</Text>
+              <Icon
+                color="black"
+                type="ionicon"
+                name="shuffle-outline"
+                size={24}
+              />
             </View>
           </TouchableOpacity>
         </>
@@ -133,10 +175,10 @@ const styles = StyleSheet.create({
   },
 
   rowDirection: {
-    display: "flex",
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: "center",
+    alignItems: 'center',
   },
   startReviewsContainer: {
     flexDirection: 'row',
@@ -147,7 +189,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rating: {
-
     marginLeft: 5,
   },
   box: {
@@ -176,7 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   button: {
     backgroundColor: '#EBF6EF',
@@ -205,8 +246,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 5,
   },
-  newTask:{
-    borderColor: "transparent",
+  newTask: {
+    borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 25,
     margin: 10,

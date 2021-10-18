@@ -11,9 +11,10 @@ const CLEAR_ALL_TASKS = 'CLEAR_ALL_TASKS';
 const ADD_TASK = 'ADD_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
 const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
+const GROUP_COMPLETED_STATUS = 'GROUP_COMPLETED_STATUS';
 const DELETE_TASK = 'DELETE_TASK';
 const SET_GROUP_TASKS = 'SET_GROUP_TASKS';
-const ADD_GROUP_TASK = 'ADD_GROUP_TASK'
+const ADD_GROUP_TASK = 'ADD_GROUP_TASK';
 export const setAllTasks = (tasks) => {
   return {
     type: SET_ALL_TASKS,
@@ -123,20 +124,25 @@ export const fetchGroupTasks = (groupId) => {
             const id = doc.id;
             return { id, ...data };
           });
+
           dispatch(setGroupTasks(tasks));
-        })
+        });
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-export const _createGroupTask = (groupId, {name}) => {
-  return async (dispatch) => {
+export const _createGroupTask = (groupId, { name }) => {
+  return async (dispatch, getState) => {
     try {
+      const { user } = getState();
+      const userId = user.id;
+
       const data = {
         name,
-        completed: false
+        completed: false,
+        uid: userId,
       };
       let id = await firebase
         .firestore()
@@ -147,12 +153,6 @@ export const _createGroupTask = (groupId, {name}) => {
         .then((result) => {
           return result.id;
         });
-      dispatch(
-        addGroupTask({
-          name,
-          completed: false
-        })
-      );
     } catch (err) {
       console.log(err);
     }
@@ -236,6 +236,29 @@ export const _updateCompleteStatus = (item) => {
   };
 };
 
+export const _updateGroupCompleteStatus = (item, groupId) => {
+  return async (dispatch) => {
+    try {
+      const res = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .doc(item.id)
+        .update({
+          completed: true,
+        });
+
+      const updatedTask = {
+        ...item,
+        completed: true,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const _updateIncompleteStatus = (task) => {
   return async (dispatch) => {
     try {
@@ -278,11 +301,27 @@ export const _deleteTask = (taskId) => {
   };
 };
 
+export const _deleteGroupTask = (taskId, groupId) => {
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .doc(taskId)
+        .delete();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 const initialState = {
   currTask: {},
   tasks: [],
   incomplete: [],
-  selectedGroupTasks: []
+  selectedGroupTasks: [],
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -294,7 +333,7 @@ export default (state = initialState, action) => {
     case SET_CURR_TASK:
       return { ...state, currTask: action.currTask };
     case SET_GROUP_TASKS:
-      return { ...state, selectedGroupTasks: action.tasks};
+      return { ...state, selectedGroupTasks: action.tasks };
     case CLEAR_CURR_TASK:
       return { ...state, currTask: action.currTask };
     case CLEAR_ALL_TASKS:

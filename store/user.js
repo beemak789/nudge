@@ -1,4 +1,6 @@
 import { firebase } from '../config/firebase';
+import { clearPlaces } from './places';
+import { clearCurrTask } from './task';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
@@ -257,6 +259,8 @@ export const logOutUser = () => {
           console.log(error);
         });
       dispatch(logoutUser());
+      dispatch(clearPlaces());
+      dispatch(clearCurrTask());
     } catch (err) {
       console.log(err);
     }
@@ -277,7 +281,8 @@ export const signUpUser = (email, password, first, last) => {
             email,
             fullName: first + last,
             friends: [],
-            allowNotifications: 'OFF',
+            groups: [],
+            allowNotifications: 'ON',
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -317,10 +322,10 @@ export default (state = {}, action) => {
       );
       return { ...state, friends: deleteFriend };
     case DELETE_USER_GROUP:
-        const deleteGroup = [...state.groups].filter(
-          (group) => group.id !== action.groupId
-        );
-        return { ...state, groups: deleteGroup };
+      const deleteGroup = [...state.groups].filter(
+        (group) => group.id !== action.groupId
+      );
+      return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
       const newFriends = [...state.friends];
       if (!state.friends.includes(action.friend)) {

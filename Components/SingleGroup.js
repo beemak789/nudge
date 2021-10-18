@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup, fetchUserGroups, deleteGroup } from '../store/group';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/core';
@@ -40,21 +35,27 @@ import { deleteUserGroup } from '../store/user';
 const SingleGroup = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(fetchUserGroups(user))
-  }, [dispatch])
+    dispatch(fetchUserGroups(user));
+  }, [dispatch]);
 
   const _deleteGroup = (groupId, members) => {
-    dispatch(deleteUserGroup(groupId))
-    dispatch(deleteGroup(groupId, members))
-    navigation.navigate('Group List')
-  }
+    dispatch(deleteUserGroup(groupId));
+    dispatch(deleteGroup(groupId, members));
+    navigation.navigate('Group List');
+  };
 
   return (
     <View style={styles.box}>
-      <Icon style={{marginLeft: 5, marginRight: 50}} color="black" type="ionicon" name="notifications-outline" size={20} />
+      <Icon
+        style={{ marginLeft: 5, marginRight: 50 }}
+        color="black"
+        type="ionicon"
+        name="notifications-outline"
+        size={20}
+      />
       <View style={styles.info}>
         <TouchableOpacity
           onPress={async () => {
@@ -66,10 +67,19 @@ const SingleGroup = (props) => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-                onPress={() => {_deleteGroup(props.group.id, props.group.members)}}>
-                <Icon style={{marginRight: 5, marginLeft: 50}}color="black" type="ionicon" name="trash-outline" size={22} />
-        </TouchableOpacity>
-        {/* <Button
+        onPress={() => {
+          _deleteGroup(props.group.id, props.group.members);
+        }}
+      >
+        <Icon
+          style={{ marginRight: 5, marginLeft: 50 }}
+          color="black"
+          type="ionicon"
+          name="trash-outline"
+          size={22}
+        />
+      </TouchableOpacity>
+      {/* <Button
                 style={styles.completedButton}
                 title="Send Alert"
                 onPress={() => {
@@ -77,7 +87,7 @@ const SingleGroup = (props) => {
                 console.log('pressed sent')
             }}>
               </Button> */}
-      </View>
+    </View>
   );
 };
 
@@ -85,7 +95,7 @@ export default SingleGroup;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   completedButton: {
     marginRight: 10,
@@ -102,12 +112,12 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    alignItems: "baseline",
+    alignItems: 'baseline',
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
-    justifyContent:"space-between",
+    justifyContent: 'space-between',
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowOffset: {
