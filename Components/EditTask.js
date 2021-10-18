@@ -35,10 +35,31 @@ const EditTask = (props) => {
   ];
   const images = {
     supermarket: require('../public/supermarket.png'),
+    clothing_store: require('../public/clothing.png'),
+    shoe_store: require('../public/shoe-store.png'),
+    liquor_store: require('../public/liquor-store.png'),
+    convenience_store: require('../public/convenience_store.png'),
     bakery: require('../public/bakery.png'),
+    drugstore: require('../public/drugstore.png'),
     book_store: require('../public/book_store.png'),
+    florist: require('../public/florist.png'),
     pharmacy: require('../public/pharmacy.png'),
+    home_goods_store: require('../public/home-goods.png'),
     other: require('../public/other.png'),
+  };
+  const displayTypes = {
+    supermarket: 'grocery',
+    pharmacy: 'pharmacy',
+    book_store: 'bookstore',
+    bakery: 'bakery',
+    clothing_store: 'clothing',
+    drugstore: 'drugstore',
+    convenience_store: 'convenience',
+    florist: 'florist',
+    home_goods_store: 'home goods',
+    shoe_store: 'shoe store',
+    liquor_store: 'liquor store',
+    other: 'other',
   };
   const onSubmit = () => {
     dispatch(_updateTask({
@@ -115,7 +136,7 @@ const EditTask = (props) => {
                           : styles.notSelectedText
                       }
                     >
-                      {type}
+                      {displayTypes[type]}
                     </Text>
                   </TouchableOpacity>
                 );

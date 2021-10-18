@@ -100,29 +100,26 @@ const PlacesList = (props) => {
             data={places}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={{ margin: 10, marginBottom: 0 }}
+                style={{ margin: 5, marginBottom: 0 }}
                 onPress={() => generateLink(item)}
               >
-                <ListItem chevron={{ color: '#e90000', size: 30 }}>
-                  <ListItem.Content>
-                    <ListItem.Title style={{}}>
-                      <View style={styles.rowDirection}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            justifyContent: 'flex-start',
-                          }}
-                        >
-                          {item.name}
-                        </Text>
-                        <Text syle={{ justifyContent: 'center' }}>
-                          {item.marker && location.coords
-                            ? `${returnDistance(item)} miles`
-                            : null}
-                        </Text>
-                      </View>
-                    </ListItem.Title>
-                    <ListItem.Subtitle>
+                <View style= {{borderWidth: 1, borderColor: "transparent"}}>
+                    <View style={styles.rowDirection}>
+                            <Text
+                              style={{
+                                fontWeight: 'bold',
+                                justifyContent: 'flex-start',
+                              }}
+                            >
+                              {item.name}
+                            </Text>
+                            <Text syle={{ justifyContent: 'center' }}>
+                              {item.marker && location.coords
+                                ? `${returnDistance(item)} miles`
+                                : null}
+                            </Text>
+                    </View>
+                    <View style={styles.rowDirection}>
                       {item.rating && (
                         <View>
                           <View style={styles.startReviewsContainer}>
@@ -136,10 +133,9 @@ const PlacesList = (props) => {
                           </View>
                         </View>
                       )}
-                    </ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
+                    </View>
                 <Divider orientation="horizontal" />
+                </View>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id.toString()}
@@ -179,6 +175,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor:"white",
+    padding: 5,
   },
   startReviewsContainer: {
     flexDirection: 'row',
