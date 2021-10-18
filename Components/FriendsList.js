@@ -8,6 +8,8 @@ import {
   View,
   Image,
   FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
@@ -55,6 +57,11 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+       <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+      <ScrollView>
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
           style={styles.button}
@@ -125,6 +132,8 @@ const FriendsList = (props) => {
           <Text>Loading...</Text>
         )}
       </View>
+      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

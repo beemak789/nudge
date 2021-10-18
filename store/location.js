@@ -59,7 +59,7 @@ export const enableLocation = () => {
       let location = await Location.getCurrentPositionAsync({});
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        locationStatus: 'GRANTED',
+        locationStatus: true,
       });
 
       dispatch(
@@ -69,7 +69,7 @@ export const enableLocation = () => {
           location.coords.longitude
         )
       );
-      dispatch(setExpoLocationStatus('GRANTED'));
+      dispatch(setExpoLocationStatus(true));
     } catch (err) {
       alert(err);
     }
@@ -82,9 +82,9 @@ export const disableLocation = () => {
       const { user } = getState();
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        locationStatus: 'DENY',
+        locationStatus: false,
       });
-      dispatch(setExpoLocationStatus('DENY'));
+      dispatch(setExpoLocationStatus(false));
     } catch (err) {
       alert(err);
     }

@@ -148,9 +148,9 @@ export const enableNotifications = (user) => {
     try {
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowNotifications: 'ON',
+        allowNotifications: true,
       });
-      dispatch(setExpoNotificationStatus('ON'));
+      dispatch(setExpoNotificationStatus(true));
     } catch (err) {
       alert(err);
     }
@@ -162,9 +162,9 @@ export const disableNotifications = (user) => {
     try {
       const userRef = firebase.firestore().collection('users');
       const res = await userRef.doc(user.id).update({
-        allowNotifications: 'OFF',
+        allowNotifications: false,
       });
-      dispatch(setExpoNotificationStatus('OFF'));
+      dispatch(setExpoNotificationStatus(false));
     } catch (err) {
       alert(err);
     }
@@ -307,10 +307,10 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             email,
             fullName: first + " " + last,
             friends: [],
-            locationStatus: 'GRANTED',
+            locationStatus: true,
             badgeCount: 0,
             groups: [],
-            allowNotifications: 'ON',
+            allowNotifications: true,
           };
 
           const usersRef = firebase.firestore().collection('users');
