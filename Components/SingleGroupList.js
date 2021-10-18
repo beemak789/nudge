@@ -31,28 +31,28 @@ import {
 import { deleteGroup } from '../store/group';
 import { deleteUserGroup } from '../store/user';
 
-// _______SEND NOTIFICATION ________
-async function sendPushNotification(toExpoToken, from) {
-  if (toExpoToken) {
-    const message = {
-      to: toExpoToken,
-      sound: 'default',
-      title: `Nudge from ${from}`,
-      body: `${from} is at the grocery store! Do you need anything?`,
-      data: { someData: 'goes here' },
-    };
+// // _______SEND NOTIFICATION ________
+// async function sendPushNotification(toExpoToken, from) {
+//   if (toExpoToken) {
+//     const message = {
+//       to: toExpoToken,
+//       sound: 'default',
+//       title: `Nudge from ${from}`,
+//       body: `${from} is at the grocery store! Do you need anything?`,
+//       data: { someData: 'goes here' },
+//     };
 
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
-  }
-}
+//     await fetch('https://exp.host/--/api/v2/push/send', {
+//       method: 'POST',
+//       headers: {
+//         Accept: 'application/json',
+//         'Accept-encoding': 'gzip, deflate',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(message),
+//     });
+//   }
+// }
 
 const SingleGroupList = (props) => {
   const user = useSelector((state) => state.user);
@@ -65,9 +65,9 @@ const SingleGroupList = (props) => {
     dispatch(fetchGroupTasks(selectedGroup.id));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(_fetchGroupMembers(selectedGroup.group.members));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(_fetchGroupMembers(selectedGroup.group.members));
+  }, [dispatch]);
 
   const _deleteGroup = async () => {
     await dispatch(deleteUserGroup(selectedGroup.id));
@@ -78,7 +78,8 @@ const SingleGroupList = (props) => {
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
     members.forEach(async (member) => {
-      if (member.allowNotifications === 'ON') {
+      //get token from id function
+      if (member.allowNotifications === "ON") {
         const message = {
           to: member.token,
           sound: 'default',
@@ -126,10 +127,9 @@ const SingleGroupList = (props) => {
         title="Alert"
         onPress={async () => {
           await sendPushNotification(
-            selectedGroup.group.members,
+            selectedGroup.members,
             user.fullName
           );
-          console.log('pressed sent');
         }}
       ></Button>
       <View style={styles.body}>
@@ -165,6 +165,7 @@ const SingleGroupList = (props) => {
           _deleteGroup();
         }}
       >
+        <View style={styles.deleteButton}>
         <Icon
           style={{ marginRight: 5 }}
           color="black"
@@ -172,6 +173,8 @@ const SingleGroupList = (props) => {
           name="trash-outline"
           size={22}
         />
+        <Text style={styles.deleteText}>Delete Group</Text>
+        </View>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -256,6 +259,32 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     alignSelf: 'center',
+    textAlign: 'center',
+  },
+  deleteButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    margin: 10,
+  },
+  deleteText: {
+    color: 'black',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });
