@@ -1,19 +1,19 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
-import LandingPage from './Components/LandingPage';
+import Main from './Components/Main';
 import { PersistGate } from 'redux-persist/integration/react';
+
 import { store, persistor } from './store';
 
 export default function App() {
-
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persistor}> */}
-          <LandingPage/>
-        {/* </PersistGate> */}
+        <PersistGate loading={null} persistor={persistor}>
+          <Main />
+        </PersistGate>
       </Provider>
     </NavigationContainer>
   );

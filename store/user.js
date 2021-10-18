@@ -180,7 +180,6 @@ export const updateBadgeCount = (user) => {
       const res = await userRef.doc(user.id).update({
         badgeCount: firebase.firestore.FieldValue.increment(1),
       });
-
       dispatch(setBadgeCount(badgeCount + 1));
     } catch (err) {
       alert(err);
@@ -308,7 +307,7 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             email,
             fullName: first + last,
             friends: [],
-            locationStatus: 'DENIED',
+            locationStatus: 'GRANTED',
             badgeCount: 0,
             groups: [],
             allowNotifications: 'ON',

@@ -1,30 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Text, View, ActivityIndicator } from 'react-native';
 import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
+import { Icon } from 'react-native-elements';
+
+// components
+import LogIn from './LogIn';
+import SignUp from './SignUp';
+
+// stacks
+import TasksStack from '../services/stacks/tasksStack';
+import PlacesStack from '../services/stacks/placesStack';
+import FriendsStack from '../services/stacks/friendsStack';
+import GroupsStack from '../services/stacks/groupsStack';
+import ProfileStack from '../services/stacks/profileStack';
 
 // redux
-import { useDispatch } from 'react-redux';
-import {
-  checkLocation,
-  enableLocation,
-  disableLocation,
-} from '../store/location';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkLocation } from '../store/location';
 
 import {
   setUser,
+  setExpoPushToken,
   _setExpoPushToken,
   _fetchUserFriends,
 } from '../store/user';
-import { notificationsPrompt } from '../services/notifications';
-import TabStack from '../services/stacks/tabStack';
 
-const Stack = createNativeStackNavigator();
-
+const Tab = createBottomTabNavigator();
 const LOCATION_TASK_NAME = 'background-location-task';
 
 Notifications.setNotificationHandler({
@@ -66,17 +72,20 @@ async function registerForPushNotificationsAsync() {
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
-  const [location, setLocation] = useState(null);
+  // const [user, setUser] = useState({});
+  // const [location, setLocation] = useState(null);
+  // const [expoPushToken, setExpoPushToken] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
-      dispatch(_setExpoPushToken(token));
+      dispatch(setExpoPushToken(token));
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(
@@ -91,10 +100,6 @@ const Main = () => {
         console.log(response);
       }
     );
-
-    // if (user.allowNotifications === 'ON') {
-    //   notificationsPrompt(dispatch, notificationListener, setNotification);
-    // }
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -133,11 +138,10 @@ const Main = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        disableLocation();
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      enableLocation();
+
       let location = await Location.getCurrentPositionAsync({});
 
       dispatch(
@@ -324,3 +328,4 @@ const Main = () => {
 };
 
 export default Main;
+
