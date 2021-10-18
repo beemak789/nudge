@@ -7,7 +7,8 @@ const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
 const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
 const SET_BADGE_COUNT = 'SET_BADGE_COUNT';
-
+const ADD_PENDING_FRIEND = 'ADD_PENDING_FRIEND';
+const SET_USER_PENDING_FRIENDS = 'SET_USER_PENDING_FRIENDS';
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
 const LOGOUT_USER = 'LOGOUT_USER';
@@ -35,10 +36,24 @@ export const setUserFriends = (friends) => {
   };
 };
 
+export const setUserPendingFriends = (pendingFriends) => {
+  return {
+    type: SET_USER_PENDING_FRIENDS,
+    pendingFriends,
+  };
+};
+
 export const addFriend = (friend) => {
   return {
     type: ADD_FRIEND,
     friend,
+  };
+};
+
+export const addPendingFriend = (pendingFriend) => {
+  return {
+    type: ADD_PENDING_FRIEND,
+    pendingFriend,
   };
 };
 
@@ -148,6 +163,7 @@ export const _setExpoPushToken = (user) => {
     }
   };
 };
+
 // NOTIFICATIONS
 export const enableNotifications = (user) => {
   return async (dispatch) => {
@@ -187,6 +203,29 @@ export const updateBadgeCount = (user) => {
         badgeCount: firebase.firestore.FieldValue.increment(1),
       });
       dispatch(setBadgeCount(badgeCount + 1));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const _fetchUserPendingFriends = (user) => {
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .get()
+        .then(async (friendsList) => {
+          let userPendingFriends = friendsList.data().pendingFriends;
+          let result = await Promise.all(
+            userPendingFriends.map(
+              async (friend) => await _fetchSingleFriendInfo(friend)
+            )
+          );
+          dispatch(setUserPendingFriends(result));
+        });
     } catch (err) {
       alert(err);
     }
@@ -242,7 +281,6 @@ export const _addFriend = (userId, friendId) => {
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
         });
-      // add two way friendship
       await firebase
         .firestore()
         .collection('users')
@@ -251,6 +289,30 @@ export const _addFriend = (userId, friendId) => {
 
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addFriend(friendInfoForState));
+    } catch (err) {
+      alert(err);
+    }
+  };
+};
+
+export const _addPendingFriend = (userId, friendId) => {
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .update({
+          pendingFriends: firebase.firestore.FieldValue.arrayUnion(friendId),
+        });
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(friendId)
+        .update({ pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId) });
+
+      const friendInfoForState = await _fetchSingleFriendInfo(friendId);
+      dispatch(addPendingFriend(friendInfoForState));
     } catch (err) {
       alert(err);
     }
@@ -312,6 +374,7 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             id: uid,
             email,
             fullName: first + " " + last,
+            pendingFriends: [],
             friends: [],
             locationStatus: true,
             badgeCount: 0,
@@ -348,6 +411,8 @@ export default (state = {}, action) => {
       return { ...state, allowNotifications: action.status };
     case SET_USER_FRIENDS:
       return { ...state, friends: action.friends };
+    case SET_USER_PENDING_FRIENDS:
+      return { ...state, pendingFriends: action.pendingFriends };
     case SET_EXPO_LOCATION_STATUS:
       return { ...state, locationStatus: action.locationStatus };
     case SET_BADGE_COUNT:
@@ -370,6 +435,12 @@ export default (state = {}, action) => {
         newFriends.push(action.friend);
       }
       return { ...state, friends: newFriends };
+    case ADD_PENDING_FRIEND:
+        const pendingFriends = [...state.pendingFriends];
+        if (!state.pendingFriends.includes(action.pendingFriend)) {
+          pendingFriends.push(action.pendingFriend);
+        }
+        return { ...state, pendingFriends: newFriends };
     default:
       return state;
   }

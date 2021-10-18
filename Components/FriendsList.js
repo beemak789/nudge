@@ -18,6 +18,7 @@ import {
   _deleteFriend,
   _fetchSingleFriendInfo,
   _fetchUserFriends,
+  _fetchUserPendingFriends,
 } from '../store/user';
 
 // _______SEND NOTIFICATION ________
@@ -143,8 +144,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   nudgie: {
     height: 150,
