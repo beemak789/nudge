@@ -1,6 +1,8 @@
 import React from 'react';
+import { Text, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useSelector } from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,36 +17,42 @@ import SingleGroupSettings from '../../Components/SingleGroupSettings';
 const Stack = createNativeStackNavigator();
 
 const SingleGroupStack = (props) => {
+  const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   return (
-    <Tab.Navigator
-      initialRouteName="Single Group List"
-      screenOptions={{
-        activeTintColor: 'white',
-        itemStyle: { marginVertical: 10 },
-        inactiveTintColor: 'white',
-        headerShown: false,
-        // style: { position: 'relative', top: 100 },
-      }}
-    >
-      <Tab.Screen
-        name="Single Group List"
-        component={SingleGroupList}
-        {...props}
-      />
+    <>
+      <SafeAreaView>
+        <Text>{selectedGroup.group.name}</Text>
+      </SafeAreaView>
+      <Tab.Navigator
+        initialRouteName="Single Group List"
+        screenOptions={{
+          activeTintColor: 'white',
+          itemStyle: { marginVertical: 10 },
+          inactiveTintColor: 'white',
+          headerShown: false,
+          // style: { position: 'relative', top: 100 },
+        }}
+      >
+        <Tab.Screen
+          name="Single Group List"
+          component={SingleGroupList}
+          {...props}
+        />
 
-      <Tab.Screen
-        name="Group Chat"
-        component={GroupChat}
-        options={{ headerShown: false }}
-        {...props}
-      />
+        <Tab.Screen
+          name="Group Chat"
+          component={GroupChat}
+          options={{ headerShown: false }}
+          {...props}
+        />
 
-      <Tab.Screen
-        name="Group Settings"
-        component={SingleGroupSettings}
-        {...props}
-      />
-    </Tab.Navigator>
+        <Tab.Screen
+          name="Group Settings"
+          component={SingleGroupSettings}
+          {...props}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 
