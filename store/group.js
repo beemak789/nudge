@@ -3,6 +3,7 @@ import { deleteUserGroup, _fetchSingleFriendInfo } from './user';
 
 const SET_GROUPS = 'SET_GROUPS';
 const ADD_GROUP = 'CREATE_GROUP';
+const EDIT_GROUP_NAME = 'EDIT_GROUP_NAME';
 const SELECT_GROUP = 'SELECT_GROUP';
 const DELETE_GROUP = 'DELETE_GROUP';
 const CLEAR_GROUPS = 'CLEAR_GROUPS';
@@ -18,6 +19,14 @@ export const _addGroup = (group) => {
   return {
     type: ADD_GROUP,
     group,
+  };
+};
+
+export const editGroupName = ({ name, groupId }) => {
+  return {
+    type: EDIT_GROUP_NAME,
+    name,
+    groupId,
   };
 };
 
@@ -79,13 +88,14 @@ export const fetchUserGroups = (user) => {
                   return snapshot.data();
                 });
             })
-          ); dispatch(_setGroups(groupsArrayInfo));
-        })
-      } catch (err) {
+          );
+          dispatch(_setGroups(groupsArrayInfo));
+        });
+    } catch (err) {
       console.log(err);
     }
-  }
-}
+  };
+};
 export const createGroup = ({ name, members }) => {
   return async (dispatch) => {
     try {
@@ -128,6 +138,51 @@ export const createGroup = ({ name, members }) => {
   };
 };
 
+export const _editGroup = ({ groupId, name, members }) => {
+  return async (dispatch) => {
+    try {
+      const data = {
+        name,
+        members,
+      };
+
+      // returns id of newly created group
+      members.forEach(
+        async (memberId) =>
+          await firebase
+            .firestore()
+            .collection('groups')
+            .doc(groupId)
+            .update({
+              members: firebase.firestore.FieldValue.arrayUnion(memberId),
+            })
+      );
+
+      // adds the new groupID to each members' groups array on their user object
+      members.forEach(
+        async (memberId) =>
+          await firebase
+            .firestore()
+            .collection('users')
+            .doc(memberId)
+            .update({
+              groups: firebase.firestore.FieldValue.arrayUnion(groupId),
+            })
+      );
+      //adds the new group to the redux store
+      dispatch(
+        editGroup({
+          name,
+          members,
+          groupId,
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const deleteGroup = (groupId, members) => {
   return async (dispatch) => {
     try {
@@ -150,6 +205,32 @@ export const deleteGroup = (groupId, members) => {
       );
       //deletes group from redux store
       dispatch(_deleteGroup(groupId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const leaveGroup = (groupId) => {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState();
+      // delete the group id from your user
+      let group = await firebase
+        .firestore()
+        .collection('groups')
+        .doc(groupId)
+        .update({
+          members: firebase.firestore.FieldValue.arrayRemove(user.id),
+        });
+
+      let updatedUser = await firebase
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .update({
+          groups: firebase.firestore.FieldValue.arrayRemove(groupId),
+        });
     } catch (err) {
       console.log(err);
     }
@@ -206,6 +287,19 @@ export default (state = initialState, action) => {
     case SET_GROUPS:
       return { ...state, groups: action.groups };
     case ADD_GROUP:
+      return { ...state, groups: [...state.groups, action.group] };
+    case EDIT_GROUP_NAME:
+      const updatedTasks = state.tasks.map((task) => {
+        if (task.id === action.task.id) {
+          return action.task;
+        }
+        return task;
+      });
+
+      const updatedSelectedGroup =
+        action.groupId === state.selectedGroup.id
+          ? action.task
+          : state.currTask;
       return { ...state, groups: [...state.groups, action.group] };
     case DELETE_GROUP:
       const deletedGroups = state.groups.filter(

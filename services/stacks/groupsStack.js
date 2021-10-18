@@ -9,6 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 // components
 import GroupsList from '../../Components/GroupsList';
 import AddGroup from '../../Components/AddGroup';
+import EditGroup from '../../Components/EditGroup';
 import AddGroupTask from '../../Components/AddGroupTask';
 import SingleGroup from '../../Components/SingleGroup';
 import GroupChat from '../../Components/GroupChat';
@@ -78,6 +79,11 @@ const groupsStack = (props) => {
       <Stack.Screen
         name="Add Group"
         component={AddGroup}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Group"
+        component={EditGroup}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Single Group" component={SingleGroup} />
