@@ -64,35 +64,28 @@ export const fetchUserGroups = (user) => {
         .firestore()
         .collection('users')
         .doc(user.id)
-        .get()
-        .then((snapshot) => {
+        .onSnapshot(async (snapshot) => {
           groupsArray = snapshot.data().groups;
-        });
-      // console.log("USER GROUPS IN REDUX", userGroups)
-      //  dispatch(_setGroups(userGroups))
-
-      //map through their array of groupIDs and find the group objects in firestore
-      let groupsArrayInfo = [];
-      let userGroups = await Promise.all(
-        groupsArray.map(async (group) => {
-          await firebase
-            .firestore()
-            .collection('groups')
-            .doc(group)
-            .get()
-            .then((snapshot) => {
-              groupsArrayInfo.push({ ...snapshot.data(), id: group });
-              return snapshot.data();
-            });
+          let groupsArrayInfo = [];
+          let userGroups = await Promise.all(
+            groupsArray.map(async (group) => {
+              await firebase
+                .firestore()
+                .collection('groups')
+                .doc(group)
+                .get()
+                .then((snapshot) => {
+                  groupsArrayInfo.push({ ...snapshot.data(), id: group });
+                  return snapshot.data();
+                });
+            })
+          ); dispatch(_setGroups(groupsArrayInfo));
         })
-      );
-      dispatch(_setGroups(groupsArrayInfo));
-    } catch (err) {
+      } catch (err) {
       console.log(err);
     }
-  };
-};
-
+  }
+}
 export const createGroup = ({ name, members }) => {
   return async (dispatch) => {
     try {
