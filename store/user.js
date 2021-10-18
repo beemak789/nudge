@@ -43,10 +43,11 @@ export const setUserPendingFriends = (pendingFriends) => {
   };
 };
 
-export const addFriend = (friend) => {
+export const addFriend = (friend, friendId) => {
   return {
     type: ADD_FRIEND,
     friend,
+    friendId
   };
 };
 
@@ -280,15 +281,18 @@ export const _addFriend = (userId, friendId) => {
         .doc(userId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
+          pendingFriends: firebase.firestore.FieldValue.arrayRemove(friendId)
         });
       await firebase
         .firestore()
         .collection('users')
         .doc(friendId)
-        .update({ friends: firebase.firestore.FieldValue.arrayUnion(userId) });
-
+        .update({
+          friends: firebase.firestore.FieldValue.arrayUnion(userId),
+          pendingFriends: firebase.firestore.FieldValue.arrayRemove(userId)
+        });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
-      dispatch(addFriend(friendInfoForState));
+      dispatch(addFriend(friendInfoForState, friendId));
     } catch (err) {
       alert(err);
     }
@@ -309,8 +313,9 @@ export const _addPendingFriend = (userId, friendId) => {
         .firestore()
         .collection('users')
         .doc(friendId)
-        .update({ pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId) });
-
+        .update({
+          pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId)
+        });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addPendingFriend(friendInfoForState));
     } catch (err) {
@@ -434,13 +439,16 @@ export default (state = {}, action) => {
       if (!state.friends.includes(action.friend)) {
         newFriends.push(action.friend);
       }
-      return { ...state, friends: newFriends };
+      const deletedPending = [...state.pendingFriends].filter(
+        (friend) => friend.id !== action.friendId
+      );
+      return { ...state, friends: newFriends, pendingFriends: deletedPending };
     case ADD_PENDING_FRIEND:
         const pendingFriends = [...state.pendingFriends];
         if (!state.pendingFriends.includes(action.pendingFriend)) {
           pendingFriends.push(action.pendingFriend);
         }
-        return { ...state, pendingFriends: newFriends };
+        return { ...state, pendingFriends: pendingFriends };
     default:
       return state;
   }
