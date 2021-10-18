@@ -1,36 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectGroup, fetchUserGroups, deleteGroup } from '../store/group';
-import { Icon } from 'react-native-elements';
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { selectGroup, fetchUserGroups } from '../store/group';
 import { useNavigation } from '@react-navigation/core';
-import { deleteUserGroup } from '../store/user';
-
-// _______SEND NOTIFICATION ________NOT TESTED
-// async function sendPushNotification(group, from) {
-//   console.log(group)
-//   group.members.forEach(async (member) => {
-//     const message = {
-//       to: member.token,
-//       sound: 'default',
-//       title: `Nudge from ${from}`,
-//       body: `${from} is at the grocery store! Do you need anything?`,
-//       data: { someData: 'goes here' },
-//     };
-
-//     await fetch('https://exp.host/--/api/v2/push/send', {
-//       method: 'POST',
-//       headers: {
-//         Accept: 'application/json',
-//         'Accept-encoding': 'gzip, deflate',
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(message),
-//     });
-//   })
-// }
 
 const SingleGroup = (props) => {
   const dispatch = useDispatch();
@@ -41,21 +13,8 @@ const SingleGroup = (props) => {
     dispatch(fetchUserGroups(user));
   }, [dispatch]);
 
-  const _deleteGroup = (groupId, members) => {
-    dispatch(deleteUserGroup(groupId));
-    dispatch(deleteGroup(groupId, members));
-    navigation.navigate('Group List');
-  };
-
   return (
     <View style={styles.box}>
-      <Icon
-        style={{ marginLeft: 5, marginRight: 50 }}
-        color="black"
-        type="ionicon"
-        name="notifications-outline"
-        size={20}
-      />
       <View style={styles.info}>
         <TouchableOpacity
           onPress={async () => {
@@ -66,27 +25,6 @@ const SingleGroup = (props) => {
           <Text style={styles.buttonText}>{props.group.name}</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          _deleteGroup(props.group.id, props.group.members);
-        }}
-      >
-        <Icon
-          style={{ marginRight: 5, marginLeft: 50 }}
-          color="black"
-          type="ionicon"
-          name="trash-outline"
-          size={22}
-        />
-      </TouchableOpacity>
-      {/* <Button
-                style={styles.completedButton}
-                title="Send Alert"
-                onPress={() => {
-                // await sendPushNotification(props.group.id, user.fullName)
-                console.log('pressed sent')
-            }}>
-              </Button> */}
     </View>
   );
 };
@@ -112,8 +50,9 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
+    width: 250,
     alignItems: 'baseline',
-    margin: 10,
+    margin: 20,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
@@ -127,7 +66,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   info: {
-    marginLeft: 15,
+    marginLeft: 10,
     padding: 5,
   },
   item: {

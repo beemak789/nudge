@@ -42,6 +42,12 @@ export const addFriend = (friend) => {
   };
 };
 
+export const deleteUserGroup = (groupId) => {
+  return {
+    type: DELETE_USER_GROUP,
+    groupId,
+  };
+};
 // USER NOTIFICATIONS
 export const setExpoPushToken = (token) => {
   return {
