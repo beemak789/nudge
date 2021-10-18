@@ -61,7 +61,7 @@ const groupsStack = (props) => {
     <Stack.Navigator
       initialRouteName="Group List"
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
           backgroundColor: 'white',
         },
@@ -85,7 +85,7 @@ const groupsStack = (props) => {
       <Stack.Screen
         name="Single Group Stack"
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: 'white',

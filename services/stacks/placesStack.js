@@ -10,6 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 import PlacesList from '../../Components/PlacesList';
 import NoPlaces from '../../Components/NoPlaces';
 import Stateless from '../../Components/Stateless';
+import MapView from '../../Components/MapView';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,13 +63,7 @@ const DisplayPlacesStack = (props) => {
         }}
       >
         <Tab.Screen name="Places List" component={PlacesList} {...props} />
-        {tabs.map((tab) => (
-          <Tab.Screen key={Object.keys(tab)[0]} name={Object.keys(tab)[0]}>
-            {(props) => (
-              <Stateless {...props} list={tab[Object.keys(tab)[0]]} />
-            )}
-          </Tab.Screen>
-        ))}
+        <Tab.Screen name="Map View" component={MapView} {...props} />
       </Tab.Navigator>
     </>
   );
