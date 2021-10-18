@@ -150,6 +150,7 @@ const SingleGroupList = (props) => {
                 <View style={styles.box}>
                   <View style={styles.info}>
                     <Text style={styles.item}>{item.name}</Text>
+                    <Text style={styles.addedBy}>added by {item.userName}</Text>
                   </View>
                   <View style={priorityStyle(item.priority)}></View>
                 </View>
@@ -255,11 +256,21 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  item: {
-    padding: 10,
+  info: {
+    padding: 5,
     fontSize: 18,
-    alignSelf: 'center',
-    textAlign: 'center',
+  },
+  item: {
+    padding: 5,
+    fontSize: 18,
+    // alignSelf: 'center',
+    textAlign: 'left',
+  },
+  addedBy: {
+    padding: 5,
+    fontSize: 12,
+    // alignSelf: 'flex-end',
+    textAlign: 'left'
   },
   deleteButton: {
     display: "flex",
