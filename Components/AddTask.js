@@ -71,7 +71,6 @@ const AddTask = (props) => {
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
 
-  const renderItem = (item) => <Store storeType={item} />;
 
   const onSubmit = () => {
     if (!category.length) {
