@@ -24,8 +24,9 @@ const CategoriesStack = (props) => {
         headerShown: false,
         // style: { position: 'relative', top: 100 },
       }}
+      initialRouteName="Task List"
     >
-      <Tab.Screen name="Task List" component={TaskList} {...props} />
+      <Tab.Screen name="Task List" component={TaskList} {...props}/>
       <Tab.Screen name="Completed List" component={CompletedList} {...props} />
     </Tab.Navigator>
   );

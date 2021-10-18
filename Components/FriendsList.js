@@ -1,99 +1,129 @@
-import React, { useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
-  TextInput,
   TouchableOpacity,
   View,
   Image,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
-import { firebase } from '../config/firebase';
-import { Icon } from 'react-native-elements'
-import { _deleteFriend, _fetchSingleFriendInfo, _fetchUserFriends } from '../store/user';
+import { Icon } from 'react-native-elements';
+import {
+  _deleteFriend,
+  _fetchSingleFriendInfo,
+  _fetchUserFriends,
+} from '../store/user';
 
 // _______SEND NOTIFICATION ________
 async function sendPushNotification(toExpoToken, from) {
-  if(toExpoToken){
-    const message = {
-      to: toExpoToken,
-      sound: 'default',
-      title: `Nudge from ${from}`,
-      body: `${from} is at the grocery store! Do you need anything?`,
-      data: { someData: 'goes here' },
-    };
+  try {
+    if (toExpoToken) {
+      const message = {
+        to: toExpoToken,
+        sound: 'default',
+        title: `Nudge from ${from}`,
+        body: `${from} is at the grocery store! Do you need anything?`,
+        data: { someData: 'goes here' },
+      };
 
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
+      await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Accept-encoding': 'gzip, deflate',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+      });
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
-
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const numFriends = user.friends.length || 0;
   useEffect(() => {
-    dispatch( _fetchUserFriends(user))
-  }, [dispatch])
-
-
+    dispatch(_fetchUserFriends(user));
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {{alignItems: "flex-end", marginRight: 20, marginTop: 0}}>
+      <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            props.navigation.navigate("Add Friend");
+            props.navigation.navigate('Add Friend');
           }}
         >
-        <Icon color="black" type="ionicon" name="person-add-outline" size={20} />
+          <Icon
+            color="black"
+            type="ionicon"
+            name="person-add-outline"
+            size={20}
+          />
         </TouchableOpacity>
       </View>
-      <View style= {{margin: 20,
+      <View
+        style={{
+          margin: 20,
           alignItems: 'center',
           justifyContent: 'center',
-          flex: 1}}>
-      <Image source={require('../public/nudgie2.png')} style={styles.nudgie} />
-      <Text style={styles.title}>Your Nudgies</Text>
-      {(user.friends.length < 1) ? <Text>No friends</Text>:
-        (user.friends[0].id) ? (
-        <FlatList
-          data={user.friends}
-          keyExtractor={(item) => item.id}
-          renderItem= {( { item } ) => (
-            <View style={styles.box}>
-
-              <TouchableOpacity
-                onPress={async () => {
-                  await sendPushNotification(item.token, user.fullName)
-                }}>
-              <Icon style={{marginLeft: 5}} color="black" type="ionicon" name="notifications-outline" size={20} />
-              </TouchableOpacity>
-              <Text style={styles.item}>{item.fullName}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch(_deleteFriend(user.id, item.id))}
-                }>
-                <Icon style={{marginRight: 5}}color="black" type="ionicon" name="trash-outline" size={22} />
-              </TouchableOpacity>
-            </View>
-          )}>
-          </FlatList>) : (<Text>Loading...</Text>)
-      }
+          flex: 1,
+        }}
+      >
+        <Image
+          source={require('../public/nudgie2.png')}
+          style={styles.nudgie}
+        />
+        <Text style={styles.title}>Your Nudgies</Text>
+        {numFriends < 1 ? (
+          <Text>No friends</Text>
+        ) : user.friends[0].id ? (
+          <FlatList
+            data={user.friends}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.box}>
+                <TouchableOpacity
+                  onPress={async () => {
+                    await sendPushNotification(item.token, user.fullName);
+                  }}
+                >
+                  <Icon
+                    style={{ marginLeft: 5 }}
+                    color="black"
+                    type="ionicon"
+                    name="notifications-outline"
+                    size={20}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.item}>{item.fullName}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(_deleteFriend(user.id, item.id));
+                  }}
+                >
+                  <Icon
+                    style={{ marginRight: 5 }}
+                    color="black"
+                    type="ionicon"
+                    name="trash-outline"
+                    size={22}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          ></FlatList>
+        ) : (
+          <Text>Loading...</Text>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -141,7 +171,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
@@ -156,7 +186,7 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     width: 325,
     margin: 10,
     borderRadius: 10,
@@ -178,6 +208,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-
-

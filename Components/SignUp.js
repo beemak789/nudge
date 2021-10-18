@@ -15,10 +15,10 @@ import {
 import { LogBox } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/core';
 import { signUpUser } from '../store/user';
 
 LogBox.ignoreLogs(['Setting a timer']);
-
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('');
@@ -28,12 +28,13 @@ const SignUp = (props) => {
   const [last, setLast] = useState('');
   const location = useSelector((state) => state.location);
   const dispatch = useDispatch();
+  const { reset, navigate } = useNavigation();
   const onSubmit = () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
     }
-    dispatch(signUpUser(email, password, first, last, location));
+    dispatch(signUpUser(email, password, first, last, location, reset));
   };
 
   return (
@@ -105,7 +106,7 @@ const SignUp = (props) => {
         </TouchableOpacity>
         <Text style={{ marginTop: 20 }}>Existing User?</Text>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Log In')}
+          onPress={() => navigate('LogIn')}
           style={styles.button}
         >
           <Text style={styles.loginText}>Log In!</Text>

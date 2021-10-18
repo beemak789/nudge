@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,21 +7,18 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-} from "react-native";
-import { connect } from "react-redux";
-import { firebase } from "../config/firebase";
-import { getDatabase } from "firebase/database";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from "react-redux"
-import { logInUser } from "../store/user"
+} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/core';
+import { logInUser } from '../store/user';
 
 const LogIn = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const dispatch = useDispatch()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { reset, navigate } = useNavigation();
+  const dispatch = useDispatch();
   const onSubmit = () => {
-    dispatch(logInUser(email, password))
+    dispatch(logInUser(email, password, reset));
   };
 
   return (
@@ -55,7 +52,6 @@ const LogIn = (props) => {
         />
       </View>
 
-
       <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.loginText}>LOG IN</Text>
       </TouchableOpacity>
@@ -63,9 +59,9 @@ const LogIn = (props) => {
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity> */}
 
-      <Text style= {{marginTop: 20}}>New User?</Text>
+      <Text style={{ marginTop: 20 }}>New User?</Text>
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Sign Up")}
+        onPress={() => navigate('SignUp')}
         style={styles.button}
       >
         <Text style={styles.loginText}>Sign Up!</Text>
@@ -74,21 +70,20 @@ const LogIn = (props) => {
   );
 };
 
-
 export default LogIn;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
     // justifyContent: "center",
   },
 
   inputView: {
-    backgroundColor: "#dde5b6",
+    backgroundColor: '#dde5b6',
     borderRadius: 30,
-    width: "70%",
+    width: '70%',
     height: 45,
     marginBottom: 20,
   },
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
 
   box: {
     display: 'flex',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     width: 325,
     margin: 10,
     borderRadius: 10,
@@ -132,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'left',
-    width: "90%",
+    width: '90%',
   },
   button: {
     justifyContent: 'center',
@@ -140,7 +135,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
@@ -154,8 +149,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   loginText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 18,
     textAlign: 'center',
   },

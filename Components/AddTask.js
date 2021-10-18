@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
+import { useNavigation } from '@react-navigation/core';
 
 const images = {
   supermarket: require('../public/supermarket.png'),
@@ -48,9 +49,8 @@ const AddTask = (props) => {
   const [priority, setPriority] = useState('high');
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
-
+  const { navigate } = useNavigation();
   const renderItem = (item) => <Store storeType={item} />;
-
   const onSubmit = () => {
     dispatch(
       _createTask({
@@ -59,7 +59,7 @@ const AddTask = (props) => {
         category,
       })
     );
-    props.navigation.navigate('Categories Stack', {
+    navigate('Categories Stack', {
       screen: 'Task List',
     });
     onChangeText('');
@@ -223,7 +223,7 @@ const AddTask = (props) => {
         <TouchableOpacity
           style={styles.save}
           onPress={() =>
-            props.navigation.navigate('Categories Stack', {
+            navigate('Categories Stack', {
               screen: 'Task List',
             })
           }

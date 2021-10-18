@@ -76,7 +76,7 @@ export const deleteFriend = (friendId) => {
   };
 };
 
-export const logInUser = (email, password) => {
+export const logInUser = (email, password, reset) => {
   return async (dispatch) => {
     try {
       await firebase
@@ -95,7 +95,11 @@ export const logInUser = (email, password) => {
               }
               const data = firestoreDocument.data();
               dispatch(setUser(data));
-              _fetchUserFriends(uid);
+              _fetchUserFriends(uid); // should be inside dispatch
+              reset({
+                index: 0,
+                routes: [{ name: 'Tabs' }],
+              });
             })
             .catch((error) => {
               alert(error);
@@ -126,15 +130,19 @@ export const fetchUpdatedUser = (user) => {
   };
 };
 
-export const _setExpoPushToken = (user) => {
-  return async (dispatch) => {
+export const _setExpoPushToken = (token) => {
+  return async (dispatch, getState) => {
     try {
-      const userRef = firebase.firestore().collection('users');
-      const res = await userRef.doc(user.id).update({
-        token: user.token,
-      });
+      const { user } = getState();
+      if (!user.token) {
+        const userRef = firebase.firestore().collection('users');
+        const res = await userRef.doc(user.id).update({
+          token,
+        });
+        dispatch(setExpoPushToken(token));
+      }
     } catch (err) {
-      alert(err);
+      alert("err");
     }
   };
 };
@@ -177,10 +185,7 @@ export const updateBadgeCount = (user) => {
       const res = await userRef.doc(user.id).update({
         badgeCount: firebase.firestore.FieldValue.increment(1),
       });
-      const updatedBadgeCount = {
-        ...user,
-        badgeCount: badgeCount + 1,
-      };
+
       dispatch(setBadgeCount(badgeCount + 1));
     } catch (err) {
       alert(err);
@@ -277,8 +282,7 @@ export const _deleteFriend = (userId, friendId) => {
   };
 };
 
-export const logOutUser = () => {
-  console.log('logout');
+export const logOutUser = (reset) => {
   return async (dispatch) => {
     try {
       await firebase
@@ -288,13 +292,18 @@ export const logOutUser = () => {
           console.log(error);
         });
       dispatch(logoutUser());
+      reset({
+        //makes Log in index 0 and there won't be anymore navigation routes...makes login the only page to navigate to.
+        index: 0,
+        routes: [{ name: 'LogIn' }],
+      });
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-export const signUpUser = (email, password, first, last) => {
+export const signUpUser = (email, password, first, last, location, reset) => {
   return async (dispatch) => {
     try {
       firebase
@@ -321,6 +330,11 @@ export const signUpUser = (email, password, first, last) => {
             .catch((error) => {
               alert(error);
             });
+          reset({
+            index: 0,
+            //puts me in the Tabs Stack Page and can't slide back out to the login page
+            routes: [{ name: 'Tabs' }],
+          });
         })
         .catch((error) => {
           alert(error);

@@ -13,7 +13,8 @@ import {
 import React, { useEffect, useState, useRef } from 'react';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import Confetti from 'react-confetti';
+import ConfettiCannon from 'react-native-confetti-cannon';
+import { useNavigation } from '@react-navigation/core';
 
 import {
   _deleteTask,
@@ -29,11 +30,10 @@ import { updateBadgeCount } from '../store/user';
 const taskList = (props) => {
   const dispatch = useDispatch();
   const { incomplete } = useSelector((state) => state.task);
-  //
+  const { navigate } = useNavigation();
   const user = useSelector((state) => state.user);
   const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
-
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -55,11 +55,10 @@ const taskList = (props) => {
           color="#83CA9E"
           backgroundColor="transparent"
           onPress={() => {
-            props.navigation.navigate('Add Task');
+            navigate('Add Task');
           }}
         />
       </View>
-
       {/* COMPLETED TASKS MODAL********** */}
       <Modal animationType="slide" visible={modalVisible} transparent={true}>
         <View style={styles.modalBackground}>
@@ -70,6 +69,7 @@ const taskList = (props) => {
               size={24}
               onPress={() => setModalVisible(false)}
             />
+            <ConfettiCannon count={200} origin={{ x: -10, y: 0}} fadeOut={true} fallSpeed={2000}/>
             <Text style={styles.modalText}>
               Nice job, {user.fullName}! You have completed your tasks for the
               day!
@@ -80,8 +80,7 @@ const taskList = (props) => {
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
-                dispatch(updateBadgeCount(user))
-                console.log("the badge count in onpress--->", badgeCount)
+                dispatch(updateBadgeCount(user));
               }}
             >
               <Image
@@ -111,11 +110,11 @@ const taskList = (props) => {
                 style={styles.box}
                 onPress={() => {
                   dispatch(_fetchPlaces(item));
-                  props.navigation.navigate('Places Stack');
+                  navigate('Places Stack');
                 }}
                 onLongPress={() => {
                   console.log('Long Press');
-                  props.navigation.navigate('Edit Stack', {
+                  navigate('Edit Stack', {
                     item,
                   });
                 }}

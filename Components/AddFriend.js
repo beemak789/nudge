@@ -22,7 +22,7 @@ const AddFriend = (props) => {
   const [friends, friendsList] = useState()
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch()
-
+  const numFriends = user.friends.length || 0
   const onChangeSearch = async () => {
     friendsList()
     const lowerText = text.toLowerCase()
@@ -42,8 +42,7 @@ const AddFriend = (props) => {
   }
 
   const addToFriends = async() => {
-
-    for(let i = 0; i < user.friends.length; i++){
+    for(let i = 0; i < numFriends; i++){
       if(user.friends[i].id === friends.id){
         friendsList({error: 'This person is already your friend'})
         return

@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  Button,
   View,
   Switch,
 } from 'react-native';
@@ -16,13 +15,13 @@ import {
   disableNotifications,
 } from '../store/user';
 import { enableLocation, disableLocation } from '../store/location';
+import { useNavigation } from '@react-navigation/core';
 
-export default function Profile(props) {
+export default function Profile() {
   const user = useSelector((state) => state.user);
   const { token, badgeCount } = useSelector((state) => state.user);
-
+  const { navigate, reset } = useNavigation();
   const dispatch = useDispatch();
-  const { navigation } = props;
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
   let [locationToggle, setLocationToggle] = useState(false);
 
@@ -108,7 +107,6 @@ export default function Profile(props) {
               style={{
                 width: 100,
                 height: 100,
-                backgroundColor: 'white',
                 borderRadius: 50,
               }}
             >
@@ -130,14 +128,14 @@ export default function Profile(props) {
               >
                 <Text
                   style={{
-                    size: 10,
+                    fontSize: 15,
                     color: 'white',
-                    marginLeft: 15,
+                    marginLeft: 12,
                     marginTop: 10,
                     fontWeight: 'bold',
                   }}
                 >
-                  {badgeCount}
+                  {+badgeCount || 0}
                 </Text>
               </View>
             </View>
@@ -145,13 +143,13 @@ export default function Profile(props) {
         </View>
 
         <View style={styles.userButtonWrapper}>
-          <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
+          <TouchableOpacity onPress={() => navigate('Edit Profile')}>
             <View style={styles.editButton}>
               <Text style={styles.editProfileText}>Edit Profile</Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+          <TouchableOpacity onPress={() => dispatch(logOutUser(reset))}>
             <View style={styles.logoutButton}>
               <Text style={styles.logoutText}>Logout</Text>
             </View>
