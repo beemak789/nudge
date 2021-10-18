@@ -282,7 +282,7 @@ export const signUpUser = (email, password, first, last) => {
             fullName: first + last,
             friends: [],
             groups: [],
-            allowNotifications: 'OFF',
+            allowNotifications: 'ON',
           };
 
           const usersRef = firebase.firestore().collection('users');
@@ -322,10 +322,10 @@ export default (state = {}, action) => {
       );
       return { ...state, friends: deleteFriend };
     case DELETE_USER_GROUP:
-        const deleteGroup = [...state.groups].filter(
-          (group) => group.id !== action.groupId
-        );
-        return { ...state, groups: deleteGroup };
+      const deleteGroup = [...state.groups].filter(
+        (group) => group.id !== action.groupId
+      );
+      return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
       const newFriends = [...state.friends];
       if (!state.friends.includes(action.friend)) {
