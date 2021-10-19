@@ -51,7 +51,6 @@ async function sendPushNotification(toExpoToken, from) {
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
-  console.log("USER in friends list", user)
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;

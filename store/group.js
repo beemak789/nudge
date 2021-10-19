@@ -368,6 +368,7 @@ export default (state = initialState, action) => {
           members: state.selectedGroup.members,
           id: action.selectedGroup.id,
           group: action.selectedGroup.group,
+          messages: action.selectedGroup.messages,
         },
       };
     case SET_GROUP_MEMBERS:
@@ -377,6 +378,7 @@ export default (state = initialState, action) => {
           members: action.members,
           id: state.selectedGroup.id,
           group: state.selectedGroup.group,
+          messages: action.messages,
         },
       };
     case CLEAR_GROUPS:

@@ -12,7 +12,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
@@ -22,14 +22,15 @@ import { _addFriend } from '../store/user';
 import { _sendMessage } from '../store/chat';
 import { fetchGroupChat } from '../store/chat';
 
+import { Dimensions } from 'react-native';
+
 // const chats = [
 //   { message: 'hello!', timestamp: '1', from: 'me' },
 //   { message: 'how are you', timestamp: '2', from: 'friend' },
 //   { message: 'need anything?', timestamp: '3', from: 'me' },
 //   { message: 'yes bread', timestamp: '4', from: 'friend' },
 // ];
-
-
+const windowHeight = Number(Dimensions.get('window').height - 250);
 
 const GroupChat = (props) => {
   const [text, onChangeText] = useState('');
@@ -43,7 +44,7 @@ const GroupChat = (props) => {
     return name === user.fullName ? 'me' : 'friend';
   };
   useEffect(() => {
-    console.log('use effect');
+
     dispatch(fetchGroupChat(selectedGroup.id));
     // scrollView.props.scrollToEnd()
   }, [dispatch]);
@@ -54,14 +55,13 @@ const GroupChat = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView style={{padding: 10}}
-      onKeyboardWillShow={() => console.log('hey')}
-      innerRef={ref => {scrollView = ref}}
+      <KeyboardAwareScrollView
+        style={{ padding: 10 }}
       >
-        {/* <ScrollView */}
-          {/* > */}
+        <View style={{ height: windowHeight, display: "flex", flexDirection:"column", justifyContent:"space-between" }}>
+        <ScrollView >
           {chats.map((item) => (
-            <View key = {item.timestamp}>
+            <View key={item.timestamp}>
               <Text style={styles[`${friendType(item.name)}text`]}>
                 {item.name}
               </Text>
@@ -70,7 +70,7 @@ const GroupChat = (props) => {
               </View>
             </View>
           ))}
-        {/* </ScrollView > */}
+        </ScrollView>
         <View
           style={{
             display: 'flex',
@@ -93,6 +93,7 @@ const GroupChat = (props) => {
               size={20}
             />
           </TouchableOpacity>
+        </View>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>

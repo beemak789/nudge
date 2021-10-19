@@ -105,9 +105,25 @@ const SingleGroupList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.search}>
+      <View style= {{display: "flex"}}>
+        <GooglePlacesAutocomplete
+          placeholder="Search"
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            setSearch(data.description);
+          }}
+          onFail={(error) => console.error(error)}
+          query={{
+            key: GOOGLE_PLACES_API,
+            language: 'en',
+          }}
+          styles={autoComplete}
+        ></GooglePlacesAutocomplete>
+      </View>
+      <View style={{ marginLeft: 'auto', height:45, width: "20%", display: "flex", flexDirection:"row", justifyContent :"center", alignItems:"flex-end" }}>
+
         <Icon
-          style={{ marginLeft: 5, marginRight: 50 }}
+          style={{ margin: 5}}
           color="black"
           type="ionicon"
           name="notifications-outline"
@@ -116,21 +132,14 @@ const SingleGroupList = (props) => {
             await sendPushNotification(selectedGroup.members, user.fullName);
           }}
         />
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          onPress={(data, details = null) => {
-            // 'details' is provided when fetchDetails = true
-            console.log(data, details);
-            setSearch(data.description);
-          }}
-          onFail={(error) => console.error(error)}
-          query={{
-            key: GOOGLE_PLACES_API,
-            language: 'en',
-          }}
-        />
-        <View style={{ marginLeft: 'auto', padding: 5 }}>
-          <AntDesign.Button
+
+      </View>
+      <View style={styles.body}>
+        <View style={{display:"flex", flexDirection: "row", justifyContent: "flex-end", alignItems :"center"}}>
+          <TouchableOpacity
+          onPress={() => navigation.navigate('Add Group Task')}
+          style={styles.deleteButton}>
+          {/* <AntDesign.Button
             name="pluscircle"
             size={30}
             color="#83CA9E"
@@ -138,15 +147,18 @@ const SingleGroupList = (props) => {
             onPress={() => {
               navigation.navigate('Add Group Task');
             }}
-          />
+          /> */}
+          <Text style = {{fontWeight: "bold", color:"black"}}> + Add a Task</Text>
+          </TouchableOpacity>
         </View>
-      </View>
 
-      <View style={styles.body}>
-        <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
-        {!tasks ? (
-          <Text>No tasks yet, add one!</Text>
-        ) : tasks.length ? (
+        {tasks.length < 1 ? (
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            margin: 5,
+          }}>No tasks yet, add one!</Text>
+        ) : tasks[0].id ? (
           <FlatList
             data={tasks}
             keyExtractor={(item) => item.id}
@@ -168,9 +180,14 @@ const SingleGroupList = (props) => {
             )}
           ></FlatList>
         ) : (
-          <Text>Loading...</Text>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            margin: 5,
+          }}>Loading...</Text>
         )}
-      </View>
+        </View>
+
     </SafeAreaView>
   );
 };
@@ -200,10 +217,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   body: {
-    flex: 1,
-    justifyContent: 'center',
     padding: 10,
-    zIndex: 2,
+    zIndex: -1,
   },
   save: {
     justifyContent: 'center',
@@ -243,8 +258,8 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    justifyContent: 'space-between',
-    width: 325,
+    flex: 1,
+    justifyContent: 'center',
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
@@ -273,5 +288,70 @@ const styles = StyleSheet.create({
     fontSize: 12,
     // alignSelf: 'flex-end',
     textAlign: 'left',
+  },
+  deleteButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    margin: 10,
+  },
+});
+
+const autoComplete = StyleSheet.create({
+  textInputContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    zIndex: 999,
+    width: '80%',
+    margin: 5,
+  },
+  textInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    height: 45,
+    color: '#5d5d5d',
+    fontSize: 16,
+    borderBottomWidth: 2,
+    borderColor: 'green',
+    borderBottomColor: "#83CA9E",
+    zIndex: 999,
+  },
+  predefinedPlacesDescription: {
+    color: '#1faadb',
+  },
+  listView: {
+    top: 45.5,
+    zIndex: 10,
+    position: 'absolute',
+    color: 'black',
+    backgroundColor: 'white',
+    width: '89%',
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'blue',
+  },
+  description: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontSize: 14,
+    maxWidth: '89%',
   },
 });
