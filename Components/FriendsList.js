@@ -61,7 +61,7 @@ const FriendsList = (props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-      <ScrollView>
+      {/* <ScrollView> */}
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
           style={styles.button}
@@ -132,7 +132,7 @@ const FriendsList = (props) => {
           <Text>Loading...</Text>
         )}
       </View>
-      </ScrollView>
+      {/* </ScrollView> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

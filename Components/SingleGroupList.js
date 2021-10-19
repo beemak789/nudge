@@ -158,7 +158,7 @@ const SingleGroupList = (props) => {
         ) : tasks[0].id ? (
           <FlatList
             data={tasks}
-            keyExtractor={(item) => item.timestamp}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Swipeable
                 renderLeftActions={LeftSwipeActions}

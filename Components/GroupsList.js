@@ -39,11 +39,11 @@ const GroupsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      {/* <KeyboardAvoidingView */}
+        {/* behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
-      >
-        <ScrollView>
+      > */}
+        {/* <ScrollView> */}
           <View style={{ marginLeft: 'auto', padding: 5 }}>
             <AntDesign.Button
               name="pluscircle"
@@ -73,8 +73,8 @@ const GroupsList = (props) => {
               renderItem={({ item }) => <SingleGroup group={item} />}
             ></FlatList>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        {/* </ScrollView> */}
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };
