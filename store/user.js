@@ -7,7 +7,7 @@ const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
 const SET_EXPO_NOTIFICATION_STATUS = 'SET_EXPO_NOTIFICATION_STATUS';
 const SET_EXPO_LOCATION_STATUS = 'SET_EXPO_LOCATION_STATUS';
 const SET_BADGE_COUNT = 'SET_BADGE_COUNT';
-const ADD_PENDING_FRIEND = 'ADD_PENDING_FRIEND';
+const ADD_FRIEND_REQUEST = 'ADD_FRIEND_REQUEST';
 const SET_USER_PENDING_FRIENDS = 'SET_USER_PENDING_FRIENDS';
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
@@ -51,10 +51,10 @@ export const addFriend = (friend, friendId) => {
   };
 };
 
-export const addPendingFriend = (pendingFriend) => {
+export const addFriendRequest = (friendRequest) => {
   return {
-    type: ADD_PENDING_FRIEND,
-    pendingFriend,
+    type: ADD_FRIEND_REQUEST,
+    friendRequest,
   };
 };
 
@@ -281,7 +281,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(userId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
-          pendingFriends: firebase.firestore.FieldValue.arrayRemove(friendId)
+          friendRequests: firebase.firestore.FieldValue.arrayRemove(friendId)
         });
       await firebase
         .firestore()
@@ -307,7 +307,7 @@ export const _addPendingFriend = (userId, friendId) => {
         .collection('users')
         .doc(userId)
         .update({
-          pendingFriends: firebase.firestore.FieldValue.arrayUnion(friendId),
+          friendRequests: firebase.firestore.FieldValue.arrayUnion(friendId),
         });
       await firebase
         .firestore()
@@ -317,7 +317,7 @@ export const _addPendingFriend = (userId, friendId) => {
           pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId)
         });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
-      dispatch(addPendingFriend(friendInfoForState));
+      dispatch(addFriendRequest(friendInfoForState));
     } catch (err) {
       alert(err);
     }
@@ -366,7 +366,7 @@ export const logOutUser = () => {
   };
 };
 
-export const signUpUser = (email, password, first, last, location, reset) => {
+export const signUpUser = (email, password, first, last) => {
   return async (dispatch) => {
     try {
       firebase
@@ -380,6 +380,7 @@ export const signUpUser = (email, password, first, last, location, reset) => {
             email,
             fullName: first + " " + last,
             pendingFriends: [],
+            friendRequests: [],
             friends: [],
             locationStatus: true,
             badgeCount: 0,
@@ -443,12 +444,8 @@ export default (state = {}, action) => {
         (friend) => friend.id !== action.friendId
       );
       return { ...state, friends: newFriends, pendingFriends: deletedPending };
-    case ADD_PENDING_FRIEND:
-        const pendingFriends = [...state.pendingFriends];
-        if (!state.pendingFriends.includes(action.pendingFriend)) {
-          pendingFriends.push(action.pendingFriend);
-        }
-        return { ...state, pendingFriends: pendingFriends };
+    case ADD_FRIEND_REQUEST:
+        return { ...state, friendRequests: [state.friendRequests, action.friendRequest] };
     default:
       return state;
   }
