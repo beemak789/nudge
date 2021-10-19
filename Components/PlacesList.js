@@ -39,7 +39,25 @@ const PlacesList = (props) => {
   }
 
   if (!incomplete.length) {
-    return <NoPlaces />;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.navigate('Add Task');
+            }}
+          >
+            <Icon
+              color="black"
+              type="ionicon"
+              name="pencil-outline"
+              size={20}
+            />
+          </TouchableOpacity>
+        </View>
+        <NoPlaces />
+      </SafeAreaView>)
   }
 
   if (!places.length) {
@@ -187,6 +205,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor:"white"
   },
   container2: {
     flex: 1,
@@ -283,6 +302,24 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
+  button: {
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
+  }
 });
 
 export default PlacesList;

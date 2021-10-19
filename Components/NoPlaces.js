@@ -32,7 +32,7 @@ export const NoPlaces = (props) => {
           style={styles.nudgie}
           source={require('../public/nudgie2.png')}
         />
-        <Text>You have no tasks!</Text>
+        <Text style={{fontWeight: "bold", fontSize: 16, textAlign:"center"}}>Welcome to Nudge! {"\n"} Add a task to get started.</Text>
       </View>
     </SafeAreaView>
   );
