@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -29,18 +29,23 @@ import { fetchGroupChat } from '../store/chat';
 //   { message: 'yes bread', timestamp: '4', from: 'friend' },
 // ];
 
+
+
 const GroupChat = (props) => {
   const [text, onChangeText] = useState('');
   const user = useSelector((state) => state.user);
   const chats = useSelector((state) => state.chat);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const dispatch = useDispatch();
+  let scrollView = useRef();
+  // console.log('scrollview', scrollView.current.scrollToEnd)
   const friendType = (name) => {
     return name === user.fullName ? 'me' : 'friend';
   };
   useEffect(() => {
     console.log('use effect');
     dispatch(fetchGroupChat(selectedGroup.id));
+    // scrollView.props.scrollToEnd()
   }, [dispatch]);
 
   const onSubmit = async () => {
@@ -49,8 +54,12 @@ const GroupChat = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView style={{flex: 1, padding: 10}} behavior="padding">
-        <ScrollView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView style={{padding: 10}}
+      onKeyboardWillShow={() => console.log('hey')}
+      innerRef={ref => {scrollView = ref}}
+      >
+        {/* <ScrollView */}
+          {/* > */}
           {chats.map((item) => (
             <View key = {item.timestamp}>
               <Text style={styles[`${friendType(item.name)}text`]}>
@@ -61,14 +70,13 @@ const GroupChat = (props) => {
               </View>
             </View>
           ))}
-        </ScrollView>
+        {/* </ScrollView > */}
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            margin: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <TextInput
@@ -94,7 +102,6 @@ export default GroupChat;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: 'white',
   },
   title: {
@@ -116,12 +123,12 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 20,
     borderWidth: 1,
-    textAlign: 'center',
+    textAlign: 'right',
     borderColor: 'transparent',
     borderRadius: 4,
     margin: 5,
     padding: 10,
-    width: 290,
+    width: '80%',
     backgroundColor: '#EBF6EF',
     shadowColor: '#000000',
     shadowOpacity: 0.3,
@@ -130,7 +137,6 @@ const styles = StyleSheet.create({
       height: 3,
       width: 3,
     },
-
   },
   button: {
     justifyContent: 'center',
