@@ -153,12 +153,12 @@ const SingleGroupList = (props) => {
 
       <View style={styles.body}>
         <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
-        {tasks.length < 1 ? (
+        {!tasks ? (
           <Text>No tasks yet, add one!</Text>
         ) : tasks[0].id ? (
           <FlatList
             data={tasks}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.timestamp}
             renderItem={({ item }) => (
               <Swipeable
                 renderLeftActions={LeftSwipeActions}

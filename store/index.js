@@ -1,15 +1,15 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import task from './task';
 import user from './user';
 import location from './location';
 import place from './places';
 import groups from './group';
+import chat from './chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const appReducer = combineReducers({ task, user, location, place, groups });
+const appReducer = combineReducers({ task, user, location, place, groups, chat});
 
 const persistConfig = {
   key: 'root',
