@@ -20,6 +20,7 @@ const EditGroup = (props) => {
   const { groups } = useSelector((state) => state.groups);
   const [text, onChangeText] = useState(selectedGroup.group.name);
   const [members, setMembers] = useState([]);
+  const [selectedMembers, setSelected] = useState([]);
   const friends = useSelector((state) => state.user.friends);
 
   const nonGroupFriends = friends.filter(
@@ -31,21 +32,20 @@ const EditGroup = (props) => {
   }, []);
 
   const onSubmit = () => {
-    console.log(text, members);
-    // dispatch(
-    //   _editGroup({
-    //   groupId: selectedGroup.id,
-    // //     name: text,
-    //     members,
-    //   })
-    // );
+    dispatch(
+      _editGroup({
+        groupId: selectedGroup.id,
+        name: text,
+        members,
+      })
+    );
 
-    // onChangeText('');
-    // setMembers([]);
+    onChangeText('');
+    setMembers([]);
 
-    // props.navigation.navigate('Single Group Stack', {
-    //   screen: 'Group Settings',
-    // });
+    props.navigation.navigate('Single Group Stack', {
+      screen: 'Group Settings',
+    });
   };
 
   return (
@@ -107,20 +107,25 @@ const EditGroup = (props) => {
                 <TouchableOpacity
                   key={friend.id}
                   style={
-                    members.includes(friend.id)
+                    selectedMembers.includes(friend.id)
                       ? styles.selected
                       : styles.notSelected
                   }
                   onPress={() => {
-                    if (members.includes(friend.id)) {
+                    if (selectedMembers.includes(friend.id)) {
                       //do not highlight
-                      const filteredCategories = members.filter(
+                      const filteredCategories = selectedMembers.filter(
                         (removeType) => removeType !== friend.id
                       );
-                      setMembers(filteredCategories);
+                      const filteredMembers = members.filter(
+                        (member) => member.id !== friend.id
+                      );
+                      setSelected(filteredCategories);
+                      setMembers(filteredMembers);
                     } else {
                       //highlgiht
-                      setMembers([...members, friend.id]);
+                      setSelected([...selectedMembers, friend.id]);
+                      setMembers([...members, friend]);
                     }
                   }}
                 >
