@@ -16,40 +16,40 @@ const Stack = createNativeStackNavigator();
 
 const DisplayPlacesStack = (props) => {
   // this checks what categories the current task has, and conditionally renders the lists based on it. So if chocolate can be found at both a pharmacy and a grocery store, it'll pull other items that can be found at both pharmacies and grocery stores from your task list, pull items that can only be found in grocery stores, and pull items that can only be found in pharmacies in separate tabs
-  const { currTask, incomplete } = useSelector((state) => state.task);
+  // const { currTask, incomplete } = useSelector((state) => state.task);
 
-  let tabs = [];
-  if (currTask.category.length > 1) {
-    tabs = [{ All: [] }];
-  }
+  // let tabs = [];
+  // if (currTask.category.length > 1) {
+  //   tabs = [{ All: [] }];
+  // }
 
-  currTask.category.forEach((type) => {
-    if (type !== 'other') {
-      let newType = {};
-      newType[type] = [];
-      tabs.push(newType);
-    }
-  });
+  // currTask.category.forEach((type) => {
+  //   if (type !== 'other') {
+  //     let newType = {};
+  //     newType[type] = [];
+  //     tabs.push(newType);
+  //   }
+  // });
 
-  incomplete.forEach((task) => {
-    let lastIdx = task.category.length - 1;
-    let all = true;
-    task.category.forEach((category, idx) => {
-      if (currTask.category.includes(category)) {
-        tabs.forEach((tab) => {
-          if (Object.keys(tab)[0] === category) {
-            tab[Object.keys(tab)[0]].push(task);
-          }
-        });
-      } else {
-        all = false;
-      }
+  // incomplete.forEach((task) => {
+  //   let lastIdx = task.category.length - 1;
+  //   let all = true;
+  //   task.category.forEach((category, idx) => {
+  //     if (currTask.category.includes(category)) {
+  //       tabs.forEach((tab) => {
+  //         if (Object.keys(tab)[0] === category) {
+  //           tab[Object.keys(tab)[0]].push(task);
+  //         }
+  //       });
+  //     } else {
+  //       all = false;
+  //     }
 
-      if (currTask.category.length > 1 && idx === lastIdx && all === true) {
-        tabs[0].All.push(task);
-      }
-    });
-  });
+  //     if (currTask.category.length > 1 && idx === lastIdx && all === true) {
+  //       tabs[0].All.push(task);
+  //     }
+  //   });
+  // });
 
   return (
     <>
