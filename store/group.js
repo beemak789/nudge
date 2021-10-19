@@ -2,7 +2,7 @@ import { firebase } from '../config/firebase';
 import { deleteUserGroup, _fetchSingleFriendInfo } from './user';
 
 const SET_GROUPS = 'SET_GROUPS';
-const ADD_GROUP = 'CREATE_GROUP';
+const ADD_GROUP = 'ADD_GROUP';
 const SELECT_GROUP = 'SELECT_GROUP';
 const DELETE_GROUP = 'DELETE_GROUP';
 const CLEAR_GROUPS = 'CLEAR_GROUPS';
