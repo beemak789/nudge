@@ -15,9 +15,15 @@ import { useDispatch } from 'react-redux';
 import { _createTask, _updateTask } from '../store/task';
 
 const EditTask = (props) => {
-  const [taskName, onChangeTaskName] = useState(`${props.route.params.item.name}`);
-  const [priority, setPriority] = useState(`${props.route.params.item.priority}`);
-  const [category, addCategory] = useState([`${props.route.params.item.category}`]);
+  const [taskName, onChangeTaskName] = useState(
+    `${props.route.params.item.name}`
+  );
+  const [priority, setPriority] = useState(
+    `${props.route.params.item.priority}`
+  );
+  const [category, addCategory] = useState([
+    `${props.route.params.item.category}`,
+  ]);
   const dispatch = useDispatch();
   const types = [
     'supermarket',
@@ -62,15 +68,35 @@ const EditTask = (props) => {
     other: 'other',
   };
   const onSubmit = () => {
-    dispatch(_updateTask({
-      id: props.route.params.item.id,
-      name: taskName,
-      priority,
-      category
-    }))
+    if (!taskName.trim()) {
+      alert('Please enter a task item!');
+      return;
+    }
+
+    if (!category.length) {
+      dispatch(
+        _updateTask({
+          id: props.route.params.item.id,
+          name: taskName,
+          priority,
+
+          category: ['other'],
+        })
+      );
+    } else {
+      dispatch(
+        _updateTask({
+          id: props.route.params.item.id,
+          name: taskName,
+          priority,
+          category,
+        })
+      );
+    }
+
     props.navigation.navigate('Categories Stack', {
       screen: 'Task List',
-    })
+    });
   };
 
   return (
@@ -92,15 +118,17 @@ const EditTask = (props) => {
           />
         </View>
         <View>
-        <Text
+          <Text
             style={{
               fontSize: 20,
               textAlign: 'left',
               fontWeight: 'bold',
               margin: 10,
             }}
-          >Change location</Text>
-        <View style={{ height: 100 }}>
+          >
+            Change location
+          </Text>
+          <View style={{ height: 100 }}>
             <ScrollView
               style={{ height: 30 }}
               showsHorizontalScrollIndicator={false}
@@ -150,8 +178,10 @@ const EditTask = (props) => {
               fontWeight: 'bold',
               margin: 10,
             }}
-          >Change priority</Text>
-        <View
+          >
+            Change priority
+          </Text>
+          <View
             style={{
               flexDirection: 'row',
               margin: 3,
@@ -213,7 +243,7 @@ const EditTask = (props) => {
               </Text>
             </TouchableOpacity>
           </View>
-          </View>
+        </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
           <Text style={styles.saveText}>update</Text>
         </TouchableOpacity>

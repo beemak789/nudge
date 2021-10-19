@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -12,16 +12,39 @@ import * as Linking from 'expo-linking';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { _deleteTask, _updateCompleteStatus } from '../store/task';
-import { _fetchPlaces } from '../store/places';
+import { _fetchPlaces, clearPlaces } from '../store/places';
 
 import { ReviewStars } from '../services/StarRating';
 import { Icon } from 'react-native-elements';
+import { Shuffle, NoPlaces } from './NoPlaces';
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places } = useSelector((state) => state.place);
-  const { currTask } = useSelector((state) => state.task);
+  const { incomplete, currTask } = useSelector((state) => state.task);
   const location = useSelector((state) => state.location);
+
+  useEffect(() => {
+    if (!currTask.id) {
+      dispatch(clearPlaces());
+    }
+  }, [currTask.id]);
+
+  if (!places.length && currTask.id) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!incomplete.length) {
+    return <NoPlaces />;
+  }
+
+  if (!places.length) {
+    return <Shuffle />;
+  }
 
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
@@ -103,38 +126,38 @@ const PlacesList = (props) => {
                 style={{ margin: 5, marginBottom: 0 }}
                 onPress={() => generateLink(item)}
               >
-                <View style= {{borderWidth: 1, borderColor: "transparent"}}>
-                    <View style={styles.rowDirection}>
-                            <Text
-                              style={{
-                                fontWeight: 'bold',
-                                justifyContent: 'flex-start',
-                              }}
-                            >
-                              {item.name}
-                            </Text>
-                            <Text syle={{ justifyContent: 'center' }}>
-                              {item.marker && location.coords
-                                ? `${returnDistance(item)} miles`
-                                : null}
-                            </Text>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      {item.rating && (
-                        <View>
-                          <View style={styles.startReviewsContainer}>
-                            <ReviewStars stars={item.rating} />
-                            <Text style={styles.rating}>
-                              {item.rating.toFixed(1)}
-                            </Text>
-                          </View>
-                          <View>
-                            <Text>{item.vicinity}</Text>
-                          </View>
+                <View style={{ borderWidth: 1, borderColor: 'transparent' }}>
+                  <View style={styles.rowDirection}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        justifyContent: 'flex-start',
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text syle={{ justifyContent: 'center' }}>
+                      {item.marker && location.coords
+                        ? `${returnDistance(item)} miles`
+                        : null}
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    {item.rating ? (
+                      <View>
+                        <View style={styles.startReviewsContainer}>
+                          <ReviewStars stars={item.rating} />
+                          <Text style={styles.rating}>
+                            {item.rating.toFixed(1)}
+                          </Text>
                         </View>
-                      )}
-                    </View>
-                <Divider orientation="horizontal" />
+                        <View>
+                          <Text>{item.vicinity}</Text>
+                        </View>
+                      </View>
+                    ) : null}
+                  </View>
+                  <Divider orientation="horizontal" />
                 </View>
               </TouchableOpacity>
             )}
@@ -175,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor:"white",
+    backgroundColor: 'white',
     padding: 5,
   },
   startReviewsContainer: {

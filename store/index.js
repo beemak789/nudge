@@ -9,7 +9,14 @@ import groups from './group';
 import chat from './chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const appReducer = combineReducers({ task, user, location, place, groups, chat});
+const appReducer = combineReducers({
+  task,
+  user,
+  location,
+  place,
+  groups,
+  chat,
+});
 
 const persistConfig = {
   key: 'root',
