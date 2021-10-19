@@ -66,7 +66,7 @@ export default function Profile() {
           source={require('../public/nudgie2.png')}
         />
         <View>
-          <Text style={styles.title}>My Profile</Text>
+          <Text style={styles.title}>Profile</Text>
         </View>
 
         <View style={userFields.fields}>
@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
     margin: 'auto',
   },
   title: {
-    marginTop: 20,
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',

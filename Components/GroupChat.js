@@ -24,12 +24,6 @@ import { fetchGroupChat } from '../store/chat';
 
 import { Dimensions } from 'react-native';
 
-// const chats = [
-//   { message: 'hello!', timestamp: '1', from: 'me' },
-//   { message: 'how are you', timestamp: '2', from: 'friend' },
-//   { message: 'need anything?', timestamp: '3', from: 'me' },
-//   { message: 'yes bread', timestamp: '4', from: 'friend' },
-// ];
 const windowHeight = Number(Dimensions.get('window').height - 250);
 
 const GroupChat = (props) => {

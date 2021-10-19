@@ -63,10 +63,10 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-       <KeyboardAvoidingView
+       {/* <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
-      >
+      > */}
       {/* <ScrollView> */}
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
@@ -168,7 +168,7 @@ const FriendsList = (props) => {
         )}
       </View>
       {/* </ScrollView> */}
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };

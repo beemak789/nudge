@@ -4,6 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup, fetchUserGroups } from '../store/group';
 import { useNavigation } from '@react-navigation/core';
 
+import { Dimensions } from 'react-native';
+
+const windowWidth = Number(Dimensions.get('window').width);
+
 const SingleGroup = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -14,18 +18,18 @@ const SingleGroup = (props) => {
   }, [dispatch]);
 
   return (
-    <View style={styles.box}>
-      <View style={styles.info}>
-        <TouchableOpacity
-          onPress={async () => {
-            await dispatch(selectGroup(props.group.id));
-            navigation.navigate('Single Group Stack');
-          }}
-        >
+    <TouchableOpacity
+      onPress={async () => {
+        await dispatch(selectGroup(props.group.id));
+        navigation.navigate('Single Group Stack');
+      }}
+    >
+      <View style={styles.box}>
+        <View style={styles.info}>
           <Text style={styles.buttonText}>{props.group.name}</Text>
-        </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -50,9 +54,10 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    width: 250,
+    width: windowWidth * 0.8,
     alignItems: 'baseline',
-    margin: 20,
+    marginBottom: 10,
+    marginTop: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
