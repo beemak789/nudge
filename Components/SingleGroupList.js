@@ -146,7 +146,7 @@ const SingleGroupList = (props) => {
         <Text style={styles.title}>{selectedGroup.group.name} Tasks</Text>
         {!tasks ? (
           <Text>No tasks yet, add one!</Text>
-        ) : tasks[0].id ? (
+        ) : tasks.length ? (
           <FlatList
             data={tasks}
             keyExtractor={(item) => item.id}
