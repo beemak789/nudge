@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,100 +10,91 @@ import {
   View,
   Image,
   FlatList,
+  ScrollView,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements';
 import { _addFriend } from '../store/user';
+import { _sendMessage } from '../store/chat';
+import { fetchGroupChat } from '../store/chat';
 
-const chats = [
-  { message: 'hello!', timestamp: '1', from: 'me' },
-  { message: 'how are you', timestamp: '2', from: 'friend' },
-  { message: 'need anything?', timestamp: '3', from: 'me' },
-  { message: 'yes bread', timestamp: '4', from: 'friend' },
-];
+// const chats = [
+//   { message: 'hello!', timestamp: '1', from: 'me' },
+//   { message: 'how are you', timestamp: '2', from: 'friend' },
+//   { message: 'need anything?', timestamp: '3', from: 'me' },
+//   { message: 'yes bread', timestamp: '4', from: 'friend' },
+// ];
+
+
 
 const GroupChat = (props) => {
   const [text, onChangeText] = useState('');
-  const [friends, friendsList] = useState();
   const user = useSelector((state) => state.user);
+  const chats = useSelector((state) => state.chat);
+  const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const dispatch = useDispatch();
-  const tasklistRef = useRef(null);
-
-  const onChangeSearch = async () => {
-    friendsList();
-    const lowerText = text.toLowerCase();
-    const query = await firebase
-      .firestore()
-      .collection('users')
-      .where('email', '==', lowerText)
-      .get()
-      .then((snapshot) => {
-        if (snapshot.doc === undefined) {
-          friendsList({ error: 'No one by this email' });
-        }
-        snapshot.forEach((doc) => {
-          friendsList(doc.data());
-        });
-      });
+  let scrollView = useRef();
+  // console.log('scrollview', scrollView.current.scrollToEnd)
+  const friendType = (name) => {
+    return name === user.fullName ? 'me' : 'friend';
   };
+  useEffect(() => {
+    console.log('use effect');
+    dispatch(fetchGroupChat(selectedGroup.id));
+    // scrollView.props.scrollToEnd()
+  }, [dispatch]);
 
+  const onSubmit = async () => {
+    dispatch(_sendMessage(selectedGroup.id, text, user.fullName));
+    onChangeText('');
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={{ alignItems: 'center' }}
-        behavior="position"
+      <KeyboardAwareScrollView style={{padding: 10}}
+      onKeyboardWillShow={() => console.log('hey')}
+      innerRef={ref => {scrollView = ref}}
       >
+        {/* <ScrollView */}
+          {/* > */}
+          {chats.map((item) => (
+            <View key = {item.timestamp}>
+              <Text style={styles[`${friendType(item.name)}text`]}>
+                {item.name}
+              </Text>
+              <View style={styles[friendType(item.name)]}>
+                <Text style={styles.chatMessage}>{item.message}</Text>
+              </View>
+            </View>
+          ))}
+        {/* </ScrollView > */}
         <View
-          style={{ marginBottom: 30, display: 'flex', flexDirection: 'column' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <View style={{ width: 350 }}>
-            <Text style={styles.title}>Chat</Text>
-            <FlatList
-              ref={tasklistRef}
-              data={chats}
-              keyExtractor={(item) => item.timestamp}
-              renderItem={({ item }) => (
-                <View>
-                  <Text style={styles[`${item.from}text`]}>{item.from}</Text>
-                  <View style={styles[item.from]}>
-                    <Text style={styles.chatMessage}>{item.message}</Text>
-                  </View>
-                </View>
-              )}
-              onContentSizeChange={() => tasklistRef.current.scrollToEnd()}
-              onLayout={() => tasklistRef.current.scrollToEnd()}
-            ></FlatList>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <TextInput
-              style={styles.message}
-              onChangeText={(value) => {
-                friendsList('');
-                onChangeText(value);
-              }}
-              value={text}
-              placeholder=""
+          <TextInput
+            style={styles.message}
+            onChangeText={onChangeText}
+            value={text}
+            placeholder=""
+          />
+          <TouchableOpacity onPress={onSubmit} style={styles.send}>
+            <Icon
+              color="black"
+              type="ionicon"
+              name="paper-plane-outline"
+              size={20}
             />
-            <TouchableOpacity onPress={onChangeSearch} style={styles.send}>
-              <Icon
-                color="black"
-                type="ionicon"
-                name="paper-plane-outline"
-                size={20}
-              />
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
@@ -111,7 +102,6 @@ export default GroupChat;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: 'white',
   },
   title: {
@@ -119,11 +109,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     margin: 5,
-  },
-  nudgie: {
-    height: 150,
-    width: 150,
-    borderRadius: 24,
   },
   send: {
     margin: 5,
@@ -138,12 +123,12 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 20,
     borderWidth: 1,
-    textAlign: 'center',
+    textAlign: 'right',
     borderColor: 'transparent',
     borderRadius: 4,
     margin: 5,
     padding: 10,
-    width: 290,
+    width: '80%',
     backgroundColor: '#EBF6EF',
     shadowColor: '#000000',
     shadowOpacity: 0.3,
