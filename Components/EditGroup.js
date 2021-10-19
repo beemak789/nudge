@@ -32,6 +32,11 @@ const EditGroup = (props) => {
   }, []);
 
   const onSubmit = () => {
+    if (!text.trim()) {
+      alert('Please enter a group name!');
+      return;
+    }
+
     dispatch(
       _editGroup({
         groupId: selectedGroup.id,

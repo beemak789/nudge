@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
-import { useNavigation } from '@react-navigation/core';
 
 const images = {
   supermarket: require('../public/supermarket.png'),
@@ -70,8 +69,12 @@ const AddTask = (props) => {
   const [category, addCategory] = useState([]);
   const dispatch = useDispatch();
 
-
   const onSubmit = () => {
+    if (!text.trim()) {
+      alert('Please enter a task item!');
+      return;
+    }
+
     if (!category.length) {
       dispatch(
         _createTask({
@@ -254,7 +257,7 @@ const AddTask = (props) => {
         <TouchableOpacity
           style={styles.save}
           onPress={() =>
-            navigate('Categories Stack', {
+            props.navigation.navigate('Categories Stack', {
               screen: 'Task List',
             })
           }

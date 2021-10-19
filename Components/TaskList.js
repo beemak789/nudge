@@ -29,8 +29,8 @@ import { updateBadgeCount } from '../store/user';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
-  const { incomplete } = useSelector((state) => state.task);
   const { navigate } = useNavigation();
+  const { incomplete } = useSelector((state) => state.task);
   const user = useSelector((state) => state.user);
   const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,6 +42,7 @@ const taskList = (props) => {
   const updateCompleteStatus = (item) => {
     dispatch(_updateCompleteStatus(item, setModalVisible));
   };
+
   const deleteTask = (itemId) => {
     dispatch(_deleteTask(itemId));
   };
@@ -91,7 +92,8 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri:
+                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>

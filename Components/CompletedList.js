@@ -32,34 +32,9 @@ const CompletedList = (props) => {
 
   const completeTasks = tasks.filter((task) => task.completed === true);
 
-
   useEffect(() => {
     dispatch(_fetchAllTasks());
   }, [dispatch]);
-
-  if (!tasks.length) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text style={styles.noTasksText}>You don't have any tasks...</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={(props) => {
-              navigation.navigate('Add Task');
-            }}
-          >
-            <Image
-              style={styles.nudgie}
-              source={require('../public/nudgie2.png')}
-            />
-            <Text style={styles.buttonText}>Add a Task!</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-
 
   const updateCompleteStatus = (item) => {
     dispatch(_updateIncompleteStatus(item));

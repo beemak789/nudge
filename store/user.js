@@ -47,7 +47,7 @@ export const addFriend = (friend, friendId) => {
   return {
     type: ADD_FRIEND,
     friend,
-    friendId
+    friendId,
   };
 };
 
@@ -281,7 +281,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(userId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
-          friendRequests: firebase.firestore.FieldValue.arrayRemove(friendId)
+          friendRequests: firebase.firestore.FieldValue.arrayRemove(friendId),
         });
       await firebase
         .firestore()
@@ -289,7 +289,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(friendId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(userId),
-          pendingFriends: firebase.firestore.FieldValue.arrayRemove(userId)
+          pendingFriends: firebase.firestore.FieldValue.arrayRemove(userId),
         });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addFriend(friendInfoForState, friendId));
@@ -314,7 +314,7 @@ export const _addPendingFriend = (userId, friendId) => {
         .collection('users')
         .doc(friendId)
         .update({
-          pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId)
+          pendingFriends: firebase.firestore.FieldValue.arrayUnion(userId),
         });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addFriendRequest(friendInfoForState));
@@ -378,7 +378,7 @@ export const signUpUser = (email, password, first, last) => {
           const data = {
             id: uid,
             email,
-            fullName: first + " " + last,
+            fullName: first + ' ' + last,
             pendingFriends: [],
             friendRequests: [],
             friends: [],
@@ -446,7 +446,10 @@ export default (state = {}, action) => {
       );
       return { ...state, friends: newFriends, pendingFriends: deletedPending };
     case ADD_FRIEND_REQUEST:
-        return { ...state, friendRequests: [state.friendRequests, action.friendRequest] };
+      return {
+        ...state,
+        friendRequests: [state.friendRequests, action.friendRequest],
+      };
     default:
       return state;
   }
