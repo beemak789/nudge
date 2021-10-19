@@ -109,7 +109,7 @@ const SignUp = (props) => {
         </TouchableOpacity>
         <Text style={{ marginTop: 20 }}>Existing User?</Text>
         <TouchableOpacity
-          onPress={() => navigate('LogIn')}
+          onPress={() => navigate('Log In')}
           style={styles.button}
         >
           <Text style={styles.loginText}>Log In!</Text>

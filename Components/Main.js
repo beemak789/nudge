@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, LogBox } from 'react-native';
 import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { Icon } from 'react-native-elements';
-
+LogBox.ignoreAllLogs();
 // components
 import LogIn from './LogIn';
 import SignUp from './SignUp';
