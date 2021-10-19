@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
   View,
   FlatList,
   TouchableOpacity,
@@ -30,8 +29,6 @@ import {
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
-import { deleteGroup } from '../store/group';
-import { deleteUserGroup } from '../store/user';
 
 // // _______SEND NOTIFICATION ________
 // async function sendPushNotification(toExpoToken, from) {
@@ -72,12 +69,6 @@ const SingleGroupList = (props) => {
   useEffect(() => {
     dispatch(_fetchGroupMembers(selectedGroup.group.members));
   }, [dispatch]);
-
-  const _deleteGroup = async () => {
-    await dispatch(deleteUserGroup(selectedGroup.id));
-    await dispatch(deleteGroup(selectedGroup.id, selectedGroup.group.members));
-    navigation.navigate('Group List');
-  };
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
@@ -180,22 +171,6 @@ const SingleGroupList = (props) => {
           <Text>Loading...</Text>
         )}
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          _deleteGroup();
-        }}
-      >
-        <View style={styles.deleteButton}>
-          <Icon
-            style={{ marginRight: 5 }}
-            color="black"
-            type="ionicon"
-            name="trash-outline"
-            size={22}
-          />
-          <Text style={styles.deleteText}>Delete Group</Text>
-        </View>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -297,32 +272,6 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 12,
     // alignSelf: 'flex-end',
-    textAlign: 'left'
-  },
-  deleteButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    borderColor: 'transparent',
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    margin: 10,
-  },
-  deleteText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
   },
 });
