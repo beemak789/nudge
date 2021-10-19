@@ -28,17 +28,27 @@ const AddGroup = (props) => {
   }, []);
 
   const onSubmit = () => {
-    dispatch(
-      createGroup({
-        name: text,
-        members,
-      })
-    );
+    if (!text.trim()){
+      alert('Please enter a group name!');
+      return;
+    }
+    if (members.length === 1) {
+      alert('Please add some group members!');
+      return;
+    } else {
+      dispatch(
+        createGroup({
+          name: text,
+          members,
+        })
+      );
 
-    onChangeText('');
-    setMembers([user.id]);
+      onChangeText('');
+      setMembers([user.id]);
 
-    props.navigation.navigate('Group List');
+      props.navigation.navigate('Group List');
+    }
+
   };
 
   return (

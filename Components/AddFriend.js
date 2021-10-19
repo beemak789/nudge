@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements'
-import { _addFriend } from '../store/user';
+import { _addPendingFriend} from '../store/user';
 
 
 
@@ -23,6 +23,7 @@ const AddFriend = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch()
   const numFriends = user.friends.length || 0
+
   const onChangeSearch = async () => {
     friendsList()
     const lowerText = text.toLowerCase()
@@ -41,14 +42,14 @@ const AddFriend = (props) => {
     })
   }
 
-  const addToFriends = async() => {
+  const sendFriendRequest = async() => {
     for(let i = 0; i < numFriends; i++){
       if(user.friends[i].id === friends.id){
         friendsList({error: 'This person is already your friend'})
         return
       }
     }
-    dispatch(_addFriend(user.id, friends.id))
+    dispatch(_addPendingFriend(user.id, friends.id))
 
     friendsList()
     onChangeText('')
@@ -86,7 +87,7 @@ const AddFriend = (props) => {
       style={styles.search}><Icon color="black" type="ionicon" name="search-outline" size={20} /></TouchableOpacity>
       </View>
       </View>
-      { (friends) ? ((!friends.error) ? <TouchableOpacity onPress={addToFriends}>
+      { (friends) ? ((!friends.error) ? <TouchableOpacity onPress={sendFriendRequest}>
       <View style={styles.box}>
           <Text style={styles.item}>{friends.fullName}</Text>
           <Icon style={{marginRight: 10}} color="black" type="ionicon" name="person-add-outline" size={20} />
