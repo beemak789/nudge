@@ -21,11 +21,21 @@ const SingleGroupStack = (props) => {
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   return (
     <>
-      <SafeAreaView>
-        <Text>{selectedGroup.group.name}</Text>
+      <SafeAreaView style={{ backgroundColor: 'white' }}>
+        <Text
+          style={{
+            fontSize: 30,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            margin: 5,
+            backgroundColor: 'white',
+          }}
+        >
+          {selectedGroup.group.name}
+        </Text>
       </SafeAreaView>
       <Tab.Navigator
-        initialRouteName="Single Group List"
+        initialRouteName="Group Tasks"
         screenOptions={{
           activeTintColor: 'white',
           itemStyle: { marginVertical: 10 },
@@ -34,11 +44,7 @@ const SingleGroupStack = (props) => {
           // style: { position: 'relative', top: 100 },
         }}
       >
-        <Tab.Screen
-          name="Single Group List"
-          component={SingleGroupList}
-          {...props}
-        />
+        <Tab.Screen name="Group Tasks" component={SingleGroupList} {...props} />
 
         <Tab.Screen
           name="Group Chat"

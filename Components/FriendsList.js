@@ -51,7 +51,6 @@ async function sendPushNotification(toExpoToken, from) {
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
-  console.log("USER in friends list", user)
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
@@ -64,10 +63,10 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-       <KeyboardAvoidingView
+       {/* <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
-      >
+      > */}
       {/* <ScrollView> */}
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
@@ -169,7 +168,7 @@ const FriendsList = (props) => {
         )}
       </View>
       {/* </ScrollView> */}
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };

@@ -61,7 +61,7 @@ const AddGroup = (props) => {
               props.navigation.navigate('Group List');
             }}
           >
-            <Text style={styles.buttonText}>Back</Text>
+            <Text style={{fontWeight: "bold"}}>Back</Text>
           </TouchableOpacity>
         ) : (
           <View style={{ height: 73 }}></View>
@@ -215,6 +215,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
     marginTop: 10,
   },
   box: {

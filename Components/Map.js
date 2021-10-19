@@ -9,9 +9,9 @@ const LAT_DELTA = 0.0421;
 
 const Map = (props) => {
   const { places } = useSelector((state) => state.place);
+
   const { coords: userLocation } = useSelector((state) => state.location);
-  // console.log('MY LOCATION----->', userLocation);
-  console.log('THE PLACES ---->', places[0]);
+
 
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');

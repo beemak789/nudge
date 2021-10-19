@@ -40,28 +40,17 @@ export default function SingleGroupSettings(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('Groups Stack', {
-                screen: 'Edit Group',
-              });
-            }}
-          >
-            <AntDesign name="setting" size={22} color="black" />
-          </TouchableOpacity>
-        </View>
         <View
           style={{
             margin: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
+            display:"flex",
+            flexDirection:"column",
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
             flex: 1,
           }}
         >
-          <Text style={styles.title}>{selectedGroup.group.name}</Text>
+          <Text style={styles.subtitle}>Members</Text>
 
           <FlatList
             data={selectedGroup.members}
@@ -85,34 +74,47 @@ export default function SingleGroupSettings(props) {
               </View>
             )}
           ></FlatList>
-          <TouchableOpacity
-            onPress={() => {
-              _leaveGroup();
-            }}
-          >
-            <View style={styles.deleteButton}>
-              <FontAwesome5 name="door-open" size={24} color="black" />
-              <Text style={styles.deleteText}>Leave Group</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              _deleteGroup();
-            }}
-          >
-            <View style={styles.deleteButton}>
-              <Icon
-                style={{ marginRight: 5 }}
-                color="black"
-                type="ionicon"
-                name="trash-outline"
-                size={22}
-              />
-              <Text style={styles.deleteText}>Delete Group</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={{display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center", width:"100%"}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Groups Stack', {
+                  screen: 'Edit Group',
+                });
+              }}
+            >
+              <View style={styles.deleteButton}>
+                <AntDesign name="setting" size={22} color="black" />
+                <Text style={styles.deleteText}>Edit</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                _leaveGroup();
+              }}
+            >
+              <View style={styles.deleteButton}>
+                <FontAwesome5 name="door-open" size={22} color="black" />
+                <Text style={styles.deleteText}>Leave</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                _deleteGroup();
+              }}
+            >
+              <View style={styles.deleteButton}>
+                <Icon
+                  color="black"
+                  type="ionicon"
+                  name="trash-outline"
+                  size={21}
+                />
+                <Text style={styles.deleteText}>Delete</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -129,9 +131,8 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 24,
   },
-  title: {
-    fontSize: 30,
-    textAlign: 'center',
+  subtitle: {
+    fontSize: 20,
     fontWeight: 'bold',
     margin: 5,
   },

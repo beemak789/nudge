@@ -22,6 +22,7 @@ import SingleGroup from './SingleGroup';
 import AddGroup from './AddGroup';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Icon } from 'react-native-elements';
 
 const GroupsList = (props) => {
   const dispatch = useDispatch();
@@ -39,41 +40,39 @@ const GroupsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <KeyboardAvoidingView */}
-        {/* behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
-      > */}
-        {/* <ScrollView> */}
-          <View style={{ marginLeft: 'auto', padding: 5 }}>
-            <AntDesign.Button
-              name="pluscircle"
-              size={30}
-              color="#83CA9E"
-              backgroundColor="transparent"
-              onPress={() => {
-                props.navigation.navigate('Add Group');
-              }}
-            />
-            <AntDesign.Button
-              name="pluscircle"
-              size={30}
-              color="red"
-              backgroundColor="transparent"
-              onPress={() => {
-                dispatch(clearGroups());
-              }}
-            />
-          </View>
-          <Text style={styles.title}>My Groups</Text>
+      <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.navigation.navigate('Add Group');
+          }}
+        >
+          <Icon color="black" type="ionicon" name="people-outline" size={20} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          marginTop: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          source={require('../public/nudgie2.png')}
+          style={styles.nudgie}
+        />
+      </View>
+      <Text style={styles.title}>Groups</Text>
 
-          <View style={styles.body}>
-            <FlatList
-              data={groups}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <SingleGroup group={item} />}
-            ></FlatList>
-          </View>
-        {/* </ScrollView> */}
+      <View style={styles.body}>
+        <FlatList
+          contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}
+          data={groups}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <SingleGroup group={item} />}
+        ></FlatList>
+      </View>
+      {/* </ScrollView> */}
       {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
@@ -85,9 +84,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 20,
+    // alignItems: 'center',
+    // justifyContent: 'space-evenly',
+    // padding: 20,
   },
   completedButton: {
     marginRight: 10,
@@ -102,9 +101,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   body: {
+    width: '100%',
     flex: 1,
-    justifyContent: 'center',
-    padding: 10,
+    marginTop: 20,
   },
   image: {
     width: 80,
@@ -153,20 +152,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   button: {
-    backgroundColor: '#EBF6EF',
-    padding: 5,
-    borderRadius: 25,
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderColor: '#FFFFFF',
-    margin: 5,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
     shadowOffset: {
-      height: 1,
-      width: -2,
+      height: 2,
+      width: 2,
     },
-    elevation: 2,
+    marginTop: 10,
   },
   buttonText: {
     color: '#4a7c59',
@@ -174,15 +175,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   nudgie: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'transparent',
-    margin: 5,
+    width: 150,
+    height: 150,
+    borderRadius: 24,
   },
   title: {
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
-    margin: 5,
+    marginTop: 5,
   },
 });
