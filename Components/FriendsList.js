@@ -15,9 +15,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
 import { Icon } from 'react-native-elements';
 import {
+  _addFriend,
   _deleteFriend,
   _fetchSingleFriendInfo,
   _fetchUserFriends,
+  _fetchUserPendingFriends,
 } from '../store/user';
 
 // _______SEND NOTIFICATION ________
@@ -49,11 +51,16 @@ async function sendPushNotification(toExpoToken, from) {
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
+  console.log("USER in friends list", user)
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
+  const numPendingFriends = user.pendingFriends.length || 0;
+
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
+    dispatch(_fetchUserPendingFriends(user));
   }, [dispatch]);
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,6 +97,35 @@ const FriendsList = (props) => {
           style={styles.nudgie}
         />
         <Text style={styles.title}>Your Nudgies</Text>
+          {numPendingFriends < 1 ? (
+            <Text>No pending friend requests</Text>
+          ) : user.pendingFriends[0].id ? (
+            <FlatList
+              data={user.pendingFriends}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.pendingBox}>
+                  <Text style={styles.pending}>{item.fullName}</Text>
+                  <TouchableOpacity
+                  onPress={() => {
+                    dispatch(_addFriend(user.id, item.id));
+                  }}
+                >
+                  <Icon
+                    style={{ marginRight: 5 }}
+                    color="black"
+                    type="ionicon"
+                    name="people-outline"
+                    size={22}
+                  />
+                </TouchableOpacity>
+                </View>
+              )}
+            ></FlatList>
+          ): (
+            <Text>Loading...</Text>
+          )
+      }
         {numFriends < 1 ? (
           <Text>No friends</Text>
         ) : user.friends[0].id ? (
@@ -143,8 +179,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   nudgie: {
     height: 150,
@@ -155,6 +189,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
+    margin: 5,
+  },
+  pending: {
+    fontSize: 20,
+    textAlign: 'center',
     margin: 5,
   },
   save: {
@@ -200,6 +239,23 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  pendingBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 325,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#83CA9E',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',
