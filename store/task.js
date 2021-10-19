@@ -214,9 +214,6 @@ export const _updateCompleteStatus = (item, setModalVisible) => {
       const completeTasks = task.tasks.filter(
         (singleTask) => singleTask.completed === true
       );
-      if (task.currTask.id === item.id) {
-        dispatch(clearPlaces());
-      }
 
       const res = await tasksRef
         .doc(firebase.auth().currentUser.uid)
@@ -291,10 +288,6 @@ export const _updateIncompleteStatus = (task) => {
 export const _deleteTask = (taskId) => {
   return async (dispatch, getState) => {
     try {
-      const { task } = getState();
-      if (task.currTask.id === taskId) {
-        dispatch(clearPlaces());
-      }
       await tasksRef
         .doc(firebase.auth().currentUser.uid)
         .collection('userTasks')

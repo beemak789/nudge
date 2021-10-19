@@ -7,7 +7,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 
 // components
-import NoTasks from '../../Components/NoTasks';
 import TaskList from '../../Components/TaskList';
 import AddTask from '../../Components/AddTask';
 import EditTask from '../../Components/EditTask';
@@ -40,8 +39,6 @@ const CategoriesStack = (props) => {
 };
 
 const tasksStack = (props) => {
-  const { tasks } = useSelector((state) => state.task);
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -55,17 +52,9 @@ const tasksStack = (props) => {
         headerShadowVisible: false,
       }}
     >
-      {!tasks.length ? (
-        <Stack.Screen
-          name="No Tasks"
-          component={NoTasks}
-          options={{ headerShown: false }}
-        />
-      ) : (
-        <Stack.Screen name="Categories Stack">
-          {(props) => <CategoriesStack {...props} />}
-        </Stack.Screen>
-      )}
+      <Stack.Screen name="Categories Stack">
+        {(props) => <CategoriesStack {...props} />}
+      </Stack.Screen>
 
       <Stack.Screen
         name="Add Task"

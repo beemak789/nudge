@@ -15,7 +15,6 @@ import Map from '../../Components/Map';
 const Stack = createNativeStackNavigator();
 
 const DisplayPlacesStack = (props) => {
-  // this checks what categories the current task has, and conditionally renders the lists based on it. So if chocolate can be found at both a pharmacy and a grocery store, it'll pull other items that can be found at both pharmacies and grocery stores from your task list, pull items that can only be found in grocery stores, and pull items that can only be found in pharmacies in separate tabs
   // const { currTask, incomplete } = useSelector((state) => state.task);
 
   // let tabs = [];
@@ -70,8 +69,6 @@ const DisplayPlacesStack = (props) => {
 };
 
 const placesStack = (props) => {
-  const { places } = useSelector((state) => state.place);
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -84,17 +81,9 @@ const placesStack = (props) => {
         headerShadowVisible: false,
       }}
     >
-      {!places.length ? (
-        <Stack.Screen
-          name="No Places"
-          component={NoPlaces}
-          options={{ headerShown: false }}
-        />
-      ) : (
-        <Stack.Screen name="Display Places Stack">
-          {(props) => <DisplayPlacesStack {...props} />}
-        </Stack.Screen>
-      )}
+      <Stack.Screen name="Display Places Stack">
+        {(props) => <DisplayPlacesStack {...props} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };
