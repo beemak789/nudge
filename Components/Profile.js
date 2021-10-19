@@ -20,7 +20,6 @@ import { useNavigation } from '@react-navigation/core';
 export default function Profile() {
   const user = useSelector((state) => state.user);
   const { token, badgeCount } = useSelector((state) => state.user);
-  console.log("the user---->", user)
   const { navigate, reset } = useNavigation();
   const dispatch = useDispatch();
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
@@ -67,7 +66,7 @@ export default function Profile() {
           source={require('../public/nudgie2.png')}
         />
         <View>
-          <Text style={styles.title}>My Profile</Text>
+          <Text style={styles.title}>Profile</Text>
         </View>
 
         <View style={userFields.fields}>
@@ -205,7 +204,6 @@ const styles = StyleSheet.create({
     margin: 'auto',
   },
   title: {
-    marginTop: 20,
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',

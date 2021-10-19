@@ -42,7 +42,6 @@ export const fetchGroupChat = (groupId) =>{
   return async(dispatch) => {
     try{
       let messages = []
-      console.log('groupid', groupId)
       await firebase
       .firestore()
       .collection('groups')

@@ -49,7 +49,7 @@ const EditGroup = (props) => {
     setMembers([]);
 
     props.navigation.navigate('Single Group Stack', {
-      screen: 'Group Settings',
+      screen: 'Settings',
     });
   };
 
@@ -60,7 +60,7 @@ const EditGroup = (props) => {
           style={styles.button}
           onPress={() => {
             props.navigation.navigate('Single Group Stack', {
-              screen: 'Group Settings',
+              screen: 'Settings',
             });
           }}
         >

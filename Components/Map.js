@@ -21,7 +21,7 @@ const Map = (props) => {
   const [location, setLocation] = useState(initialRegion);
   const [errorMsg, setErrorMsg] = useState(null);
   const { places } = useSelector((state) => state.place);
-  console.log("THE PLACES ---->", places[0])
+
 
   // const generateLink = (item) => {
   //   const name = item.name.replace(/\s/g, '+');
