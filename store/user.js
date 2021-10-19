@@ -386,6 +386,7 @@ export const signUpUser = (email, password, first, last) => {
             badgeCount: 0,
             groups: [],
             allowNotifications: true,
+            token: '',
           };
 
           const usersRef = firebase.firestore().collection('users');
