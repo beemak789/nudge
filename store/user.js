@@ -1,6 +1,8 @@
 import { firebase } from '../config/firebase';
 import { clearPlaces } from './places';
-import { clearCurrTask } from './task';
+import { clearCurrTask, clearAllTasks } from './task';
+import { clearGroups } from './group';
+import { clearChat } from './chat';
 const SET_USER = 'SET_USER';
 const SET_USER_FRIENDS = 'SET_USER_FRIENDS';
 const SET_EXPO_PUSH_TOKEN = 'SET_EXPO_PUSH_TOKEN';
@@ -225,7 +227,7 @@ export const _fetchUserPendingFriends = (user) => {
             )
           );
           dispatch(setUserPendingFriends(result));
-        })
+        });
     } catch (err) {
       alert(err);
     }
@@ -358,6 +360,9 @@ export const logOutUser = () => {
       dispatch(logoutUser());
       dispatch(clearPlaces());
       dispatch(clearCurrTask());
+      dispatch(clearAllTasks());
+      dispatch(clearGroups());
+      dispatch(clearChat());
     } catch (err) {
       console.log(err);
     }
@@ -435,10 +440,10 @@ export default (state = {}, action) => {
       );
       return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
-        const newFriends = state.friends.filter( (friend) =>
-          friend.id !== action.friendId
-          )
-        newFriends.push(action.friend)
+      const newFriends = state.friends.filter(
+        (friend) => friend.id !== action.friendId
+      );
+      newFriends.push(action.friend);
 
       const deletedPending = [...state.pendingFriends].filter(
         (friend) => friend.id !== action.friendId
