@@ -279,7 +279,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(userId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
-          pendingFriends: firebase.firestore.FieldValue.arrayRemove(friendId)
+          pendingFriends: firebase.firestore.FieldValue.arrayRemove(friendId),
         });
       await firebase
         .firestore()
@@ -287,7 +287,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(friendId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(userId),
-          friendRequests: firebase.firestore.FieldValue.arrayRemove(userId)
+          friendRequests: firebase.firestore.FieldValue.arrayRemove(userId),
         });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addFriend(friendInfoForState, friendId));
@@ -435,16 +435,20 @@ export default (state = {}, action) => {
       );
       return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
-      const newFriends = [...state.friends];
-      if (!state.friends.includes(action.friend)) {
-        newFriends.push(action.friend);
-      }
+        const newFriends = state.friends.filter( (friend) =>
+          friend.id !== action.friendId
+          )
+        newFriends.push(action.friend)
+
       const deletedPending = [...state.pendingFriends].filter(
         (friend) => friend.id !== action.friendId
       );
       return { ...state, friends: newFriends, pendingFriends: deletedPending };
     case ADD_FRIEND_REQUEST:
-      return {...state, friendRequests: [...state.friendRequests, action.friendRequest]};
+      return {
+        ...state,
+        friendRequests: [...state.friendRequests, action.friendRequest],
+      };
     default:
       return state;
   }

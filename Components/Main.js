@@ -89,7 +89,6 @@ const Main = () => {
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
-      console.log('toooooken', token);
       dispatch(setExpoPushToken(token));
     });
     // This listener is fired whenever a notification is received while the app is foregrounded
@@ -168,7 +167,6 @@ const Main = () => {
     })();
   }, []);
 
-
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     if (error) {
       // Error occurred - check `error.message` for more details.
@@ -200,6 +198,7 @@ const Main = () => {
   return (
     <Tab.Navigator
       initialRouteName="Tasks Stack"
+      tabBarOptions={{ showLabel: false }}
       screenOptions={{
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
