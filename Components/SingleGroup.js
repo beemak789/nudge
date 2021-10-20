@@ -27,6 +27,7 @@ const SingleGroup = (props) => {
       <View style={styles.box}>
         <View style={styles.info}>
           <Text style={styles.item}>{props.group.name}</Text>
+          <Text style={styles.memberNumber}>{props.group.members.length} members</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -71,15 +72,21 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   info: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flex: 1,
+    display:"flex",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems:"center",
     padding: 5,
   },
   item: {
     padding: 10,
     fontSize: 18,
-    alignSelf: 'center',
-    textAlign: 'center',
+    fontWeight: "bold",
+  },
+  memberNumber: {
+    padding: 10,
+    fontSize: 12,
   },
   button: {
     backgroundColor: '#EBF6EF',
