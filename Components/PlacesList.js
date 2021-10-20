@@ -38,27 +38,27 @@ const PlacesList = (props) => {
     );
   }
 
-  if (!incomplete.length) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate('Add Task');
-            }}
-          >
-            <Icon
-              color="black"
-              type="ionicon"
-              name="pencil-outline"
-              size={20}
-            />
-          </TouchableOpacity>
-        </View>
-        <NoPlaces />
-      </SafeAreaView>)
-  }
+  // if (!incomplete.length) {
+  //   return (
+  //     <SafeAreaView style={styles.container}>
+  //       <View style={{ justifyContent: 'flex-end', display: "flex", flexDirection: "row", marginRight: 20, marginTop: 0}}>
+  //         <TouchableOpacity
+  //           style={styles.button}
+  //           onPress={() => {
+  //             props.navigation.navigate('Add Task');
+  //           }}
+  //         >
+  //           <Icon
+  //             color="black"
+  //             type="ionicon"
+  //             name="pencil-outline"
+  //             size={20}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //         <NoPlaces />
+  //     </SafeAreaView>)
+  // }
 
   if (!places.length) {
     return <Shuffle />;
@@ -204,7 +204,7 @@ const PlacesList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "center",
     backgroundColor:"white"
   },
   container2: {
