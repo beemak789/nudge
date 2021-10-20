@@ -60,10 +60,9 @@ const FriendsList = (props) => {
     dispatch(_fetchUserPendingFriends(user));
   }, [dispatch]);
 
-
   return (
     <SafeAreaView style={styles.container}>
-       {/* <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       > */}
@@ -96,17 +95,17 @@ const FriendsList = (props) => {
           style={styles.nudgie}
         />
         <Text style={styles.title}>Nudgies</Text>
-        <Text style={styles.subtitle} >Pending Requests</Text>
-          {numPendingFriends < 1 ? (
-            <Text>None</Text>
-          ) : user.pendingFriends[0].id ? (
-            <FlatList
-              data={user.pendingFriends}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View style={styles.pendingBox}>
-                  <Text style={styles.pending}>{item.fullName}</Text>
-                  <TouchableOpacity
+        <Text style={styles.subtitle}>Pending Requests</Text>
+        {numPendingFriends < 1 ? (
+          <Text>None</Text>
+        ) : user.pendingFriends[0].id ? (
+          <FlatList
+            data={user.pendingFriends}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.pendingBox}>
+                <Text style={styles.pending}>{item.fullName}</Text>
+                <TouchableOpacity
                   onPress={() => {
                     dispatch(_addFriend(user.id, item.id));
                   }}
@@ -119,13 +118,12 @@ const FriendsList = (props) => {
                     size={22}
                   />
                 </TouchableOpacity>
-                </View>
-              )}
-            ></FlatList>
-          ): (
-            <Text>Loading...</Text>
-          )
-      }
+              </View>
+            )}
+          ></FlatList>
+        ) : (
+          <Text>Loading...</Text>
+        )}
         {numFriends < 1 ? (
           <Text>No friends</Text>
         ) : user.friends[0].id ? (

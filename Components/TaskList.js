@@ -24,7 +24,6 @@ import {
 } from '../store/task';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
-import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
 import { updateBadgeCount } from '../store/user';
 import { NoPlaces } from './NoPlaces';
@@ -73,15 +72,41 @@ const taskList = (props) => {
   // }
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            props.navigation.navigate('Add Task');
-          }}
+      <View style={{ flexDirection: 'row' }}>
+        <View
+          style={{ alignItems: 'flex-start', marginRight: 20, marginTop: 0 }}
         >
-          <Icon color="black" type="ionicon" name="pencil-outline" size={20} />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.toggleDrawer();
+            }}
+          >
+            <Icon
+              color="black"
+              type="ionicon"
+              name="filter-outline"
+              size={20}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{ alignItems: 'flex-end', marginLeft: 'auto', marginTop: 0 }}
+        >
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.navigate('Add Task');
+            }}
+          >
+            <Icon
+              color="black"
+              type="ionicon"
+              name="pencil-outline"
+              size={20}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* COMPLETED TASKS MODAL********** */}
@@ -116,7 +141,8 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri:
+                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>

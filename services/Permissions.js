@@ -1,14 +1,14 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import * as TaskManager from "expo-task-manager";
-import * as Location from "expo-location";
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import * as TaskManager from 'expo-task-manager';
+import * as Location from 'expo-location';
 
-const LOCATION_TASK_NAME = "background-location-task";
+const LOCATION_TASK_NAME = 'background-location-task';
 
 const requestPermissions = async () => {
   const { status } = await Location.requestBackgroundPermissionsAsync();
-  console.log("status", status);
-  if (status === "granted") {
+
+  if (status === 'granted') {
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
       accuracy: Location.Accuracy.Balanced,
     });
@@ -32,7 +32,6 @@ TaskManager.defineTask(LOCATION_TASK_NAME, (loc) => {
   if (data) {
     const { locations } = data;
     // do something with the locations captured in the background
-    console.log("locations in task manager", locations);
   }
 });
 
@@ -40,16 +39,16 @@ export default PermissionsButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#709775",
+    backgroundColor: '#709775',
     marginTop: 15,
     paddingVertical: 15,
     borderRadius: 25,
-    width: "80%",
-    alignItems: "center",
+    width: '80%',
+    alignItems: 'center',
   },
   text: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 18,
   },
 });
