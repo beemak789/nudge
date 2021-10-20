@@ -56,7 +56,6 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
-  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
@@ -83,9 +82,7 @@ const FriendsList = (props) => {
       <View
         style={{
           margin: 20,
-          // alignItems: 'center',
-          // justifyContent: 'center',
-          flex: 1,
+          flex: 1
         }}
       >
         <Image
@@ -129,21 +126,7 @@ const FriendsList = (props) => {
         ) : user.friends[0].id ? (
           <>
             <Text style={styles.subtitle}>Your Friends</Text>
-            <View>
-              <GooglePlacesAutocomplete
-                placeholder="Search"
-                onPress={(data, details = null) => {
-                  // 'details' is provided when fetchDetails = true
-                  setSearch(data.description);
-                }}
-                onFail={(error) => console.error(error)}
-                query={{
-                  key: GOOGLE_PLACES_API,
-                  language: 'en',
-                }}
-                styles={autoComplete}
-              ></GooglePlacesAutocomplete>
-            </View>
+
             <FlatList
               data={user.friends}
               keyExtractor={(item) => item.id}
