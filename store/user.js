@@ -217,16 +217,15 @@ export const _fetchUserPendingFriends = (user) => {
         .firestore()
         .collection('users')
         .doc(user.id)
-        .get()
-        .then(async (friendsList) => {
-          let userPendingFriends = friendsList.data().pendingFriends;
+        .onSnapshot(async (snapshot) => {
+          let userPendingFriends = snapshot.data().pendingFriends;
           let result = await Promise.all(
             userPendingFriends.map(
               async (friend) => await _fetchSingleFriendInfo(friend)
             )
           );
           dispatch(setUserPendingFriends(result));
-        });
+        })
     } catch (err) {
       alert(err);
     }
@@ -240,9 +239,8 @@ export const _fetchUserFriends = (user) => {
         .firestore()
         .collection('users')
         .doc(user.id)
-        .get()
-        .then(async (friendsList) => {
-          let userFriends = friendsList.data().friends;
+        .onSnapshot(async (snapshot) => {
+          let userFriends = snapshot.data().friends;
           let result = await Promise.all(
             userFriends.map(
               async (friend) => await _fetchSingleFriendInfo(friend)
