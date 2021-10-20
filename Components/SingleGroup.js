@@ -26,7 +26,7 @@ const SingleGroup = (props) => {
     >
       <View style={styles.box}>
         <View style={styles.info}>
-          <Text style={styles.buttonText}>{props.group.name}</Text>
+          <Text style={styles.item}>{props.group.name}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
   },
   box: {
     display: 'flex',
-    width: windowWidth * 0.8,
+    width: windowWidth * 0.9,
     alignItems: 'baseline',
-    marginBottom: 10,
-    marginTop: 10,
+    marginBottom: 5,
+    marginTop: 5,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   info: {
-    marginLeft: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 5,
   },
   item: {
@@ -95,11 +96,6 @@ const styles = StyleSheet.create({
       width: -2,
     },
     elevation: 2,
-  },
-  buttonText: {
-    color: '#4a7c59',
-    fontWeight: '700',
-    fontSize: 22,
   },
   nudgie: {
     width: 50,
