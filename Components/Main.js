@@ -198,8 +198,8 @@ const Main = () => {
   return (
     <Tab.Navigator
       initialRouteName="Tasks Stack"
-      tabBarOptions={{ showLabel: false }}
       screenOptions={{
+        tabBarShowLabel: false,
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
         inactiveTintColor: '#dde5b6',
