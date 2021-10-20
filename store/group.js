@@ -111,7 +111,7 @@ export const createGroup = ({ name, members }) => {
       const data = {
         name,
         members,
-        messages: []
+        messages: [],
       };
 
       // returns id of newly created group
@@ -147,7 +147,6 @@ export const createGroup = ({ name, members }) => {
       //   console.log('result', result.id)
       //   return result.id;
       // });
-
 
       //adds the new group to the redux store
       dispatch(
@@ -383,7 +382,6 @@ export default (state = initialState, action) => {
       };
     case CLEAR_GROUPS:
       return {
-        ...state,
         groups: action.groups,
         selectedGroup: action.selectedGroup,
       };
