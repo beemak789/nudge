@@ -24,7 +24,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   let [notificationToggle, setNotificationToggle] = useState(() => !!token);
   let [locationToggle, setLocationToggle] = useState(false);
-
+  console.log(user);
   const locationFn = async () => {
     if (locationToggle) {
       dispatch(disableLocation());

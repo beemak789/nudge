@@ -281,7 +281,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(userId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(friendId),
-          friendRequests: firebase.firestore.FieldValue.arrayRemove(friendId),
+          pendingFriends: firebase.firestore.FieldValue.arrayRemove(friendId),
         });
       await firebase
         .firestore()
@@ -289,7 +289,7 @@ export const _addFriend = (userId, friendId) => {
         .doc(friendId)
         .update({
           friends: firebase.firestore.FieldValue.arrayUnion(userId),
-          pendingFriends: firebase.firestore.FieldValue.arrayRemove(userId),
+          friendRequests: firebase.firestore.FieldValue.arrayRemove(userId),
         });
       const friendInfoForState = await _fetchSingleFriendInfo(friendId);
       dispatch(addFriend(friendInfoForState, friendId));

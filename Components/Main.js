@@ -168,7 +168,6 @@ const Main = () => {
     })();
   }, []);
 
-
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     if (error) {
       // Error occurred - check `error.message` for more details.
@@ -256,6 +255,7 @@ const Main = () => {
           <Tab.Screen
             name="Friends Stack"
             options={{
+
               tabBarIcon: () => (
                 <Icon
                   style={{ marginRight: 10 }}

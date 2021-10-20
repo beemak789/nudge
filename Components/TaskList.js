@@ -28,6 +28,43 @@ import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
 import { updateBadgeCount } from '../store/user';
 import { NoPlaces } from './NoPlaces';
+import Stateless from './Stateless';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+const Drawer = createDrawerNavigator();
+
+function MyDrawer() {
+  const { incomplete } = useSelector((state) => state.task);
+
+  let categories = [];
+  incomplete.forEach((task) =>
+    task.category.forEach((cat) => {
+      if (!categories.includes(cat)) {
+        categories.push(cat);
+      }
+    })
+  );
+
+  console.log(categories);
+  return (
+    <Drawer.Navigator>
+      {categories.map((category) => {
+        return (
+          <Drawer.Screen name={`${category}`}>
+            {(props) => (
+              <Stateless
+                list={incomplete.filter((task) =>
+                  task.category.includes(category)
+                )}
+                {...props}
+              />
+            )}
+          </Drawer.Screen>
+        );
+      })}
+    </Drawer.Navigator>
+  );
+}
 
 const taskList = (props) => {
   const dispatch = useDispatch();
@@ -116,7 +153,8 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri:
+                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
