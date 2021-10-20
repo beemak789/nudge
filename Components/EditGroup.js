@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { _editGroup } from '../store/group';
@@ -55,18 +56,22 @@ const EditGroup = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'right', marginLeft: 20, marginTop: 0 }}>
+      <View style={{ display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: 'right', marginLeft: 20, marginRight: 20 }}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.save}
           onPress={() => {
             props.navigation.navigate('Single Group Stack', {
               screen: 'Settings',
             });
           }}
         >
-          <Text style={styles.buttonText}>Back</Text>
+          <Text style={styles.saveText}>Back</Text>
         </TouchableOpacity>
-      </View>
+
+      <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+          <Text style={styles.saveText}>Save</Text>
+        </TouchableOpacity>
+        </View>
       <View
         style={{
           flex: 1,
@@ -106,7 +111,7 @@ const EditGroup = (props) => {
           <Text style={{ marginBottom: 10 }}>
             Select friends to add them to group
           </Text>
-          <View style={{}}>
+          <ScrollView>
             {nonGroupFriends.map((friend) => {
               return (
                 <TouchableOpacity
@@ -160,11 +165,9 @@ const EditGroup = (props) => {
                 </TouchableOpacity>
               );
             })}
-          </View>
+          </ScrollView>
         </View>
-        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
-        </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
