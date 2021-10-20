@@ -50,7 +50,7 @@ const AddFriend = (props) => {
       }
     }
     dispatch(_addPendingFriend(user.id, friends.id))
-
+    console.log("USER FRIEND REQUESTS", user.friendRequests)
     friendsList()
     onChangeText('')
   }
