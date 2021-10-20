@@ -25,7 +25,7 @@ const AddGroupTask = (props) => {
       })
     );
     onChangeText('');
-    navigation.navigate('Group Tasks');
+    navigation.navigate('Tasks');
   };
   return (
     <SafeAreaView style={styles.container}>
