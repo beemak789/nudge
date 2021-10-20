@@ -32,7 +32,7 @@ const GroupChat = (props) => {
   const chats = useSelector((state) => state.chat);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const dispatch = useDispatch();
-  let scrollView = useRef();
+  const scrollView = useRef();
   // console.log('scrollview', scrollView.current.scrollToEnd)
   const friendType = (name) => {
     return name === user.fullName ? 'me' : 'friend';
@@ -40,7 +40,6 @@ const GroupChat = (props) => {
   useEffect(() => {
 
     dispatch(fetchGroupChat(selectedGroup.id));
-    // scrollView.props.scrollToEnd()
   }, [dispatch]);
 
   const onSubmit = async () => {
@@ -53,7 +52,9 @@ const GroupChat = (props) => {
         style={{ padding: 10 }}
       >
         <View style={{ height: windowHeight, display: "flex", flexDirection:"column", justifyContent:"space-between" }}>
-        <ScrollView >
+        <ScrollView
+        ref={scrollView}
+        onContentSizeChange={() => scrollView.current.scrollToEnd({ animated: true })}>
           {chats.map((item) => (
             <View key={item.timestamp}>
               <Text style={styles[`${friendType(item.name)}text`]}>

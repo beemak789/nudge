@@ -101,8 +101,8 @@ const FriendsList = (props) => {
       <View
         style={{
           margin: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
+          // alignItems: 'center',
+          // justifyContent: 'center',
           flex: 1,
         }}
       >
@@ -143,6 +143,8 @@ const FriendsList = (props) => {
         {numFriends < 1 ? (
           <Text>No friends</Text>
         ) : user.friends[0].id ? (
+          <>
+          <Text style={styles.subtitle} >Your Friends</Text>
           <FlatList
             data={user.friends}
             keyExtractor={(item) => item.id}
@@ -178,12 +180,11 @@ const FriendsList = (props) => {
               </View>
             )}
           ></FlatList>
+          </>
         ) : (
           <Text>Loading...</Text>
         )}
       </View>
-      {/* </ScrollView> */}
-      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };
@@ -198,9 +199,10 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 24,
+    alignSelf: "center",
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     textAlign: 'center',
     fontWeight: 'bold',
     margin: 5,
@@ -212,8 +214,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    textAlign: 'center',
     fontWeight: 'bold',
+    textAlign:"left",
     margin: 5,
   },
   save: {
