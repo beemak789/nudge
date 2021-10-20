@@ -158,7 +158,7 @@ const AddGroup = (props) => {
           </View>
         </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
+          <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

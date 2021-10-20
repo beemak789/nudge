@@ -15,6 +15,7 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useNavigation } from '@react-navigation/core';
+import { Icon } from 'react-native-elements';
 
 import {
   _deleteTask,
@@ -26,6 +27,7 @@ import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { priorityStyle } from '../services/PriorityStyle';
 import { _fetchPlaces } from '../store/places';
 import { updateBadgeCount } from '../store/user';
+import { NoPlaces } from './NoPlaces';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
@@ -47,19 +49,41 @@ const taskList = (props) => {
     dispatch(_deleteTask(itemId));
   };
 
+  if (incomplete.length === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              props.navigation.navigate('Add Task');
+            }}
+          >
+            <Icon
+              color="black"
+              type="ionicon"
+              name="pencil-outline"
+              size={20}
+            />
+          </TouchableOpacity>
+        </View>
+        <NoPlaces />
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft: 'auto', padding: 5 }}>
-        <AntDesign.Button
-          name="pluscircle"
-          size={30}
-          color="#83CA9E"
-          backgroundColor="transparent"
+      <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
-            navigate('Add Task');
+            props.navigation.navigate('Add Task');
           }}
-        />
+        >
+          <Icon color="black" type="ionicon" name="pencil-outline" size={20} />
+        </TouchableOpacity>
       </View>
+
       {/* COMPLETED TASKS MODAL********** */}
       <Modal animationType="slide" visible={modalVisible} transparent={true}>
         <View style={styles.modalBackground}>
@@ -92,8 +116,7 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri:
-                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
@@ -114,7 +137,7 @@ const taskList = (props) => {
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
             >
               <TouchableOpacity
-                style={styles.box}
+                style={styles[`box${item.priority}`]}
                 onPress={() => {
                   dispatch(_fetchPlaces(item));
                   props.navigation.navigate('Places Stack');
@@ -128,7 +151,6 @@ const taskList = (props) => {
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
-                <View style={priorityStyle(item.priority)}></View>
               </TouchableOpacity>
             </Swipeable>
           )}
@@ -144,9 +166,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 20,
+    // alignItems: 'center',
+    // justifyContent: 'space-evenly',
+    // padding: 20,
   },
   modalBackground: {
     flex: 1,
@@ -182,9 +204,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 80,
   },
-  item: {
-    fontSize: 20,
-  },
   body: {
     flex: 1,
     justifyContent: 'center',
@@ -198,7 +217,41 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#FAF3DD',
   },
-  box: {
+  boxhigh: {
+    alignSelf: 'center',
+    display: 'flex',
+    width: '95%',
+    borderRadius: 10,
+    backgroundColor: '#588669',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    marginBottom: 10,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  boxmedium: {
+    alignSelf: 'center',
+    display: 'flex',
+    width: '95%',
+    borderRadius: 10,
+    backgroundColor: '#83CA9E',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    marginBottom: 10,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  boxlow: {
     alignSelf: 'center',
     display: 'flex',
     width: '95%',
@@ -239,20 +292,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   button: {
-    backgroundColor: '#EBF6EF',
-    padding: 5,
-    borderRadius: 25,
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderColor: '#FFFFFF',
-    margin: 5,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
     shadowOffset: {
-      height: 1,
-      width: -2,
+      height: 2,
+      width: 2,
     },
-    elevation: 2,
+    marginTop: 10,
   },
   buttonText: {
     color: '#4a7c59',

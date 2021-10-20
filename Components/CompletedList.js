@@ -61,7 +61,7 @@ const CompletedList = (props) => {
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
-                <View style={priorityStyle(item.priority)}></View>
+                {/* <View style={priorityStyle(item.priority)}></View> */}
               </View>
             </Swipeable>
           )}
@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 20,
+    // alignItems: 'center',
+    // justifyContent: 'space-evenly',
+    // padding: 20,
   },
 
   item: {
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
       width: -2,
     },
     elevation: 2,
+    marginBottom: 10,
   },
   info: {
     flexDirection: 'column',

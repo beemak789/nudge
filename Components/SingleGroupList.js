@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  Image
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
@@ -30,28 +31,6 @@ import {
   _fetchUserFriends,
 } from '../store/user';
 
-// // _______SEND NOTIFICATION ________
-// async function sendPushNotification(toExpoToken, from) {
-//   if (toExpoToken) {
-//     const message = {
-//       to: toExpoToken,
-//       sound: 'default',
-//       title: `Nudge from ${from}`,
-//       body: `${from} is at the grocery store! Do you need anything?`,
-//       data: { someData: 'goes here' },
-//     };
-
-//     await fetch('https://exp.host/--/api/v2/push/send', {
-//       method: 'POST',
-//       headers: {
-//         Accept: 'application/json',
-//         'Accept-encoding': 'gzip, deflate',
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(message),
-//     });
-//   }
-// }
 
 const SingleGroupList = (props) => {
   const dispatch = useDispatch();
@@ -139,42 +118,39 @@ const SingleGroupList = (props) => {
           <TouchableOpacity
           onPress={() => navigation.navigate('Add Group Task')}
           style={styles.deleteButton}>
-          {/* <AntDesign.Button
-            name="pluscircle"
-            size={30}
-            color="#83CA9E"
-            backgroundColor="transparent"
-            onPress={() => {
-              navigation.navigate('Add Group Task');
-            }}
-          /> */}
           <Text style = {{fontWeight: "bold", color:"black"}}> + Add a Task</Text>
           </TouchableOpacity>
         </View>
 
         {tasks.length < 1 ? (
+
+          <View style={{display:"flex", flexDirection:"column", marginTop: 75}}>
+          <Image
+          style={styles.nudgie}
+          source={require('../public/nudgie2.png')}
+        />
           <Text style={{
             fontSize: 20,
             fontWeight: 'bold',
             margin: 5,
-          }}>No tasks yet, add one!</Text>
+            textAlign:"center"
+          }}>Add a task to get started!</Text>
+          </View>
         ) : tasks[0].id ? (
           <FlatList
             data={tasks}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Swipeable
-                renderLeftActions={LeftSwipeActions}
                 renderRightActions={RightSwipeActions}
                 onSwipeableRightOpen={() => deleteTask(item.id)}
-                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
               >
                 <View style={styles.box}>
                   <View style={styles.info}>
                     <Text style={styles.item}>{item.name}</Text>
-                    <Text style={styles.addedBy}>added by {item.userName}</Text>
+
                   </View>
-                  <View style={priorityStyle(item.priority)}></View>
+                  <Text style={styles.addedBy}>added by {item.userName}</Text>
                 </View>
               </Swipeable>
             )}
@@ -206,9 +182,10 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   nudgie: {
-    height: 150,
-    width: 150,
+    height: 100,
+    width: 100,
     borderRadius: 24,
+    alignSelf: "center"
   },
   title: {
     fontSize: 30,
@@ -259,8 +236,8 @@ const styles = StyleSheet.create({
   box: {
     display: 'flex',
     flex: 1,
-    justifyContent: 'center',
-    margin: 10,
+    justifyContent: 'space-between',
+    paddingHorizontal:10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
@@ -272,21 +249,21 @@ const styles = StyleSheet.create({
       width: -2,
     },
     elevation: 2,
+    margin: 10,
+    marginTop: 0,
   },
   info: {
     padding: 5,
     fontSize: 18,
   },
   item: {
-    padding: 5,
+    padding: 10,
     fontSize: 18,
-    // alignSelf: 'center',
     textAlign: 'left',
   },
   addedBy: {
     padding: 5,
     fontSize: 12,
-    // alignSelf: 'flex-end',
     textAlign: 'left',
   },
   deleteButton: {

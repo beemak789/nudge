@@ -95,7 +95,7 @@ const FriendsList = (props) => {
           source={require('../public/nudgie2.png')}
           style={styles.nudgie}
         />
-        <Text style={styles.title}>Your Nudgies</Text>
+        <Text style={styles.title}>Nudgies</Text>
           {numPendingFriends < 1 ? (
             <Text>No pending friend requests</Text>
           ) : user.pendingFriends[0].id ? (
