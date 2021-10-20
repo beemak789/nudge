@@ -54,8 +54,7 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
-  console.log('pending friends', user.pendingFriends);
-  console.log('user', user);
+
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
     dispatch(_fetchUserPendingFriends(user));
