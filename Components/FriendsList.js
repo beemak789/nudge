@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GOOGLE_PLACES_API } from '@env';
 
 import {
   StyleSheet,
@@ -54,6 +56,7 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
@@ -62,11 +65,24 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
-      > */}
-      {/* <ScrollView> */}
+         <View style= {{display: "flex"}}>
+        <GooglePlacesAutocomplete
+          placeholder="Search"
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            setSearch(data.description);
+          }}
+          onFail={(error) => console.error(error)}
+          query={{
+            key: GOOGLE_PLACES_API,
+            language: 'en',
+          }}
+          styles={autoComplete}
+        ></GooglePlacesAutocomplete>
+      </View>
+      {/* <View style={{ marginLeft: 'auto', height:45, width: "20%", display: "flex", flexDirection:"row", justifyContent :"center", alignItems:"flex-end" }}>
+
+      </View> */}
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
           style={styles.button}
@@ -275,5 +291,49 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
+  },
+});
+
+const autoComplete = StyleSheet.create({
+  textInputContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    zIndex: 999,
+    width: '80%',
+    margin: 5,
+  },
+  textInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    height: 45,
+    color: '#5d5d5d',
+    fontSize: 16,
+    borderBottomWidth: 2,
+    borderColor: 'green',
+    borderBottomColor: "#83CA9E",
+    zIndex: 999,
+  },
+  predefinedPlacesDescription: {
+    color: '#1faadb',
+  },
+  listView: {
+    top: 45.5,
+    zIndex: 10,
+    position: 'absolute',
+    color: 'black',
+    backgroundColor: 'white',
+    width: '89%',
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'blue',
+  },
+  description: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontSize: 14,
+    maxWidth: '89%',
   },
 });

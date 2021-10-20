@@ -445,9 +445,7 @@ export default (state = {}, action) => {
       );
       return { ...state, friends: newFriends, pendingFriends: deletedPending };
     case ADD_FRIEND_REQUEST:
-      return {
-        ...state,
-        friendRequests: [...state.friendRequests, action.friendRequest],
+      return {...state, friendRequests: [...state.friendRequests, action.friendRequest]
       };
     default:
       return state;
