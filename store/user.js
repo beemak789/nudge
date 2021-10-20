@@ -448,7 +448,7 @@ export default (state = {}, action) => {
     case ADD_FRIEND_REQUEST:
       return {
         ...state,
-        friendRequests: [state.friendRequests, action.friendRequest],
+        friendRequests: [...state.friendRequests, action.friendRequest],
       };
     default:
       return state;

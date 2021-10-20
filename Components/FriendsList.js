@@ -54,7 +54,8 @@ const FriendsList = (props) => {
   const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
-
+  console.log('pending friends', user.pendingFriends);
+  console.log('user', user);
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
     dispatch(_fetchUserPendingFriends(user));
@@ -95,8 +96,9 @@ const FriendsList = (props) => {
           style={styles.nudgie}
         />
         <Text style={styles.title}>Nudgies</Text>
+        <Text style={styles.subtitle}>Pending Requests</Text>
         {numPendingFriends < 1 ? (
-          <Text>No pending friend requests</Text>
+          <Text>None</Text>
         ) : user.pendingFriends[0].id ? (
           <FlatList
             data={user.pendingFriends}
@@ -191,6 +193,12 @@ const styles = StyleSheet.create({
   pending: {
     fontSize: 20,
     textAlign: 'center',
+    margin: 5,
+  },
+  subtitle: {
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
     margin: 5,
   },
   save: {

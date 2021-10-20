@@ -199,6 +199,7 @@ const Main = () => {
   return (
     <Tab.Navigator
       initialRouteName="Tasks Stack"
+      tabBarOptions={{ showLabel: false }}
       screenOptions={{
         activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
@@ -255,7 +256,6 @@ const Main = () => {
           <Tab.Screen
             name="Friends Stack"
             options={{
-
               tabBarIcon: () => (
                 <Icon
                   style={{ marginRight: 10 }}

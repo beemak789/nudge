@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -11,8 +12,65 @@ import TaskList from '../../Components/TaskList';
 import AddTask from '../../Components/AddTask';
 import EditTask from '../../Components/EditTask';
 import CompletedList from '../../Components/CompletedList';
+import Stateless from '../../Components/Stateless';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function MyDrawer() {
+  const { incomplete } = useSelector((state) => state.task);
+
+  let categories = [];
+  incomplete.forEach((task) =>
+    task.category.forEach((cat) => {
+      if (!categories.includes(cat)) {
+        categories.push(cat);
+      }
+    })
+  );
+
+  const displayTypes = {
+    supermarket: 'grocery',
+    pharmacy: 'pharmacy',
+    book_store: 'bookstore',
+    bakery: 'bakery',
+    clothing_store: 'clothing',
+    drugstore: 'drugstore',
+    convenience_store: 'convenience',
+    florist: 'florist',
+    home_goods_store: 'home goods',
+    shoe_store: 'shoe store',
+    liquor_store: 'liquor store',
+    other: 'other',
+  };
+
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Drawer.Screen name="all tasks">
+        {(props) => <CategoriesStack {...props} />}
+      </Drawer.Screen>
+      {categories.map((category) => {
+        return (
+          <Drawer.Screen key={category} name={`${displayTypes[category]}`}>
+            {(props) => (
+              <Stateless
+                list={incomplete.filter((task) =>
+                  task.category.includes(category)
+                )}
+                title={`${displayTypes[category]} list`}
+                {...props}
+              />
+            )}
+          </Drawer.Screen>
+        );
+      })}
+    </Drawer.Navigator>
+  );
+}
 
 const CategoriesStack = (props) => {
   return (
@@ -53,7 +111,7 @@ const tasksStack = (props) => {
       }}
     >
       <Stack.Screen name="Categories Stack">
-        {(props) => <CategoriesStack {...props} />}
+        {(props) => <MyDrawer {...props} />}
       </Stack.Screen>
 
       <Stack.Screen

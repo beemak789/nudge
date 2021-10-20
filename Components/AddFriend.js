@@ -48,9 +48,12 @@ const AddFriend = (props) => {
         friendsList({error: 'This person is already your friend'})
         return
       }
+      if(user.friendRequests[i] === friends.id){
+        friendsList({error: 'You have a friend request out to this person already'})
+        return
+      }
     }
     dispatch(_addPendingFriend(user.id, friends.id))
-
     friendsList()
     onChangeText('')
   }
