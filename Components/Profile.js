@@ -124,15 +124,17 @@ export default function Profile() {
                   borderRadius: 20,
                   marginLeft: 65,
                   backgroundColor: 'green',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent:"center"
                 }}
               >
                 <Text
                   style={{
                     fontSize: 15,
                     color: 'white',
-                    marginLeft: 12,
-                    marginTop: 10,
                     fontWeight: 'bold',
+                    textAlign: "center"
                   }}
                 >
                   {+badgeCount || 0}
