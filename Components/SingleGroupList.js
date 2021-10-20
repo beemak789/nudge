@@ -7,7 +7,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
@@ -30,7 +30,7 @@ import {
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
-
+import { Searchbar } from 'react-native-paper';
 
 const SingleGroupList = (props) => {
   const dispatch = useDispatch();
@@ -51,6 +51,11 @@ const SingleGroupList = (props) => {
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
+    if (!search.trim()) {
+      alert('Please specify a location!');
+      return;
+    }
+
     members.forEach(async (member) => {
       //get token from id function
       if (member.allowNotifications === true) {
@@ -84,7 +89,7 @@ const SingleGroupList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style= {{display: "flex"}}>
+      <View style={{ display: 'flex' }}>
         <GooglePlacesAutocomplete
           placeholder="Search"
           onPress={(data, details = null) => {
@@ -99,10 +104,19 @@ const SingleGroupList = (props) => {
           styles={autoComplete}
         ></GooglePlacesAutocomplete>
       </View>
-      <View style={{ marginLeft: 'auto', height:45, width: "20%", display: "flex", flexDirection:"row", justifyContent :"center", alignItems:"flex-end" }}>
-
+      <View
+        style={{
+          marginLeft: 'auto',
+          height: 45,
+          width: '20%',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
+      >
         <Icon
-          style={{ margin: 5}}
+          style={{ margin: 5 }}
           color="black"
           type="ionicon"
           name="notifications-outline"
@@ -111,30 +125,45 @@ const SingleGroupList = (props) => {
             await sendPushNotification(selectedGroup.members, user.fullName);
           }}
         />
-
       </View>
       <View style={styles.body}>
-        <View style={{display:"flex", flexDirection: "row", justifyContent: "flex-end", alignItems :"center"}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
           <TouchableOpacity
-          onPress={() => navigation.navigate('Add Group Task')}
-          style={styles.deleteButton}>
-          <Text style = {{fontWeight: "bold", color:"black"}}> + Add a Task</Text>
+            onPress={() => navigation.navigate('Add Group Task')}
+            style={styles.deleteButton}
+          >
+            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+              {' '}
+              + Add a Task
+            </Text>
           </TouchableOpacity>
         </View>
 
         {tasks.length < 1 ? (
-
-          <View style={{display:"flex", flexDirection:"column", marginTop: 75}}>
-          <Image
-          style={styles.nudgie}
-          source={require('../public/nudgie2.png')}
-        />
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            margin: 5,
-            textAlign:"center"
-          }}>Add a task to get started!</Text>
+          <View
+            style={{ display: 'flex', flexDirection: 'column', marginTop: 75 }}
+          >
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                margin: 5,
+                textAlign: 'center',
+              }}
+            >
+              Add a task to get started!
+            </Text>
           </View>
         ) : tasks[0].id ? (
           <FlatList
@@ -148,7 +177,6 @@ const SingleGroupList = (props) => {
                 <View style={styles.box}>
                   <View style={styles.info}>
                     <Text style={styles.item}>{item.name}</Text>
-
                   </View>
                   <Text style={styles.addedBy}>added by {item.userName}</Text>
                 </View>
@@ -156,14 +184,17 @@ const SingleGroupList = (props) => {
             )}
           ></FlatList>
         ) : (
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            margin: 5,
-          }}>Loading...</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              margin: 5,
+            }}
+          >
+            Loading...
+          </Text>
         )}
-        </View>
-
+      </View>
     </SafeAreaView>
   );
 };
@@ -185,7 +216,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 24,
-    alignSelf: "center"
+    alignSelf: 'center',
   },
   title: {
     fontSize: 30,
@@ -237,7 +268,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     justifyContent: 'space-between',
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     borderRadius: 10,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
@@ -306,7 +337,7 @@ const autoComplete = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 2,
     borderColor: 'green',
-    borderBottomColor: "#83CA9E",
+    borderBottomColor: '#83CA9E',
     zIndex: 999,
   },
   predefinedPlacesDescription: {
