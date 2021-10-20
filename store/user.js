@@ -435,10 +435,11 @@ export default (state = {}, action) => {
       );
       return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
-      const newFriends = [...state.friends];
-      if (!state.friends.includes(action.friend)) {
-        newFriends.push(action.friend);
-      }
+        const newFriends = state.friends.filter( (friend) =>
+          friend.id !== action.friendId
+          )
+        newFriends.push(action.friend)
+
       const deletedPending = [...state.pendingFriends].filter(
         (friend) => friend.id !== action.friendId
       );
