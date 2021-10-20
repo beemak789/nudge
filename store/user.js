@@ -435,19 +435,10 @@ export default (state = {}, action) => {
       );
       return { ...state, groups: deleteGroup };
     case ADD_FRIEND:
-      console.log('state.friends', state.friends)
-      // arr.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
         const newFriends = state.friends.filter( (friend) =>
           friend.id !== action.friendId
           )
         newFriends.push(action.friend)
-      console.log('newfriends', newFriends)
-      // for (let i=0; i<state.friends.length; i++){
-      //   for (let key in state.friends[i])
-      //   if (!state.friends[i].includes(action.friend.id)) {
-      //     newFriends.push(action.friend);
-      //   }
-      // }
 
       const deletedPending = [...state.pendingFriends].filter(
         (friend) => friend.id !== action.friendId
