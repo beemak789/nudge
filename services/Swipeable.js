@@ -15,8 +15,8 @@ export const LeftSwipeActions = (complete) => {
     >
       <Text
         style={{
-          fontSize: 18,
-          padding: 5,
+          fontSize: 14,
+          padding: 7,
           alignSelf: 'center',
           textAlign: 'center',
           paddingHorizontal: 10,
@@ -42,8 +42,8 @@ export const LeftCompleteSwipeActions = (complete) => {
     >
       <Text
         style={{
-          fontSize: 18,
-          padding: 5,
+          fontSize: 14,
+          padding: 7,
           alignSelf: 'center',
           textAlign: 'center',
           paddingHorizontal: 10,
@@ -68,8 +68,8 @@ export const RightSwipeActions = () => {
     >
       <Text
         style={{
-          fontSize: 18,
-          padding: 5,
+          fontSize: 14,
+          padding: 7,
           alignSelf: 'center',
           textAlign: 'center',
           paddingHorizontal: 10,
