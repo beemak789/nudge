@@ -65,24 +65,6 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-         <View style= {{display: "flex"}}>
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          onPress={(data, details = null) => {
-            // 'details' is provided when fetchDetails = true
-            setSearch(data.description);
-          }}
-          onFail={(error) => console.error(error)}
-          query={{
-            key: GOOGLE_PLACES_API,
-            language: 'en',
-          }}
-          styles={autoComplete}
-        ></GooglePlacesAutocomplete>
-      </View>
-      {/* <View style={{ marginLeft: 'auto', height:45, width: "20%", display: "flex", flexDirection:"row", justifyContent :"center", alignItems:"flex-end" }}>
-
-      </View> */}
       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
         <TouchableOpacity
           style={styles.button}
@@ -110,7 +92,9 @@ const FriendsList = (props) => {
           source={require('../public/nudgie2.png')}
           style={styles.nudgie}
         />
+
         <Text style={styles.title}>Nudgies</Text>
+
         <Text style={styles.subtitle}>Pending Requests</Text>
         {numPendingFriends < 1 ? (
           <Text>None</Text>
@@ -144,42 +128,57 @@ const FriendsList = (props) => {
           <Text>No friends</Text>
         ) : user.friends[0].id ? (
           <>
-          <Text style={styles.subtitle} >Your Friends</Text>
-          <FlatList
-            data={user.friends}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.box}>
-                <TouchableOpacity
-                  onPress={async () => {
-                    await sendPushNotification(item.token, user.fullName);
-                  }}
-                >
-                  <Icon
-                    style={{ marginLeft: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="notifications-outline"
-                    size={20}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.item}>{item.fullName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(_deleteFriend(user.id, item.id));
-                  }}
-                >
-                  <Icon
-                    style={{ marginRight: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="trash-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          ></FlatList>
+            <Text style={styles.subtitle}>Your Friends</Text>
+            <View>
+              <GooglePlacesAutocomplete
+                placeholder="Search"
+                onPress={(data, details = null) => {
+                  // 'details' is provided when fetchDetails = true
+                  setSearch(data.description);
+                }}
+                onFail={(error) => console.error(error)}
+                query={{
+                  key: GOOGLE_PLACES_API,
+                  language: 'en',
+                }}
+                styles={autoComplete}
+              ></GooglePlacesAutocomplete>
+            </View>
+            <FlatList
+              data={user.friends}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.box}>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      await sendPushNotification(item.token, user.fullName);
+                    }}
+                  >
+                    <Icon
+                      style={{ marginLeft: 5 }}
+                      color="black"
+                      type="ionicon"
+                      name="notifications-outline"
+                      size={20}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.item}>{item.fullName}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(_deleteFriend(user.id, item.id));
+                    }}
+                  >
+                    <Icon
+                      style={{ marginRight: 5 }}
+                      color="black"
+                      type="ionicon"
+                      name="trash-outline"
+                      size={22}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            ></FlatList>
           </>
         ) : (
           <Text>Loading...</Text>
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 24,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   title: {
     fontSize: 28,
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign:"left",
+    textAlign: 'left',
     margin: 5,
   },
   save: {
@@ -313,7 +312,7 @@ const autoComplete = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 2,
     borderColor: 'green',
-    borderBottomColor: "#83CA9E",
+    borderBottomColor: '#83CA9E',
     zIndex: 999,
   },
   predefinedPlacesDescription: {
