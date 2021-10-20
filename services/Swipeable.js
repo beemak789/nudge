@@ -5,20 +5,21 @@ export const LeftSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: '#ccffbd',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+        backgroundColor: "#FAF3DD",
+        height: 51,
+        display: "flex",
+        alignItems:"center",
+        justifyContent:"center",
         borderRadius: 10,
-        marginLeft: 5,
       }}
     >
       <Text
         style={{
-          color: '#40394a',
+          fontSize: 18,
+          padding: 5,
+          alignSelf: 'center',
+          textAlign: 'center',
           paddingHorizontal: 10,
-          fontWeight: '600',
-          paddingHorizontal: 30,
-          paddingVertical: 20,
         }}
       >
         Complete
@@ -31,20 +32,21 @@ export const LeftCompleteSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: '#ffcb69',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+        backgroundColor: "#FAF3DD",
+        height: 51,
+        display: "flex",
+        alignItems:"center",
+        justifyContent:"center",
         borderRadius: 10,
-        marginLeft: 5,
       }}
     >
       <Text
         style={{
-          color: '#40394a',
+          fontSize: 18,
+          padding: 5,
+          alignSelf: 'center',
+          textAlign: 'center',
           paddingHorizontal: 10,
-          fontWeight: '600',
-          paddingHorizontal: 30,
-          paddingVertical: 20,
         }}
       >
         Incomplete
@@ -56,20 +58,21 @@ export const RightSwipeActions = () => {
   return (
     <View
       style={{
-        backgroundColor: '#ff8303',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
+        backgroundColor: "#B44647",
+        height: 51,
+        display: "flex",
+        alignItems:"center",
+        justifyContent:"center",
         borderRadius: 10,
-        marginRight: 5,
       }}
     >
       <Text
         style={{
-          color: '#1b1a17',
+          fontSize: 18,
+          padding: 5,
+          alignSelf: 'center',
+          textAlign: 'center',
           paddingHorizontal: 10,
-          fontWeight: '600',
-          paddingHorizontal: 30,
-          paddingVertical: 20,
         }}
       >
         Delete

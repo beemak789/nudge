@@ -137,7 +137,7 @@ const taskList = (props) => {
               onSwipeableLeftOpen={() => updateCompleteStatus(item)}
             >
               <TouchableOpacity
-                style={styles.box}
+                style={styles[`box${item.priority}`]}
                 onPress={() => {
                   dispatch(_fetchPlaces(item));
                   props.navigation.navigate('Places Stack');
@@ -151,7 +151,6 @@ const taskList = (props) => {
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
-                <View style={priorityStyle(item.priority)}></View>
               </TouchableOpacity>
             </Swipeable>
           )}
@@ -205,9 +204,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 80,
   },
-  item: {
-    fontSize: 20,
-  },
   body: {
     flex: 1,
     justifyContent: 'center',
@@ -221,7 +217,41 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#FAF3DD',
   },
-  box: {
+  boxhigh: {
+    alignSelf: 'center',
+    display: 'flex',
+    width: '95%',
+    borderRadius: 10,
+    backgroundColor: '#588669',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    marginBottom: 10,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  boxmedium: {
+    alignSelf: 'center',
+    display: 'flex',
+    width: '95%',
+    borderRadius: 10,
+    backgroundColor: '#83CA9E',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    marginBottom: 10,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  boxlow: {
     alignSelf: 'center',
     display: 'flex',
     width: '95%',
