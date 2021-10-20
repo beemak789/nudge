@@ -35,7 +35,7 @@ const SingleGroupStack = (props) => {
         </Text>
       </SafeAreaView>
       <Tab.Navigator
-        initialRouteName="Group Tasks"
+        initialRouteName="Tasks"
         screenOptions={{
           activeTintColor: 'white',
           itemStyle: { marginVertical: 10 },
@@ -44,17 +44,17 @@ const SingleGroupStack = (props) => {
           // style: { position: 'relative', top: 100 },
         }}
       >
-        <Tab.Screen name="Group Tasks" component={SingleGroupList} {...props} />
+        <Tab.Screen name="Tasks" component={SingleGroupList} {...props} />
 
         <Tab.Screen
-          name="Group Chat"
+          name="Chat"
           component={GroupChat}
           options={{ headerShown: false }}
           {...props}
         />
 
         <Tab.Screen
-          name="Group Settings"
+          name="Settings"
           component={SingleGroupSettings}
           {...props}
         />
