@@ -96,8 +96,9 @@ const FriendsList = (props) => {
           style={styles.nudgie}
         />
         <Text style={styles.title}>Nudgies</Text>
+        <Text style={styles.subtitle} >Pending Requests</Text>
           {numPendingFriends < 1 ? (
-            <Text>No pending friend requests</Text>
+            <Text>None</Text>
           ) : user.pendingFriends[0].id ? (
             <FlatList
               data={user.pendingFriends}
@@ -193,6 +194,12 @@ const styles = StyleSheet.create({
   pending: {
     fontSize: 20,
     textAlign: 'center',
+    margin: 5,
+  },
+  subtitle: {
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
     margin: 5,
   },
   save: {
