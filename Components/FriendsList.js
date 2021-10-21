@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
   Image,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { createGroup } from '../store/group';
@@ -33,16 +34,33 @@ const FriendsList = (props) => {
     dispatch(_fetchUserPendingFriends(user));
   }, [dispatch]);
 
-  async function createFriendGroup(userId, friendId, userName, friendName) {
 
-    dispatch(createGroup({
-        name: `${userName}& ${friendName}`,
-        members: [userId, friendId]
-      })
-    )
+  function showConfirmDialog (userId, friendId, userName, friendName){
+    return Alert.alert(
+      "Create Group",
+      `Would you like to create a group with ${friendName}?`,
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async() => {
+            dispatch(createGroup({
+              name: `${userName} & ${friendName}`,
+              members: [userId, friendId]
+            })
+          )
 
-    navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} })
-  }
+          navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} });
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -116,7 +134,7 @@ const FriendsList = (props) => {
                 <View style={styles.box}>
                   <TouchableOpacity
                     onPress={ () => {
-                      createFriendGroup(user.id, item.id, item.fullName, user.fullName);
+                      showConfirmDialog(user.id, item.id, user.fullName, item.fullName);
                     }}
                   >
                     <Icon
