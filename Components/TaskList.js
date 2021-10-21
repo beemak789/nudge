@@ -121,7 +121,7 @@ const taskList = (props) => {
 
       <View style={styles.body}>
         {incomplete.length === 0 && <NoPlaces />}
-        <View style={{ marginTop: 10 }}>
+        <View style={{ margin: 10 }}>
           <FlatList
             data={incomplete}
             keyExtractor={(item) => item.id}
