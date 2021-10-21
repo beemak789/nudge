@@ -3,17 +3,20 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   View,
-  Image
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
 import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements';
 import { _fetchUserFriends } from '../store/user';
+// import { TouchableWithoutFeedback } from 'react-native';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user);
@@ -31,7 +34,7 @@ const AddGroup = (props) => {
 
 
   const onSubmit = () => {
-    if (!text.trim()){
+    if (!text.trim()) {
       alert('Please enter a group name!');
       return;
     }
@@ -51,119 +54,135 @@ const AddGroup = (props) => {
 
       props.navigation.navigate('Group List');
     }
-
   };
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'right', marginLeft: 20, marginTop: 0 }}>
-        {groups.length ? (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate('Group List');
-            }}
-          >
-            <Text style={{fontWeight: "bold"}}>Back</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={{ height: 73 }}></View>
-        )}
-      </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center'
-        }}
-      >
-        <Image
-          source={require('../public/nudgie2.png')}
-          style={styles.nudgie}
-        />
-        <View style={{ marginBottom: 30 }}>
-          <Text style={styles.title}>Create a New Group</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            {groups.length ? (
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.save}
+                  onPress={() => {
+                    props.navigation.navigate('Group List');
+                  }}
+                >
+                  <Text style={styles.saveText}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.save}
+                  onPress={onSubmit}
+                  title="save"
+                >
+                  <Text style={styles.saveText}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{ height: 73 }}></View>
+            )}
+          </View>
           <View
             style={{
-              display: 'flex',
-              flexDirection: 'row',
+              flex: 1,
               alignItems: 'center',
             }}
           >
-            <TextInput
-              style={styles.newGroupName}
-              onChangeText={onChangeText}
-              value={text}
-              placeholder="enter group name"
+            <Image
+              source={require('../public/nudgie2.png')}
+              style={styles.nudgie}
             />
-          </View>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'left',
-              fontWeight: 'bold',
-              marginTop: 20,
-            }}
-          >
-            Select Friends
-          </Text>
-          <Text style={{ marginBottom: 10 }}>
-            Select friends to add them to group
-          </Text>
-          <View style={{}}>
-            {friends.map((friend) => {
-              return (
-                <TouchableOpacity
-                  key={friend.id}
-                  style={
-                    members.includes(friend.id)
-                      ? styles.selected
-                      : styles.notSelected
-                  }
-                  onPress={() => {
-                    if (members.includes(friend.id)) {
-                      //do not highlight
-                      const filteredCategories = members.filter(
-                        (removeType) => removeType !== friend.id
-                      );
-                      setMembers(filteredCategories);
-                    } else {
-                      //highlgiht
-                      setMembers([...members, friend.id]);
-                    }
-                  }}
-                >
-                  <Text
-                    style={
-                      members.includes(friend.id)
-                        ? styles.selectedText
-                        : styles.notSelectedText
-                    }
-                  >
-                    {friend.fullName}
-                  </Text>
-                  <View
-                    style={{
-                      display: 'flex',
-                      marginRight: 5,
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Icon
-                      color="black"
-                      type="ionicon"
-                      name="person-add-outline"
-                      size={20}
-                    />
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+            <View style={{ marginBottom: 30 }}>
+              <Text style={styles.title}>Create a New Group</Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <TextInput
+                  style={styles.newGroupName}
+                  onChangeText={onChangeText}
+                  value={text}
+                  placeholder="enter group name"
+                />
+              </View>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                  marginTop: 20,
+                }}
+              >
+                Select Friends
+              </Text>
+              <Text style={{ marginBottom: 10 }}>
+                Select friends to add them to group
+              </Text>
+              { (!friends.length) ? (
+              <Text style={{alignSelf: "center", margin: 10}}>Add some friends to get started!</Text>) :
+                <ScrollView>
+                {friends.map((friend) => {
+                  return (
+                    <TouchableOpacity
+                      key={friend.id}
+                      style={
+                        members.includes(friend.id)
+                          ? styles.selected
+                          : styles.notSelected
+                      }
+                      onPress={() => {
+                        if (members.includes(friend.id)) {
+                          //do not highlight
+                          const filteredCategories = members.filter(
+                            (removeType) => removeType !== friend.id
+                          );
+                          setMembers(filteredCategories);
+                        } else {
+                          //highlgiht
+                          setMembers([...members, friend.id]);
+                        }
+                      }}
+                    >
+                      <Text
+                        style={
+                          members.includes(friend.id)
+                            ? styles.selectedText
+                            : styles.notSelectedText
+                        }
+                      >
+                        {friend.fullName}
+                      </Text>
+                      <View
+                        style={{
+                          display: 'flex',
+                          marginRight: 5,
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Icon
+                          color="black"
+                          type="ionicon"
+                          name="person-add-outline"
+                          size={20}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>}
+            </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>Save</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -213,24 +232,6 @@ const styles = StyleSheet.create({
       width: 3,
     },
   },
-  button: {
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    borderColor: 'transparent',
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    marginTop: 10,
-  },
   box: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -242,12 +243,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     alignItems: 'center',
     shadowOpacity: 0.2,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    alignSelf: 'center',
-    textAlign: 'center',
   },
   selected: {
     display: 'flex',
