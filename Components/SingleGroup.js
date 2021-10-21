@@ -13,6 +13,10 @@ const SingleGroup = (props) => {
   const user = useSelector((state) => state.user);
   const navigation = useNavigation();
 
+  //On load it is undefined, default value to ensure truthiness fixes this
+  const group = props.group || {}
+  const members = group.members || []
+
   useEffect(() => {
     dispatch(fetchUserGroups(user));
   }, [dispatch]);
@@ -26,8 +30,8 @@ const SingleGroup = (props) => {
     >
       <View style={styles.box}>
         <View style={styles.info}>
-          <Text style={styles.item}>{props.group.name}</Text>
-          <Text style={styles.memberNumber}>{props.group.members.length} members</Text>
+          <Text style={styles.item}>{group.name}</Text>
+          <Text style={styles.memberNumber}>{members.length} members</Text>
         </View>
       </View>
     </TouchableOpacity>
