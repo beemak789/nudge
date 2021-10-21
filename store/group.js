@@ -72,6 +72,30 @@ export const clearGroups = () => {
   };
 };
 
+function compareValues(key, order = 'asc') {
+  //called within sort function, gives a number value to each of our objects based on key comparisons
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0;
+    }
+  //if key is string, change to all uppercase, otherwise can leave as is
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+    //set the comparison value to either 1, -1, or 0 based on key comparison, 0 means leave in place
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+    //invert the return value if want descending order
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+}
 //should return a list of groups that user is part of
 export const fetchUserGroups = (user) => {
   return async (dispatch) => {
@@ -98,6 +122,7 @@ export const fetchUserGroups = (user) => {
                 });
             })
           );
+          groupsArrayInfo.sort(compareValues('name'))
           dispatch(_setGroups(groupsArrayInfo));
         });
     } catch (err) {
@@ -143,7 +168,7 @@ export const createGroup = ({ name, members }) => {
           groupId,
         })
       );
-      dispatch(selectGroup(groupId))
+      dispatch(selectGroup(groupId));
     } catch (err) {
       console.log(err);
     }
