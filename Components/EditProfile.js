@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
   },
   updateUserButton: {
     justifyContent: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 45,
+    width: 80,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 20,
     borderColor: 'transparent',
     borderWidth: 1,
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
   },
   updateText: {
     fontSize: 15,
+    textAlign: "center",
     color: 'black',
     fontWeight: 'bold',
   },

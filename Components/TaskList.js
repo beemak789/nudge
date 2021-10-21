@@ -121,7 +121,7 @@ const taskList = (props) => {
 
       <View style={styles.body}>
         {incomplete.length === 0 && <NoPlaces />}
-        <View style={{ marginTop: 10 }}>
+        <View style={{ margin: 10 }}>
           <FlatList
             data={incomplete}
             keyExtractor={(item) => item.id}
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     width: '95%',
     borderRadius: 10,
-    backgroundColor: '#588669',
+    backgroundColor: '#ffb4a2',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',

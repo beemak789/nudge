@@ -93,7 +93,7 @@ export default function SingleGroupSettings(props) {
                 _leaveGroup();
               }}
             >
-              <View style={styles.deleteButton}>
+              <View style={styles.leaveButton}>
                 <FontAwesome5 name="door-open" size={22} color="black" />
                 <Text style={styles.deleteText}>Leave</Text>
               </View>
@@ -207,6 +207,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    margin: 10,
+  },
+  leaveButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#ffb4a2',
     shadowColor: '#000000',
     shadowOpacity: 0.3,
     shadowRadius: 2,

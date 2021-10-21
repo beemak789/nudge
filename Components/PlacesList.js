@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     margin: 10,
     padding: 5,
-    backgroundColor: '#EBF6EF',
+    backgroundColor: '#ffb4a2',
     alignItems: 'center',
     shadowColor: 'black',
     shadowOpacity: 0.2,

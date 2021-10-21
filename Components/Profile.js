@@ -16,6 +16,7 @@ import {
 } from '../store/user';
 import { enableLocation, disableLocation } from '../store/location';
 import { useNavigation } from '@react-navigation/core';
+import { Icon } from 'react-native-elements';
 
 export default function Profile() {
   const user = useSelector((state) => state.user);
@@ -60,6 +61,11 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <Text style={{ color: 'white' }}></Text>
+        </TouchableOpacity>
+      </View>
       <View style={{ display: 'flex', alignItems: 'center' }}>
         <View style={styles.imageContent}>
           <Image
@@ -88,7 +94,7 @@ export default function Profile() {
               <Switch
                 onValueChange={toggleNotification}
                 value={notificationToggle}
-                trackColor={{ true: '#83CA9E' }}
+                trackColor={{ true: '#ffb4a2' }}
               />
             </View>
 
@@ -97,67 +103,65 @@ export default function Profile() {
               <Switch
                 onValueChange={toggleLocation}
                 value={locationToggle}
-                trackColor={{ true: '#83CA9E' }}
+                trackColor={{ true: '#ffb4a2' }}
               />
             </View>
-
             <View>
               <Text style={styles.badges}>Badges</Text>
-            </View>
 
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-              }}
-            >
-              <View style={styles.badgeNudgie}>
-                <Image
-                  style={styles.nudgie}
-                  source={require('../public/nudgie2.png')}
-                />
-              </View>
               <View
                 style={{
-                  position: 'absolute',
-                  width: 38,
-                  height: 38,
-                  borderRadius: 20,
-                  marginLeft: 72,
-                  backgroundColor: '#588669',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
                 }}
               >
-                <Text
+                <View style={styles.badgeNudgie}>
+                  <Image
+                    style={styles.nudgie}
+                    source={require('../public/nudgie2.png')}
+                  />
+                </View>
+                <View
                   style={{
-                    fontSize: 15,
-                    color: 'white',
-                    fontWeight: 'bold',
-                    textAlign: 'center',
+                    position: 'absolute',
+                    width: 38,
+                    height: 38,
+                    borderRadius: 20,
+                    marginLeft: 72,
+                    backgroundColor: '#83CA9E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  {+badgeCount || 0}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {+badgeCount || 0}
+                  </Text>
+                </View>
               </View>
             </View>
+            <View style={styles.userButtonWrapper}>
+              <TouchableOpacity onPress={() => navigate('Edit Profile')}>
+                <View style={styles.logoutButton}>
+                  <Text style={styles.logoutText}>Edit Profile</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => dispatch(logOutUser(reset))}>
+                <View style={styles.logoutButton}>
+                  <Text style={styles.logoutText}>Logout</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-
-        <View style={styles.userButtonWrapper}>
-          <TouchableOpacity onPress={() => navigate('Edit Profile')}>
-            <View style={styles.editButton}>
-              <Text style={styles.editProfileText}>Edit Profile</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => dispatch(logOutUser(reset))}>
-            <View style={styles.logoutButton}>
-              <Text style={styles.logoutText}>Logout</Text>
-            </View>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -189,15 +193,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
   },
+  buttonContainer: {
+    alignItems: 'flex-end',
+    marginRight: 20,
+    marginTop: 0,
+  },
   imageContent: {
     width: '100%',
     aspectRatio: 10 / 4,
   },
 
   nudgie: {
-    width: '100%',
-    height: '100%',
+    width: '90%',
+    height: '90%',
     resizeMode: 'contain',
+    alignSelf: 'center',
   },
   badgeNudgie: {
     width: '100%',
@@ -233,12 +243,40 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   logoutText: {
-    fontSize: 18,
-    color: '#4a7c59',
+    color: 'black',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   logoutButton: {
-    ...buttonStyle,
+    justifyContent: 'center',
+    width: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
+  },
+  button: {
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: 'white',
+
+    marginTop: 10,
   },
   badges: {
     fontWeight: 'bold',
