@@ -30,6 +30,9 @@ const AddGroup = (props) => {
     dispatch(_fetchUserFriends(user));
   }, []);
 
+
+
+
   const onSubmit = () => {
     if (!text.trim()) {
       alert('Please enter a group name!');
