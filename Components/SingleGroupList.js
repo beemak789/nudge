@@ -35,6 +35,7 @@ const SingleGroupList = (props) => {
 
   const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
+  console.log("SELECTED GROUP", selectedGroup)
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
   const [search, setSearch] = useState('');
 
