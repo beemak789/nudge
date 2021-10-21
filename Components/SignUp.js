@@ -13,6 +13,7 @@ import {
 
 // Redux
 import { LogBox } from 'react-native';
+import { DismissKeyboard } from '../services/dismissKeyboard';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
@@ -37,85 +38,106 @@ const SignUp = (props) => {
       alert("Passwords don't match.");
       return;
     }
+
+    if (!first) {
+      alert('Please provide a first name.');
+      return;
+    }
+
+    if (!last) {
+      alert('Please provide a last name.');
+      return;
+    }
+
     dispatch(signUpUser(email, password, first, last, location, reset));
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
-      >
-        <View style={styles.imageContent}>
-          <Image
-            style={styles.nudgie}
-            source={require('../public/nudgie2.png')}
-          />
-          <Text style={styles.title}>nudge</Text>
-        </View>
-        <ScrollView>
-          <View style={styles.box}>
-            <TextInput
-              style={styles.item}
-              placeholder="First Name"
-              placeholderTextColor="#003f5c"
-              onChangeText={(first) => setFirst(first)}
-            />
-          </View>
-
-          <View style={styles.box}>
-            <TextInput
-              style={styles.item}
-              placeholder="Last Name"
-              placeholderTextColor="#003f5c"
-              onChangeText={(last) => setLast(last)}
-            />
-          </View>
-
-          <View style={styles.box}>
-            <TextInput
-              style={styles.item}
-              placeholder="Email"
-              autoCapitalize="none"
-              placeholderTextColor="#003f5c"
-              onChangeText={(email) => setEmail(email)}
-            />
-          </View>
-
-          <View style={styles.box}>
-            <TextInput
-              style={styles.item}
-              placeholder="Password"
-              autoCapitalize="none"
-              placeholderTextColor="#003f5c"
-              secureTextEntry={true}
-              onChangeText={(password) => setPassword(password)}
-            />
-          </View>
-
-          <View style={styles.box}>
-            <TextInput
-              style={styles.item}
-              placeholder="Confirm Password"
-              autoCapitalize="none"
-              placeholderTextColor="#003f5c"
-              secureTextEntry={true}
-              onChangeText={(password) => setConfirmPassword(password)}
-            />
-          </View>
-        </ScrollView>
-        <TouchableOpacity onPress={onSubmit} style={styles.button}>
-          <Text style={styles.loginText}>SIGN UP</Text>
-        </TouchableOpacity>
-        <Text style={{ marginTop: 20 }}>Existing User?</Text>
-        <TouchableOpacity
-          onPress={() => navigate('Log In')}
-          style={styles.button}
+    <DismissKeyboard>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
         >
-          <Text style={styles.loginText}>Log In!</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          <ScrollView>
+            <View style={styles.imageContent}>
+              <Image
+                style={styles.nudgie}
+                source={require('../public/nudgie2.png')}
+              />
+            </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>nudge</Text>
+            </View>
+
+            <View style={styles.inputs}>
+              <View style={styles.box}>
+                <TextInput
+                  style={styles.item}
+                  placeholder="First Name"
+                  placeholderTextColor="#003f5c"
+                  onChangeText={(first) => setFirst(first)}
+                />
+              </View>
+
+              <View style={styles.box}>
+                <TextInput
+                  style={styles.item}
+                  placeholder="Last Name"
+                  placeholderTextColor="#003f5c"
+                  onChangeText={(last) => setLast(last)}
+                />
+              </View>
+
+              <View style={styles.box}>
+                <TextInput
+                  style={styles.item}
+                  placeholder="Email"
+                  autoCapitalize="none"
+                  placeholderTextColor="#003f5c"
+                  onChangeText={(email) => setEmail(email)}
+                />
+              </View>
+
+              <View style={styles.box}>
+                <TextInput
+                  style={styles.item}
+                  placeholder="Password"
+                  autoCapitalize="none"
+                  placeholderTextColor="#003f5c"
+                  secureTextEntry={true}
+                  onChangeText={(password) => setPassword(password)}
+                />
+              </View>
+
+              <View style={styles.box}>
+                <TextInput
+                  style={styles.item}
+                  placeholder="Confirm Password"
+                  autoCapitalize="none"
+                  placeholderTextColor="#003f5c"
+                  secureTextEntry={true}
+                  onChangeText={(password) => setConfirmPassword(password)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.buttons}>
+              <TouchableOpacity onPress={onSubmit} style={styles.button}>
+                <Text style={styles.loginText}>SIGN UP</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigate('Log In')}
+                style={styles.button}
+              >
+                <Text style={styles.loginText}>Log In!</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 };
 
@@ -125,45 +147,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    justifyContent: 'center',
     alignItems: 'center',
-    // justifyContent: "center",
+  },
+  imageContent: {
+    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 10 / 4,
   },
 
-  inputView: {
-    backgroundColor: '#dde5b6',
-    borderRadius: 30,
-    width: '70%',
-    height: 45,
-    marginBottom: 20,
-  },
   nudgie: {
-    marginTop: 30,
-    height: 150,
-    width: 150,
-    borderRadius: 24,
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
-
-  avatar: {
-    width: 140,
-    height: 140,
+  titleContainer: {
+    width: '100%',
+    aspectRatio: 10 / 1,
   },
   title: {
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
-    margin: 5,
   },
-
+  inputs: {
+    alignContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 10 / 7,
+  },
   box: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: 325,
-    margin: 10,
     borderRadius: 10,
+    width: '90%',
+    marginTop: '2%',
+    marginBottom: '2%',
+    aspectRatio: 10 / 1.1,
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
-    alignItems: 'center',
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 1,
@@ -172,20 +193,23 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   item: {
-    padding: 10,
+    padding: '2%',
     fontSize: 18,
-    alignSelf: 'center',
     textAlign: 'left',
     width: '90%',
   },
+  buttons: {
+    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 10 / 3,
+    margin: '2%',
+  },
   button: {
     justifyContent: 'center',
-    width: 200,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    padding: '2%',
+    width: '40%',
     borderRadius: 20,
     borderColor: 'transparent',
-    borderWidth: 1,
     elevation: 3,
     backgroundColor: '#83CA9E',
     shadowColor: '#000000',
@@ -202,10 +226,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     textAlign: 'center',
-  },
-
-  forgot_button: {
-    height: 30,
-    marginBottom: 30,
   },
 });

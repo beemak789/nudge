@@ -48,31 +48,10 @@ const taskList = (props) => {
     dispatch(_deleteTask(itemId));
   };
 
-  // if (incomplete.length === 0) {
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
-  //         <TouchableOpacity
-  //           style={styles.button}
-  //           onPress={() => {
-  //             props.navigation.navigate('Add Task');
-  //           }}
-  //         >
-  //           <Icon
-  //             color="black"
-  //             type="ionicon"
-  //             name="pencil-outline"
-  //             size={20}
-  //           />
-  //         </TouchableOpacity>
-  //       </View>
-  //       <NoPlaces />
-  //     </SafeAreaView>
-  //   );
-  // }
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', marginLeft: 20, marginRight:20}}>
         <View
           style={{ alignItems: 'flex-start', marginRight: 20, marginTop: 0 }}
         >

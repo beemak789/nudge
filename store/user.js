@@ -399,10 +399,12 @@ export const signUpUser = (email, password, first, last) => {
             .set(data)
             .catch((error) => {
               alert(error);
+              return;
             });
         })
         .catch((error) => {
           alert(error);
+          return;
         });
       dispatch(setUser(data));
     } catch (err) {
