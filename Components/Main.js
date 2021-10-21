@@ -197,12 +197,9 @@ const Main = () => {
   }
   return (
     <Tab.Navigator
-      initialRouteName="Tasks Stack"
       screenOptions={{
         tabBarShowLabel: false,
-        activeTintColor: '#6ede8a',
         itemStyle: { marginVertical: 10 },
-        inactiveTintColor: '#dde5b6',
         style: {
           backgroundColor: '#00818A',
         },
@@ -211,10 +208,42 @@ const Main = () => {
     >
       {!user.id ? (
         <>
-          <Tab.Screen name="Log In">
+          <Tab.Screen
+            name="Log In"
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  focused={focused}
+                  color={color}
+                  type="feather"
+                  name="log-in"
+                  size={25}
+                />
+              ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
+            }}
+          >
             {(props) => <LogIn {...props} />}
           </Tab.Screen>
-          <Tab.Screen name="Sign Up">
+          <Tab.Screen
+            name="Sign Up"
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  focused={focused}
+                  color={color}
+                  type="antdesign"
+                  name="adduser"
+                  size={25}
+                />
+              ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
+            }}
+          >
             {(props) => <SignUp {...props} />}
           </Tab.Screen>
         </>
@@ -223,15 +252,18 @@ const Main = () => {
           <Tab.Screen
             name="Tasks Stack"
             options={{
-              tabBarIcon: () => (
+              tabBarIcon: ({ color, focused }) => (
                 <Icon
                   style={{ marginRight: 10 }}
-                  color="black"
                   type="ionicon"
                   name="list-outline"
-                  size={20}
+                  size={25}
+                  focused={focused}
+                  color={color}
                 />
               ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
             }}
           >
             {(props) => <TasksStack {...props} />}
@@ -239,15 +271,18 @@ const Main = () => {
           <Tab.Screen
             name="Places Stack"
             options={{
-              tabBarIcon: () => (
+              tabBarIcon: ({ color, focused }) => (
                 <Icon
                   style={{ marginRight: 10 }}
-                  color="black"
                   type="ionicon"
                   name="location-outline"
-                  size={20}
+                  size={25}
+                  focused={focused}
+                  color={color}
                 />
               ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
             }}
           >
             {(props) => <PlacesStack {...props} />}
@@ -255,15 +290,18 @@ const Main = () => {
           <Tab.Screen
             name="Friends Stack"
             options={{
-              tabBarIcon: () => (
+              tabBarIcon: ({ color, focused }) => (
                 <Icon
                   style={{ marginRight: 10 }}
-                  color="black"
                   type="ionicon"
                   name="people-outline"
-                  size={20}
+                  size={25}
+                  focused={focused}
+                  color={color}
                 />
               ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
             }}
           >
             {(props) => <FriendsStack {...props} />}
@@ -271,15 +309,18 @@ const Main = () => {
           <Tab.Screen
             name="Groups Stack"
             options={{
-              tabBarIcon: () => (
+              tabBarIcon: ({ color, focused }) => (
                 <Icon
                   style={{ marginRight: 10 }}
-                  color="black"
                   type="ionicon"
                   name="chatbox-outline"
-                  size={20}
+                  size={25}
+                  focused={focused}
+                  color={color}
                 />
               ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
             }}
           >
             {(props) => <GroupsStack {...props} />}
@@ -288,15 +329,18 @@ const Main = () => {
           <Tab.Screen
             name="Profile Stack"
             options={{
-              tabBarIcon: () => (
+              tabBarIcon: ({ color, focused }) => (
                 <Icon
                   style={{ marginRight: 10 }}
-                  color="black"
                   type="ionicon"
                   name="person-circle-outline"
-                  size={20}
+                  size={25}
+                  focused={focused}
+                  color={color}
                 />
               ),
+              tabBarActiveTintColor: '#6ede8a',
+              tabBarInactiveTintColor: '#97a97c',
             }}
           >
             {(props) => <ProfileStack {...props} />}
