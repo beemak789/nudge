@@ -48,44 +48,34 @@ const taskList = (props) => {
     dispatch(_deleteTask(itemId));
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: 'row', marginLeft: 20, marginRight:20}}>
-        <View
-          style={{ alignItems: 'flex-start', marginRight: 20, marginTop: 0 }}
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginLeft: 20,
+          marginRight: 20,
+        }}
+      >
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.navigation.toggleDrawer();
+          }}
         >
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.toggleDrawer();
-            }}
-          >
-            <Icon
-              color="black"
-              type="ionicon"
-              name="filter-outline"
-              size={20}
-            />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{ alignItems: 'flex-end', marginLeft: 'auto', marginTop: 0 }}
+          <Icon color="black" type="ionicon" name="filter-outline" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.navigation.navigate('Add Task');
+          }}
         >
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate('Add Task');
-            }}
-          >
-            <Icon
-              color="black"
-              type="ionicon"
-              name="pencil-outline"
-              size={20}
-            />
-          </TouchableOpacity>
-        </View>
+          <Icon color="black" type="ionicon" name="pencil-outline" size={20} />
+        </TouchableOpacity>
       </View>
 
       {/* COMPLETED TASKS MODAL********** */}
@@ -120,8 +110,7 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri:
-                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
@@ -131,37 +120,38 @@ const taskList = (props) => {
       {/* COMPLETED TASKS MODAL */}
 
       <View style={styles.body}>
-      {incomplete.length === 0 && <NoPlaces />}
-        <FlatList
-          data={incomplete}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Swipeable
-              renderLeftActions={LeftSwipeActions}
-              renderRightActions={RightSwipeActions}
-              onSwipeableRightOpen={() => deleteTask(item.id)}
-              onSwipeableLeftOpen={() => updateCompleteStatus(item)}
-            >
-              <TouchableOpacity
-                style={styles[`box${item.priority}`]}
-                onPress={() => {
-                  dispatch(_fetchPlaces(item));
-                  props.navigation.navigate('Places Stack');
-                }}
-                onLongPress={() => {
-                  props.navigation.navigate('Edit Stack', {
-                    item,
-                  });
-                }}
+        {incomplete.length === 0 && <NoPlaces />}
+        <View style={{ marginTop: 10 }}>
+          <FlatList
+            data={incomplete}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Swipeable
+                renderLeftActions={LeftSwipeActions}
+                renderRightActions={RightSwipeActions}
+                onSwipeableRightOpen={() => deleteTask(item.id)}
+                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
               >
-                <View style={styles.info}>
-                  <Text style={styles.item}>{item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            </Swipeable>
-          )}
-        ></FlatList>
-
+                <TouchableOpacity
+                  style={styles[`box${item.priority}`]}
+                  onPress={() => {
+                    dispatch(_fetchPlaces(item));
+                    props.navigation.navigate('Places Stack');
+                  }}
+                  onLongPress={() => {
+                    props.navigation.navigate('Edit Stack', {
+                      item,
+                    });
+                  }}
+                >
+                  <View style={styles.info}>
+                    <Text style={styles.item}>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              </Swipeable>
+            )}
+          ></FlatList>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -213,8 +203,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 10,
+    justifyContent: 'flex-start',
   },
   image: {
     width: 80,

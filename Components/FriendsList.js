@@ -62,7 +62,7 @@ const FriendsList = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'flex-end', marginRight: 20, marginTop: 0 }}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -73,96 +73,101 @@ const FriendsList = (props) => {
             color="black"
             type="ionicon"
             name="person-add-outline"
-            size={20}
+            size={18}
           />
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          margin: 20,
-          // alignItems: 'center',
-          // justifyContent: 'center',
-          flex: 1,
-        }}
-      >
-        <Image
-          source={require('../public/nudgie2.png')}
-          style={styles.nudgie}
-        />
-        <Text style={styles.title}>Nudgies</Text>
-        <Text style={styles.subtitle}>Pending Requests</Text>
-        {numPendingFriends < 1 ? (
-          <Text style = {styles.subText}>None</Text>
-        ) : user.pendingFriends[0].id ? (
-          <FlatList
-            data={user.pendingFriends}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.pendingBox}>
-                <Text style={styles.pending}>{item.fullName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(_addFriend(user.id, item.id));
-                  }}
-                >
-                  <Icon
-                    style={{ marginRight: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="people-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          ></FlatList>
-        ) : (
-          <Text>Loading...</Text>
-        )}
-        {numFriends < 1 ? (
-          <Text style={styles.subText}>No friends</Text>
-        ) : user.friends[0].id ? (
-          <>
-          <Text style={styles.subtitle} >Your Friends</Text>
-          <FlatList
-            data={user.friends}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.box}>
-                <TouchableOpacity
-                  onPress={async () => {
-                    await sendPushNotification(item.token, user.fullName);
-                  }}
-                >
-                  <Icon
-                    style={{ marginLeft: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="notifications-outline"
-                    size={20}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.item}>{item.fullName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(_deleteFriend(user.id, item.id));
-                  }}
-                >
-                  <Icon
-                    style={{ marginRight: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="trash-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          ></FlatList>
-          </>
-        ) : (
-          <Text>Loading...</Text>
-        )}
+      <View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Image
+            source={require('../public/nudgie2.png')}
+            style={styles.nudgie}
+          />
+        </View>
+        <View style={styles.friendsContainer}>
+          <Text style={styles.title}>Nudgies</Text>
+          <Text style={styles.subtitle}>Pending Requests</Text>
+          {numPendingFriends < 1 ? (
+            <Text style={styles.subText}>None</Text>
+          ) : user.pendingFriends[0].id ? (
+            <FlatList
+              data={user.pendingFriends}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.pendingBox}>
+                  <Text style={styles.pending}>{item.fullName}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(_addFriend(user.id, item.id));
+                    }}
+                  >
+                    <Icon
+                      style={{ marginRight: 5 }}
+                      color="black"
+                      type="ionicon"
+                      name="people-outline"
+                      size={22}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            ></FlatList>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+          {numFriends < 1 ? (
+            <>
+              <Text style={styles.subtitle}>Your Friends</Text>
+              <Text style={styles.subText}>None</Text>
+            </>
+          ) : user.friends[0].id ? (
+            <>
+              <Text style={styles.subtitle}>Your Friends</Text>
+              <FlatList
+                data={user.friends}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View style={styles.box}>
+                    <TouchableOpacity
+                      onPress={async () => {
+                        await sendPushNotification(item.token, user.fullName);
+                      }}
+                    >
+                      <Icon
+                        style={{ marginLeft: 5 }}
+                        color="black"
+                        type="ionicon"
+                        name="notifications-outline"
+                        size={20}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.item}>{item.fullName}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        dispatch(_deleteFriend(user.id, item.id));
+                      }}
+                    >
+                      <Icon
+                        style={{ marginRight: 5 }}
+                        color="black"
+                        type="ionicon"
+                        name="trash-outline"
+                        size={22}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                )}
+              ></FlatList>
+            </>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -174,11 +179,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  buttonContainer: {
+    alignItems: 'flex-end',
+    marginRight: 20,
+    marginTop: 0
+  },
   nudgie: {
     height: 150,
     width: 150,
     borderRadius: 24,
-    alignSelf: "center",
+    alignSelf: 'center',
+  },
+  friendsContainer: {
+    marginLeft: 20,
+    marginRight: 20
   },
   title: {
     fontSize: 28,
@@ -194,31 +208,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign:"left",
+    textAlign: 'left',
     margin: 5,
   },
   subText: {
     fontSize: 14,
-    textAlign:"left",
+    textAlign: 'left',
     margin: 5,
-  },
-  save: {
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 45,
-    borderRadius: 20,
-    borderColor: 'transparent',
-    borderWidth: 1,
-    elevation: 3,
-    backgroundColor: '#83CA9E',
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-      width: 2,
-    },
-    marginTop: 10,
   },
   button: {
     justifyContent: 'center',

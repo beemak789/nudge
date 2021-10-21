@@ -19,13 +19,13 @@ export const NoPlaces = (props) => {
   const { currTask, incomplete } = useSelector((state) => state.task);
 
   return (
-    <SafeAreaView style={styles.container2}>
+
       <View
         style={{
           margin: 20,
           alignItems: 'center',
           justifyContent: 'center',
-          flex: 1,
+          // flex: 1,
         }}
       >
         <Image
@@ -34,7 +34,7 @@ export const NoPlaces = (props) => {
         />
         <Text style={{fontWeight: "bold", fontSize: 16, textAlign:"center"}}>Welcome to Nudge! {"\n"} Add a task to get started.</Text>
       </View>
-    </SafeAreaView>
+
   );
 };
 

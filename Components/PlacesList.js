@@ -38,32 +38,6 @@ const PlacesList = (props) => {
     );
   }
 
-  // if (!incomplete.length) {
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <View style={{ justifyContent: 'flex-end', display: "flex", flexDirection: "row", marginRight: 20, marginTop: 0}}>
-  //         <TouchableOpacity
-  //           style={styles.button}
-  //           onPress={() => {
-  //             props.navigation.navigate('Add Task');
-  //           }}
-  //         >
-  //           <Icon
-  //             color="black"
-  //             type="ionicon"
-  //             name="pencil-outline"
-  //             size={20}
-  //           />
-  //         </TouchableOpacity>
-  //       </View>
-  //         <NoPlaces />
-  //     </SafeAreaView>)
-  // }
-
-  if (!places.length) {
-    return <Shuffle />;
-  }
-
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
 
@@ -100,15 +74,48 @@ const PlacesList = (props) => {
       getDistance(currLat, currLng, storeLat, storeLng) * 0.000621;
     return distance.toFixed(2);
   };
+
   return (
-    <SafeAreaView style={styles.container2}>
-      {places.length <= 0 && (
+    <SafeAreaView style={styles.container}>
+      {incomplete.length === 0 && (
+        <>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              marginLeft: 20,
+              marginRight: 20,
+            }}
+          >
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                props.navigation.navigate('Add Task');
+              }}
+            >
+              <Icon
+                color="black"
+                type="ionicon"
+                name="pencil-outline"
+                size={20}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.body}>
+            <NoPlaces />
+          </View>
+        </>
+      )}
+      {!places.length && incomplete.length > 0 && <Shuffle />}
+      {/* {places.length <= 0 && (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
         </View>
-      )}
+      )} */}
+
       {places.length > 0 && (
-        <>
+        <View style={styles.body}>
           <View
             style={{
               display: 'flex',
@@ -195,7 +202,7 @@ const PlacesList = (props) => {
               />
             </View>
           </TouchableOpacity>
-        </>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -204,14 +211,13 @@ const PlacesList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor:"white"
-  },
-  container2: {
-    flex: 1,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
-
+  body: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
   rowDirection: {
     display: 'flex',
     flexDirection: 'row',
@@ -319,7 +325,7 @@ const styles = StyleSheet.create({
       width: 2,
     },
     marginTop: 10,
-  }
+  },
 });
 
 export default PlacesList;
