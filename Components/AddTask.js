@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
+import { DismissKeyboard } from '../services/dismissKeyboard';
 
 const images = {
   supermarket: require('../public/supermarket.png'),
@@ -101,20 +102,32 @@ const AddTask = (props) => {
     setPriority('');
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          margin: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-        }}
-      >
-        <Image
-          source={require('../public/nudgie2.png')}
-          style={styles.nudgie}
-        />
-        <View style={{ marginBottom: 30 }}>
+    <DismissKeyboard>
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            marginRight: 'auto',
+            marginLeft: 10,
+          }}
+        >
+          <TouchableOpacity
+            style={styles.save}
+            onPress={() => {
+              props.navigation.navigate('Categories Stack', {
+                screen: 'Task List',
+              });
+            }}
+          >
+            <Text style={styles.saveText}>back</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.imageContent}>
+          <Image
+            source={require('../public/nudgie2.png')}
+            style={styles.nudgie}
+          />
+        </View>
+        <View>
           <Text style={styles.title}>New Task</Text>
           <TextInput
             style={styles.itemName}
@@ -123,7 +136,7 @@ const AddTask = (props) => {
             placeholder="enter item name"
           />
         </View>
-        <View>
+        <View style={{ padding: 10 }}>
           <Text
             style={{
               fontSize: 20,
@@ -254,19 +267,8 @@ const AddTask = (props) => {
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
           <Text style={styles.saveText}>save</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.save}
-          onPress={() =>
-            props.navigation.navigate('Categories Stack', {
-              screen: 'Task List',
-            })
-          }
-          title="cancel"
-        >
-          <Text style={styles.saveText}>cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 };
 export default AddTask;
@@ -276,7 +278,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+  },
+  imageContent: {
+    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 10 / 3,
+  },
+
+  nudgie: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   itemName: {
     fontSize: 20,
@@ -333,11 +346,7 @@ const styles = StyleSheet.create({
       width: 2,
     },
   },
-  nudgie: {
-    height: 150,
-    width: 150,
-    borderRadius: 24,
-  },
+
   title: {
     fontSize: 30,
     textAlign: 'center',

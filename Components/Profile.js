@@ -61,10 +61,12 @@ export default function Profile() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ display: 'flex', alignItems: 'center' }}>
-        <Image
-          style={styles.userImage}
-          source={require('../public/nudgie2.png')}
-        />
+        <View style={styles.imageContent}>
+          <Image
+            style={styles.nudgie}
+            source={require('../public/nudgie2.png')}
+          />
+        </View>
         <View>
           <Text style={styles.title}>Profile</Text>
         </View>
@@ -112,7 +114,7 @@ export default function Profile() {
             >
               <View style={styles.badgeNudgie}>
                 <Image
-                  style={{ height: 70, width: 70, padding: 5 }}
+                  style={styles.nudgie}
                   source={require('../public/nudgie2.png')}
                 />
               </View>
@@ -124,9 +126,9 @@ export default function Profile() {
                   borderRadius: 20,
                   marginLeft: 65,
                   backgroundColor: 'green',
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent:"center"
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 <Text
@@ -134,7 +136,7 @@ export default function Profile() {
                     fontSize: 15,
                     color: 'white',
                     fontWeight: 'bold',
-                    textAlign: "center"
+                    textAlign: 'center',
                   }}
                 >
                   {+badgeCount || 0}
@@ -164,7 +166,7 @@ export default function Profile() {
 
 const buttonStyle = {
   justifyContent: 'center',
-  paddingVertical: 10,
+  paddingVertical: '8%',
   paddingHorizontal: 20,
   borderRadius: 20,
   borderColor: 'transparent',
@@ -187,15 +189,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
   },
-  userImage: {
-    height: 150,
-    width: 150,
-    borderRadius: 24,
-    marginTop: 73,
+  imageContent: {
+    width: '100%',
+    aspectRatio: 10 / 4,
+  },
+
+  nudgie: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   badgeNudgie: {
-    width: 90,
-    height: 90,
+    width: '100%',
+    aspectRatio: 1,
     borderColor: '#83CA9E',
     borderRadius: 20,
     borderWidth: 1,

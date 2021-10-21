@@ -103,162 +103,159 @@ const EditTask = (props) => {
     <SafeAreaView style={styles.container}>
       <View
         style={{
-          margin: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
+          marginRight: 'auto',
+          marginLeft: 10,
         }}
       >
-        <View style={{ marginBottom: 30 }}>
-          <Text style={styles.title}>Edit Task</Text>
-          <TextInput
-            style={styles.itemName}
-            onChangeText={onChangeTaskName}
-            value={taskName}
-          />
-        </View>
-        <View>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'left',
-              fontWeight: 'bold',
-              margin: 10,
-            }}
-          >
-            Change location
-          </Text>
-          <View style={{ height: 100 }}>
-            <ScrollView
-              style={{ height: 30 }}
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-            >
-              {types.map((type) => {
-                return (
-                  <TouchableOpacity
-                    key={type}
-                    style={
-                      category.includes(type)
-                        ? styles.selected
-                        : styles.notSelected
-                    }
-                    onPress={() => {
-                      if (category.includes(type)) {
-                        //do not highlight
-                        const filteredCategories = category.filter(
-                          (removeType) => removeType !== type
-                        );
-                        addCategory(filteredCategories);
-                      } else {
-                        //highlgiht
-                        addCategory([...category, type]);
-                      }
-                    }}
-                  >
-                    <Image source={images[type]} style={styles.storeIcon} />
-                    <Text
-                      style={
-                        category.includes(type)
-                          ? styles.selectedText
-                          : styles.notSelectedText
-                      }
-                    >
-                      {displayTypes[type]}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </View>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'left',
-              fontWeight: 'bold',
-              margin: 10,
-            }}
-          >
-            Change priority
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              margin: 3,
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <TouchableOpacity
-              style={[
-                styles.notSelectedPriority,
-                priority === 'high' ? { backgroundColor: '#83CA9E' } : null,
-              ]}
-              onPress={() => setPriority('high')}
-            >
-              <Text
-                style={[
-                  styles.btnText,
-                  priority === 'high'
-                    ? { color: 'black', fontWeight: 'bold' }
-                    : null,
-                ]}
-              >
-                high
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.notSelectedPriority,
-                priority === 'medium' ? { backgroundColor: '#83CA9E' } : null,
-              ]}
-              onPress={() => setPriority('medium')}
-            >
-              <Text
-                style={[
-                  styles.btnText,
-                  priority === 'medium'
-                    ? { color: 'black', fontWeight: 'bold' }
-                    : null,
-                ]}
-              >
-                medium
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.notSelectedPriority,
-                priority === 'low' ? { backgroundColor: '#83CA9E' } : null,
-              ]}
-              onPress={() => setPriority('low')}
-            >
-              <Text
-                style={[
-                  styles.btnText,
-                  priority === 'low'
-                    ? { color: 'black', fontWeight: 'bold' }
-                    : null,
-                ]}
-              >
-                low
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>update</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
-          onPress={() =>
+          onPress={() => {
             props.navigation.navigate('Categories Stack', {
               screen: 'Task List',
-            })
-          }
-          title="cancel"
+            });
+          }}
         >
-          <Text style={styles.saveText}>cancel</Text>
+          <Text style={styles.saveText}>back</Text>
         </TouchableOpacity>
       </View>
+      <View>
+        <Text style={styles.title}>Edit Task</Text>
+        <TextInput
+          style={styles.itemName}
+          onChangeText={onChangeTaskName}
+          value={taskName}
+        />
+      </View>
+      <View style={{ padding: 10 }}>
+        <Text
+          style={{
+            fontSize: 20,
+            textAlign: 'left',
+            fontWeight: 'bold',
+            margin: 10,
+          }}
+        >
+          Change location
+        </Text>
+        <View style={{ height: 100 }}>
+          <ScrollView
+            style={{ height: 30 }}
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+          >
+            {types.map((type) => {
+              return (
+                <TouchableOpacity
+                  key={type}
+                  style={
+                    category.includes(type)
+                      ? styles.selected
+                      : styles.notSelected
+                  }
+                  onPress={() => {
+                    if (category.includes(type)) {
+                      //do not highlight
+                      const filteredCategories = category.filter(
+                        (removeType) => removeType !== type
+                      );
+                      addCategory(filteredCategories);
+                    } else {
+                      //highlgiht
+                      addCategory([...category, type]);
+                    }
+                  }}
+                >
+                  <Image source={images[type]} style={styles.storeIcon} />
+                  <Text
+                    style={
+                      category.includes(type)
+                        ? styles.selectedText
+                        : styles.notSelectedText
+                    }
+                  >
+                    {displayTypes[type]}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+        <Text
+          style={{
+            fontSize: 20,
+            textAlign: 'left',
+            fontWeight: 'bold',
+            margin: 10,
+          }}
+        >
+          Change priority
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            margin: 3,
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <TouchableOpacity
+            style={[
+              styles.notSelectedPriority,
+              priority === 'high' ? { backgroundColor: '#83CA9E' } : null,
+            ]}
+            onPress={() => setPriority('high')}
+          >
+            <Text
+              style={[
+                styles.btnText,
+                priority === 'high'
+                  ? { color: 'black', fontWeight: 'bold' }
+                  : null,
+              ]}
+            >
+              high
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.notSelectedPriority,
+              priority === 'medium' ? { backgroundColor: '#83CA9E' } : null,
+            ]}
+            onPress={() => setPriority('medium')}
+          >
+            <Text
+              style={[
+                styles.btnText,
+                priority === 'medium'
+                  ? { color: 'black', fontWeight: 'bold' }
+                  : null,
+              ]}
+            >
+              medium
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.notSelectedPriority,
+              priority === 'low' ? { backgroundColor: '#83CA9E' } : null,
+            ]}
+            onPress={() => setPriority('low')}
+          >
+            <Text
+              style={[
+                styles.btnText,
+                priority === 'low'
+                  ? { color: 'black', fontWeight: 'bold' }
+                  : null,
+              ]}
+            >
+              low
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+        <Text style={styles.saveText}>update</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -269,7 +266,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
   },
   itemName: {
     fontSize: 20,
