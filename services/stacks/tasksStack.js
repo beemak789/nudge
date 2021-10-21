@@ -48,6 +48,11 @@ function MyDrawer() {
     <Drawer.Navigator
       screenOptions={{
         headerShown: false,
+        drawerActiveTintColor: '#1d3557',
+        drawerActiveBackgroundColor: '#EBF6EF',
+        drawerStyle: {
+          backgroundColor: '#fcfffd',
+        },
       }}
     >
       <Drawer.Screen name="all tasks">
@@ -82,7 +87,6 @@ const CategoriesStack = (props) => {
           itemStyle: { marginVertical: 10 },
           inactiveTintColor: 'white',
           headerShown: false,
-          // style: { position: 'relative', top: 100 },
         }}
       >
         <Tab.Screen name="Task List" component={TaskList} {...props} />

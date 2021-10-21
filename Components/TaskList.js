@@ -110,7 +110,8 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri:
+                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     width: '95%',
     borderRadius: 10,
-    backgroundColor: '#ffb4a2',
+    backgroundColor: '#fae1dd',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',
