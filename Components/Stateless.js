@@ -30,13 +30,18 @@ const Stateless = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: 'row' }}>
+      <View>
         <View
           style={{
-            alignItems: 'flex-start',
-            marginRight: 20,
-            marginTop: 'auto',
-            padding: 5,
+            display: "flex",
+            // alignItems: 'flex-start',
+            // marginRight: 20,
+            // marginTop: 'auto',
+            // padding: 5,
+            flexDirection: "row",
+            alignItems:"baseline",
+            justifyContent:"space-between",
+            paddingHorizontal: 20,
           }}
         >
           <TouchableOpacity
@@ -52,7 +57,7 @@ const Stateless = (props) => {
               size={20}
             />
           </TouchableOpacity>
-        </View>
+        {/* </View>
         <View
           style={{
             alignItems: 'flex-end',
@@ -60,7 +65,7 @@ const Stateless = (props) => {
             marginTop: 'auto',
             padding: 10,
           }}
-        >
+        > */}
           <Text style={{ fontSize: 22 }}>{props.title}</Text>
         </View>
       </View>
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     width: '95%',
     borderRadius: 10,
-    backgroundColor: '#588669',
+    backgroundColor: '#F59DBF',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',

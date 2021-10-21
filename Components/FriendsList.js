@@ -81,10 +81,7 @@ const FriendsList = (props) => {
       </View>
       <View>
         <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={styles.imageContent}
         >
           <Image
             source={require('../public/nudgie2.png')}
@@ -186,10 +183,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 0
   },
+  imageContent: {
+    width: '100%',
+    aspectRatio: 10 / 4,
+  },
   nudgie: {
-    height: 150,
-    width: 150,
-    borderRadius: 24,
+    width: '90%',
+    height: '90%',
+    resizeMode: 'contain',
     alignSelf: 'center',
   },
   friendsContainer: {
