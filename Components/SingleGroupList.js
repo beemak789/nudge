@@ -337,7 +337,7 @@ const autoComplete = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 2,
     borderColor: 'green',
-    borderBottomColor: '#83CA9E',
+    borderBottomColor: '#ffb4a2',
     zIndex: 999,
   },
   predefinedPlacesDescription: {

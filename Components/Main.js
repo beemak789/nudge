@@ -221,8 +221,8 @@ const Main = () => {
                   size={25}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <LogIn {...props} />}
@@ -240,8 +240,8 @@ const Main = () => {
                   size={25}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <SignUp {...props} />}
@@ -262,8 +262,8 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <TasksStack {...props} />}
@@ -281,8 +281,8 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <PlacesStack {...props} />}
@@ -300,8 +300,8 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <FriendsStack {...props} />}
@@ -319,8 +319,8 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <GroupsStack {...props} />}
@@ -339,8 +339,8 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: 'black',
-              tabBarInactiveTintColor: '#97a97c',
+              tabBarActiveTintColor: '#ffb4a2',
+              tabBarInactiveTintColor: '#83CA9E',
             }}
           >
             {(props) => <ProfileStack {...props} />}
