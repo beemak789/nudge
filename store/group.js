@@ -118,9 +118,8 @@ export const fetchUserGroups = (user) => {
                 .get()
                 .then((snapshot) => {
                   let groupInfo = snapshot.data()
-                  if (groupInfo.members.length === 1){
+                  if (groupInfo.members.length < 2){
                     delete snapshot.data()
-                    dispatch()
                   } else {
                     groupsArrayInfo.push({ ...groupInfo, id: group });
                   }
@@ -165,16 +164,24 @@ export const createGroup = ({ name, members }) => {
               groups: firebase.firestore.FieldValue.arrayUnion(groupId),
             })
       );
-
+      const group = {
+          name,
+          members,
+          groupId,
+      }
+      console.log("GROUP", group)
       //adds the new group to the redux store
       dispatch(
         _addGroup({
           name,
           members,
           groupId,
-        })
+      })
       );
-      dispatch(selectGroup(groupId));
+
+      dispatch(_selectGroup(
+        { group: group, id: groupId }
+      ));
     } catch (err) {
       console.log(err);
     }
@@ -383,7 +390,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedGroup: {
-          members: state.selectedGroup.members,
+          members: action.selectedGroup.members,
           id: action.selectedGroup.id,
           group: action.selectedGroup.group,
           messages: action.selectedGroup.messages,
