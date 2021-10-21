@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,13 +23,11 @@ import { firebase } from '../config/firebase';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { priorityStyle } from '../services/PriorityStyle';
 import {
   _deleteFriend,
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
-import { Searchbar } from 'react-native-paper';
 
 const SingleGroupList = (props) => {
   const dispatch = useDispatch();

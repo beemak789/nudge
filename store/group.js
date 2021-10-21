@@ -118,9 +118,8 @@ export const fetchUserGroups = (user) => {
                 .get()
                 .then((snapshot) => {
                   let groupInfo = snapshot.data()
-                  if (groupInfo.members.length === 1){
+                  if (groupInfo.members.length < 2){
                     delete snapshot.data()
-                    dispatch()
                   } else {
                     groupsArrayInfo.push({ ...groupInfo, id: group });
                   }
