@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 
+import { DismissKeyboard } from '../services/dismissKeyboard';
 import { useDispatch } from 'react-redux';
 import { logInUser } from '../store/user';
 
@@ -22,48 +24,54 @@ const LogIn = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.imageContent}>
-        <Image
-          style={styles.nudgie}
-          source={require('../public/nudgie2.png')}
-        />
-        <Text style={styles.title}>nudge</Text>
-      </View>
+    <DismissKeyboard>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+        >
+          <View style={styles.imageContent}>
+            <Image
+              style={styles.nudgie}
+              source={require('../public/nudgie2.png')}
+            />
+            <Text style={styles.title}>nudge</Text>
+          </View>
 
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          autoCapitalize="none"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Email"
+              placeholderTextColor="#003f5c"
+              autoCapitalize="none"
+              onChangeText={(email) => setEmail(email)}
+            />
+          </View>
 
-      <View style={styles.box}>
-        <TextInput
-          style={styles.item}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
+          <View style={styles.box}>
+            <TextInput
+              style={styles.item}
+              placeholder="Password"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              autoCapitalize="none"
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.button}>
-        <Text style={styles.loginText}>LOG IN</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={onSubmit} style={styles.button}>
+            <Text style={styles.loginText}>LOG IN</Text>
+          </TouchableOpacity>
 
-      <Text style={{ marginTop: 20 }}>New User?</Text>
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate('Sign Up')}
-        style={styles.button}
-      >
-        <Text style={styles.loginText}>Sign Up!</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Sign Up')}
+            style={styles.button}
+          >
+            <Text style={styles.loginText}>Sign Up!</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 };
 
