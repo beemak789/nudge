@@ -117,8 +117,14 @@ export const fetchUserGroups = (user) => {
                 .doc(group)
                 .get()
                 .then((snapshot) => {
-                  groupsArrayInfo.push({ ...snapshot.data(), id: group });
-                  return snapshot.data();
+                  let groupInfo = snapshot.data()
+                  if (groupInfo.members.length === 1){
+                    delete snapshot.data()
+                    dispatch()
+                  } else {
+                    groupsArrayInfo.push({ ...groupInfo, id: group });
+                  }
+                  return groupInfo;
                 });
             })
           );
