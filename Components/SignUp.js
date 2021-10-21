@@ -57,7 +57,6 @@ const SignUp = (props) => {
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}
         >
           <ScrollView>
             <View style={styles.imageContent}>
@@ -95,6 +94,7 @@ const SignUp = (props) => {
                   placeholder="Email"
                   autoCapitalize="none"
                   placeholderTextColor="#003f5c"
+                  secureTextEntry={false}
                   onChangeText={(email) => setEmail(email)}
                 />
               </View>
