@@ -135,19 +135,6 @@ export const createGroup = ({ name, members }) => {
             })
       );
 
-      //creates an empty messages array in groupChat collection
-      // let groupChatId = await firebase
-      // .firestore()
-      // .collection('groupChat')
-      // .doc(groupId)
-      // .collection('chat')
-      // .add({
-      //   messages: []
-      // }).then((result) => {
-      //   console.log('result', result.id)
-      //   return result.id;
-      // });
-
       //adds the new group to the redux store
       dispatch(
         _addGroup({
@@ -156,6 +143,7 @@ export const createGroup = ({ name, members }) => {
           groupId,
         })
       );
+      dispatch(selectGroup(groupId))
     } catch (err) {
       console.log(err);
     }

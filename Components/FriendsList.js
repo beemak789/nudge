@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_PLACES_API } from '@env';
 
 import {
   StyleSheet,
@@ -9,12 +7,10 @@ import {
   TouchableOpacity,
   View,
   Image,
-  FlatList,
-  KeyboardAvoidingView,
-  ScrollView,
+  FlatList
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { _createTask } from '../store/task';
+import { createGroup } from '../store/group';
 import { Icon } from 'react-native-elements';
 import {
   _addFriend,
@@ -23,44 +19,30 @@ import {
   _fetchUserFriends,
   _fetchUserPendingFriends,
 } from '../store/user';
-
-// _______SEND NOTIFICATION ________
-async function sendPushNotification(toExpoToken, from) {
-  try {
-    if (toExpoToken) {
-      const message = {
-        to: toExpoToken,
-        sound: 'default',
-        title: `Nudge from ${from}`,
-        body: `${from} is at the grocery store! Do you need anything?`,
-        data: { someData: 'goes here' },
-      };
-
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
+import { useNavigation } from '@react-navigation/core';
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
+  const dispatch = useDispatch();
+  const navigation = useNavigation()
 
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
     dispatch(_fetchUserPendingFriends(user));
   }, [dispatch]);
+
+  async function createFriendGroup(userId, friendId, userName, friendName) {
+
+    dispatch(createGroup({
+        name: `${userName}& ${friendName}`,
+        members: [userId, friendId]
+      })
+    )
+
+    navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -133,8 +115,8 @@ const FriendsList = (props) => {
               renderItem={({ item }) => (
                 <View style={styles.box}>
                   <TouchableOpacity
-                    onPress={async () => {
-                      await sendPushNotification(item.token, user.fullName);
+                    onPress={ () => {
+                      createFriendGroup(user.id, item.id, item.fullName, user.fullName);
                     }}
                   >
                     <Icon
