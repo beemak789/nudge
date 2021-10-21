@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   StyleSheet,
@@ -8,11 +8,10 @@ import {
   View,
   Image,
   FlatList,
-  KeyboardAvoidingView,
-  ScrollView,
+  Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { _createTask } from '../store/task';
+import { createGroup } from '../store/group';
 import { Icon } from 'react-native-elements';
 import {
   _addFriend,
@@ -21,44 +20,47 @@ import {
   _fetchUserFriends,
   _fetchUserPendingFriends,
 } from '../store/user';
-
-// _______SEND NOTIFICATION ________
-async function sendPushNotification(toExpoToken, from) {
-  try {
-    if (toExpoToken) {
-      const message = {
-        to: toExpoToken,
-        sound: 'default',
-        title: `Nudge from ${from}`,
-        body: `${from} is at the grocery store! Do you need anything?`,
-        data: { someData: 'goes here' },
-      };
-
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
+import { useNavigation } from '@react-navigation/core';
 
 const FriendsList = (props) => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
+  const dispatch = useDispatch();
+  const navigation = useNavigation()
 
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
     dispatch(_fetchUserPendingFriends(user));
   }, [dispatch]);
+
+
+  function showConfirmDialog (userId, friendId, userName, friendName){
+    return Alert.alert(
+      "Create Group",
+      `Would you like to create a group with ${friendName}?`,
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async() => {
+            dispatch(createGroup({
+              name: `${userName} & ${friendName}`,
+              members: [userId, friendId]
+            })
+          )
+
+          navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} });
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -80,16 +82,16 @@ const FriendsList = (props) => {
       <View
         style={{
           margin: 20,
-          // alignItems: 'center',
-          // justifyContent: 'center',
-          flex: 1,
+          flex: 1
         }}
       >
         <Image
           source={require('../public/nudgie2.png')}
           style={styles.nudgie}
         />
+
         <Text style={styles.title}>Nudgies</Text>
+
         <Text style={styles.subtitle}>Pending Requests</Text>
         {numPendingFriends < 1 ? (
           <Text style = {styles.subText}>None</Text>
@@ -123,42 +125,43 @@ const FriendsList = (props) => {
           <Text style={styles.subText}>No friends</Text>
         ) : user.friends[0].id ? (
           <>
-          <Text style={styles.subtitle} >Your Friends</Text>
-          <FlatList
-            data={user.friends}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.box}>
-                <TouchableOpacity
-                  onPress={async () => {
-                    await sendPushNotification(item.token, user.fullName);
-                  }}
-                >
-                  <Icon
-                    style={{ marginLeft: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="notifications-outline"
-                    size={20}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.item}>{item.fullName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(_deleteFriend(user.id, item.id));
-                  }}
-                >
-                  <Icon
-                    style={{ marginRight: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="trash-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          ></FlatList>
+            <Text style={styles.subtitle}>Your Friends</Text>
+
+            <FlatList
+              data={user.friends}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.box}>
+                  <TouchableOpacity
+                    onPress={ () => {
+                      showConfirmDialog(user.id, item.id, user.fullName, item.fullName);
+                    }}
+                  >
+                    <Icon
+                      style={{ marginLeft: 5 }}
+                      color="black"
+                      type="ionicon"
+                      name="notifications-outline"
+                      size={20}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.item}>{item.fullName}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(_deleteFriend(user.id, item.id));
+                    }}
+                  >
+                    <Icon
+                      style={{ marginRight: 5 }}
+                      color="black"
+                      type="ionicon"
+                      name="trash-outline"
+                      size={22}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            ></FlatList>
           </>
         ) : (
           <Text>Loading...</Text>
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 24,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   title: {
     fontSize: 28,
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign:"left",
+    textAlign: 'left',
     margin: 5,
   },
   subText: {
@@ -277,5 +280,49 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
+  },
+});
+
+const autoComplete = StyleSheet.create({
+  textInputContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    zIndex: 999,
+    width: '80%',
+    margin: 5,
+  },
+  textInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    height: 45,
+    color: '#5d5d5d',
+    fontSize: 16,
+    borderBottomWidth: 2,
+    borderColor: 'green',
+    borderBottomColor: '#83CA9E',
+    zIndex: 999,
+  },
+  predefinedPlacesDescription: {
+    color: '#1faadb',
+  },
+  listView: {
+    top: 45.5,
+    zIndex: 10,
+    position: 'absolute',
+    color: 'black',
+    backgroundColor: 'white',
+    width: '89%',
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'blue',
+  },
+  description: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontSize: 14,
+    maxWidth: '89%',
   },
 });
