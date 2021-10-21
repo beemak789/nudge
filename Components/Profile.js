@@ -61,9 +61,17 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
-          <Text style={{ color: 'white' }}></Text>
+      <View style={styles.userButtonWrapper}>
+        <TouchableOpacity onPress={() => navigate('Edit Profile')}>
+          <View style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Edit Profile</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => dispatch(logOutUser(reset))}>
+          <View style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <View style={{ display: 'flex', alignItems: 'center' }}>
@@ -94,7 +102,7 @@ export default function Profile() {
               <Switch
                 onValueChange={toggleNotification}
                 value={notificationToggle}
-                trackColor={{ true: '#ffb4a2' }}
+                trackColor={{ true: '#F59DBF' }}
               />
             </View>
 
@@ -103,7 +111,7 @@ export default function Profile() {
               <Switch
                 onValueChange={toggleLocation}
                 value={locationToggle}
-                trackColor={{ true: '#ffb4a2' }}
+                trackColor={{ true: '#F59DBF' }}
               />
             </View>
             <View>
@@ -147,19 +155,6 @@ export default function Profile() {
                   </Text>
                 </View>
               </View>
-            </View>
-            <View style={styles.userButtonWrapper}>
-              <TouchableOpacity onPress={() => navigate('Edit Profile')}>
-                <View style={styles.logoutButton}>
-                  <Text style={styles.logoutText}>Edit Profile</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => dispatch(logOutUser(reset))}>
-                <View style={styles.logoutButton}>
-                  <Text style={styles.logoutText}>Logout</Text>
-                </View>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -229,10 +224,10 @@ const styles = StyleSheet.create({
   },
   userButtonWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 10,
-    padding: 20,
+    marginBottom: 2,
+    paddingHorizontal: 20,
   },
   editButton: {
     ...buttonStyle,
