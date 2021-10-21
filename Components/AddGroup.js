@@ -56,7 +56,7 @@ const AddGroup = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1}}>
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             {groups.length ? (
               <View
@@ -83,7 +83,21 @@ const AddGroup = (props) => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <View style={{ height: 73 }}></View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.save}
+                  onPress={onSubmit}
+                  title="save"
+                >
+                  <Text style={styles.saveText}>Save</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
           <View
