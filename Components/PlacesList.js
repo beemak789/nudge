@@ -21,7 +21,7 @@ import { Shuffle, NoPlaces } from './NoPlaces';
 const PlacesList = (props) => {
   const dispatch = useDispatch();
   const { places } = useSelector((state) => state.place);
-  const { incomplete, currTask } = useSelector((state) => state.task);
+  const { incomplete, currTask = {} } = useSelector((state) => state.task);
   const location = useSelector((state) => state.location);
 
   useEffect(() => {
