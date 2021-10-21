@@ -47,7 +47,7 @@ const GroupsList = (props) => {
         </TouchableOpacity>
       </View>
       <View
-        style={styles.nudgieContainer}
+        style={styles.imageContent}
       >
         <Image
           source={require('../public/nudgie2.png')}
@@ -80,9 +80,16 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 0
   },
-  nudgieContainer:{
-    alignItems: 'center',
-    justifyContent: 'center',
+  imageContent: {
+    width: '100%',
+    aspectRatio: 10 / 4,
+  },
+
+  nudgie: {
+    width: '90%',
+    height: '90%',
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
   completedButton: {
     marginRight: 10,
@@ -124,11 +131,6 @@ const styles = StyleSheet.create({
       width: 2,
     },
     marginTop: 10,
-  },
-  nudgie: {
-    width: 150,
-    height: 150,
-    borderRadius: 24,
   },
   title: {
     fontSize: 30,

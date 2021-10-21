@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderWidth: 1,
     elevation: 3,
-    backgroundColor: '#ffb4a2',
+    backgroundColor: '#F59DBF',
     shadowColor: '#000000',
     shadowOpacity: 0.3,
     shadowRadius: 2,
