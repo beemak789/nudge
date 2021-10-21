@@ -110,7 +110,8 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri:
+                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
