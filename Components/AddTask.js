@@ -43,18 +43,18 @@ const types = [
 ];
 
 const displayTypes = {
-  supermarket: 'grocery',
-  pharmacy: 'pharmacy',
-  book_store: 'bookstore',
-  bakery: 'bakery',
-  clothing_store: 'clothing',
-  drugstore: 'drugstore',
-  convenience_store: 'convenience',
-  florist: 'florist',
-  home_goods_store: 'home goods',
-  shoe_store: 'shoe store',
-  liquor_store: 'liquor store',
-  other: 'other',
+  supermarket: 'Grocery',
+  pharmacy: 'Pharmacy',
+  book_store: 'Bookstore',
+  bakery: 'Bakery',
+  clothing_store: 'Clothing',
+  drugstore: 'Drugstore',
+  convenience_store: 'Convenience',
+  florist: 'Florist',
+  home_goods_store: 'Home Goods',
+  shoe_store: 'Shoe Store',
+  liquor_store: 'Liquor Store',
+  other: 'Other',
 };
 const priorityTypes = ['high', 'medium', 'low'];
 
@@ -118,7 +118,7 @@ const AddTask = (props) => {
               });
             }}
           >
-            <Text style={styles.saveText}>back</Text>
+            <Text style={styles.saveText}>Back</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.imageContent}>
@@ -133,7 +133,7 @@ const AddTask = (props) => {
             style={styles.itemName}
             onChangeText={onChangeText}
             value={text}
-            placeholder="enter item name"
+            placeholder="Enter item name"
           />
         </View>
         <View style={{ padding: 10 }}>
@@ -223,7 +223,7 @@ const AddTask = (props) => {
                     : null,
                 ]}
               >
-                high
+                High
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -241,7 +241,7 @@ const AddTask = (props) => {
                     : null,
                 ]}
               >
-                medium
+                Medium
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -259,13 +259,13 @@ const AddTask = (props) => {
                     : null,
                 ]}
               >
-                low
+                Low
               </Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
+          <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </DismissKeyboard>

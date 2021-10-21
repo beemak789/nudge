@@ -221,7 +221,7 @@ const Main = () => {
                   size={25}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -240,7 +240,7 @@ const Main = () => {
                   size={25}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -262,7 +262,7 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -281,7 +281,7 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -300,7 +300,7 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -319,7 +319,7 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
@@ -339,7 +339,7 @@ const Main = () => {
                   color={color}
                 />
               ),
-              tabBarActiveTintColor: '#6ede8a',
+              tabBarActiveTintColor: 'black',
               tabBarInactiveTintColor: '#97a97c',
             }}
           >
