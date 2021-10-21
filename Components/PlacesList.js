@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { ListItem, Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
@@ -142,7 +143,20 @@ const PlacesList = (props) => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{ margin: 5, marginBottom: 0 }}
-                onPress={() => generateLink(item)}
+                onPress={() => {
+              Alert.alert(
+                'Map Alert',
+                'Would you like to be taken to Google Maps?',
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  { text: 'OK', onPress: () => generateLink(item) },
+                ]
+              );
+            }}
               >
                 <View style={{ borderWidth: 1, borderColor: 'transparent' }}>
                   <View style={styles.rowDirection}>

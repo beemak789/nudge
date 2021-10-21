@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
@@ -11,7 +11,6 @@ const Map = (props) => {
   const { places } = useSelector((state) => state.place);
 
   const { coords: userLocation } = useSelector((state) => state.location);
-
 
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
@@ -54,7 +53,20 @@ const Map = (props) => {
               longitude: place.marker.longitude,
             }}
             pinColor={'green'}
-            onPress={() => generateLink(place)}
+            onPress={() => {
+              Alert.alert(
+                'Map Alert',
+                'Would you like to be taken to Google Maps?',
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  { text: 'OK', onPress: () => generateLink(place) },
+                ]
+              );
+            }}
           />
         );
       })}
