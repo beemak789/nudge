@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export const Button = ({ title, onPress }) => {
   return (
@@ -10,16 +10,27 @@ export const Button = ({ title, onPress }) => {
 };
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#709775",
-    marginTop: 15,
-    paddingVertical: 15,
-    borderRadius: 25,
-    width: "80%",
-    alignItems: "center",
+    justifyContent: 'center',
+    width: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
   },
   text: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

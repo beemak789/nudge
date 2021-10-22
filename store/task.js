@@ -316,6 +316,35 @@ export const _deleteGroupTask = (taskId, groupId) => {
   };
 };
 
+export const _sendTaskToGroup = (groupId, task) => {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState();
+      const userName = user.fullName;
+
+      const data = {
+        ...task,
+        userName: userName,
+      };
+      let id = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .add(data)
+        .then((result) => {
+          return result.id;
+        })
+        .catch((error) => {
+          alert(error);
+        })
+        .then(() => dispatch(_deleteTask(task.id)));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 const initialState = {
   currTask: {},
   tasks: [],

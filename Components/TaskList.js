@@ -24,6 +24,8 @@ import {
 } from '../store/task';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { OptionsModal } from '../services/Modal';
+import { Button } from '../services/Button';
 import { _fetchPlaces } from '../store/places';
 import { updateBadgeCount } from '../store/user';
 import { NoPlaces } from './NoPlaces';
@@ -35,6 +37,8 @@ const taskList = (props) => {
   const user = useSelector((state) => state.user);
   const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
+  const [optionsModal, setOptionsModal] = useState(false);
+  const [item, setItem] = useState({});
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -140,9 +144,8 @@ const taskList = (props) => {
                     props.navigation.navigate('Places Stack');
                   }}
                   onLongPress={() => {
-                    props.navigation.navigate('Edit Stack', {
-                      item,
-                    });
+                    setItem(item);
+                    setOptionsModal(true);
                   }}
                 >
                   <View style={styles.info}>
@@ -153,6 +156,33 @@ const taskList = (props) => {
             )}
           ></FlatList>
         </View>
+        <OptionsModal isVisible={optionsModal}>
+          <OptionsModal.Container>
+            <OptionsModal.Header title="Please select a task action below" />
+
+            <OptionsModal.Footer>
+              <Button
+                title="edit task"
+                onPress={() => {
+                  props.navigation.navigate('Edit Stack', {
+                    item,
+                  });
+                  setOptionsModal(false);
+                }}
+              />
+              <Button
+                title="send to group"
+                onPress={() => {
+                  setOptionsModal(false);
+                  props.navigation.navigate('Send To Group', {
+                    item,
+                  });
+                }}
+              />
+              <Button title="cancel" onPress={() => setOptionsModal(false)} />
+            </OptionsModal.Footer>
+          </OptionsModal.Container>
+        </OptionsModal>
       </View>
     </SafeAreaView>
   );
