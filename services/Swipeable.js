@@ -5,14 +5,13 @@ export const LeftSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: "#FAF3DD",
+        backgroundColor: "#EBF6EF",
         height: 51,
         display: "flex",
         alignItems:"center",
         justifyContent:"center",
         borderRadius: 10,
       }}
-      title = 'Delete'
     >
       <Text
         style={{
@@ -33,7 +32,7 @@ export const LeftCompleteSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: "#FAF3DD",
+        backgroundColor: "#83CA9E",
         height: 51,
         display: "flex",
         alignItems:"center",
@@ -60,7 +59,7 @@ export const RightSwipeActions = ({ onPress }) => {
     <TouchableOpacity onPress = {onPress}>
     <View
       style={{
-        backgroundColor: "#B44647",
+        backgroundColor: "#FF0000",
         height: 51,
         display: "flex",
         alignItems:"center",

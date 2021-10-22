@@ -145,9 +145,10 @@ const taskList = (props) => {
 
 export default taskList;
 
+// individual list items
 const ListItem = ({ onSwipeFromLeft, onRightPress, item }) => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation()
   return (
     <Swipeable
       renderLeftActions={LeftSwipeActions}
@@ -158,10 +159,10 @@ const ListItem = ({ onSwipeFromLeft, onRightPress, item }) => {
         style={styles[`box${item.priority}`]}
         onPress={() => {
           dispatch(_fetchPlaces(item));
-          props.navigation.navigate('Places Stack');
+          navigation.navigate('Places Stack');
         }}
         onLongPress={() => {
-          props.navigation.navigate('Edit Stack', {
+          navigation.navigate('Edit Stack', {
             item,
           });
         }}
