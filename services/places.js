@@ -1,61 +1,27 @@
+
 import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
-import { setCurrTask } from './task';
 
-const SET_PLACES = 'SET_PLACES';
-const CLEAR_PLACES = 'CLEAR_PLACES';
-const SET_STATUS = 'SET_STATUS';
-
-export const setPlaces = (places) => {
-  return {
-    type: SET_PLACES,
-    places,
-  };
-};
-
-export const clearPlaces = () => {
-  return {
-    type: CLEAR_PLACES,
-    places: [],
-    status: '',
-  };
-};
-
-export const setStatus = (status) => {
-  return {
-    type: SET_STATUS,
-    places: [],
-    status,
-  };
-};
-
-export const _fetchPlaces = (singlePlace = "random") => {
-  return async (dispatch, getState) => {
+export const getPlacesByCategory = async (category) => {
     try {
-      dispatch(clearPlaces());
-
-      const { location, task } = getState();
-      const tasks = task.incomplete;
-      console.log('LOCATION', location)
-
-      let currTask = tasks[Math.floor(Math.random() * tasks.length)];
-      if(singlePlace !== "random") {
-        currTask = singlePlace
+      let location = {
+        "coords": {
+          "accuracy": 65,
+          "altitude": 22.22926902770996,
+          "altitudeAccuracy": 10,
+          "heading": -1,
+          "latitude": 40.716243684023844,
+          "longitude": -73.96506528362589,
+          "speed": -1,
+        },
+        "timestamp": 1634932943246.0232,
       }
-      dispatch(setCurrTask(currTask));
 
       let radius = 1000;
-      if (task.priority === 'high') {
-        radius = 1000;
-      } else if (task.priority === 'medium') {
-        radius = 800;
-      } else if (task.priority === 'low') {
-        radius = 400;
-      }
 
       const nearbyBase = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
       const queryBase = `https://maps.googleapis.com/maps/api/place/textsearch/json?`;
       const api = `&key=${GOOGLE_PLACES_API}`;
-      let types = [...currTask.category];
+      let types = [category];
       let placeIds = [];
       let places = [];
       let promises = [];
@@ -136,46 +102,54 @@ export const _fetchPlaces = (singlePlace = "random") => {
               );
             });
           }
-
           promises.push(newPromise);
         })
       );
-
       await Promise.all(promises).then(() => {
         if (places.length) {
-          dispatch(setPlaces(places));
+          console.log(places,'end of places')
+          return places
         } else {
           const status =
             'There are no locations currently near you for this task!';
-          dispatch(setStatus(status));
         }
       });
     } catch (error) {
       console.log(error);
     }
-  };
 };
 
-const initialState = {
-  status: '',
-  places: [],
-};
+export const optimize = async (tasks) => {
+  //order the categories by number of tasks in that category
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case SET_PLACES:
-      return {
-        ...state,
-        places: action.places,
-      };
-    case CLEAR_PLACES:
-      return {
-        places: action.places,
-        status: action.status,
-      };
-    case SET_STATUS:
-      return { ...state, status: action.status };
-    default:
-      return state;
-  }
-};
+  const categoryPriority = {}
+  tasks.forEach( (task) => {
+    task.category.forEach( (category) => {
+      if(categoryPriority[category]){
+        categoryPriority[category] += 1
+      } else {
+        categoryPriority[category] = 1
+      }
+    })
+  })
+
+  let categoryOrderedByPriority = []
+  Object.keys(categoryPriority).forEach( category => {
+    categoryOrderedByPriority.push({ category, count: categoryPriority[category]})
+  })
+
+  categoryOrderedByPriority = categoryOrderedByPriority.sort( (a, b) => b.count - a.count).map( (a) => a.category)
+
+  //find the closest store for the highest priority category
+  //get the location coords
+  //run the google places search using that location coord
+  //sum up the distances from that location to each other category
+
+  //
+  const places =  getPlacesByCategory('grocery').then((value) => {
+    console.log('resolved')
+    console.log(value)
+  })
+  console.log('places', places)
+
+}

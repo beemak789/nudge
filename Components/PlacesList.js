@@ -18,6 +18,7 @@ import { _fetchPlaces, clearPlaces } from '../store/places';
 import { ReviewStars } from '../services/StarRating';
 import { Icon } from 'react-native-elements';
 import { Shuffle, NoPlaces } from './NoPlaces';
+import { optimize } from '../services/places'
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
@@ -204,10 +205,10 @@ const PlacesList = (props) => {
           />
           <TouchableOpacity
             style={styles.newTask}
-            onPress={() => dispatch(_fetchPlaces())}
+            onPress={() => optimize(incomplete)}
           >
             <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>New Task</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize Task</Text>
               <Icon
                 color="black"
                 type="ionicon"
