@@ -47,13 +47,14 @@ const Map = (props) => {
         return (
           <Marker
             title={`${place.name}`}
+            description={`${place.vicinity}`}
             key={place.id}
             coordinate={{
               latitude: place.marker.latitude,
               longitude: place.marker.longitude,
             }}
-            pinColor={'green'}
-            onPress={() => {
+            pinColor={'#83CA9E'}
+            onCalloutPress={() => {
               Alert.alert(
                 'Map Alert',
                 'Would you like to be taken to Google Maps?',
@@ -75,6 +76,3 @@ const Map = (props) => {
 };
 
 export default Map;
-
-
-//this is testing remote changes

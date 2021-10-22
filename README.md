@@ -17,7 +17,7 @@ Getting Started with nudge 🏁
 3. If you are new to Expo, create an account so you can receive push notifications
 
 **Installation**
-1. Clone the repo: git@github.com:2108capstone/capstone.git
+1. Clone the repo: git@github.com:2108capstone/nudge.git
 2. Install npm packages: npm install
 3. Run and build the app: npm run start
 4. Scan the QR Code in either the Terminal or Browser to open nudge on your iOS device through Expo Go.
@@ -40,10 +40,10 @@ Have fun and explore nudge!
 
 Meet the Team 🐙🐙🐙🐙
 ----------------------
-Anna Simon - @anwsimon  
-Brandy Mak - @beemak789   
-Nicole Pan - @pannnicole  
-Randy Stopa - @RandyWS  
+Anna Simon - @anwsimon
+Brandy Mak - @beemak789
+Nicole Pan - @pannnicole
+Randy Stopa - @RandyWS
 
 Acknowledgements ❤️
 -------------------
