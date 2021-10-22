@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button, TouchableOpacity } from 'react-native';
 
 export const LeftSwipeActions = (complete) => {
   return (
@@ -12,6 +12,7 @@ export const LeftSwipeActions = (complete) => {
         justifyContent:"center",
         borderRadius: 10,
       }}
+      title = 'Delete'
     >
       <Text
         style={{
@@ -54,8 +55,9 @@ export const LeftCompleteSwipeActions = (complete) => {
     </View>
   );
 };
-export const RightSwipeActions = () => {
+export const RightSwipeActions = ({ onPress }) => {
   return (
+    <TouchableOpacity onPress = {onPress}>
     <View
       style={{
         backgroundColor: "#B44647",
@@ -78,5 +80,6 @@ export const RightSwipeActions = () => {
         Delete
       </Text>
     </View>
+    </TouchableOpacity>
   );
 };
