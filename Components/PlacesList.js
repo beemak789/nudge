@@ -17,8 +17,8 @@ import { _fetchPlaces, clearPlaces } from '../store/places';
 
 import { ReviewStars } from '../services/StarRating';
 import { Icon } from 'react-native-elements';
-import { Shuffle, NoPlaces } from './NoPlaces';
-import { optimize } from '../services/places'
+import { NoPlaces } from './NoPlaces';
+import { optimize } from '../services/optimize';
 
 const PlacesList = (props) => {
   const dispatch = useDispatch();
@@ -109,7 +109,27 @@ const PlacesList = (props) => {
           </View>
         </>
       )}
-      {!places.length && incomplete.length > 0 && <Shuffle />}
+      {!places.length && incomplete.length > 0 && (
+        <TouchableOpacity
+          style={styles.newTask}
+          onPress={() =>
+            optimize(incomplete, {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            })
+          }
+        >
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
+            <Icon
+              color="black"
+              type="ionicon"
+              name="shuffle-outline"
+              size={24}
+            />
+          </View>
+        </TouchableOpacity>
+      )}
       {/* {places.length <= 0 && (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
@@ -152,19 +172,19 @@ const PlacesList = (props) => {
               <TouchableOpacity
                 style={{ margin: 5, marginBottom: 0 }}
                 onPress={() => {
-              Alert.alert(
-                'Map Alert',
-                'Would you like to be taken to Google Maps?',
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  { text: 'OK', onPress: () => generateLink(item) },
-                ]
-              );
-            }}
+                  Alert.alert(
+                    'Map Alert',
+                    'Would you like to be taken to Google Maps?',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      { text: 'OK', onPress: () => generateLink(item) },
+                    ]
+                  );
+                }}
               >
                 <View style={{ borderWidth: 1, borderColor: 'transparent' }}>
                   <View style={styles.rowDirection}>
@@ -205,10 +225,15 @@ const PlacesList = (props) => {
           />
           <TouchableOpacity
             style={styles.newTask}
-            onPress={() => optimize(incomplete)}
+            onPress={() =>
+              optimize(incomplete, {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              })
+            }
           >
             <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize Task</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
               <Icon
                 color="black"
                 type="ionicon"
