@@ -28,6 +28,7 @@ import {
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
+import { useIsFocused } from '@react-navigation/native';
 
 const SingleGroupList = (props) => {
   const dispatch = useDispatch();
@@ -39,9 +40,13 @@ const SingleGroupList = (props) => {
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
   const [search, setSearch] = useState('');
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    dispatch(fetchGroupTasks(selectedGroup.id));
-  }, [dispatch]);
+    if (isFocused) {
+      dispatch(fetchGroupTasks(selectedGroup.id));
+    }
+  }, [props, isFocused]);
 
   useEffect(() => {
     dispatch(_fetchGroupMembers(selectedGroup.group.members));

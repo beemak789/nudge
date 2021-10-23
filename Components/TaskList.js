@@ -174,8 +174,8 @@ const taskList = (props) => {
                 title="send to group"
                 onPress={() => {
                   setOptionsModal(false);
-                  props.navigation.navigate('Send To Group', {
-                    item,
+                  props.navigation.navigate('Tasks To Send', {
+                    incomplete,
                   });
                 }}
               />

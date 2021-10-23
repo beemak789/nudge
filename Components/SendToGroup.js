@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserGroups, _setGroups, selectGroup } from '../store/group';
-import { _sendTaskToGroup } from '../store/task';
+import { _sendTasksToGroup } from '../store/task';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
@@ -22,7 +22,8 @@ const SendToGroup = (props) => {
   const { groups } = useSelector((state) => state.groups);
   const navigation = useNavigation();
   const user = useSelector((state) => state.user);
-  const task = { ...props.route.params.item };
+  const tasks = [...props.route.params.tasksToSend];
+  const taskIds = [...props.route.params.selectedTasks];
   const [groupId, addGroupId] = useState('');
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const SendToGroup = (props) => {
       return;
     } else {
       await dispatch(selectGroup(groupId));
-      await dispatch(_sendTaskToGroup(groupId, task));
+      await dispatch(_sendTasksToGroup(groupId, tasks, taskIds));
       navigation.navigate('Groups Stack', { screen: 'Single Group Stack' });
     }
   };
@@ -52,9 +53,7 @@ const SendToGroup = (props) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              props.navigation.navigate('Categories Stack', {
-                screen: 'Task List',
-              });
+              navigation.goBack();
             }}
           >
             <Icon color="black" type="antdesign" name="back" size={18} />
