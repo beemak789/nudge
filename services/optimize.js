@@ -127,6 +127,6 @@ export const optimize = async (tasks, initalLocation) => {
       }
     }
   );
-
+  console.log('places in optimize function', places)
   return places;
 };

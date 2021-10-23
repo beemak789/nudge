@@ -20,24 +20,8 @@ import { Icon } from 'react-native-elements';
 import { NoPlaces } from './NoPlaces';
 
 const PlacesList = (props) => {
-  const dispatch = useDispatch();
-  const { places } = useSelector((state) => state.place);
-  const { incomplete, currTask = {} } = useSelector((state) => state.task);
+  const { optimize } = useSelector((state) => state.place);
   const location = useSelector((state) => state.location);
-
-  useEffect(() => {
-    if (!currTask.id) {
-      dispatch(clearPlaces());
-    }
-  }, [currTask.id]);
-
-  if (!places.length && currTask.id) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
 
   const generateLink = (item) => {
     const name = item.name.replace(/\s/g, '+');
@@ -75,102 +59,14 @@ const PlacesList = (props) => {
       getDistance(currLat, currLng, storeLat, storeLng) * 0.000621;
     return distance.toFixed(2);
   };
-
+  console.log('optimized list of array! should have been called', optimize)
   return (
     <SafeAreaView style={styles.container}>
-      {incomplete.length === 0 && (
-        <>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                props.navigation.navigate('Add Task');
-              }}
-            >
-              <Icon
-                color="black"
-                type="ionicon"
-                name="pencil-outline"
-                size={20}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.body}>
-            <NoPlaces />
-          </View>
-        </>
-      )}
-      {!places.length && incomplete.length > 0 && (
-        <TouchableOpacity
-          style={styles.newTask}
-          onPress={() => {
-            console.log('pressed')
-            dispatch(_setOptimize(incomplete, {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }))
-            props.navigation.navigate('Optimized Places')
-          }
-          }
-        >
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
-            <Icon
-              color="black"
-              type="ionicon"
-              name="shuffle-outline"
-              size={24}
-            />
-          </View>
-        </TouchableOpacity>
-      )}
-      {/* {places.length <= 0 && (
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" />
-        </View>
-      )} */}
-
-      {places.length > 0 && (
         <View style={styles.body}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginHorizontal: 10,
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <Text style={{ fontSize: 16 }}>
-              Stores near you that may carry:
-            </Text>
-            <View>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderRadius: 4,
-                  borderColor: 'transparent',
-                  alignSelf: 'center',
-                  backgroundColor: '#83CA9E',
-                  marginTop: 10,
-                }}
-              >
-                <Text style={styles.item}>{currTask.name}</Text>
-              </View>
-            </View>
-          </View>
 
           <FlatList
-            data={places}
-            renderItem={({ item }) => (
+            data={optimize}
+            renderItem={( {item} ) => (
               <TouchableOpacity
                 style={{ margin: 5, marginBottom: 0 }}
                 onPress={() => {
@@ -225,30 +121,7 @@ const PlacesList = (props) => {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
-          <TouchableOpacity
-            style={styles.newTask}
-            onPress={() => {
-                console.log('pressed')
-                dispatch(_setOptimize(incomplete, {
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                }))
-                props.navigation.navigate('Optimized Places')
-              }
-            }
-          >
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
-              <Icon
-                color="black"
-                type="ionicon"
-                name="shuffle-outline"
-                size={24}
-              />
-            </View>
-          </TouchableOpacity>
         </View>
-      )}
     </SafeAreaView>
   );
 };
