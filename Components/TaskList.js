@@ -19,6 +19,7 @@ import { Icon } from 'react-native-elements';
 
 import {
   _deleteTask,
+  _bulkDeleteTasks,
   _fetchAllTasks,
   _updateCompleteStatus,
 } from '../store/task';
@@ -39,6 +40,7 @@ const taskList = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
   const [item, setItem] = useState({});
+  const [deleteTasksModal, setDeleteTasksModal] = useState(false);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -158,29 +160,68 @@ const taskList = (props) => {
         </View>
         <OptionsModal isVisible={optionsModal}>
           <OptionsModal.Container>
-            <OptionsModal.Header title="Please select a task action below" />
+            {deleteTasksModal ? (
+              <>
+                <OptionsModal.Header title="Are you sure you would like to delete all tasks?" />
+                <OptionsModal.Body>
+                  <Text>This action cannot be undone</Text>
+                </OptionsModal.Body>
 
-            <OptionsModal.Footer>
-              <Button
-                title="edit task"
-                onPress={() => {
-                  props.navigation.navigate('Edit Stack', {
-                    item,
-                  });
-                  setOptionsModal(false);
-                }}
-              />
-              <Button
-                title="send to group"
-                onPress={() => {
-                  setOptionsModal(false);
-                  props.navigation.navigate('Tasks To Send', {
-                    incomplete,
-                  });
-                }}
-              />
-              <Button title="cancel" onPress={() => setOptionsModal(false)} />
-            </OptionsModal.Footer>
+                <OptionsModal.Footer>
+                  <Button
+                    title="yes"
+                    onPress={() => {
+                      const taskIds = incomplete.map((task) => task.id);
+                      dispatch(_bulkDeleteTasks(taskIds));
+                      setOptionsModal(false);
+                      setDeleteTasksModal(false);
+                    }}
+                  />
+                  <Button
+                    title="cancel"
+                    onPress={() => {
+                      setOptionsModal(false);
+                      setDeleteTasksModal(false);
+                    }}
+                  />
+                </OptionsModal.Footer>
+              </>
+            ) : (
+              <>
+                <OptionsModal.Header title="Please select a task action below" />
+
+                <OptionsModal.Footer>
+                  <Button
+                    title="edit task"
+                    onPress={() => {
+                      props.navigation.navigate('Edit Stack', {
+                        item,
+                      });
+                      setOptionsModal(false);
+                    }}
+                  />
+                  <Button
+                    title="send to group"
+                    onPress={() => {
+                      setOptionsModal(false);
+                      props.navigation.navigate('Tasks To Send', {
+                        incomplete,
+                      });
+                    }}
+                  />
+                  <Button
+                    title="delete all tasks"
+                    onPress={() => {
+                      setDeleteTasksModal(true);
+                    }}
+                  />
+                  <Button
+                    title="cancel"
+                    onPress={() => setOptionsModal(false)}
+                  />
+                </OptionsModal.Footer>
+              </>
+            )}
           </OptionsModal.Container>
         </OptionsModal>
       </View>

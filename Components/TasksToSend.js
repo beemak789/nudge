@@ -62,6 +62,7 @@ const TasksToSend = (props) => {
 
       <View style={styles.body}>
         <Text style={styles.title}>Select Tasks:</Text>
+
         <FlatList
           data={tasks}
           keyExtractor={(item) => item.id}

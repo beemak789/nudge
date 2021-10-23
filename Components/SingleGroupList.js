@@ -49,8 +49,10 @@ const SingleGroupList = (props) => {
   }, [props, isFocused]);
 
   useEffect(() => {
-    dispatch(_fetchGroupMembers(selectedGroup.group.members));
-  }, [dispatch]);
+    if (isFocused) {
+      dispatch(_fetchGroupMembers(selectedGroup.group.members));
+    }
+  }, [props, isFocused]);
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
