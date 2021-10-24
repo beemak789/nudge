@@ -133,6 +133,17 @@ export const fetchGroupTasks = (groupId) => {
             return { id, ...data };
           });
 
+          tasks.sort((a, b) => {
+            let taskA = a.completed;
+            let taskB = b.completed;
+            if (taskA < taskB) {
+              return -1;
+            } else if (taskA > taskB) {
+              return 1;
+            }
+            return 0;
+          });
+
           dispatch(setGroupTasks(tasks));
         });
     } catch (err) {
@@ -250,6 +261,7 @@ export const _updateCompleteStatus = (item, setModalVisible) => {
 export const _updateGroupCompleteStatus = (item, groupId) => {
   return async (dispatch) => {
     try {
+      const bool = !item.completed;
       const res = await firebase
         .firestore()
         .collection('groupTasks')
@@ -257,7 +269,7 @@ export const _updateGroupCompleteStatus = (item, groupId) => {
         .collection('tasks')
         .doc(item.id)
         .update({
-          completed: true,
+          completed: bool,
         });
 
       const updatedTask = {
@@ -351,27 +363,44 @@ export const _sendTasksToGroup = (groupId, tasks, taskIds) => {
       const { user } = getState();
       const userName = user.fullName;
 
-      const dataArr = tasks.map((task) => {
-        const data = { ...task, userName: userName };
-        return data;
-      });
+      let dataArr = [];
+      const groupTasks = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .onSnapshot(async (snapshot) => {
+          let groupTasks = await snapshot.docs.map((doc) => {
+            const id = doc.id;
+            return id;
+          });
 
-      let newGroupTasks = dataArr.map(
-        async (task) =>
-          await firebase
-            .firestore()
-            .collection('groupTasks')
-            .doc(groupId)
-            .collection('tasks')
-            .add(task)
-            .then((result) => {
-              return result.id;
-            })
-            .catch((error) => {
-              alert(error);
-            })
-      );
-      dispatch(_bulkDeleteTasks(taskIds));
+          const returnedArr = tasks
+            .filter((task) => !groupTasks.includes(task.id))
+            .map((task) => {
+              const data = { ...task, userName: userName };
+              dataArr.push(data);
+              return data;
+            });
+
+          if (returnedArr.length) {
+            let newGroupTasks = returnedArr.map(async (task) => {
+              console.log('task', task);
+              const { id, ...currTask } = task;
+              console.log('currTask', currTask);
+              await firebase
+                .firestore()
+                .collection('groupTasks')
+                .doc(groupId)
+                .collection('tasks')
+                .doc(id)
+                .set(currTask)
+                .catch((error) => {
+                  alert(error);
+                });
+            });
+          }
+        });
     } catch (err) {
       console.log(err);
     }

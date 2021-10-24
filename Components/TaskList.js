@@ -210,7 +210,7 @@ const taskList = (props) => {
                     }}
                   />
                   <Button
-                    title="delete all tasks"
+                    title="delete all"
                     onPress={() => {
                       setDeleteTasksModal(true);
                     }}
