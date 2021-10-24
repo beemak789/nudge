@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text, Alert, Image } from 'react-native';
+import { TouchableOpacity, View, Text, Alert, Image, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
@@ -77,3 +77,10 @@ const Map = (props) => {
 };
 
 export default Map;
+
+const styles = StyleSheet.create({
+  image: {
+    width: "10%",
+    height: 10,
+  }
+})

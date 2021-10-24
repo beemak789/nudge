@@ -24,12 +24,11 @@ const AddGroup = (props) => {
   const [text, onChangeText] = useState('');
   const [members, setMembers] = useState([user.id]);
   const dispatch = useDispatch();
-  const friends = useSelector((state) => state.user.friends);
+  const { friends } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(_fetchUserFriends(user));
   }, []);
-
 
   const onSubmit = () => {
     if (!text.trim()) {
@@ -56,7 +55,7 @@ const AddGroup = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             {groups.length ? (
               <View
@@ -139,58 +138,62 @@ const AddGroup = (props) => {
               <Text style={{ marginBottom: 10 }}>
                 Select friends to add them to group
               </Text>
-              { (!friends.length) ? (
-              <Text style={{alignSelf: "center", margin: 10}}>Add some friends to get started!</Text>) :
+              {!friends.length ? (
+                <Text style={{ alignSelf: 'center', margin: 10 }}>
+                  Add some friends to get started!
+                </Text>
+              ) : (
                 <ScrollView>
-                {friends.map((friend, index) => {
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      style={
-                        members.includes(friend.id)
-                          ? styles.selected
-                          : styles.notSelected
-                      }
-                      onPress={() => {
-                        if (members.includes(friend.id)) {
-                          //do not highlight
-                          const filteredCategories = members.filter(
-                            (removeType) => removeType !== friend.id
-                          );
-                          setMembers(filteredCategories);
-                        } else {
-                          //highlgiht
-                          setMembers([...members, friend.id]);
-                        }
-                      }}
-                    >
-                      <Text
+                  {friends.map((friend, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
                         style={
                           members.includes(friend.id)
-                            ? styles.selectedText
-                            : styles.notSelectedText
+                            ? styles.selected
+                            : styles.notSelected
                         }
-                      >
-                        {friend.fullName}
-                      </Text>
-                      <View
-                        style={{
-                          display: 'flex',
-                          marginRight: 5,
-                          alignItems: 'center',
+                        onPress={() => {
+                          if (members.includes(friend.id)) {
+                            //do not highlight
+                            const filteredCategories = members.filter(
+                              (removeType) => removeType !== friend.id
+                            );
+                            setMembers(filteredCategories);
+                          } else {
+                            //highlgiht
+                            setMembers([...members, friend.id]);
+                          }
                         }}
                       >
-                        <Icon
-                          color="black"
-                          type="ionicon"
-                          name="person-add-outline"
-                          size={20}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </ScrollView>}
+                        <Text
+                          style={
+                            members.includes(friend.id)
+                              ? styles.selectedText
+                              : styles.notSelectedText
+                          }
+                        >
+                          {friend.fullName}
+                        </Text>
+                        <View
+                          style={{
+                            display: 'flex',
+                            marginRight: 5,
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Icon
+                            color="black"
+                            type="ionicon"
+                            name="person-add-outline"
+                            size={20}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
+              )}
             </View>
           </View>
         </View>
