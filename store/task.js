@@ -47,7 +47,6 @@ export const clearCurrTask = () => {
 export const clearAllTasks = () => {
   return {
     type: CLEAR_ALL_TASKS,
-    tasks: [],
   };
 };
 
@@ -143,7 +142,6 @@ export const fetchGroupTasks = (groupId) => {
             }
             return 0;
           });
-
           dispatch(setGroupTasks(tasks));
         });
     } catch (err) {
@@ -427,7 +425,12 @@ export default (state = initialState, action) => {
     case CLEAR_CURR_TASK:
       return { ...state, currTask: action.currTask };
     case CLEAR_ALL_TASKS:
-      return { ...state, tasks: [], incomplete: [], currTask: {} };
+      return {
+        selectedGroupTasks: [],
+        tasks: [],
+        incomplete: [],
+        currTask: {},
+      };
     case ADD_TASK:
       return {
         ...state,

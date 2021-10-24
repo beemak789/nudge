@@ -41,6 +41,7 @@ const taskList = (props) => {
   const [optionsModal, setOptionsModal] = useState(false);
   const [item, setItem] = useState({});
   const [deleteTasksModal, setDeleteTasksModal] = useState(false);
+  const groupTasks = useSelector((state) => state.task.selectedGroupTasks);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());

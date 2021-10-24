@@ -46,6 +46,9 @@ const SingleGroupList = (props) => {
 
   const isFocused = useIsFocused();
 
+  let swipeableRow = [];
+  let prevOpenedRow;
+
   useEffect(() => {
     if (isFocused) {
       dispatch(fetchGroupTasks(selectedGroup.id));
