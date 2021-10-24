@@ -78,9 +78,3 @@ const Map = (props) => {
 
 export default Map;
 
-const styles = StyleSheet.create({
-  image: {
-    width: "10%",
-    height: 10,
-  }
-})
