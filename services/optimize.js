@@ -100,23 +100,34 @@ export const optimize = async (tasks, initalLocation) => {
     .sort((a, b) => b.count - a.count)
     .map((a) => a.category);
 
-  //find the closest store for the highest priority category
-  //get the location coords
-  //run the google places search using that location coord
-  //return the two closest stores to complete the other categories of tasks
+  //find the closest store (rated over 3.5) for category with the most tasks
+  //get the location coords of that store
+  //return the two closest stores to complete the next two categories with the highest number of tasks
 
   let max = Math.min(categoryOrderedByPriority.length, 3);
 
   const places = await getPlacesByCategory(categoryOrderedByPriority[0], initalLocation).then(
     async (value) => {
+      let closest = value[0]
+      //only return location if its higher than 3.5 star rating
+      for(let i = 0; i < value.length; i++){
+        if(value[i].rating >= 3.5) {
+          closest =  value[i]
+          break
+        }
+      }
       if(categoryOrderedByPriority.length === 1){
-        return [value[0]]
+        return [closest]
       } else {
-        let closest = value[0];
         const top = categoryOrderedByPriority.slice(1, max);
         const result = await Promise.all(
           top.map((cat) => {
             return getPlacesByCategory(cat, closest.marker).then((value) => {
+              for(let i = 0; i < value.length; i++){
+                if(value[i].rating >= 3.5) {
+                  return value[i]
+                }
+              }
               return value[0];
             });
           })
@@ -127,6 +138,10 @@ export const optimize = async (tasks, initalLocation) => {
       }
     }
   );
-  console.log('places in optimize function', places)
+  // let placesMappedToCategory = {}
+  // for(let j = 0; j < categoryOrderedByPriority.length; j++){
+  //   placesMappedToCategory[categoryOrderedByPriority[j]] = places[j]
+  // }
+  // console.log('final result', placesMappedToCategory)
   return places;
 };

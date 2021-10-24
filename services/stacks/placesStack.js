@@ -69,24 +69,23 @@ const DisplayPlacesStack = (props) => {
   );
 };
 
-const OptimizedPlaces = (props) => {
-  return (
-    <>
-      <SafeAreaView></SafeAreaView>
-      <Tab.Navigator
-        screenOptions={{
-          activeTintColor: 'white',
-          itemStyle: { marginVertical: 10 },
-          inactiveTintColor: 'white',
-          headerShown: false,
-        }}
-      >
-        <Tab.Screen name="Places List" component={OptimizedPlacesList} {...props} />
-        {/* <Tab.Screen name="Map" component={} {...props} /> */}
-      </Tab.Navigator>
-    </>
-  );
-};
+// const OptimizedPlaces = (props) => {
+//   return (
+//     <>
+//       <SafeAreaView></SafeAreaView>
+//       <Tab.Navigator
+//         screenOptions={{
+//           activeTintColor: 'white',
+//           itemStyle: { marginVertical: 10 },
+//           inactiveTintColor: 'white',
+//           headerShown: false,
+//         }}
+//       >
+//         <Tab.Screen name="Quick Complete" component={OptimizedPlacesList} {...props} />
+//       </Tab.Navigator>
+//     </>
+//   );
+// };
 
 const placesStack = (props) => {
   return (
@@ -105,8 +104,10 @@ const placesStack = (props) => {
         {(props) => <DisplayPlacesStack {...props} />}
       </Stack.Screen>
 
-      <Stack.Screen name="Optimized Places">
-        {(props) => <OptimizedPlaces {...props} />}
+      <Stack.Screen name="Optimized Places"
+              component={OptimizedPlacesList}
+              options={{ headerShown: false }}>
+        {/* {(props) => <OptimizedPlaces {...props} />} */}
       </Stack.Screen>
     </Stack.Navigator>
   );

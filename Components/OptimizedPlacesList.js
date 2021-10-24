@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ListItem, Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
+import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { _deleteTask, _updateCompleteStatus } from '../store/task';
@@ -19,14 +20,23 @@ import { ReviewStars } from '../services/StarRating';
 import { Icon } from 'react-native-elements';
 import { NoPlaces } from './NoPlaces';
 
+const LONG_DELTA = 0.0922;
+const LAT_DELTA = 0.0421;
+
 const PlacesList = (props) => {
   const { optimize } = useSelector((state) => state.place);
   const location = useSelector((state) => state.location);
 
   const generateLink = (item) => {
+    let url = `${location.coords.latitude},${location.coords.longitude}`;
+    for (let i = 0; i < optimize.length; i++) {
+      url += `/${optimize[i].marker.latitude},${optimize[i].marker.longitude}`;
+    }
+    console.log(url);
     const name = item.name.replace(/\s/g, '+');
 
-    const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
+    const mapsLink = `https://www.google.com/maps/dir/${url}`;
+    // const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
   };
 
@@ -59,69 +69,130 @@ const PlacesList = (props) => {
       getDistance(currLat, currLng, storeLat, storeLng) * 0.000621;
     return distance.toFixed(2);
   };
-  console.log('optimized list of array! should have been called', optimize)
+
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.body}>
-
-          <FlatList
-            data={optimize}
-            renderItem={( {item} ) => (
-              <TouchableOpacity
-                style={{ margin: 5, marginBottom: 0 }}
-                onPress={() => {
-                  Alert.alert(
-                    'Map Alert',
-                    'Would you like to be taken to Google Maps?',
-                    [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      { text: 'OK', onPress: () => generateLink(item) },
-                    ]
-                  );
-                }}
-              >
-                <View style={{ borderWidth: 1, borderColor: 'transparent' }}>
-                  <View style={styles.rowDirection}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        justifyContent: 'flex-start',
-                      }}
-                    >
-                      {item.name}
-                    </Text>
-                    <Text syle={{ justifyContent: 'center' }}>
-                      {item.marker && location.coords
-                        ? `${returnDistance(item)} miles`
-                        : null}
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    {item.rating ? (
-                      <View>
-                        <View style={styles.startReviewsContainer}>
-                          <ReviewStars stars={item.rating} />
-                          <Text style={styles.rating}>
-                            {item.rating.toFixed(1)}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text>{item.vicinity}</Text>
-                        </View>
-                      </View>
-                    ) : null}
-                  </View>
-                  <Divider orientation="horizontal" />
+      <View
+        style={{
+          marginRight: 'auto',
+          marginLeft: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={styles.save}
+          onPress={() => {
+            props.navigation.navigate('Display Places Stack', {
+              screen: 'Places List',
+            });
+          }}
+        >
+          <Text style={styles.saveText}>Back</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.title}>Optimized Places</Text>
+      <View style={styles.body}>
+        <FlatList
+          data={optimize}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{ margin: 5, marginBottom: 0 }}
+              onPress={() => {
+                Alert.alert(
+                  'Map Alert',
+                  'Would you like to be taken to Google Maps?',
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => generateLink(item) },
+                  ]
+                );
+              }}
+            >
+              <View style={{ borderWidth: 1, borderColor: 'transparent' }}>
+                <View style={styles.rowDirection}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      justifyContent: 'flex-start',
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text syle={{ justifyContent: 'center' }}>
+                    {item.marker && location.coords
+                      ? `${returnDistance(item)} miles`
+                      : null}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        </View>
+                <View style={styles.rowDirection}>
+                  {item.rating ? (
+                    <View>
+                      <View style={styles.startReviewsContainer}>
+                        <ReviewStars stars={item.rating} />
+                        <Text style={styles.rating}>
+                          {item.rating.toFixed(1)}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text>{item.vicinity}</Text>
+                      </View>
+                    </View>
+                  ) : null}
+                </View>
+                <Divider orientation="horizontal" />
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
+      <MapView
+        style={{ flex: 1, margin: 15 }}
+        region={{
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: LONG_DELTA,
+          longitudeDelta: LAT_DELTA,
+        }}
+      >
+        <Marker
+          title="Me"
+          coordinate={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          }}
+        />
+        {optimize.map((place) => {
+          return (
+            <Marker
+              title={`${place.name}`}
+              key={place.id}
+              coordinate={{
+                latitude: place.marker.latitude,
+                longitude: place.marker.longitude,
+              }}
+              pinColor={'green'}
+              onPress={() => {
+                Alert.alert(
+                  'Map Alert',
+                  'Would you like to be taken to Google Maps?',
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => generateLink(place) },
+                  ]
+                );
+              }}
+            />
+          );
+        })}
+      </MapView>
     </SafeAreaView>
   );
 };
@@ -244,6 +315,35 @@ const styles = StyleSheet.create({
     },
     marginTop: 10,
   },
+  save: {
+    justifyContent: 'center',
+    width: 80,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    elevation: 3,
+    backgroundColor: '#83CA9E',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+      width: 2,
+    },
+    marginTop: 10,
+  },
+  saveText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  title: {
+    marginTop:10,
+    fontSize: 20,
+    textAlign:"center"
+  }
 });
 
 export default PlacesList;

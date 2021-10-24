@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  Modal,
 } from 'react-native';
 import { ListItem, Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
@@ -24,6 +25,7 @@ const PlacesList = (props) => {
   const { places } = useSelector((state) => state.place);
   const { incomplete, currTask = {} } = useSelector((state) => state.task);
   const location = useSelector((state) => state.location);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (!currTask.id) {
@@ -112,14 +114,15 @@ const PlacesList = (props) => {
         <TouchableOpacity
           style={styles.newTask}
           onPress={() => {
-            console.log('pressed')
-            dispatch(_setOptimize(incomplete, {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }))
-            props.navigation.navigate('Optimized Places')
-          }
-          }
+            console.log('pressed');
+            dispatch(
+              _setOptimize(incomplete, {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              })
+            );
+            props.navigation.navigate('Optimized Places');
+          }}
         >
           <View style={{ display: 'flex', flexDirection: 'row' }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
@@ -225,17 +228,18 @@ const PlacesList = (props) => {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
+          <View style={{display: "flex", flexDirection:"row", justifyContent:"center", alignItems: "center"}}>
           <TouchableOpacity
             style={styles.newTask}
             onPress={() => {
-                console.log('pressed')
-                dispatch(_setOptimize(incomplete, {
+              dispatch(
+                _setOptimize(incomplete, {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
-                }))
-                props.navigation.navigate('Optimized Places')
-              }
-            }
+                })
+              );
+              props.navigation.navigate('Optimized Places');
+            }}
           >
             <View style={{ display: 'flex', flexDirection: 'row' }}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
@@ -246,7 +250,57 @@ const PlacesList = (props) => {
                 size={24}
               />
             </View>
+
           </TouchableOpacity>
+          <TouchableOpacity
+            style = {{flex: 1,}}
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
+            <Icon color="black" type="ionicon" name="help-circle-outline" />
+          </TouchableOpacity>
+          </View>
+          <Modal animationType="none" visible={modalVisible} transparent={true}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <View
+                style={{
+                  width: 200,
+                  height: 160,
+                  backgroundColor: "white",
+                  display: "flex",
+                  flexDirection: "column",
+                  borderColor: "#F59DBF",
+                  borderRadius: 10,
+                  borderWidth: 2,
+                }}
+              >
+                <View style ={{alignSelf:"flex-end"}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}
+                >
+                  <Icon
+                    color="#F59DBF"
+                    type="ionicon"
+                    name="close-circle-outline"
+                  />
+                </TouchableOpacity>
+                </View>
+                <Text style={{margin: 5, textAlign: "left"}}>Optimize give you a list of places prioritized by: {"\n"}- location, {"\n"}- rating, and {"\n"}- # of items on your task list that may be completed there. </Text>
+
+              </View>
+            </View>
+          </Modal>
+
         </View>
       )}
     </SafeAreaView>
@@ -309,6 +363,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
+    maxWidth: 125,
   },
   button: {
     backgroundColor: '#EBF6EF',
@@ -338,6 +393,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   newTask: {
+    flex: 9,
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 25,
