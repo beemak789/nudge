@@ -142,10 +142,10 @@ const AddGroup = (props) => {
               { (!friends.length) ? (
               <Text style={{alignSelf: "center", margin: 10}}>Add some friends to get started!</Text>) :
                 <ScrollView>
-                {friends.map((friend) => {
+                {friends.map((friend, index) => {
                   return (
                     <TouchableOpacity
-                      key={friend.id}
+                      key={index}
                       style={
                         members.includes(friend.id)
                           ? styles.selected
