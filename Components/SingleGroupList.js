@@ -35,10 +35,10 @@ const SingleGroupList = (props) => {
 
   const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
+
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
   const [search, setSearch] = useState('');
-  // in persist redux, selectedGroupTasks is undefined
-  // tasks.length is undefined because tasks is undefined
+
   useEffect(() => {
     dispatch(fetchGroupTasks(selectedGroup.id));
   }, [dispatch]);
