@@ -295,7 +295,7 @@ const PlacesList = (props) => {
                   />
                 </TouchableOpacity>
                 </View>
-                <Text style={{margin: 5, textAlign: "left"}}>Optimize give you a list of places prioritized by: {"\n"}- location, {"\n"}- rating, and {"\n"}- # of items on your task list that may be completed there. </Text>
+                <Text style={{margin: 5, textAlign: "left"}}>Optimize will give you a list of places prioritized by: {"\n"}- location, {"\n"}- rating, and {"\n"}- # of tasks that may be completed there. </Text>
 
               </View>
             </View>
