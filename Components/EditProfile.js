@@ -27,7 +27,17 @@ const EditProfile = (props) => {
   const dispatch = useDispatch();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style= {{display: "flex", flexDirection: "row", marginRight: "auto", marginLeft: 20}}>
+       <TouchableOpacity
+          style={styles.updateUserButton}
+          onPress={() => {
+            props.navigation.navigate('My Profile');
+          }}
+        >
+          <Text style={styles.updateText}>Back</Text>
+        </TouchableOpacity>
+        </View>
       <Image
         style={styles.userImage}
         source={require('../public/nudgie2.png')}
@@ -58,11 +68,14 @@ const EditProfile = (props) => {
 
       <TouchableOpacity
         style={styles.updateUserButton}
-        onPress={() => dispatch(fetchUpdatedUser(userData))}
+        onPress={() => {
+          dispatch(fetchUpdatedUser(userData))
+          props.navigation.navigate("My Profile")
+        }}
       >
         <Text style={styles.updateText}>Update</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

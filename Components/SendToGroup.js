@@ -74,7 +74,7 @@ const SendToGroup = (props) => {
       </View>
 
       {!groups.length ? (
-        <Text>You have no groups to send this task to!</Text>
+        <Text style={{display: "flex", flexDirection: "column", justifyContent:"center", alignItems:"center", marginHorizontal: 20, textAlign: "center", fontWeight: "bold", fontSize: 16}}>You have no groups to send this task to!</Text>
       ) : (
         <>
           <Text style={styles.title}>Select Group:</Text>

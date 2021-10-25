@@ -112,7 +112,7 @@ const PlacesList = (props) => {
       )}
       {!places.length && incomplete.length > 0 && (
         <TouchableOpacity
-          style={styles.newTask}
+          style={styles.optimizeSmall}
           onPress={() => {
             console.log('pressed');
             dispatch(
@@ -394,6 +394,22 @@ const styles = StyleSheet.create({
   },
   newTask: {
     flex: 9,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 25,
+    margin: 10,
+    padding: 5,
+    backgroundColor: '#F59DBF',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+  },
+  optimizeSmall: {
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 25,

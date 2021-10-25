@@ -49,18 +49,18 @@ const AddGroupTask = (props) => {
             style={styles.itemName}
             onChangeText={onChangeText}
             value={text}
-            placeholder="enter item name"
+            placeholder="Enter item name"
           />
         </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>save</Text>
+          <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
           onPress={() => navigation.navigate('Tasks')}
           title="cancel"
         >
-          <Text style={styles.saveText}>cancel</Text>
+          <Text style={styles.saveText}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

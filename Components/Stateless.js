@@ -107,7 +107,7 @@ const Stateless = (props) => {
 
           <OptionsModal.Footer>
             <Button
-              title="edit task"
+              title="Edit task"
               onPress={() => {
                 props.navigation.navigate('Edit Stack', {
                   item,
@@ -116,7 +116,7 @@ const Stateless = (props) => {
               }}
             />
             <Button
-              title="send to group"
+              title="Send to group"
               onPress={() => {
                 setOptionsModal(false);
                 props.navigation.navigate('Tasks To Send', {
@@ -124,7 +124,7 @@ const Stateless = (props) => {
                 });
               }}
             />
-            <Button title="cancel" onPress={() => setOptionsModal(false)} />
+            <Button title="Cancel" onPress={() => setOptionsModal(false)} />
           </OptionsModal.Footer>
         </OptionsModal.Container>
       </OptionsModal>

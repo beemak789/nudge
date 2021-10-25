@@ -95,7 +95,7 @@ const EditGroup = (props) => {
               style={styles.newGroupName}
               onChangeText={onChangeText}
               value={text}
-              placeholder="enter group name"
+              placeholder="Enter group name"
             />
           </View>
           <Text

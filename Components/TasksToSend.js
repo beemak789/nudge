@@ -33,7 +33,7 @@ const TasksToSend = (props) => {
             style={styles.button}
             onPress={() => {
               props.navigation.navigate('Categories Stack', {
-                screen: 'Task List',
+                screen: 'Tasks',
               });
             }}
           >

@@ -32,18 +32,18 @@ function MyDrawer() {
   );
 
   const displayTypes = {
-    supermarket: 'grocery',
-    pharmacy: 'pharmacy',
-    book_store: 'bookstore',
-    bakery: 'bakery',
-    clothing_store: 'clothing',
-    drugstore: 'drugstore',
-    convenience_store: 'convenience',
-    florist: 'florist',
-    home_goods_store: 'home goods',
-    shoe_store: 'shoe store',
-    liquor_store: 'liquor store',
-    other: 'other',
+    supermarket: 'Grocery',
+    pharmacy: 'Pharmacy',
+    book_store: 'Bookstore',
+    bakery: 'Bakery',
+    clothing_store: 'Clothing',
+    drugstore: 'Drugstore',
+    convenience_store: 'Convenience',
+    florist: 'Florist',
+    home_goods_store: 'Home Goods',
+    shoe_store: 'Shoe Store',
+    liquor_store: 'Liquor Store',
+    other: 'Other',
   };
 
   return (
@@ -57,7 +57,7 @@ function MyDrawer() {
         },
       }}
     >
-      <Drawer.Screen name="all tasks">
+      <Drawer.Screen name="All Tasks">
         {(props) => <CategoriesStack {...props} />}
       </Drawer.Screen>
       {categories.map((category) => {
@@ -91,9 +91,9 @@ const CategoriesStack = (props) => {
           headerShown: false,
         }}
       >
-        <Tab.Screen name="Task List" component={TaskList} {...props} />
+        <Tab.Screen name="Tasks" component={TaskList} {...props} />
         <Tab.Screen
-          name="Completed List"
+          name="Completed"
           component={CompletedList}
           {...props}
         />

@@ -46,8 +46,6 @@ const SingleGroupList = (props) => {
 
   const isFocused = useIsFocused();
 
-  let swipeableRow = [];
-  let prevOpenedRow;
 
   useEffect(() => {
     if (isFocused) {
@@ -55,9 +53,6 @@ const SingleGroupList = (props) => {
     }
   }, [props, isFocused]);
 
-  // useEffect(() => {
-  //   dispatch(fetchGroupTasks(selectedGroup.id));
-  // }, [dispatch]);
 
   useEffect(() => {
     if (isFocused) {
