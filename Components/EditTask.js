@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
   TextInput,
   TouchableOpacity,
   View,
   Image,
   ScrollView,
-  ButtonGroup,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { _createTask, _updateTask } from '../store/task';
@@ -162,7 +160,7 @@ const EditTask = (props) => {
                         );
                         addCategory(filteredCategories);
                       } else {
-                        //highlgiht
+                        //highlight
                         addCategory([...category, type]);
                       }
                     }}

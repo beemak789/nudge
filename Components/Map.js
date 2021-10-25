@@ -1,7 +1,7 @@
-import { TouchableOpacity, View, Text, Alert, Image, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, Alert } from 'react-native';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as Linking from 'expo-linking';
 
 const LONG_DELTA = 0.0922;
@@ -42,7 +42,7 @@ const Map = (props) => {
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
         }}
-        pinColor={"#F59DBF"}
+        pinColor={'#F59DBF'}
       />
       {places.map((place) => {
         return (
@@ -77,4 +77,3 @@ const Map = (props) => {
 };
 
 export default Map;
-

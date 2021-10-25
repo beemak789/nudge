@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   View,
   Image,
   FlatList,
-  Alert
+  Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { createGroup } from '../store/group';
@@ -27,44 +27,43 @@ const FriendsList = (props) => {
   const numFriends = user.friends.length || 0;
   const numPendingFriends = user.pendingFriends.length || 0;
   const dispatch = useDispatch();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-    dispatch(_fetchUserFriends(user));
-    dispatch(_fetchUserPendingFriends(user));
-  }
-}, [props, isFocused]);
+      dispatch(_fetchUserFriends(user));
+      dispatch(_fetchUserPendingFriends(user));
+    }
+  }, [props, isFocused]);
 
-  function showConfirmDialog (userId, friendId, userName, friendName){
+  function showConfirmDialog(userId, friendId, userName, friendName) {
     return Alert.alert(
-      "Create Group",
+      'Create Group',
       `Would you like to create a group with ${friendName}?`,
       [
-        // The "Cancel" button
-        // Does nothing but dismiss the dialog when tapped
         {
-          text: "Cancel",
+          text: 'Cancel',
         },
-
-        // The "Yes" button
         {
-          text: "Yes",
-          onPress: async() => {
-            dispatch(createGroup({
-              name: `${userName} & ${friendName}`,
-              members: [userId, friendId]
-            })
-          )
+          text: 'Yes',
+          onPress: async () => {
+            dispatch(
+              createGroup({
+                name: `${userName} & ${friendName}`,
+                members: [userId, friendId],
+              })
+            );
 
-          navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} });
+            navigation.navigate('Groups Stack', {
+              screen: 'Single Group Stack',
+              params: { screen: 'Tasks' },
+            });
           },
         },
-
       ]
     );
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,9 +83,7 @@ const FriendsList = (props) => {
         </TouchableOpacity>
       </View>
       <View>
-        <View
-          style={styles.imageContent}
-        >
+        <View style={styles.imageContent}>
           <Image
             source={require('../public/nudgie2.png')}
             style={styles.nudgie}
@@ -136,11 +133,16 @@ const FriendsList = (props) => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                   <View style={styles.box}>
-                <TouchableOpacity
-                    onPress={ () => {
-                      showConfirmDialog(user.id, item.id, user.fullName, item.fullName);
-                    }}
-                  >
+                    <TouchableOpacity
+                      onPress={() => {
+                        showConfirmDialog(
+                          user.id,
+                          item.id,
+                          user.fullName,
+                          item.fullName
+                        );
+                      }}
+                    >
                       <Icon
                         style={{ marginLeft: 5 }}
                         color="black"
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'flex-end',
     marginRight: 20,
-    marginTop: 0
+    marginTop: 0,
   },
   imageContent: {
     width: '100%',
@@ -199,8 +201,7 @@ const styles = StyleSheet.create({
   },
   friendsContainer: {
     marginLeft: 20,
-    marginRight: 20
-
+    marginRight: 20,
   },
   title: {
     fontSize: 28,

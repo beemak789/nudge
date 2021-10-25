@@ -10,7 +10,6 @@ const CLEAR_ALL_TASKS = 'CLEAR_ALL_TASKS';
 const ADD_TASK = 'ADD_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
 const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
-const GROUP_COMPLETED_STATUS = 'GROUP_COMPLETED_STATUS';
 const DELETE_TASK = 'DELETE_TASK';
 const BULK_DELETE_TASKS = 'BULK_DELETE_TASKS';
 const SET_GROUP_TASKS = 'SET_GROUP_TASKS';
@@ -114,7 +113,6 @@ export const _fetchAllTasks = () => {
     }
   };
 };
-//db.collection('chats').doc('#randomHASH').collection('conversations').onSnapshot((snapshot) => {...});
 
 export const fetchGroupTasks = (groupId) => {
   return async (dispatch) => {
@@ -150,7 +148,7 @@ export const fetchGroupTasks = (groupId) => {
 };
 
 export const _createGroupTask = (groupId, { name }) => {
-  return async (dispatch, getState) => {
+  return async (getState) => {
     try {
       const { user } = getState();
       const userName = user.fullName;
@@ -303,7 +301,7 @@ export const _updateIncompleteStatus = (task) => {
 };
 
 export const _deleteTask = (taskId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       await tasksRef
         .doc(firebase.auth().currentUser.uid)

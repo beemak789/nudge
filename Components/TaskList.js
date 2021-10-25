@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Modal,
-  Alert,
   Image,
 } from 'react-native';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useNavigation } from '@react-navigation/core';
@@ -33,15 +32,12 @@ import { NoPlaces } from './NoPlaces';
 
 const taskList = (props) => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
   const { incomplete } = useSelector((state) => state.task);
   const user = useSelector((state) => state.user);
-  const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
   const [item, setItem] = useState({});
   const [deleteTasksModal, setDeleteTasksModal] = useState(false);
-  const groupTasks = useSelector((state) => state.task.selectedGroupTasks);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -85,7 +81,6 @@ const taskList = (props) => {
         </TouchableOpacity>
       </View>
 
-      {/* COMPLETED TASKS MODAL********** */}
       <Modal animationType="slide" visible={modalVisible} transparent={true}>
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
@@ -124,7 +119,6 @@ const taskList = (props) => {
           </View>
         </View>
       </Modal>
-      {/* COMPLETED TASKS MODAL */}
 
       <View style={styles.body}>
         {incomplete.length === 0 && <NoPlaces />}
@@ -141,8 +135,8 @@ const taskList = (props) => {
                 onSwipeFromLeft={() => {
                   updateCompleteStatus(item);
                 }}
-                setItem = {setItem}
-                setOptionsModal = {setOptionsModal}
+                setItem={setItem}
+                setOptionsModal={setOptionsModal}
               />
             )}
           ></FlatList>
@@ -221,9 +215,15 @@ const taskList = (props) => {
 export default taskList;
 
 // individual list items
-const ListItem = ({ onSwipeFromLeft, onRightPress, item, setItem, setOptionsModal }) => {
+const ListItem = ({
+  onSwipeFromLeft,
+  onRightPress,
+  item,
+  setItem,
+  setOptionsModal,
+}) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   return (
     <Swipeable
@@ -254,9 +254,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'space-evenly',
-    // padding: 20,
   },
   modalBackground: {
     flex: 1,

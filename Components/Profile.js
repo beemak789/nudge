@@ -16,7 +16,6 @@ import {
 } from '../store/user';
 import { enableLocation, disableLocation } from '../store/location';
 import { useNavigation } from '@react-navigation/core';
-import { Icon } from 'react-native-elements';
 
 export default function Profile() {
   const user = useSelector((state) => state.user);
@@ -49,7 +48,6 @@ export default function Profile() {
     setLocationToggle(!locationToggle);
   };
 
-  //toggle it from false to true
   const toggleNotification = (toggle) => {
     if (toggle) {
       dispatch(enableNotifications(user));
@@ -181,7 +179,6 @@ const buttonStyle = {
   },
   marginTop: 10,
 };
-// PAGE STYLES
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -294,14 +291,12 @@ const switchStyles = StyleSheet.create({
   },
   singleSwitch: {
     justifyContent: 'space-between',
-    // backgroundColor: 'gray',
     marginBottom: 5,
     alignItems: 'center',
     flexDirection: 'row',
   },
 });
 
-// USER FIELDS styles
 const userFields = StyleSheet.create({
   fields: {
     flex: 1,

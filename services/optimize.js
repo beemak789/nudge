@@ -1,4 +1,4 @@
-import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
+import { GOOGLE_PLACES_API } from '@env';
 
 export const getPlacesByCategory = async (type, location) => {
   try {
@@ -9,7 +9,6 @@ export const getPlacesByCategory = async (type, location) => {
     const api = `&key=${GOOGLE_PLACES_API}`;
 
     const locationUrl = `location=${location.latitude},${location.longitude}`;
-    const radiusUrl = `&radius=${radius}`;
     const typeData = `&type=${type}`;
 
     let url = `${nearbyBase}${locationUrl}&rankby=distance${typeData}${api}`;
@@ -138,10 +137,6 @@ export const optimize = async (tasks, initalLocation) => {
       }
     }
   );
-  // let placesMappedToCategory = {}
-  // for(let j = 0; j < categoryOrderedByPriority.length; j++){
-  //   placesMappedToCategory[categoryOrderedByPriority[j]] = places[j]
-  // }
-  // console.log('final result', placesMappedToCategory)
+
   return places;
 };

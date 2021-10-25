@@ -2,6 +2,7 @@ import { firebase } from '../config/firebase';
 import * as Location from 'expo-location';
 import { setExpoLocationStatus } from './user';
 const SET_LOCATION = 'SET_LOCATION';
+
 export const setBackgroundLocation = (location) => {
   return {
     type: SET_LOCATION,

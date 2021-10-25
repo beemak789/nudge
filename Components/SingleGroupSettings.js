@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,7 +6,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -20,7 +19,6 @@ import { useIsFocused } from '@react-navigation/native';
 export default function SingleGroupSettings(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
 
   const isFocused = useIsFocused();
@@ -63,19 +61,6 @@ export default function SingleGroupSettings(props) {
           renderItem={({ item }) => (
             <View style={styles.box}>
               <Text style={styles.item}>{item.fullName}</Text>
-              {/* <TouchableOpacity
-                onPress={() => {
-                  console.log('trashcan clicked');
-                }}
-              >
-                <Icon
-                  style={{ marginRight: 5 }}
-                  color="black"
-                  type="ionicon"
-                  name="trash-outline"
-                  size={22}
-                />
-              </TouchableOpacity> */}
             </View>
           )}
         ></FlatList>
@@ -136,8 +121,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   nudgie: {
     height: 150,

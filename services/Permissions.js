@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 
@@ -15,12 +15,6 @@ const requestPermissions = async () => {
   }
 };
 
-// I don't think we actually need the below because we're using useEffect??
-// const PermissionsButton = () => (
-//   <TouchableOpacity style={styles.button} onPress={requestPermissions}>
-//     <Text style={styles.text}>Enable background location</Text>
-//   </TouchableOpacity>
-// );
 
 TaskManager.defineTask(LOCATION_TASK_NAME, (loc) => {
   const error = loc.error;
@@ -31,7 +25,6 @@ TaskManager.defineTask(LOCATION_TASK_NAME, (loc) => {
   }
   if (data) {
     const { locations } = data;
-    // do something with the locations captured in the background
   }
 });
 

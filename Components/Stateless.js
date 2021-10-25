@@ -58,15 +58,6 @@ const Stateless = (props) => {
               size={20}
             />
           </TouchableOpacity>
-          {/* </View>
-        <View
-          style={{
-            alignItems: 'flex-end',
-            marginLeft: 'auto',
-            marginTop: 'auto',
-            padding: 10,
-          }}
-        > */}
           <Text style={{ fontSize: 22 }}>{props.title}</Text>
         </View>
       </View>

@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   FlatList,
   SafeAreaView,
   View,
   TouchableOpacity,
-  ActivityIndicator,
-  Alert,
 } from 'react-native';
-import { ListItem, Text, Divider } from 'react-native-elements';
+import { Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
-import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
-
-import { useDispatch, useSelector } from 'react-redux';
+import MapView, { Marker } from 'react-native-maps';
+import { useSelector } from 'react-redux';
 import { _deleteTask, _updateCompleteStatus } from '../store/task';
-import { _fetchPlaces, clearPlaces, _setOptimize } from '../store/places';
-
+import { _fetchPlaces, _setOptimize } from '../store/places';
 import { ReviewStars } from '../services/StarRating';
-import { Icon } from 'react-native-elements';
-import { NoPlaces } from './NoPlaces';
 
 const LONG_DELTA = 0.0922;
 const LAT_DELTA = 0.0421;
@@ -35,7 +29,6 @@ const PlacesList = (props) => {
     const name = item.name.replace(/\s/g, '+');
 
     const mapsLink = `https://www.google.com/maps/dir/${url}`;
-    // const mapsLink = `https://www.google.com/maps?saddr=My+Location&daddr=${name}`;
     Linking.openURL(mapsLink);
   };
 
@@ -339,10 +332,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    marginTop:10,
+    marginTop: 10,
     fontSize: 20,
-    textAlign:"center"
-  }
+    textAlign: 'center',
+  },
 });
 
 export default PlacesList;

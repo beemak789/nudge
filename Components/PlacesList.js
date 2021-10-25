@@ -9,7 +9,7 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import { ListItem, Text, Divider } from 'react-native-elements';
+import { Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -114,7 +114,6 @@ const PlacesList = (props) => {
         <TouchableOpacity
           style={styles.optimizeSmall}
           onPress={() => {
-
             dispatch(
               _setOptimize(incomplete, {
                 latitude: location.coords.latitude,
@@ -135,11 +134,6 @@ const PlacesList = (props) => {
           </View>
         </TouchableOpacity>
       )}
-      {/* {places.length <= 0 && (
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" />
-        </View>
-      )} */}
 
       {places.length > 0 && (
         <View style={styles.body}>
@@ -228,38 +222,46 @@ const PlacesList = (props) => {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
-          <View style={{display: "flex", flexDirection:"row", justifyContent:"center", alignItems: "center"}}>
-          <TouchableOpacity
-            style={styles.newTask}
-            onPress={() => {
-              dispatch(
-                _setOptimize(incomplete, {
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                })
-              );
-              props.navigation.navigate('Optimized Places');
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Optimize</Text>
-              <Icon
-                color="black"
-                type="ionicon"
-                name="shuffle-outline"
-                size={24}
-              />
-            </View>
-
-          </TouchableOpacity>
-          <TouchableOpacity
-            style = {{flex: 1,}}
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          >
-            <Icon color="black" type="ionicon" name="help-circle-outline" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.newTask}
+              onPress={() => {
+                dispatch(
+                  _setOptimize(incomplete, {
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                  })
+                );
+                props.navigation.navigate('Optimized Places');
+              }}
+            >
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                  Optimize
+                </Text>
+                <Icon
+                  color="black"
+                  type="ionicon"
+                  name="shuffle-outline"
+                  size={24}
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                setModalVisible(true);
+              }}
+            >
+              <Icon color="black" type="ionicon" name="help-circle-outline" />
+            </TouchableOpacity>
           </View>
           <Modal animationType="none" visible={modalVisible} transparent={true}>
             <View
@@ -274,33 +276,35 @@ const PlacesList = (props) => {
                 style={{
                   width: 200,
                   height: 160,
-                  backgroundColor: "white",
-                  display: "flex",
-                  flexDirection: "column",
-                  borderColor: "#F59DBF",
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  borderColor: '#F59DBF',
                   borderRadius: 10,
                   borderWidth: 2,
                 }}
               >
-                <View style ={{alignSelf:"flex-end"}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setModalVisible(false);
-                  }}
-                >
-                  <Icon
-                    color="#F59DBF"
-                    type="ionicon"
-                    name="close-circle-outline"
-                  />
-                </TouchableOpacity>
+                <View style={{ alignSelf: 'flex-end' }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setModalVisible(false);
+                    }}
+                  >
+                    <Icon
+                      color="#F59DBF"
+                      type="ionicon"
+                      name="close-circle-outline"
+                    />
+                  </TouchableOpacity>
                 </View>
-                <Text style={{margin: 5, textAlign: "left"}}>Optimize will give you a list of places prioritized by: {"\n"}- location, {"\n"}- rating, and {"\n"}- # of tasks that may be completed there. </Text>
-
+                <Text style={{ margin: 5, textAlign: 'left' }}>
+                  Optimize will give you a list of places prioritized by: {'\n'}
+                  - location, {'\n'}- rating, and {'\n'}- # of tasks that may be
+                  completed there.{' '}
+                </Text>
               </View>
             </View>
           </Modal>
-
         </View>
       )}
     </SafeAreaView>

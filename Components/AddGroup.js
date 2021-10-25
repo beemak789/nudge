@@ -13,10 +13,8 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGroup } from '../store/group';
-import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements';
 import { _fetchUserFriends } from '../store/user';
-// import { TouchableWithoutFeedback } from 'react-native';
 
 const AddGroup = (props) => {
   const user = useSelector((state) => state.user);
@@ -265,7 +263,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#83CA9E',
-    // backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',
@@ -281,7 +278,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 10,
     borderRadius: 10,
-    // backgroundColor: 'black',
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',

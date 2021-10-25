@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -55,13 +55,6 @@ const displayTypes = {
   shoe_store: 'Shoe Store',
   liquor_store: 'Liquor Store',
   other: 'Other',
-};
-const priorityTypes = ['high', 'medium', 'low'];
-
-const Store = ({ storeType }) => {
-  <View>
-    <Text>{storeType}</Text>
-  </View>;
 };
 
 const AddTask = (props) => {

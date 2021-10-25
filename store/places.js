@@ -1,4 +1,4 @@
-import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
+import { GOOGLE_PLACES_API } from '@env';
 import { setCurrTask } from './task';
 import { optimize } from '../services/optimize';
 
@@ -51,7 +51,6 @@ export const _setOptimize = (tasks, location) => {
     try {
       dispatch(clearOptimize());
       let closestPlaces = optimize(tasks, location).then(value => {
-
         dispatch(setOptimize(value))
       });
     } catch (err) {

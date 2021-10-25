@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
 
 export const priorityStyle = (priority) => {
   let color;

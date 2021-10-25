@@ -8,33 +8,25 @@ import {
   Text,
 } from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { _deleteTask, _updateCompleteStatus } from '../store/task';
 import { _fetchPlaces } from '../store/places';
 import { Icon } from 'react-native-elements';
 
 export const NoPlaces = (props) => {
-  const dispatch = useDispatch();
-  const { places, status } = useSelector((state) => state.place);
-  const { currTask, incomplete } = useSelector((state) => state.task);
-
   return (
-
-      <View
-        style={{
-          margin: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
-          // flex: 1,
-        }}
-      >
-        <Image
-          style={styles.nudgie}
-          source={require('../public/nudgie2.png')}
-        />
-        <Text style={{fontWeight: "bold", fontSize: 16, textAlign:"center"}}>Welcome to Nudge! {"\n"} Add a task to get started.</Text>
-      </View>
-
+    <View
+      style={{
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Image style={styles.nudgie} source={require('../public/nudgie2.png')} />
+      <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>
+        Welcome to Nudge! {'\n'} Add a task to get started.
+      </Text>
+    </View>
   );
 };
 

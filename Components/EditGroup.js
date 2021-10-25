@@ -18,7 +18,6 @@ const EditGroup = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
-  const { groups } = useSelector((state) => state.groups);
   const [text, onChangeText] = useState(selectedGroup.group.name);
   const [members, setMembers] = useState([]);
   const [selectedMembers, setSelected] = useState([]);
@@ -56,7 +55,16 @@ const EditGroup = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: 'right', marginLeft: 20, marginRight: 20 }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'right',
+          marginLeft: 20,
+          marginRight: 20,
+        }}
+      >
         <TouchableOpacity
           style={styles.save}
           onPress={() => {
@@ -68,10 +76,10 @@ const EditGroup = (props) => {
           <Text style={styles.saveText}>Back</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
+        <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
           <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
-        </View>
+      </View>
       <View
         style={{
           flex: 1,
@@ -167,7 +175,6 @@ const EditGroup = (props) => {
             })}
           </ScrollView>
         </View>
-
       </View>
     </SafeAreaView>
   );
@@ -249,7 +256,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#83CA9E',
-    // backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
     alignItems: 'center',
@@ -265,7 +271,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 10,
     borderRadius: 10,
-    // backgroundColor: 'black',
     backgroundColor: '#EBF6EF',
     flexDirection: 'row',
     shadowColor: 'black',
