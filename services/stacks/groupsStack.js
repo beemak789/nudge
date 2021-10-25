@@ -19,6 +19,8 @@ const Stack = createNativeStackNavigator();
 
 const SingleGroupStack = (props) => {
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
+
+
   return (
     <>
       <SafeAreaView style={{ backgroundColor: 'white' }}>

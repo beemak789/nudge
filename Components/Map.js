@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text, Alert } from 'react-native';
+import { TouchableOpacity, View, Text, Alert, Image, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
@@ -42,18 +42,20 @@ const Map = (props) => {
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
         }}
+        pinColor={"#F59DBF"}
       />
       {places.map((place) => {
         return (
           <Marker
             title={`${place.name}`}
+            description={`${place.vicinity}`}
             key={place.id}
             coordinate={{
               latitude: place.marker.latitude,
               longitude: place.marker.longitude,
             }}
-            pinColor={'green'}
-            onPress={() => {
+            pinColor={'#83CA9E'}
+            onCalloutPress={() => {
               Alert.alert(
                 'Map Alert',
                 'Would you like to be taken to Google Maps?',
@@ -75,3 +77,4 @@ const Map = (props) => {
 };
 
 export default Map;
+

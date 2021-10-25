@@ -179,7 +179,7 @@ const taskList = (props) => {
 
                 <OptionsModal.Footer>
                   <Button
-                    title="edit task"
+                    title="Edit task"
                     onPress={() => {
                       props.navigation.navigate('Edit Stack', {
                         item,
@@ -188,7 +188,7 @@ const taskList = (props) => {
                     }}
                   />
                   <Button
-                    title="send to group"
+                    title="Send to group"
                     onPress={() => {
                       setOptionsModal(false);
                       props.navigation.navigate('Tasks To Send', {
@@ -197,13 +197,13 @@ const taskList = (props) => {
                     }}
                   />
                   <Button
-                    title="delete all"
+                    title="Delete all"
                     onPress={() => {
                       setDeleteTasksModal(true);
                     }}
                   />
                   <Button
-                    title="cancel"
+                    title="Cancel"
                     onPress={() => setOptionsModal(false)}
                   />
                 </OptionsModal.Footer>

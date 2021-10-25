@@ -23,6 +23,7 @@ const SingleGroup = (props) => {
 
   return (
     <TouchableOpacity
+      key={group.id}
       onPress={async () => {
         await dispatch(selectGroup(props.group.id));
         navigation.navigate('Single Group Stack');
