@@ -21,13 +21,18 @@ import {
 import { _fetchGroupMembers } from '../store/group';
 import { firebase } from '../config/firebase';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import {
+  LeftSwipeActions,
+  LeftCompleteSwipeActions,
+  RightSwipeActions,
+} from '../services/Swipeable';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
   _deleteFriend,
   _fetchSingleFriendInfo,
   _fetchUserFriends,
 } from '../store/user';
+import { useIsFocused } from '@react-navigation/native';
 
 const SingleGroupList = (props) => {
   const dispatch = useDispatch();
@@ -39,13 +44,26 @@ const SingleGroupList = (props) => {
   const tasks = useSelector((state) => state.task.selectedGroupTasks);
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    dispatch(fetchGroupTasks(selectedGroup.id));
-  }, [dispatch]);
+  const isFocused = useIsFocused();
+
+  let swipeableRow = [];
+  let prevOpenedRow;
 
   useEffect(() => {
-    dispatch(_fetchGroupMembers(selectedGroup.group.members));
-  }, [dispatch]);
+    if (isFocused) {
+      dispatch(fetchGroupTasks(selectedGroup.id));
+    }
+  }, [props, isFocused]);
+
+  // useEffect(() => {
+  //   dispatch(fetchGroupTasks(selectedGroup.id));
+  // }, [dispatch]);
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(_fetchGroupMembers(selectedGroup.group.members));
+    }
+  }, [props, isFocused]);
 
   // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
@@ -170,13 +188,33 @@ const SingleGroupList = (props) => {
             renderItem={({ item }) => (
               <Swipeable
                 renderRightActions={RightSwipeActions}
+                renderLeftActions={
+                  !item.completed ? LeftSwipeActions : LeftCompleteSwipeActions
+                }
                 onSwipeableRightOpen={() => deleteTask(item.id)}
+                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
               >
-                <View style={styles.box}>
+                <View style={item.completed ? styles.completedBox : styles.box}>
                   <View style={styles.info}>
                     <Text style={styles.item}>{item.name}</Text>
                   </View>
-                  <Text style={styles.addedBy}>added by {item.userName}</Text>
+
+                  {item.completed ? (
+                    <View style={{ marginBottom: 'auto' }}>
+                      <Text style={styles.completed}>completed</Text>
+                      <View style={{ marginLeft: 'auto' }}>
+                        <Text style={styles.addedBy}>
+                          added by {item.userName}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{ marginLeft: 'auto' }}>
+                      <Text style={styles.addedBy}>
+                        added by {item.userName}
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </Swipeable>
             )}
@@ -281,6 +319,25 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 0,
   },
+  completedBox: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#d8f3dc',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+    margin: 10,
+    marginTop: 0,
+  },
   info: {
     padding: 5,
     fontSize: 18,
@@ -294,6 +351,11 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 12,
     textAlign: 'left',
+  },
+  completed: {
+    fontSize: 12,
+    textAlign: 'right',
+    color: '#2d6a4f',
   },
   deleteButton: {
     display: 'flex',

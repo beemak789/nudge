@@ -1,8 +1,13 @@
-import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
-import RNModal from "react-native-modal";
+import React from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import RNModal from 'react-native-modal';
 
-export const Modal = ({ isVisible = true, onDismiss, children, ...props }) => {
+export const OptionsModal = ({
+  isVisible = true,
+  onDismiss,
+  children,
+  ...props
+}) => {
   return (
     <RNModal
       isVisible={isVisible}
@@ -36,38 +41,38 @@ const ModalFooter = ({ children }) => (
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#000",
-    borderStyle: "solid",
+    borderColor: '#000',
+    borderStyle: 'solid',
   },
   header: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     paddingTop: 10,
-    alignSelf: "center",
-    textAlign: "center",
+    alignSelf: 'center',
+    textAlign: 'center',
     fontSize: 24,
   },
   body: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 15,
     minHeight: 100,
     fontSize: 24,
   },
   footer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 10,
-    flexDirection: "column",
+    flexDirection: 'column',
   },
 });
 
-Modal.Header = ModalHeader;
-Modal.Container = ModalContainer;
-Modal.Body = ModalBody;
-Modal.Footer = ModalFooter;
+OptionsModal.Header = ModalHeader;
+OptionsModal.Container = ModalContainer;
+OptionsModal.Body = ModalBody;
+OptionsModal.Footer = ModalFooter;

@@ -13,6 +13,8 @@ import AddTask from '../../Components/AddTask';
 import EditTask from '../../Components/EditTask';
 import CompletedList from '../../Components/CompletedList';
 import Stateless from '../../Components/Stateless';
+import SendToGroup from '../../Components/SendToGroup';
+import TasksToSend from '../../Components/TasksToSend';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -103,6 +105,7 @@ const CategoriesStack = (props) => {
 const tasksStack = (props) => {
   return (
     <Stack.Navigator
+      initialRouteName="Categories Stack"
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -126,6 +129,16 @@ const tasksStack = (props) => {
       <Stack.Screen
         name="Edit Stack"
         component={EditTask}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Tasks To Send"
+        component={TasksToSend}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Send To Group"
+        component={SendToGroup}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

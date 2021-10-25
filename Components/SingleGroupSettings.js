@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { _fetchGroupMembers, deleteGroup, leaveGroup } from '../store/group';
 import { deleteUserGroup } from '../store/user';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function SingleGroupSettings(props) {
   const dispatch = useDispatch();
@@ -22,9 +23,13 @@ export default function SingleGroupSettings(props) {
   const user = useSelector((state) => state.user);
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    dispatch(_fetchGroupMembers(selectedGroup.group.members));
-  }, [dispatch]);
+    if (isFocused) {
+      dispatch(_fetchGroupMembers(selectedGroup.group.members));
+    }
+  }, [props, isFocused]);
 
   const _deleteGroup = async () => {
     await dispatch(deleteUserGroup(selectedGroup.id));
@@ -40,81 +45,89 @@ export default function SingleGroupSettings(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            margin: 20,
-            display:"flex",
-            flexDirection:"column",
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            flex: 1,
-          }}
-        >
-          <Text style={styles.subtitle}>Members</Text>
+      <View
+        style={{
+          margin: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          flex: 1,
+        }}
+      >
+        <Text style={styles.subtitle}>Members</Text>
 
-          <FlatList
-            data={selectedGroup.members}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.box}>
-                <Text style={styles.item}>{item.fullName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log('trashcan clicked');
-                  }}
-                >
-                  <Icon
-                    style={{ marginRight: 5 }}
-                    color="black"
-                    type="ionicon"
-                    name="trash-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          ></FlatList>
-          <View style={{display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center", width:"100%"}}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Groups Stack', {
-                  screen: 'Edit Group',
-                });
-              }}
-            >
-              <View style={styles.deleteButton}>
-                <AntDesign name="setting" size={22} color="black" />
-                <Text style={styles.deleteText}>Edit</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                _leaveGroup();
-              }}
-            >
-              <View style={styles.leaveButton}>
-                <FontAwesome5 name="door-open" size={22} color="black" />
-                <Text style={styles.deleteText}>Leave</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                _deleteGroup();
-              }}
-            >
-              <View style={styles.deleteButton}>
+        <FlatList
+          data={selectedGroup.members}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.box}>
+              <Text style={styles.item}>{item.fullName}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('trashcan clicked');
+                }}
+              >
                 <Icon
+                  style={{ marginRight: 5 }}
                   color="black"
                   type="ionicon"
                   name="trash-outline"
-                  size={21}
+                  size={22}
                 />
-                <Text style={styles.deleteText}>Delete</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        ></FlatList>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Groups Stack', {
+                screen: 'Edit Group',
+              });
+            }}
+          >
+            <View style={styles.deleteButton}>
+              <AntDesign name="setting" size={22} color="black" />
+              <Text style={styles.deleteText}>Edit</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              _leaveGroup();
+            }}
+          >
+            <View style={styles.leaveButton}>
+              <FontAwesome5 name="door-open" size={22} color="black" />
+              <Text style={styles.deleteText}>Leave</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              _deleteGroup();
+            }}
+          >
+            <View style={styles.deleteButton}>
+              <Icon
+                color="black"
+                type="ionicon"
+                name="trash-outline"
+                size={21}
+              />
+              <Text style={styles.deleteText}>Delete</Text>
+            </View>
+          </TouchableOpacity>
         </View>
+      </View>
     </SafeAreaView>
   );
 }
