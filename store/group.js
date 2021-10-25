@@ -167,7 +167,7 @@ export const createGroup = ({ name, members }) => {
         members,
         groupId,
       };
-      console.log('GROUP', group);
+
       //adds the new group to the redux store
       dispatch(
         _addGroup({

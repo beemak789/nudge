@@ -114,7 +114,7 @@ const PlacesList = (props) => {
         <TouchableOpacity
           style={styles.optimizeSmall}
           onPress={() => {
-            console.log('pressed');
+
             dispatch(
               _setOptimize(incomplete, {
                 latitude: location.coords.latitude,

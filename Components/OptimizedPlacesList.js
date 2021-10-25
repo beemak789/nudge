@@ -32,7 +32,6 @@ const PlacesList = (props) => {
     for (let i = 0; i < optimize.length; i++) {
       url += `/${optimize[i].marker.latitude},${optimize[i].marker.longitude}`;
     }
-    console.log(url);
     const name = item.name.replace(/\s/g, '+');
 
     const mapsLink = `https://www.google.com/maps/dir/${url}`;

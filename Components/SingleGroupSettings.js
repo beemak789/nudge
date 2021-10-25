@@ -63,7 +63,7 @@ export default function SingleGroupSettings(props) {
           renderItem={({ item }) => (
             <View style={styles.box}>
               <Text style={styles.item}>{item.fullName}</Text>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                   console.log('trashcan clicked');
                 }}
@@ -75,7 +75,7 @@ export default function SingleGroupSettings(props) {
                   name="trash-outline"
                   size={22}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           )}
         ></FlatList>

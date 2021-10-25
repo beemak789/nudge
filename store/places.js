@@ -51,7 +51,7 @@ export const _setOptimize = (tasks, location) => {
     try {
       dispatch(clearOptimize());
       let closestPlaces = optimize(tasks, location).then(value => {
-        console.log('in the thunk in the then', value)
+
         dispatch(setOptimize(value))
       });
     } catch (err) {
