@@ -60,7 +60,7 @@ const AddFriend = (props) => {
   return (
     <DismissKeyboard>
       <SafeAreaView style={styles.container}>
-        <View style={{ alignItems: 'right', marginLeft: 20, marginTop: 20 }}>
+        <View style={{ alignItems: 'flex-start', marginLeft: 20, marginTop: 20 }}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
