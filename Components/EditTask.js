@@ -96,7 +96,7 @@ const EditTask = (props) => {
     }
 
     props.navigation.navigate('Categories Stack', {
-      screen: 'Task List',
+      screen: 'Tasks',
     });
   };
 

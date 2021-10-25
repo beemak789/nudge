@@ -34,7 +34,6 @@ const GroupChat = (props) => {
   const selectedGroup = useSelector((state) => state.groups.selectedGroup);
   const dispatch = useDispatch();
   const scrollView = useRef();
-  // console.log('scrollview', scrollView.current.scrollToEnd)
 
   const friendType = (name) => {
     return name === user.fullName ? 'me' : 'friend';

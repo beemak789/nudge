@@ -382,9 +382,7 @@ export const _sendTasksToGroup = (groupId, tasks, taskIds) => {
 
           if (returnedArr.length) {
             let newGroupTasks = returnedArr.map(async (task) => {
-              console.log('task', task);
               const { id, ...currTask } = task;
-              console.log('currTask', currTask);
               await firebase
                 .firestore()
                 .collection('groupTasks')
