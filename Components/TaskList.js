@@ -141,6 +141,8 @@ const taskList = (props) => {
                 onSwipeFromLeft={() => {
                   updateCompleteStatus(item);
                 }}
+                setItem = {setItem}
+                setOptionsModal = {setOptionsModal}
               />
             )}
           ></FlatList>
@@ -219,9 +221,10 @@ const taskList = (props) => {
 export default taskList;
 
 // individual list items
-const ListItem = ({ onSwipeFromLeft, onRightPress, item }) => {
+const ListItem = ({ onSwipeFromLeft, onRightPress, item, setItem, setOptionsModal }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
+
   return (
     <Swipeable
       renderLeftActions={LeftSwipeActions}
