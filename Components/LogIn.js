@@ -19,6 +19,7 @@ const LogIn = (props) => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+
   const onSubmit = () => {
     dispatch(logInUser(email, password));
   };
@@ -82,9 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    // justifyContent: "center",
   },
-
   inputView: {
     backgroundColor: '#dde5b6',
     borderRadius: 30,
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: 5,
   },
-
   box: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -159,7 +157,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-
   forgot_button: {
     height: 30,
     marginBottom: 30,

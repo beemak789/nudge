@@ -1,5 +1,5 @@
 import { firebase } from '../config/firebase';
-import { deleteUserGroup, _fetchSingleFriendInfo } from './user';
+import { _fetchSingleFriendInfo } from './user';
 
 const SET_GROUPS = 'SET_GROUPS';
 const EDIT_GROUP_NAME = 'EDIT_GROUP_NAME';
@@ -94,11 +94,9 @@ function compareValues(key, order = 'asc') {
     );
   };
 }
-//should return a list of groups that user is part of
 export const fetchUserGroups = (user) => {
   return async (dispatch) => {
     try {
-      //this is the user we want to fetch groups for
       let groupsArray = [];
       let arrayOfIds = await firebase
         .firestore()
@@ -142,7 +140,6 @@ export const createGroup = ({ name, members }) => {
         messages: [],
       };
 
-      // returns id of newly created group
       let groupId = await firebase
         .firestore()
         .collection('groups')
@@ -151,7 +148,6 @@ export const createGroup = ({ name, members }) => {
           return result.id;
         });
 
-      // adds the new groupID to each members' groups array on their user object
       members.forEach(
         async (memberId) =>
           await firebase
@@ -168,7 +164,6 @@ export const createGroup = ({ name, members }) => {
         groupId,
       };
 
-      //adds the new group to the redux store
       dispatch(
         _addGroup({
           name,
@@ -201,7 +196,6 @@ export const _editGroup = ({ groupId, name, members }) => {
       }
 
       if (members.length) {
-        // adds member Ids to firestore group
         members.forEach(
           async (member) =>
             await firebase
@@ -213,7 +207,6 @@ export const _editGroup = ({ groupId, name, members }) => {
               })
         );
 
-        // adds the new groupID to each members' groups array on their user object
         members.forEach(
           async (member) =>
             await firebase
@@ -235,13 +228,11 @@ export const _editGroup = ({ groupId, name, members }) => {
 export const deleteGroup = (groupId, members) => {
   return async (dispatch) => {
     try {
-      // delete the group based on id
       let group = await firebase
         .firestore()
         .collection('groups')
         .doc(groupId)
         .delete();
-      // delete the group from every group member
       members.map(
         async (memberId) =>
           await firebase
@@ -252,7 +243,6 @@ export const deleteGroup = (groupId, members) => {
               groups: firebase.firestore.FieldValue.arrayRemove(groupId),
             })
       );
-      //deletes group from redux store
       dispatch(_deleteGroup(groupId));
     } catch (err) {
       console.log(err);
@@ -261,7 +251,7 @@ export const deleteGroup = (groupId, members) => {
 };
 
 export const leaveGroup = (groupId) => {
-  return async (dispatch, getState) => {
+  return async (getState) => {
     try {
       const { user } = getState();
       // delete the group id from your user
@@ -305,7 +295,6 @@ export const _fetchGroupMembers = (memberIds) => {
 export const selectGroup = (groupId) => {
   return async (dispatch) => {
     try {
-      //fetch the group from firestore
       let selectedGroup = await firebase
         .firestore()
         .collection('groups')
@@ -316,7 +305,6 @@ export const selectGroup = (groupId) => {
 
           dispatch(_selectGroup({ group: group, id: groupId }));
         });
-      //set the retrieved object to the selectedGroup key on redux state
     } catch (err) {
       console.log(err);
     }

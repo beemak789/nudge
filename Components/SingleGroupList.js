@@ -19,7 +19,6 @@ import {
   _updateGroupCompleteStatus,
 } from '../store/task';
 import { _fetchGroupMembers } from '../store/group';
-import { firebase } from '../config/firebase';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
   LeftSwipeActions,
@@ -46,13 +45,11 @@ const SingleGroupList = (props) => {
 
   const isFocused = useIsFocused();
 
-
   useEffect(() => {
     if (isFocused) {
       dispatch(fetchGroupTasks(selectedGroup.id));
     }
   }, [props, isFocused]);
-
 
   useEffect(() => {
     if (isFocused) {
@@ -60,7 +57,6 @@ const SingleGroupList = (props) => {
     }
   }, [props, isFocused]);
 
-  // _______SEND NOTIFICATION _______
   async function sendPushNotification(members, from) {
     if (!search.trim()) {
       alert('Please specify a location!');
@@ -68,7 +64,6 @@ const SingleGroupList = (props) => {
     }
 
     members.forEach(async (member) => {
-      //get token from id function
       if (member.allowNotifications === true) {
         const message = {
           to: member.token,

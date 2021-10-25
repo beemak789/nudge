@@ -3,20 +3,15 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  Button,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   View,
-  Image,
-  FlatList,
   ScrollView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { _createTask } from '../store/task';
-import { firebase } from '../config/firebase';
 import { Icon } from 'react-native-elements';
 import { _addFriend } from '../store/user';
 import { _sendMessage } from '../store/chat';

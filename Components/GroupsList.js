@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchUserGroups,
-  selectGroup,
-  _setGroups,
-  clearGroups,
-} from '../store/group';
+import { fetchUserGroups, _setGroups } from '../store/group';
 import SingleGroup from './SingleGroup';
 import AddGroup from './AddGroup';
 import { useNavigation } from '@react-navigation/native';
@@ -46,9 +41,7 @@ const GroupsList = (props) => {
           <Icon color="black" type="ionicon" name="people-outline" size={18} />
         </TouchableOpacity>
       </View>
-      <View
-        style={styles.imageContent}
-      >
+      <View style={styles.imageContent}>
         <Image
           source={require('../public/nudgie2.png')}
           style={styles.nudgie}
@@ -78,7 +71,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'flex-end',
     marginRight: 20,
-    marginTop: 0
+    marginTop: 0,
   },
   imageContent: {
     width: '100%',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectGroup, fetchUserGroups } from '../store/group';
@@ -13,7 +13,6 @@ const SingleGroup = (props) => {
   const user = useSelector((state) => state.user);
   const navigation = useNavigation();
 
-  //On load it is undefined, default value to ensure truthiness fixes this
   const group = props.group || {}
   const members = group.members || []
 

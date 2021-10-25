@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { firebase } from '../config/firebase';
 import {
@@ -7,13 +7,10 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  Button,
   View,
-  ScrollView,
   TextInput,
 } from 'react-native';
 import { fetchUpdatedUser } from '../store/user';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const EditProfile = (props) => {
   const user = useSelector((state) => state.user);
@@ -28,8 +25,15 @@ const EditProfile = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style= {{display: "flex", flexDirection: "row", marginRight: "auto", marginLeft: 20}}>
-       <TouchableOpacity
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          marginRight: 'auto',
+          marginLeft: 20,
+        }}
+      >
+        <TouchableOpacity
           style={styles.updateUserButton}
           onPress={() => {
             props.navigation.navigate('My Profile');
@@ -37,7 +41,7 @@ const EditProfile = (props) => {
         >
           <Text style={styles.updateText}>Back</Text>
         </TouchableOpacity>
-        </View>
+      </View>
       <Image
         style={styles.userImage}
         source={require('../public/nudgie2.png')}
@@ -69,8 +73,8 @@ const EditProfile = (props) => {
       <TouchableOpacity
         style={styles.updateUserButton}
         onPress={() => {
-          dispatch(fetchUpdatedUser(userData))
-          props.navigation.navigate("My Profile")
+          dispatch(fetchUpdatedUser(userData));
+          props.navigation.navigate('My Profile');
         }}
       >
         <Text style={styles.updateText}>Update</Text>
@@ -139,7 +143,7 @@ const styles = StyleSheet.create({
   },
   updateText: {
     fontSize: 15,
-    textAlign: "center",
+    textAlign: 'center',
     color: 'black',
     fontWeight: 'bold',
   },

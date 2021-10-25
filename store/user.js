@@ -66,7 +66,7 @@ export const deleteUserGroup = (groupId) => {
     groupId,
   };
 };
-// USER NOTIFICATIONS
+
 export const setExpoPushToken = (token) => {
   return {
     type: SET_EXPO_PUSH_TOKEN,
@@ -74,7 +74,6 @@ export const setExpoPushToken = (token) => {
   };
 };
 
-//Set Notification Status to "ON" or "OFF"
 export const setExpoNotificationStatus = (status) => {
   return {
     type: SET_EXPO_NOTIFICATION_STATUS,
@@ -89,7 +88,6 @@ export const setExpoLocationStatus = (locationStatus) => {
   };
 };
 
-//BADGE COUNT
 export const setBadgeCount = (badgeCount) => {
   return {
     type: SET_BADGE_COUNT,
@@ -167,7 +165,7 @@ export const _setExpoPushToken = (user) => {
   };
 };
 
-// NOTIFICATIONS
+
 export const enableNotifications = (user) => {
   return async (dispatch) => {
     try {
@@ -196,7 +194,6 @@ export const disableNotifications = (user) => {
   };
 };
 
-//Badge Count
 export const updateBadgeCount = (user) => {
   return async (dispatch) => {
     try {

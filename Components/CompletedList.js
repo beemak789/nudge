@@ -1,13 +1,4 @@
-import {
-  StyleSheet,
-  FlatList,
-  SafeAreaView,
-  Text,
-  Button,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { StyleSheet, FlatList, SafeAreaView, Text, View } from 'react-native';
 
 import React, { useEffect } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -23,7 +14,6 @@ import {
   LeftCompleteSwipeActions,
   RightSwipeActions,
 } from '../services/Swipeable';
-import { priorityStyle } from '../services/PriorityStyle';
 
 const CompletedList = (props) => {
   const dispatch = useDispatch();
@@ -61,7 +51,6 @@ const CompletedList = (props) => {
                 <View style={styles.info}>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
-                {/* <View style={priorityStyle(item.priority)}></View> */}
               </View>
             </Swipeable>
           )}
@@ -77,9 +66,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'space-evenly',
-    // padding: 20,
   },
 
   item: {
