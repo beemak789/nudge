@@ -60,7 +60,7 @@ const EditGroup = (props) => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems: 'right',
+          alignItems: 'flex-start',
           marginLeft: 20,
           marginRight: 20,
         }}
