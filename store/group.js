@@ -78,11 +78,9 @@ function compareValues(key, order = 'asc') {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       return 0;
     }
-  //if key is string, change to all uppercase, otherwise can leave as is
-    const varA = (typeof a[key] === 'string')
-      ? a[key].toUpperCase() : a[key];
-    const varB = (typeof b[key] === 'string')
-      ? b[key].toUpperCase() : b[key];
+    //if key is string, change to all uppercase, otherwise can leave as is
+    const varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+    const varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
     //set the comparison value to either 1, -1, or 0 based on key comparison, 0 means leave in place
     let comparison = 0;
     if (varA > varB) {
@@ -91,8 +89,8 @@ function compareValues(key, order = 'asc') {
       comparison = -1;
     }
     return (
-    //invert the return value if want descending order
-      (order === 'desc') ? (comparison * -1) : comparison
+      //invert the return value if want descending order
+      order === 'desc' ? comparison * -1 : comparison
     );
   };
 }
@@ -117,9 +115,9 @@ export const fetchUserGroups = (user) => {
                 .doc(group)
                 .get()
                 .then((snapshot) => {
-                  let groupInfo = snapshot.data()
-                  if (groupInfo.members.length < 2){
-                    delete snapshot.data()
+                  let groupInfo = snapshot.data();
+                  if (groupInfo.members.length < 2) {
+                    delete snapshot.data();
                   } else {
                     groupsArrayInfo.push({ ...groupInfo, id: group });
                   }
@@ -127,7 +125,7 @@ export const fetchUserGroups = (user) => {
                 });
             })
           );
-          groupsArrayInfo.sort(compareValues('name'))
+          groupsArrayInfo.sort(compareValues('name'));
           dispatch(_setGroups(groupsArrayInfo));
         });
     } catch (err) {
@@ -165,23 +163,21 @@ export const createGroup = ({ name, members }) => {
             })
       );
       const group = {
-          name,
-          members,
-          groupId,
-      }
-      console.log("GROUP", group)
+        name,
+        members,
+        groupId,
+      };
+      console.log('GROUP', group);
       //adds the new group to the redux store
       dispatch(
         _addGroup({
           name,
           members,
           groupId,
-      })
+        })
       );
 
-      dispatch(_selectGroup(
-        { group: group, id: groupId }
-      ));
+      dispatch(_selectGroup({ group: group, id: groupId }));
     } catch (err) {
       console.log(err);
     }
