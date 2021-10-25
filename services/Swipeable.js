@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button, TouchableOpacity } from 'react-native';
 
 export const LeftSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: "#FAF3DD",
+        backgroundColor: "#EBF6EF",
         height: 51,
         display: "flex",
         alignItems:"center",
@@ -32,7 +32,7 @@ export const LeftCompleteSwipeActions = (complete) => {
   return (
     <View
       style={{
-        backgroundColor: "#FAF3DD",
+        backgroundColor: "#83CA9E",
         height: 51,
         display: "flex",
         alignItems:"center",
@@ -54,11 +54,12 @@ export const LeftCompleteSwipeActions = (complete) => {
     </View>
   );
 };
-export const RightSwipeActions = () => {
+export const RightSwipeActions = ({ onPress }) => {
   return (
+    <TouchableOpacity onPress = {onPress}>
     <View
       style={{
-        backgroundColor: "#B44647",
+        backgroundColor: "#FF0000",
         height: 51,
         display: "flex",
         alignItems:"center",
@@ -78,5 +79,6 @@ export const RightSwipeActions = () => {
         Delete
       </Text>
     </View>
+    </TouchableOpacity>
   );
 };

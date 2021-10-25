@@ -117,8 +117,7 @@ const taskList = (props) => {
               <Image
                 style={styles.badgeIcon}
                 source={{
-                  uri:
-                    'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
+                  uri: 'https://i.ebayimg.com/images/g/TP0AAOxydlFS54H~/s-l400.jpg',
                 }}
               />
             </TouchableOpacity>
@@ -134,28 +133,17 @@ const taskList = (props) => {
             data={incomplete}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <Swipeable
-                renderLeftActions={LeftSwipeActions}
-                renderRightActions={RightSwipeActions}
-                onSwipeableRightOpen={() => deleteTask(item.id)}
-                onSwipeableLeftOpen={() => updateCompleteStatus(item)}
-              >
-                <TouchableOpacity
-                  style={styles[`box${item.priority}`]}
-                  onPress={() => {
-                    dispatch(_fetchPlaces(item));
-                    props.navigation.navigate('Places Stack');
-                  }}
-                  onLongPress={() => {
-                    setItem(item);
-                    setOptionsModal(true);
-                  }}
-                >
-                  <View style={styles.info}>
-                    <Text style={styles.item}>{item.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              </Swipeable>
+              <ListItem
+                item={item}
+                onRightPress={() => {
+                  deleteTask(item.id);
+                }}
+                onSwipeFromLeft={() => {
+                  updateCompleteStatus(item);
+                }}
+                setItem = {setItem}
+                setOptionsModal = {setOptionsModal}
+              />
             )}
           ></FlatList>
         </View>
@@ -231,6 +219,36 @@ const taskList = (props) => {
 };
 
 export default taskList;
+
+// individual list items
+const ListItem = ({ onSwipeFromLeft, onRightPress, item, setItem, setOptionsModal }) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation()
+
+  return (
+    <Swipeable
+      renderLeftActions={LeftSwipeActions}
+      onSwipeableLeftOpen={onSwipeFromLeft}
+      renderRightActions={() => <RightSwipeActions onPress={onRightPress} />}
+    >
+      <TouchableOpacity
+        style={styles[`box${item.priority}`]}
+        onPress={() => {
+          dispatch(_fetchPlaces(item));
+          navigation.navigate('Places Stack');
+        }}
+        onLongPress={() => {
+          setItem(item);
+          setOptionsModal(true);
+        }}
+      >
+        <View style={styles.info}>
+          <Text style={styles.item}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -40,6 +40,12 @@ const FriendsList = (props) => {
       "Create Group",
       `Would you like to create a group with ${friendName}?`,
       [
+        // The "Cancel" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "Cancel",
+        },
+
         // The "Yes" button
         {
           text: "Yes",
@@ -53,11 +59,7 @@ const FriendsList = (props) => {
           navigation.navigate('Groups Stack', { screen: 'Single Group Stack', params: {screen: 'Tasks'} });
           },
         },
-        // The "No" button
-        // Does nothing but dismiss the dialog when tapped
-        {
-          text: "No",
-        },
+
       ]
     );
   };
