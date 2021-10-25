@@ -19,11 +19,14 @@ import { Icon } from 'react-native-elements';
 
 import {
   _deleteTask,
+  _bulkDeleteTasks,
   _fetchAllTasks,
   _updateCompleteStatus,
 } from '../store/task';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftSwipeActions, RightSwipeActions } from '../services/Swipeable';
+import { OptionsModal } from '../services/Modal';
+import { Button } from '../services/Button';
 import { _fetchPlaces } from '../store/places';
 import { updateBadgeCount } from '../store/user';
 import { NoPlaces } from './NoPlaces';
@@ -35,6 +38,10 @@ const taskList = (props) => {
   const user = useSelector((state) => state.user);
   const badgeCount = useSelector((state) => state.user.badgeCount);
   const [modalVisible, setModalVisible] = useState(false);
+  const [optionsModal, setOptionsModal] = useState(false);
+  const [item, setItem] = useState({});
+  const [deleteTasksModal, setDeleteTasksModal] = useState(false);
+  const groupTasks = useSelector((state) => state.task.selectedGroupTasks);
 
   useEffect(() => {
     dispatch(_fetchAllTasks());
@@ -140,9 +147,8 @@ const taskList = (props) => {
                     props.navigation.navigate('Places Stack');
                   }}
                   onLongPress={() => {
-                    props.navigation.navigate('Edit Stack', {
-                      item,
-                    });
+                    setItem(item);
+                    setOptionsModal(true);
                   }}
                 >
                   <View style={styles.info}>
@@ -153,6 +159,72 @@ const taskList = (props) => {
             )}
           ></FlatList>
         </View>
+        <OptionsModal isVisible={optionsModal}>
+          <OptionsModal.Container>
+            {deleteTasksModal ? (
+              <>
+                <OptionsModal.Header title="Are you sure you would like to delete all tasks?" />
+                <OptionsModal.Body>
+                  <Text>This action cannot be undone</Text>
+                </OptionsModal.Body>
+
+                <OptionsModal.Footer>
+                  <Button
+                    title="yes"
+                    onPress={() => {
+                      const taskIds = incomplete.map((task) => task.id);
+                      dispatch(_bulkDeleteTasks(taskIds));
+                      setOptionsModal(false);
+                      setDeleteTasksModal(false);
+                    }}
+                  />
+                  <Button
+                    title="cancel"
+                    onPress={() => {
+                      setOptionsModal(false);
+                      setDeleteTasksModal(false);
+                    }}
+                  />
+                </OptionsModal.Footer>
+              </>
+            ) : (
+              <>
+                <OptionsModal.Header title="Please select a task action below" />
+
+                <OptionsModal.Footer>
+                  <Button
+                    title="Edit task"
+                    onPress={() => {
+                      props.navigation.navigate('Edit Stack', {
+                        item,
+                      });
+                      setOptionsModal(false);
+                    }}
+                  />
+                  <Button
+                    title="Send to group"
+                    onPress={() => {
+                      setOptionsModal(false);
+                      props.navigation.navigate('Tasks To Send', {
+                        incomplete,
+                      });
+                    }}
+                  />
+                  <Button
+                    title="Delete all"
+                    onPress={() => {
+                      setDeleteTasksModal(true);
+                    }}
+                  />
+                  <Button
+                    title="Cancel"
+                    onPress={() => setOptionsModal(false)}
+                  />
+                </OptionsModal.Footer>
+              </>
+            )}
+          </OptionsModal.Container>
+        </OptionsModal>
       </View>
     </SafeAreaView>
   );

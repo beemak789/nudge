@@ -13,6 +13,7 @@ const UPDATE_TASK = 'UPDATE_TASK';
 const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 const GROUP_COMPLETED_STATUS = 'GROUP_COMPLETED_STATUS';
 const DELETE_TASK = 'DELETE_TASK';
+const BULK_DELETE_TASKS = 'BULK_DELETE_TASKS';
 const SET_GROUP_TASKS = 'SET_GROUP_TASKS';
 const ADD_GROUP_TASK = 'ADD_GROUP_TASK';
 export const setAllTasks = (tasks) => {
@@ -46,7 +47,6 @@ export const clearCurrTask = () => {
 export const clearAllTasks = () => {
   return {
     type: CLEAR_ALL_TASKS,
-    tasks: [],
   };
 };
 
@@ -82,6 +82,13 @@ export const deleteTask = (taskId) => {
   return {
     type: DELETE_TASK,
     taskId,
+  };
+};
+
+export const bulkDeleteTasks = (taskIds) => {
+  return {
+    type: BULK_DELETE_TASKS,
+    taskIds,
   };
 };
 
@@ -125,6 +132,16 @@ export const fetchGroupTasks = (groupId) => {
             return { id, ...data };
           });
 
+          tasks.sort((a, b) => {
+            let taskA = a.completed;
+            let taskB = b.completed;
+            if (taskA < taskB) {
+              return -1;
+            } else if (taskA > taskB) {
+              return 1;
+            }
+            return 0;
+          });
           dispatch(setGroupTasks(tasks));
         });
     } catch (err) {
@@ -242,6 +259,7 @@ export const _updateCompleteStatus = (item, setModalVisible) => {
 export const _updateGroupCompleteStatus = (item, groupId) => {
   return async (dispatch) => {
     try {
+      const bool = !item.completed;
       const res = await firebase
         .firestore()
         .collection('groupTasks')
@@ -249,7 +267,7 @@ export const _updateGroupCompleteStatus = (item, groupId) => {
         .collection('tasks')
         .doc(item.id)
         .update({
-          completed: true,
+          completed: bool,
         });
 
       const updatedTask = {
@@ -300,6 +318,27 @@ export const _deleteTask = (taskId) => {
   };
 };
 
+export const _bulkDeleteTasks = (taskIds) => {
+  return async (dispatch) => {
+    try {
+      let deletedTasks = taskIds.map(
+        async (taskId) =>
+          await tasksRef
+            .doc(firebase.auth().currentUser.uid)
+            .collection('userTasks')
+            .doc(taskId)
+            .delete()
+            .catch((error) => {
+              alert(error);
+            })
+      );
+      dispatch(bulkDeleteTasks(taskIds));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const _deleteGroupTask = (taskId, groupId) => {
   return async (dispatch) => {
     try {
@@ -310,6 +349,56 @@ export const _deleteGroupTask = (taskId, groupId) => {
         .collection('tasks')
         .doc(taskId)
         .delete();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _sendTasksToGroup = (groupId, tasks, taskIds) => {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState();
+      const userName = user.fullName;
+
+      let dataArr = [];
+      const groupTasks = await firebase
+        .firestore()
+        .collection('groupTasks')
+        .doc(groupId)
+        .collection('tasks')
+        .onSnapshot(async (snapshot) => {
+          let groupTasks = await snapshot.docs.map((doc) => {
+            const id = doc.id;
+            return id;
+          });
+
+          const returnedArr = tasks
+            .filter((task) => !groupTasks.includes(task.id))
+            .map((task) => {
+              const data = { ...task, userName: userName };
+              dataArr.push(data);
+              return data;
+            });
+
+          if (returnedArr.length) {
+            let newGroupTasks = returnedArr.map(async (task) => {
+              console.log('task', task);
+              const { id, ...currTask } = task;
+              console.log('currTask', currTask);
+              await firebase
+                .firestore()
+                .collection('groupTasks')
+                .doc(groupId)
+                .collection('tasks')
+                .doc(id)
+                .set(currTask)
+                .catch((error) => {
+                  alert(error);
+                });
+            });
+          }
+        });
     } catch (err) {
       console.log(err);
     }
@@ -336,7 +425,12 @@ export default (state = initialState, action) => {
     case CLEAR_CURR_TASK:
       return { ...state, currTask: action.currTask };
     case CLEAR_ALL_TASKS:
-      return { ...state, tasks: [], incomplete: [], currTask: {} };
+      return {
+        selectedGroupTasks: [],
+        tasks: [],
+        incomplete: [],
+        currTask: {},
+      };
     case ADD_TASK:
       return {
         ...state,
@@ -415,6 +509,25 @@ export default (state = initialState, action) => {
         tasks: deletedTasks,
         incomplete: deletedIncomplete,
         currTask: deleteCurrTask,
+      };
+
+    case BULK_DELETE_TASKS:
+      const bulkDeletedTasks = state.tasks.filter(
+        (task) => !action.taskIds.includes(task.id)
+      );
+
+      const bulkDeleteCurrTask = action.taskIds.includes(state.currTask.id)
+        ? {}
+        : state.currTask;
+
+      const bulkDeletedIncomplete = state.incomplete.filter(
+        (task) => !action.taskIds.includes(task.id)
+      );
+      return {
+        ...state,
+        tasks: bulkDeletedTasks,
+        incomplete: bulkDeletedIncomplete,
+        currTask: bulkDeleteCurrTask,
       };
     default:
       return state;

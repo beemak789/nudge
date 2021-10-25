@@ -21,6 +21,7 @@ import { Icon } from 'react-native-elements';
 import { _addFriend } from '../store/user';
 import { _sendMessage } from '../store/chat';
 import { fetchGroupChat } from '../store/chat';
+import { useIsFocused } from '@react-navigation/native';
 
 import { Dimensions } from 'react-native';
 
@@ -34,13 +35,18 @@ const GroupChat = (props) => {
   const dispatch = useDispatch();
   const scrollView = useRef();
   // console.log('scrollview', scrollView.current.scrollToEnd)
+
   const friendType = (name) => {
     return name === user.fullName ? 'me' : 'friend';
   };
-  useEffect(() => {
 
-    dispatch(fetchGroupChat(selectedGroup.id));
-  }, [dispatch]);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(fetchGroupChat(selectedGroup.id));
+    }
+  }, [props, isFocused]);
 
   const onSubmit = async () => {
     dispatch(_sendMessage(selectedGroup.id, text, user.fullName));
@@ -48,47 +54,55 @@ const GroupChat = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView
-        style={{ padding: 10 }}
-      >
-        <View style={{ height: windowHeight, display: "flex", flexDirection:"column", justifyContent:"space-between" }}>
-        <ScrollView
-        ref={scrollView}
-        onContentSizeChange={() => scrollView.current.scrollToEnd({ animated: true })}>
-          {chats.map((item) => (
-            <View key={item.timestamp}>
-              <Text style={styles[`${friendType(item.name)}text`]}>
-                {item.name}
-              </Text>
-              <View style={styles[friendType(item.name)]}>
-                <Text style={styles.chatMessage}>{item.message}</Text>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
+      <KeyboardAwareScrollView style={{ padding: 10 }}>
         <View
           style={{
+            height: windowHeight,
             display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
         >
-          <TextInput
-            style={styles.message}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder=""
-          />
-          <TouchableOpacity onPress={onSubmit} style={styles.send}>
-            <Icon
-              color="black"
-              type="ionicon"
-              name="paper-plane-outline"
-              size={20}
+          <ScrollView
+            ref={scrollView}
+            onContentSizeChange={() =>
+              scrollView.current.scrollToEnd({ animated: true })
+            }
+          >
+            {chats.map((item) => (
+              <View key={item.timestamp}>
+                <Text style={styles[`${friendType(item.name)}text`]}>
+                  {item.name}
+                </Text>
+                <View style={styles[friendType(item.name)]}>
+                  <Text style={styles.chatMessage}>{item.message}</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <TextInput
+              style={styles.message}
+              onChangeText={onChangeText}
+              value={text}
+              placeholder=""
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={onSubmit} style={styles.send}>
+              <Icon
+                color="black"
+                type="ionicon"
+                name="paper-plane-outline"
+                size={20}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
