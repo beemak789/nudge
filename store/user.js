@@ -412,8 +412,20 @@ export const signUpUser = (email, password, first, last) => {
     }
   };
 };
-
-export default (state = {}, action) => {
+const initialstate = {
+  id: '',
+  email: '',
+  fullName: '',
+  pendingFriends: [],
+  friendRequests: [],
+  friends: [],
+  locationStatus: true,
+  badgeCount: 0,
+  groups: [],
+  allowNotifications: true,
+  token: '',
+};
+export default (state = initialstate, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, ...action.user };

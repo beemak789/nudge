@@ -60,7 +60,7 @@ const GroupsList = (props) => {
         <FlatList
           contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}
           data={groups}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => <SingleGroup group={item} />}
         ></FlatList>
       </View>
