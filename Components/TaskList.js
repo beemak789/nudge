@@ -158,7 +158,7 @@ const taskList = (props) => {
 
                 <OptionsModal.Footer>
                   <Button
-                    title="yes"
+                    title="Yes"
                     onPress={() => {
                       const taskIds = incomplete.map((task) => task.id);
                       dispatch(_bulkDeleteTasks(taskIds));
@@ -167,7 +167,7 @@ const taskList = (props) => {
                     }}
                   />
                   <Button
-                    title="cancel"
+                    title="Cancel"
                     onPress={() => {
                       setOptionsModal(false);
                       setDeleteTasksModal(false);

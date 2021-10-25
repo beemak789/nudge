@@ -8,7 +8,17 @@ const Stack = createNativeStackNavigator();
 
 export default function ProfileStack(props) {
   return (
-    <Stack.Navigator initialRouteName={'My Profile'}>
+    <Stack.Navigator
+      initialRouteName={'My Profile'}
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTintColor: 'white',
+        headerBackTitle: 'white',
+      }}
+    >
       <Stack.Screen
         name="My Profile"
         options={{
@@ -17,7 +27,13 @@ export default function ProfileStack(props) {
       >
         {(props) => <Profile {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="Edit Profile" component={EditProfile} />
+      <Stack.Screen
+        name="Edit Profile"
+        component={EditProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

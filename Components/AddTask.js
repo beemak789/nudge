@@ -95,7 +95,7 @@ const AddTask = (props) => {
     }
 
     props.navigation.navigate('Categories Stack', {
-      screen: 'Task List',
+      screen: 'Tasks',
     });
     onChangeText('');
     addCategory([]);
@@ -114,7 +114,7 @@ const AddTask = (props) => {
             style={styles.save}
             onPress={() => {
               props.navigation.navigate('Categories Stack', {
-                screen: 'Task List',
+                screen: 'Tasks',
               });
             }}
           >

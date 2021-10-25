@@ -55,18 +55,18 @@ const EditTask = (props) => {
     other: require('../public/other.png'),
   };
   const displayTypes = {
-    supermarket: 'grocery',
-    pharmacy: 'pharmacy',
-    book_store: 'bookstore',
-    bakery: 'bakery',
-    clothing_store: 'clothing',
-    drugstore: 'drugstore',
-    convenience_store: 'convenience',
-    florist: 'florist',
-    home_goods_store: 'home goods',
-    shoe_store: 'shoe store',
-    liquor_store: 'liquor store',
-    other: 'other',
+    supermarket: 'Grocery',
+    pharmacy: 'Pharmacy',
+    book_store: 'Bookstore',
+    bakery: 'Bakery',
+    clothing_store: 'Clothing',
+    drugstore: 'Drugstore',
+    convenience_store: 'Convenience',
+    florist: 'Florist',
+    home_goods_store: 'Home Goods',
+    shoe_store: 'Shoe Store',
+    liquor_store: 'Liquor Store',
+    other: 'Other',
   };
   const onSubmit = () => {
     if (!taskName.trim()) {
@@ -117,7 +117,7 @@ const EditTask = (props) => {
               });
             }}
           >
-            <Text style={styles.saveText}>back</Text>
+            <Text style={styles.saveText}>Back</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -214,7 +214,7 @@ const EditTask = (props) => {
                     : null,
                 ]}
               >
-                high
+                High
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -232,7 +232,7 @@ const EditTask = (props) => {
                     : null,
                 ]}
               >
-                medium
+                Medium
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -250,13 +250,13 @@ const EditTask = (props) => {
                     : null,
                 ]}
               >
-                low
+                Low
               </Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity style={styles.save} onPress={onSubmit} title="save">
-          <Text style={styles.saveText}>update</Text>
+          <Text style={styles.saveText}>Update</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </DismissKeyboard>
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
   },
   itemName: {
     fontSize: 20,

@@ -1,14 +1,31 @@
 import { GOOGLE_PLACES_API, GOOGLE_MAPS_API } from '@env';
 import { setCurrTask } from './task';
+import { optimize } from '../services/optimize';
 
 const SET_PLACES = 'SET_PLACES';
 const CLEAR_PLACES = 'CLEAR_PLACES';
+const CLEAR_OPTIMIZE = 'CLEAR_OPTIMIZE';
 const SET_STATUS = 'SET_STATUS';
+const SET_OPTIMIZE = 'SET_OPTIMIZE';
 
 export const setPlaces = (places) => {
   return {
     type: SET_PLACES,
     places,
+  };
+};
+
+export const setOptimize = (places) => {
+  return {
+    type: SET_OPTIMIZE,
+    places,
+  };
+};
+
+
+export const clearOptimize = () => {
+  return {
+    type: CLEAR_OPTIMIZE,
   };
 };
 
@@ -25,10 +42,25 @@ export const setStatus = (status) => {
     type: SET_STATUS,
     places: [],
     status,
+    optimize: [],
   };
 };
 
-export const _fetchPlaces = (singlePlace = "random") => {
+export const _setOptimize = (tasks, location) => {
+  return async (dispatch) => {
+    try {
+      dispatch(clearOptimize());
+      let closestPlaces = optimize(tasks, location).then(value => {
+        console.log('in the thunk in the then', value)
+        dispatch(setOptimize(value))
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const _fetchPlaces = (singlePlace = 'random') => {
   return async (dispatch, getState) => {
     try {
       dispatch(clearPlaces());
@@ -37,8 +69,8 @@ export const _fetchPlaces = (singlePlace = "random") => {
       const tasks = task.incomplete;
 
       let currTask = tasks[Math.floor(Math.random() * tasks.length)];
-      if(singlePlace !== "random") {
-        currTask = singlePlace
+      if (singlePlace !== 'random') {
+        currTask = singlePlace;
       }
       dispatch(setCurrTask(currTask));
 
@@ -158,6 +190,7 @@ export const _fetchPlaces = (singlePlace = "random") => {
 const initialState = {
   status: '',
   places: [],
+  optimize: [],
 };
 
 export default (state = initialState, action) => {
@@ -167,10 +200,20 @@ export default (state = initialState, action) => {
         ...state,
         places: action.places,
       };
+    case SET_OPTIMIZE:
+      return {
+        ...state,
+        optimize: action.places,
+      };
     case CLEAR_PLACES:
       return {
         places: action.places,
         status: action.status,
+      };
+    case CLEAR_OPTIMIZE:
+      return {
+        ...state,
+        optimize: []
       };
     case SET_STATUS:
       return { ...state, status: action.status };

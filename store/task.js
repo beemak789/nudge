@@ -1,5 +1,4 @@
 import { firebase } from '../config/firebase';
-import { clearPlaces } from './places';
 
 //reference to the "tasks" collection in Firestore
 const tasksRef = firebase.firestore().collection('tasks');
@@ -348,7 +347,7 @@ export const _deleteGroupTask = (taskId, groupId) => {
         .doc(groupId)
         .collection('tasks')
         .doc(taskId)
-        .delete();
+        .delete().catch( (err) => alert(err));
     } catch (err) {
       console.log(err);
     }
@@ -367,7 +366,7 @@ export const _sendTasksToGroup = (groupId, tasks, taskIds) => {
         .collection('groupTasks')
         .doc(groupId)
         .collection('tasks')
-        .onSnapshot(async (snapshot) => {
+        .get().then(async (snapshot) => {
           let groupTasks = await snapshot.docs.map((doc) => {
             const id = doc.id;
             return id;

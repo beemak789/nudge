@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { useIsFocused } from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -28,12 +28,14 @@ const FriendsList = (props) => {
   const numPendingFriends = user.pendingFriends.length || 0;
   const dispatch = useDispatch();
   const navigation = useNavigation()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
+    if (isFocused) {
     dispatch(_fetchUserFriends(user));
     dispatch(_fetchUserPendingFriends(user));
-  }, [dispatch]);
-
+  }
+}, [props, isFocused]);
 
   function showConfirmDialog (userId, friendId, userName, friendName){
     return Alert.alert(

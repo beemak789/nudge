@@ -8,6 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 
 // components
 import PlacesList from '../../Components/PlacesList';
+import OptimizedPlacesList from '../../Components/OptimizedPlacesList';
 import NoPlaces from '../../Components/NoPlaces';
 import Stateless from '../../Components/Stateless';
 import Map from '../../Components/Map';
@@ -68,6 +69,24 @@ const DisplayPlacesStack = (props) => {
   );
 };
 
+// const OptimizedPlaces = (props) => {
+//   return (
+//     <>
+//       <SafeAreaView></SafeAreaView>
+//       <Tab.Navigator
+//         screenOptions={{
+//           activeTintColor: 'white',
+//           itemStyle: { marginVertical: 10 },
+//           inactiveTintColor: 'white',
+//           headerShown: false,
+//         }}
+//       >
+//         <Tab.Screen name="Quick Complete" component={OptimizedPlacesList} {...props} />
+//       </Tab.Navigator>
+//     </>
+//   );
+// };
+
 const placesStack = (props) => {
   return (
     <Stack.Navigator
@@ -83,6 +102,12 @@ const placesStack = (props) => {
     >
       <Stack.Screen name="Display Places Stack">
         {(props) => <DisplayPlacesStack {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen name="Optimized Places"
+              component={OptimizedPlacesList}
+              options={{ headerShown: false }}>
+        {/* {(props) => <OptimizedPlaces {...props} />} */}
       </Stack.Screen>
     </Stack.Navigator>
   );
