@@ -68,7 +68,7 @@ function MyDrawer() {
                 list={incomplete.filter((task) =>
                   task.category.includes(category)
                 )}
-                title={`${displayTypes[category]} list`}
+                title={`${displayTypes[category]} List`}
                 {...props}
               />
             )}

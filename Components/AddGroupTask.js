@@ -25,7 +25,7 @@ const AddGroupTask = (props) => {
       })
     );
     onChangeText('');
-    navigation.navigate('Tasks');
+    navigation.navigate('Group Tasks');
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -57,7 +57,7 @@ const AddGroupTask = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.save}
-          onPress={() => navigation.navigate('Tasks')}
+          onPress={() => navigation.navigate('Group Tasks')}
           title="cancel"
         >
           <Text style={styles.saveText}>Cancel</Text>
