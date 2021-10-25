@@ -46,7 +46,7 @@ const SingleGroupStack = (props) => {
           // style: { position: 'relative', top: 100 },
         }}
       >
-        <Tab.Screen name="Tasks" component={SingleGroupList} {...props} />
+        <Tab.Screen name="Group Tasks" component={SingleGroupList} {...props} />
 
         <Tab.Screen
           name="Chat"
