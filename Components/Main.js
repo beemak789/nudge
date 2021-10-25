@@ -195,6 +195,11 @@ const Main = () => {
       </View>
     );
   }
+
+  const tabBarListeners = ({ navigation, route }) => ({
+    tabPress: () => navigation.navigate(route.name),
+  });
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -251,6 +256,7 @@ const Main = () => {
         <>
           <Tab.Screen
             name="Tasks Stack"
+            listeners={tabBarListeners}
             options={{
               tabBarIcon: ({ color, focused }) => (
                 <Icon
