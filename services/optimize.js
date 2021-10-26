@@ -1,6 +1,7 @@
 import { GOOGLE_PLACES_API } from '@env';
+import { Alert } from 'react-native';
 
-export const getPlacesByCategory = async (type, location) => {
+export const getPlacesByCategory = async (type, location, name = '') => {
   try {
     let radius = 1000;
 
@@ -15,10 +16,12 @@ export const getPlacesByCategory = async (type, location) => {
 
     let newPromise;
     if (type === 'other') {
-      const search = currTask.name.replace(/\s/g, '%');
-      const query = `&keyword=${search}`;
+      console.log('I GET TO THE OTHER IF STATEMENT******')
+      const search = name.replace(/\s/g, '%');
+      const query = `&query=${search}`;
+      const radius = 1000
 
-      url = `${queryBase}${locationUrl}&rankby=distance${query}${api}`;
+      url = `${queryBase}${locationUrl}&radius=${radius}${api}`;
 
       newPromise = new Promise((res, rej) => {
         res(
@@ -39,6 +42,7 @@ export const getPlacesByCategory = async (type, location) => {
               });
             })
             .then((value) => {
+              console.log('other category', value)
               return value;
             })
         );
@@ -79,11 +83,13 @@ export const optimize = async (tasks, initalLocation) => {
   const categoryPriority = {};
   tasks.forEach((task) => {
     task.category.forEach((category) => {
-      if (categoryPriority[category]) {
-        categoryPriority[category] += 1;
-      } else {
-        categoryPriority[category] = 1;
-      }
+      if(category !== 'other') {
+        if (categoryPriority[category]) {
+          categoryPriority[category] += 1;
+        } else {
+          categoryPriority[category] = 1;
+        }
+    }
     });
   });
 
@@ -95,6 +101,10 @@ export const optimize = async (tasks, initalLocation) => {
     });
   });
 
+  if(categoryOrderedByPriority.length < 1) {
+    alert('No applicable categories to optimize. Try including another store type in your tasks.')
+    return []
+  }
   categoryOrderedByPriority = categoryOrderedByPriority
     .sort((a, b) => b.count - a.count)
     .map((a) => a.category);

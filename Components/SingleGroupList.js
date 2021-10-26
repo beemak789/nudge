@@ -172,6 +172,7 @@ const SingleGroupList = (props) => {
             </Text>
           </View>
         ) : tasks[0].id ? (
+          <View style={{height: "85%"}}>
           <FlatList
             data={tasks}
             keyExtractor={(item) => item.id}
@@ -209,6 +210,7 @@ const SingleGroupList = (props) => {
               </Swipeable>
             )}
           ></FlatList>
+          </View>
         ) : (
           <Text
             style={{
