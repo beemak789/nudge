@@ -103,10 +103,10 @@ const AddGroup = (props) => {
               alignItems: 'center',
             }}
           >
-            <Image
+            {/* <Image
               source={require('../public/nudgie2.png')}
               style={styles.nudgie}
-            />
+            /> */}
             <View style={{ marginBottom: 30 }}>
               <Text style={styles.title}>Create a New Group</Text>
               <View
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     margin: 5,
+    marginTop: 20,
   },
   nudgie: {
     height: 150,
