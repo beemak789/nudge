@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { Text, Divider } from 'react-native-elements';
 import * as Linking from 'expo-linking';
