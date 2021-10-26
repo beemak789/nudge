@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View } from 'react-native'
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -61,19 +62,19 @@ function MyDrawer() {
         {(props) => <CategoriesStack {...props} />}
       </Drawer.Screen>
       {categories.map((category) => {
-        return (
-          <Drawer.Screen key={category} name={`${displayTypes[category]}`}>
-            {(props) => (
-              <Stateless
-                list={incomplete.filter((task) =>
-                  task.category.includes(category)
-                )}
-                title={`${displayTypes[category]} List`}
-                {...props}
-              />
-            )}
-          </Drawer.Screen>
-        );
+          return (
+            <Drawer.Screen key={category} name={`${displayTypes[category]}`}>
+              {(props) => (
+                <Stateless
+                  list={incomplete.filter((task) =>
+                    task.category.includes(category)
+                  )}
+                  title={`${displayTypes[category]} List`}
+                  {...props}
+                />
+              )}
+            </Drawer.Screen>
+          );
       })}
     </Drawer.Navigator>
   );

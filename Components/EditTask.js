@@ -20,9 +20,7 @@ const EditTask = (props) => {
   const [priority, setPriority] = useState(
     `${props.route.params.item.priority}`
   );
-  const [category, addCategory] = useState([
-    `${props.route.params.item.category}`,
-  ]);
+  const [category, addCategory] = useState([...props.route.params.item.category]);
   const dispatch = useDispatch();
   const types = [
     'supermarket',

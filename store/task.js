@@ -148,7 +148,7 @@ export const fetchGroupTasks = (groupId) => {
 };
 
 export const _createGroupTask = (groupId, { name }) => {
-  return async (getState) => {
+  return async (dispatch, getState) => {
     try {
       const { user } = getState();
       const userName = user.fullName;

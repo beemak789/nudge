@@ -11,7 +11,7 @@ export const Button = ({ title, onPress }) => {
 const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
-    width: 120,
+    width: 130,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 20,
