@@ -32,8 +32,10 @@ You can add friends, join groups and chat rooms or send notifications to nudge a
 **Navigating the App**
 * Tapping on the bottom tabs will take you to different sections of the application.
 * Places will take you to view a list of nearby stores that carries your item(s) on your list, as well as see a mapview
+* Optimize will help your efficiency by finding the a nearby cluster of places to complete tasks in up to three categories in one trip
 * Friends will open a view to add, search and delete friends, as well as make friend requests
-* Groups will open a view to create, view and delete the groups you belong to, as well as select friends you wish to add to your group. * * Within a group, you are able to create group tasks, enter a group chat with specific group members and have the option to edit, delete or leave the group. You can also search for stores that may carry the item you are looking for.
+* Groups will open a view to create, view and delete the groups you belong to, as well as select friends you wish to add to your group.
+* Within a group, you are able to create group tasks, send your personal tasks to the group, enter a group chat with specific group members and have the option to edit, delete or leave the group. You can also search for stores that may carry the item you are looking for.
 * Profile shows your user profile, as well as the ability to turn both your location status and notifications on or off. In addition, you are able to view the badges you have earned as a result of completing your tasks for the day.
 
 Have fun and explore nudge!
