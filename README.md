@@ -2,6 +2,9 @@ nudge 🐙
 ============
 nudge is an iOS mobile application that helps users complete their daily tasks; it provides a list of nearby places where users can purchase their items in order to complete their daily tasks. Users can add friends, join friend groups and chat, as well as create group tasks so they can help one another complete tasks on each of their lists. In addition, the user is able to send and receive notifications from friends, or nudge their friend(s) if they happen to be at a location that carries that item on their list.
 
+## Video Presentation
+*Check out the video here:* https://www.youtube.com/watch?v=v3s8yRj5zIQ
+
 Tech Stack 💻
 -------------
 * Firebase
